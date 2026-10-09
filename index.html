@@ -310,17 +310,18 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 /* ===== 3D INTRO (new feature) ===== */
 #intro3d{ position:fixed; inset:0; z-index:1000; background:#0B0B0B; display:flex; align-items:center; justify-content:center; transition:opacity 1s var(--ease); }
 #intro3d.hide{ opacity:0; pointer-events:none; }
-#introCanvas{ position:absolute; inset:0; width:100%; height:100%; display:block; z-index:1; }
-#intro3d .intro-logo{ position:relative; z-index:2; font-family:var(--serif); font-weight:600; letter-spacing:.24em;
+#introCanvas{ position:absolute; inset:0; width:100%; height:100%; display:block; z-index:2; }
+/* запасной логотип (виден, только если 3D не загрузился — канвас его перекрывает) */
+#intro3d .intro-logo{ position:relative; z-index:1; font-family:var(--serif); font-weight:600; letter-spacing:.24em;
   font-size:clamp(3rem,13vw,8.5rem); color:#242427; text-shadow:0 1px 0 rgba(255,255,255,.05), 0 -1px 1px rgba(0,0,0,.7); user-select:none; }
 #intro3d .intro-logo .shine{ position:absolute; inset:0; color:#F3F1EC;
   -webkit-mask-image:linear-gradient(100deg,transparent 42%,#000 50%,transparent 58%); mask-image:linear-gradient(100deg,transparent 42%,#000 50%,transparent 58%);
   -webkit-mask-size:300% 100%; mask-size:300% 100%; -webkit-mask-position:170% 0; mask-position:170% 0;
   animation:introShine 2.8s var(--ease) .5s forwards; }
 @keyframes introShine{ to{ -webkit-mask-position:-170% 0; mask-position:-170% 0; } }
-#intro3d .intro-skip{ position:absolute; bottom:28px; right:28px; z-index:3; font-size:.6rem; letter-spacing:.24em; text-transform:uppercase;
-  color:var(--muted); border:1px solid var(--line); padding:9px 18px; background:rgba(11,11,11,.4); transition:.25s; }
-#intro3d .intro-skip:hover{ color:var(--amber); border-color:var(--amber); }
+#intro3d .intro-skip{ position:absolute; bottom:28px; right:28px; z-index:4; font-size:.6rem; letter-spacing:.24em; text-transform:uppercase;
+  color:rgba(243,241,236,.7); border:1px solid rgba(255,255,255,.22); padding:9px 18px; background:rgba(0,0,0,.3); transition:.25s; }
+#intro3d .intro-skip:hover{ color:#C8863C; border-color:#C8863C; }
 
 /* ===== FITTING ROOM — floating panel (new feature) ===== */
 #tryLaunch{ position:fixed; left:22px; bottom:22px; z-index:340; display:inline-flex; align-items:center; gap:10px;
@@ -381,6 +382,12 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 }
 </style>
 <script>(function(){try{var t=localStorage.getItem('admvTheme')||'dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<script type="importmap">
+{ "imports": {
+  "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+}}
+</script>
 </head>
 <body>
 
@@ -964,58 +971,109 @@ function openFitting(){ renderPanel(); $('#frPanel').classList.add('open'); $('#
 function closeFitting(){ $('#frPanel').classList.remove('open'); $('#tryLaunch').classList.remove('hidden'); if(location.hash==='#fitting-room') history.replaceState(null,'',location.pathname+location.search); }
 function toggleFitting(){ $('#frPanel').classList.contains('open') ? closeFitting() : openFitting(); }
 
-/* ===== INTRO lifecycle (robust, never blocks the site) ===== */
+/* ===== INTRO lifecycle — играет при КАЖДОМ обновлении/входе; не на внутренних оверлеях ===== */
 (function(){
   const intro=document.getElementById('intro3d');
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  const deep=location.hash==='#fitting-room';
-  if(!intro){ return; }
-  if(reduce || sessionStorage.getItem('admvStoreIntro') || deep){
-    intro.remove(); window.__introActive=false;
-    if(deep) openFitting();
-    return;
-  }
-  sessionStorage.setItem('admvStoreIntro','1');
-  document.body.classList.add('lock'); window.__introActive=true;
+  const deep=location.hash==='#fitting-room';   // прямой заход во внутренний раздел — без заставки
+  if(!intro) return;
+  if(reduce || deep){ intro.remove(); window.__introActive=false; if(deep) openFitting(); return; }
+  document.body.classList.add('lock'); window.__introActive=true; window.__intro3dReady=false;
   function finish(){ if(window.__introActive===false) return; window.__introActive=false;
-    intro.classList.add('hide'); document.body.classList.remove('lock'); setTimeout(()=>intro.remove(),1000); }
+    intro.classList.add('hide'); document.body.classList.remove('lock'); setTimeout(()=>{ if(intro.parentNode) intro.remove(); },1000); }
   window.__finishIntro=finish;
   document.getElementById('introSkip').addEventListener('click',finish);
-  setTimeout(finish,4300); // auto-reveal even if WebGL/Three never loads
+  setTimeout(()=>{ if(!window.__intro3dReady) finish(); }, 4200); // если 3D не поднялся — уходим по запасному варианту
+  setTimeout(finish, 7000);                                        // жёсткий бэкстоп
 })();
-/* practical replay */
-window.playIntro=function(){ sessionStorage.removeItem('admvStoreIntro'); location.hash=''; location.reload(); };
+window.playIntro=function(){ location.hash=''; location.reload(); };
 </script>
 
-<!-- 3D backdrop for the intro (progressive enhancement; failure is harmless) -->
+<!-- Премиальная 3D-заставка (прогрессивное улучшение; сбой безвреден — покажется запасной логотип) -->
 <script type="module">
   const canvas=document.getElementById('introCanvas');
   if(canvas && window.__introActive && !matchMedia('(prefers-reduced-motion:reduce)').matches){
     try{
-      const THREE=await import('https://unpkg.com/three@0.160.0/build/three.module.js');
-      const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
-      renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.setSize(innerWidth,innerHeight);
-      const scene=new THREE.Scene(); scene.background=new THREE.Color(0x0b0b0b); scene.fog=new THREE.FogExp2(0x0b0b0b,0.085);
-      const cam=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,0.1,100); cam.position.set(0,0,7);
-      const wall=new THREE.Mesh(new THREE.PlaneGeometry(60,34), new THREE.MeshStandardMaterial({color:0x17161a,roughness:.97,metalness:0}));
-      wall.position.z=-6; scene.add(wall);
-      const floor=new THREE.Mesh(new THREE.PlaneGeometry(60,60), new THREE.MeshStandardMaterial({color:0x121014,roughness:1}));
-      floor.rotation.x=-Math.PI/2; floor.position.y=-5; scene.add(floor);
-      scene.add(new THREE.AmbientLight(0x24222a,0.6));
-      const key=new THREE.DirectionalLight(0xF3F1EC,1.7); key.position.set(-9,5,4); scene.add(key);
-      const warm=new THREE.PointLight(0xC8863C,0.45,44); warm.position.set(0,1.2,3); scene.add(warm);
-      const t0=performance.now();
-      function loop(now){
-        if(window.__introActive===false){ renderer.dispose(); return; }
-        const t=(now-t0)/1000;
-        cam.position.z=7-Math.min(t*0.5,2);        // slow cinematic dolly
-        key.position.x=-9+Math.min(t,4)*4.4;        // delicate light sweep
-        renderer.render(scene,cam);
-        requestAnimationFrame(loop);
+      const THREE = await import('three');
+      const { FontLoader } = await import('three/addons/loaders/FontLoader.js');
+      const { TextGeometry } = await import('three/addons/geometries/TextGeometry.js');
+
+      const renderer=new THREE.WebGLRenderer({ canvas, antialias:true });
+      renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+      renderer.setSize(innerWidth,innerHeight);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+      const scene=new THREE.Scene();
+      scene.background=new THREE.Color(0x0a0a0c);
+      scene.fog=new THREE.FogExp2(0x0a0a0c,0.05);
+
+      const DIST=16, FOV=40;
+      const cam=new THREE.PerspectiveCamera(FOV, innerWidth/innerHeight, 0.1, 100);
+      cam.position.set(0,0,DIST);
+
+      // студийный свет: мягкий ключевой + холодный контровой + тёплый бегущий блик
+      scene.add(new THREE.AmbientLight(0x3a3a42, 0.7));
+      const key=new THREE.DirectionalLight(0xffffff, 1.5); key.position.set(-6,8,10); scene.add(key);
+      const rim=new THREE.DirectionalLight(0x9fb4ff, 0.8); rim.position.set(6,-2,-8); scene.add(rim);
+      const sweep=new THREE.PointLight(0xC8863C, 0.0, 60); sweep.position.set(-14,2,9); scene.add(sweep);
+
+      const group=new THREE.Group(); scene.add(group);
+      const letters=[];
+      const baseMat=new THREE.MeshStandardMaterial({ color:0xEDEAE3, roughness:0.34, metalness:0.12 });
+
+      const loader=new FontLoader();
+      loader.load('https://unpkg.com/three@0.160.0/examples/fonts/helvetiker_bold.typeface.json',
+        (font)=>{ build(font); start(); },
+        undefined,
+        ()=>{ canvas.style.display='none'; }   // шрифт не загрузился -> показать CSS-логотип
+      );
+
+      function build(font){
+        const size=3.0, gap=size*0.18;
+        const metas=[];
+        'ADMV'.split('').forEach(ch=>{
+          const g=new TextGeometry(ch,{ font, size, height:0.55, curveSegments:10, bevelEnabled:true, bevelThickness:0.09, bevelSize:0.07, bevelSegments:4 });
+          g.computeBoundingBox(); const bb=g.boundingBox; const w=bb.max.x-bb.min.x;
+          g.translate(-bb.min.x, -(bb.max.y+bb.min.y)/2, -(bb.max.z+bb.min.z)/2);
+          metas.push({g,w});
+        });
+        const total=metas.reduce((s,m)=>s+m.w,0)+gap*(metas.length-1);
+        let cursor=0;
+        metas.forEach(m=>{
+          const mesh=new THREE.Mesh(m.g, baseMat.clone());
+          mesh.material.transparent=true; mesh.material.opacity=0;
+          mesh.position.x = cursor + m.w/2 - total/2;
+          mesh.position.y = -1.6; mesh.rotation.x = 0.35;
+          group.add(mesh); letters.push(mesh);
+          cursor += m.w + gap;
+        });
+        const visW = 2*Math.tan((FOV*Math.PI/180)/2)*DIST;
+        group.scale.setScalar(Math.min(visW*0.82, total)/total);
       }
-      requestAnimationFrame(loop);
+
+      const easeOut = x => 1 - Math.pow(1-x, 3);
+      let t0=null;
+      function start(){ window.__intro3dReady=true; t0=performance.now(); requestAnimationFrame(loop); }
+
+      function loop(now){
+        if(window.__introActive===false){ try{renderer.dispose();}catch(e){} return; }
+        const t=(now-t0)/1000;
+        letters.forEach((m,i)=>{                       // буквы появляются по очереди
+          const e=easeOut(Math.min(Math.max((t - i*0.16)/1.0, 0), 1));
+          m.material.opacity=e; m.position.y=-1.6*(1-e); m.rotation.x=0.35*(1-e);
+        });
+        const ct=easeOut(Math.min(t/3.6,1));            // плавный наезд камеры
+        cam.position.z = DIST - ct*1.6; cam.position.y = 0.15 - ct*0.15; cam.lookAt(0,0,0);
+        const st=Math.min(Math.max((t-0.6)/2.2,0),1);   // тёплый бегущий блик по буквам
+        sweep.position.x = -14 + st*28; sweep.intensity = Math.sin(st*Math.PI)*2.4;
+        group.rotation.y = Math.sin(t*0.5)*0.05;        // едва заметное покачивание
+        renderer.render(scene,cam);
+        if(t < 3.9){ requestAnimationFrame(loop); }
+        else { window.__finishIntro && window.__finishIntro(); try{renderer.dispose();}catch(e){} }
+      }
+
       addEventListener('resize',()=>{ cam.aspect=innerWidth/innerHeight; cam.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
-    }catch(e){ /* CSS logo + lifecycle timeout still reveal the site */ }
+    }catch(e){ /* 3D не загрузился — CSS-логотип + таймаут покажут сайт */ }
   }
 </script>
 </body>
