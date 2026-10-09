@@ -294,6 +294,75 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 .mnav a{ font-family:var(--serif); font-size:2rem; padding:14px; letter-spacing:.04em; }
 .mnav a:active{ color:var(--amber); }
 
+/* ===== 3D INTRO (new feature) ===== */
+#intro3d{ position:fixed; inset:0; z-index:1000; background:#0B0B0B; display:flex; align-items:center; justify-content:center; transition:opacity 1s var(--ease); }
+#intro3d.hide{ opacity:0; pointer-events:none; }
+#introCanvas{ position:absolute; inset:0; width:100%; height:100%; display:block; z-index:1; }
+#intro3d .intro-logo{ position:relative; z-index:2; font-family:var(--serif); font-weight:600; letter-spacing:.24em;
+  font-size:clamp(3rem,13vw,8.5rem); color:#242427; text-shadow:0 1px 0 rgba(255,255,255,.05), 0 -1px 1px rgba(0,0,0,.7); user-select:none; }
+#intro3d .intro-logo .shine{ position:absolute; inset:0; color:#F3F1EC;
+  -webkit-mask-image:linear-gradient(100deg,transparent 42%,#000 50%,transparent 58%); mask-image:linear-gradient(100deg,transparent 42%,#000 50%,transparent 58%);
+  -webkit-mask-size:300% 100%; mask-size:300% 100%; -webkit-mask-position:170% 0; mask-position:170% 0;
+  animation:introShine 2.8s var(--ease) .5s forwards; }
+@keyframes introShine{ to{ -webkit-mask-position:-170% 0; mask-position:-170% 0; } }
+#intro3d .intro-skip{ position:absolute; bottom:28px; right:28px; z-index:3; font-size:.6rem; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--muted); border:1px solid var(--line); padding:9px 18px; background:rgba(11,11,11,.4); transition:.25s; }
+#intro3d .intro-skip:hover{ color:var(--amber); border-color:var(--amber); }
+
+/* ===== FITTING ROOM (new feature) ===== */
+#fittingView{ position:fixed; inset:0; z-index:430; background:var(--bg); overflow-y:auto; opacity:0; pointer-events:none; transition:opacity .4s var(--ease); }
+#fittingView.open{ opacity:1; pointer-events:auto; }
+.fr-top{ position:sticky; top:0; z-index:5; display:flex; align-items:center; justify-content:space-between; padding:18px clamp(18px,4vw,48px); border-bottom:1px solid var(--line); background:rgba(11,11,11,.82); backdrop-filter:blur(14px); }
+.fr-top .t{ font-family:var(--serif); font-size:1.4rem; letter-spacing:.14em; }
+.fr-top .t small{ display:block; font-family:var(--sans); font-size:.54rem; letter-spacing:.3em; color:var(--muted); text-transform:uppercase; margin-top:4px; }
+.fr-grid{ display:grid; grid-template-columns:300px 1fr 340px; min-height:calc(100vh - 62px); }
+.fr-left{ border-right:1px solid var(--line); padding:22px; overflow-y:auto; }
+.fr-center{ position:relative; display:flex; align-items:center; justify-content:center; padding:24px; background:radial-gradient(58% 54% at 50% 42%, #151515, #0B0B0B 74%); }
+.fr-right{ border-left:1px solid var(--line); padding:24px; }
+.fr-cats{ display:flex; flex-wrap:wrap; gap:7px; margin-bottom:20px; }
+.fr-cat{ font-size:.58rem; letter-spacing:.14em; text-transform:uppercase; padding:8px 13px; border:1px solid var(--line); color:var(--muted); cursor:pointer; transition:.2s; }
+.fr-cat.on{ border-color:var(--amber); color:var(--amber); }
+.fr-catalog{ display:flex; flex-direction:column; gap:12px; }
+.fr-card{ border:1px solid var(--line); padding:12px; display:flex; gap:12px; align-items:center; transition:border-color .2s; }
+.fr-card.active{ border-color:var(--amber); }
+.fr-card .fr-th{ width:62px; height:80px; object-fit:contain; background:var(--card2); cursor:pointer; flex-shrink:0; }
+.fr-card .fr-ci{ flex:1; min-width:0; }
+.fr-card .fr-cn{ font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; }
+.fr-card .fr-cp{ color:var(--muted); font-size:.74rem; margin-top:4px; }
+.fr-card .fr-try{ margin-top:10px; font-size:.56rem; letter-spacing:.14em; text-transform:uppercase; padding:8px 13px; border:1px solid var(--line); color:var(--text); transition:.2s; }
+.fr-card.active .fr-try{ background:var(--amber); border-color:var(--amber); color:var(--bg); }
+.fr-stage{ position:relative; width:min(400px,86%); aspect-ratio:2/3; }
+.fr-stage img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:0; transition:opacity .4s var(--ease); pointer-events:none; }
+.fr-stage img.base{ opacity:1; z-index:1; }
+#fr-shoes{ z-index:2; } #fr-bottoms{ z-index:3; } #fr-tops{ z-index:4; } #fr-outerwear{ z-index:5; } #fr-accessory{ z-index:6; }
+.fr-stage img.on{ opacity:1; }
+.fr-hint{ position:absolute; left:0; right:0; bottom:6px; text-align:center; font-size:.66rem; color:var(--muted); z-index:7; transition:opacity .3s; }
+.fr-look-h{ font-family:var(--serif); font-size:1.3rem; letter-spacing:.1em; margin-bottom:14px; }
+.fr-li{ display:flex; gap:12px; padding:13px 0; border-bottom:1px solid var(--line); }
+.fr-li img{ width:48px; height:62px; object-fit:contain; background:var(--card2); flex-shrink:0; }
+.fr-li-info{ flex:1; min-width:0; }
+.fr-li-n{ font-size:.64rem; letter-spacing:.1em; text-transform:uppercase; }
+.fr-li-row{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:8px; }
+.fr-li-row select{ background:var(--bg); color:var(--text); border:1px solid var(--line); font-family:inherit; font-size:.66rem; padding:5px 8px; -webkit-appearance:none; appearance:none; }
+.fr-li-p{ font-size:.78rem; }
+.fr-li-act{ display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+.fr-li-add{ font-size:.54rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); } .fr-li-add:hover{ color:var(--amber); }
+.fr-li-x{ color:var(--muted); font-size:1rem; line-height:1; } .fr-li-x:hover{ color:var(--amber); }
+.fr-empty{ color:var(--muted); font-size:.82rem; padding:22px 0; font-weight:300; }
+.fr-total{ display:flex; justify-content:space-between; align-items:baseline; margin:18px 0 16px; padding-top:16px; border-top:1px solid var(--line); }
+.fr-total .l{ font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+.fr-total .v{ font-family:var(--serif); font-size:1.6rem; }
+.fr-demo-note{ color:var(--muted); font-size:.64rem; line-height:1.5; margin-top:16px; font-weight:300; }
+@media(max-width:900px){
+  .fr-grid{ grid-template-columns:1fr; }
+  .fr-center{ order:-1; min-height:44vh; padding:18px; }
+  .fr-left,.fr-right{ border:none; border-top:1px solid var(--line); }
+  .fr-catalog{ flex-direction:row; overflow-x:auto; padding-bottom:8px; }
+  .fr-card{ flex-direction:column; min-width:152px; text-align:center; align-items:stretch; }
+  .fr-card .fr-th{ width:100%; height:130px; }
+  .fr-stage{ width:min(250px,66%); }
+}
+
 @media(prefers-reduced-motion:reduce){
   *{ animation:none!important; }
   .rv{ opacity:1!important; transform:none!important; }
@@ -303,6 +372,13 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 </head>
 <body>
 
+<!-- ===== 3D INTRO (new feature, isolated) ===== -->
+<div id="intro3d">
+  <canvas id="introCanvas"></canvas>
+  <div class="intro-logo">ADMV<span class="shine">ADMV</span></div>
+  <button class="intro-skip" id="introSkip">Skip Intro</button>
+</div>
+
 <header id="header">
   <div class="wrap nav">
     <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -311,6 +387,7 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
       <a href="#shop" onclick="toShop('all')">Shop</a>
       <a href="#shop" onclick="toShop('new')">New Arrivals</a>
       <a href="#shop" onclick="toShop('sale')">Sale</a>
+      <a href="#fitting-room" onclick="openFitting();return false">Fitting Room</a>
     </nav>
     <div class="nav-r">
       <button class="icn" onclick="openSearch()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span class="lab">Search</span></button>
@@ -325,6 +402,7 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
   <a href="#shop" onclick="toShop('all')">Shop</a>
   <a href="#shop" onclick="toShop('new')">New Arrivals</a>
   <a href="#shop" onclick="toShop('sale')">Sale</a>
+  <a href="#fitting-room" onclick="closeMenu();openFitting();return false">Fitting Room</a>
 </nav>
 
 <!-- HERO -->
@@ -439,6 +517,35 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
       </div>
     </div>
     <div id="searchResults"></div>
+  </div>
+</div>
+
+<!-- ===== VIRTUAL FITTING ROOM (new feature, isolated) ===== -->
+<div id="fittingView">
+  <div class="fr-top">
+    <div class="t">Virtual Fitting Room<small>Build your ADMV look</small></div>
+    <button class="xbtn" onclick="closeFitting()" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="fr-grid">
+    <aside class="fr-left">
+      <div class="fr-cats" id="frCats"></div>
+      <div class="fr-catalog" id="frCatalog"></div>
+    </aside>
+    <div class="fr-center">
+      <div class="fr-stage" id="frStage">
+        <img class="base" src="images/tryon/model-base.png" alt="ADMV model">
+        <img id="fr-shoes" alt=""><img id="fr-bottoms" alt=""><img id="fr-tops" alt=""><img id="fr-outerwear" alt=""><img id="fr-accessory" alt="">
+        <div class="fr-hint" id="frHint">Select items to dress the model</div>
+      </div>
+    </div>
+    <aside class="fr-right">
+      <div class="fr-look-h">Your Look</div>
+      <div id="frLookList"></div>
+      <div class="fr-total"><span class="l">Total</span><span class="v" id="frTotal">€0</span></div>
+      <button class="btn solid block" onclick="frAddAll()">Add Complete Look To Cart</button>
+      <button class="btn block" style="margin-top:10px" onclick="frClear()">Clear Outfit</button>
+      <p class="fr-demo-note">Try-on uses temporary demo garment layers (see images/tryon/). Replace each file with a real product-specific transparent PNG on the same canvas to go production-ready.</p>
+    </aside>
   </div>
 </div>
 
@@ -759,6 +866,165 @@ if(!matchMedia('(prefers-reduced-motion:reduce)').matches && matchMedia('(pointe
 /* ===== INIT ===== */
 renderShop();
 observeReveal();
+</script>
+
+<!-- ============ NEW FEATURE SCRIPT: Fitting Room + Intro lifecycle ============ -->
+<script>
+/* Additive only: augments products with layer/tryOn metadata (no price/name/desc changes). */
+const TRYON_META = {
+  'tee-premium':'tops','tee-heavy':'tops','shirt-oxford':'tops','sweat-premium':'tops','sweat-wool':'tops',
+  'hoodie-zip':'outerwear','pants-linen':'bottoms','pants-cargo':'bottoms','sneak-runner':'shoes','sneak-court':'shoes'
+};
+PRODUCTS.forEach(p=>{ const l=TRYON_META[p.id]; if(l){ p.layer=l; p.tryOn='images/tryon/'+p.id+'.png'; p.tryThumb='images/tryon/thumb-'+p.id+'.png'; }});
+
+/* Isolated demo-only extras — NOT added to the shop catalog. */
+const FITTING_EXTRA = [
+  { id:'extra-coat', name:'ADMV Wool Overcoat', category:'Outerwear', price:329, colors:['Cream'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, images:['images/tryon/thumb-extra-coat.png'], layer:'outerwear', tryOn:'images/tryon/extra-coat.png', tryThumb:'images/tryon/thumb-extra-coat.png', demo:true },
+  { id:'extra-cap', name:'ADMV Cap', category:'Accessories', price:59, colors:['Black'], sizes:['OS'], stock:{OS:1}, images:['images/tryon/thumb-extra-cap.png'], layer:'accessory', tryOn:'images/tryon/extra-cap.png', tryThumb:'images/tryon/thumb-extra-cap.png', demo:true },
+];
+const FIT_PRODUCTS = [...PRODUCTS.filter(p=>p.tryOn), ...FITTING_EXTRA];
+const FR_CATS = ['All','Tops','Outerwear','Bottoms','Shoes','Accessories'];
+const CAT_LAYER = { Tops:'tops', Outerwear:'outerwear', Bottoms:'bottoms', Shoes:'shoes', Accessories:'accessory' };
+const frFind = id => FIT_PRODUCTS.find(p=>p.id===id);
+const firstSize = p => p.sizes.find(s=>!p.stock || p.stock[s]>0) || p.sizes[0];
+
+let frLook = { tops:null, outerwear:null, bottoms:null, shoes:null, accessory:null }; // {id,size}
+let frCat = 'All';
+
+function frMatch(p){
+  if(frCat==='All') return true;
+  return p.layer===CAT_LAYER[frCat];
+}
+function renderFitting(){
+  // categories
+  $('#frCats').innerHTML = FR_CATS.map(c=>`<span class="fr-cat${c===frCat?' on':''}" onclick="frSetCat('${c}')">${c}</span>`).join('');
+  // catalog
+  const list = FIT_PRODUCTS.filter(frMatch);
+  $('#frCatalog').innerHTML = list.map(p=>{
+    const active = frLook[p.layer] && frLook[p.layer].id===p.id;
+    return `<div class="fr-card${active?' active':''}">
+      <img class="fr-th" src="${p.tryThumb}" alt="${p.name}" onclick="frTry('${p.id}')">
+      <div class="fr-ci">
+        <div class="fr-cn">${p.name}</div>
+        <div class="fr-cp">${eur(p.price)}${p.demo?' · demo':''}</div>
+        <button class="fr-try" onclick="frTry('${p.id}')">${active?'Remove':'Try On'}</button>
+      </div></div>`;
+  }).join('');
+  // model layers
+  ['shoes','bottoms','tops','outerwear','accessory'].forEach(layer=>{
+    const el=document.getElementById('fr-'+layer), sel=frLook[layer];
+    if(sel){ const p=frFind(sel.id); if(el.getAttribute('src')!==p.tryOn) el.src=p.tryOn; el.classList.add('on'); }
+    else el.classList.remove('on');
+  });
+  // your look
+  const chosen = ['tops','outerwear','bottoms','shoes','accessory'].map(l=>frLook[l]).filter(Boolean);
+  $('#frHint').style.opacity = chosen.length ? '0' : '1';
+  $('#frLookList').innerHTML = chosen.length ? chosen.map(sel=>{
+    const p=frFind(sel.id);
+    const opts=p.sizes.map(s=>`<option ${s===sel.size?'selected':''} ${(p.stock&&p.stock[s]<=0)?'disabled':''}>${s}</option>`).join('');
+    return `<div class="fr-li">
+      <img src="${p.tryThumb}" alt="">
+      <div class="fr-li-info">
+        <div class="fr-li-n">${p.name}</div>
+        <div class="fr-li-row">
+          <select onchange="frSetSize('${p.layer}',this.value)">${opts}</select>
+          <span class="fr-li-p">${eur(p.price)}</span>
+        </div>
+      </div>
+      <div class="fr-li-act">
+        <button class="fr-li-add" onclick="frAddOne('${p.id}')">Add</button>
+        <button class="fr-li-x" onclick="frRemove('${p.layer}')" aria-label="Remove">×</button>
+      </div></div>`;
+  }).join('') : '<div class="fr-empty">Your look is empty. Pick items to dress the model.</div>';
+  const total = chosen.reduce((s,sel)=>s+frFind(sel.id).price,0);
+  $('#frTotal').textContent = eur(total);
+}
+function frSetCat(c){ frCat=c; renderFitting(); }
+function frTry(id){
+  const p=frFind(id); const layer=p.layer;
+  if(frLook[layer] && frLook[layer].id===id){ frLook[layer]=null; }   // same item -> remove
+  else { frLook[layer]={ id, size:firstSize(p) }; }                    // replace only this layer
+  renderFitting();
+}
+function frSetSize(layer,size){ if(frLook[layer]) frLook[layer].size=size; renderFitting(); }
+function frRemove(layer){ frLook[layer]=null; renderFitting(); }
+function frClear(){ frLook={tops:null,outerwear:null,bottoms:null,shoes:null,accessory:null}; renderFitting(); }
+function frAddOne(id){ const p=frFind(id); const sel=frLook[p.layer]; addToCart(id, sel?sel.size:firstSize(p), p.colors[0], 1); }
+function frAddAll(){
+  const chosen = ['tops','outerwear','bottoms','shoes','accessory'].map(l=>frLook[l]).filter(Boolean);
+  if(!chosen.length){ toast('Pick at least one item'); return; }
+  chosen.forEach(sel=>{ const p=frFind(sel.id); addToCart(p.id, sel.size, p.colors[0], 1); });
+  toast('Look added to cart · '+chosen.length+' item'+(chosen.length>1?'s':''));
+}
+
+/* open/close (hash route #fitting-room) */
+function openFitting(){
+  if(location.hash!=='#fitting-room') history.pushState(null,'',location.pathname+location.search+'#fitting-room');
+  renderFitting(); $('#fittingView').classList.add('open'); document.body.classList.add('lock');
+}
+function closeFitting(){
+  $('#fittingView').classList.remove('open');
+  if(location.hash==='#fitting-room') history.pushState(null,'',location.pathname+location.search);
+  if(!anyDrawer() && !$('#pview').classList.contains('open') && !$('#searchOv').classList.contains('open')) document.body.classList.remove('lock');
+}
+window.addEventListener('popstate',()=>{
+  if(location.hash==='#fitting-room'){ if(!$('#fittingView').classList.contains('open')) openFitting(); }
+  else if($('#fittingView').classList.contains('open')) closeFitting();
+});
+
+/* ===== INTRO lifecycle (robust, never blocks the site) ===== */
+(function(){
+  const intro=document.getElementById('intro3d');
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const deep=location.hash==='#fitting-room';
+  if(!intro){ return; }
+  if(reduce || sessionStorage.getItem('admvStoreIntro') || deep){
+    intro.remove(); window.__introActive=false;
+    if(deep) openFitting();
+    return;
+  }
+  sessionStorage.setItem('admvStoreIntro','1');
+  document.body.classList.add('lock'); window.__introActive=true;
+  function finish(){ if(window.__introActive===false) return; window.__introActive=false;
+    intro.classList.add('hide'); document.body.classList.remove('lock'); setTimeout(()=>intro.remove(),1000); }
+  window.__finishIntro=finish;
+  document.getElementById('introSkip').addEventListener('click',finish);
+  setTimeout(finish,4300); // auto-reveal even if WebGL/Three never loads
+})();
+/* practical replay */
+window.playIntro=function(){ sessionStorage.removeItem('admvStoreIntro'); location.hash=''; location.reload(); };
+</script>
+
+<!-- 3D backdrop for the intro (progressive enhancement; failure is harmless) -->
+<script type="module">
+  const canvas=document.getElementById('introCanvas');
+  if(canvas && window.__introActive && !matchMedia('(prefers-reduced-motion:reduce)').matches){
+    try{
+      const THREE=await import('https://unpkg.com/three@0.160.0/build/three.module.js');
+      const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+      renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.setSize(innerWidth,innerHeight);
+      const scene=new THREE.Scene(); scene.background=new THREE.Color(0x0b0b0b); scene.fog=new THREE.FogExp2(0x0b0b0b,0.085);
+      const cam=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,0.1,100); cam.position.set(0,0,7);
+      const wall=new THREE.Mesh(new THREE.PlaneGeometry(60,34), new THREE.MeshStandardMaterial({color:0x17161a,roughness:.97,metalness:0}));
+      wall.position.z=-6; scene.add(wall);
+      const floor=new THREE.Mesh(new THREE.PlaneGeometry(60,60), new THREE.MeshStandardMaterial({color:0x121014,roughness:1}));
+      floor.rotation.x=-Math.PI/2; floor.position.y=-5; scene.add(floor);
+      scene.add(new THREE.AmbientLight(0x24222a,0.6));
+      const key=new THREE.DirectionalLight(0xF3F1EC,1.7); key.position.set(-9,5,4); scene.add(key);
+      const warm=new THREE.PointLight(0xC8863C,0.45,44); warm.position.set(0,1.2,3); scene.add(warm);
+      const t0=performance.now();
+      function loop(now){
+        if(window.__introActive===false){ renderer.dispose(); return; }
+        const t=(now-t0)/1000;
+        cam.position.z=7-Math.min(t*0.5,2);        // slow cinematic dolly
+        key.position.x=-9+Math.min(t,4)*4.4;        // delicate light sweep
+        renderer.render(scene,cam);
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+      addEventListener('resize',()=>{ cam.aspect=innerWidth/innerHeight; cam.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
+    }catch(e){ /* CSS logo + lifecycle timeout still reveal the site */ }
+  }
 </script>
 </body>
 </html>
