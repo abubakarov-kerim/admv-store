@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ADMV — Premium Clothing</title>
-<meta name="description" content="ADMV. Premium clothing for those who move forward. Quiet luxury essentials, premium materials, designed for everyday movement.">
+<title>ADMV — Премиальная одежда</title>
+<meta name="description" content="ADMV. Премиальная одежда для тех, кто движется вперёд. Сдержанная роскошь и премиальные материалы для каждого дня.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -323,7 +323,7 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 #tryLaunch .tl-ic svg{ width:15px; height:15px; stroke:var(--bg); stroke-width:1.6; fill:none; }
 #tryLaunch .tl-c{ min-width:18px; height:18px; padding:0 4px; border-radius:999px; background:var(--amber); color:var(--bg); font-size:.58rem; display:grid; place-items:center; letter-spacing:0; }
 
-#frPanel{ position:fixed; left:22px; bottom:22px; z-index:350; width:340px; max-width:calc(100vw - 44px); max-height:calc(100vh - 44px);
+#frPanel{ position:fixed; left:22px; bottom:22px; z-index:350; width:320px; max-width:calc(100vw - 44px); max-height:min(62vh,560px);
   display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line2); border-radius:16px; overflow:hidden;
   box-shadow:0 30px 70px -24px rgba(0,0,0,.95); opacity:0; pointer-events:none; transform:translateY(16px) scale(.98);
   transform-origin:bottom left; transition:opacity .35s var(--ease), transform .35s var(--ease); }
@@ -331,13 +331,13 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 .fp-head{ display:flex; align-items:flex-start; justify-content:space-between; padding:16px 18px; border-bottom:1px solid var(--line); }
 .fp-t{ font-family:var(--serif); font-size:1.2rem; letter-spacing:.08em; }
 .fp-sub{ font-size:.62rem; color:var(--muted); margin-top:4px; letter-spacing:.02em; }
-.fp-stage{ position:relative; margin:16px 18px 0; aspect-ratio:3/4; background:radial-gradient(60% 56% at 50% 40%, #16161a, #0d0d10 76%); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+.fp-stage{ position:relative; flex-shrink:0; margin:14px 16px 0; height:180px; background:radial-gradient(60% 56% at 50% 40%, #16161a, #0d0d10 76%); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
 .fp-stage img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:0; transition:opacity .4s var(--ease); pointer-events:none; }
 .fp-stage img.base{ opacity:1; z-index:1; }
 #fr-shoes{ z-index:2; } #fr-bottoms{ z-index:3; } #fr-tops{ z-index:4; } #fr-outerwear{ z-index:5; } #fr-accessory{ z-index:6; }
 .fp-stage img.on{ opacity:1; }
 .fp-hint{ position:absolute; left:0; right:0; bottom:8px; text-align:center; font-size:.62rem; color:var(--muted); z-index:7; transition:opacity .3s; }
-.fp-picks{ padding:16px 18px 4px; overflow-y:auto; }
+.fp-picks{ padding:14px 16px 4px; overflow-y:auto; flex:1; min-height:0; }
 .fp-picks-h{ display:flex; justify-content:space-between; font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
 .fp-pick-row{ display:flex; flex-direction:column; gap:10px; }
 .fp-pick{ display:flex; gap:11px; align-items:center; }
@@ -352,24 +352,9 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 .fp-total{ display:flex; justify-content:space-between; align-items:baseline; margin:4px 18px 0; padding:14px 0 0; border-top:1px solid var(--line); }
 .fp-total .l{ font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
 .fp-total .v{ font-family:var(--serif); font-size:1.4rem; }
-.fp-foot{ padding:16px 18px; border-top:1px solid var(--line); margin-top:14px; }
-.fp-foot2{ display:flex; gap:10px; margin-top:10px; }
-.fp-ai,.fp-reset{ flex:1; display:inline-flex; align-items:center; justify-content:center; gap:7px; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; padding:11px; border:1px solid var(--line); color:var(--text); transition:.25s; }
-.fp-ai:hover{ border-color:var(--amber); color:var(--amber); }
-.fp-reset{ color:var(--muted); } .fp-reset:hover{ color:var(--text); }
-
-/* AI preview modal */
-#aiModal{ position:fixed; top:50%; left:50%; transform:translate(-50%,-46%); z-index:360; width:min(440px,92vw); max-height:88vh; overflow-y:auto;
-  background:var(--card); border:1px solid var(--line2); border-radius:16px; opacity:0; pointer-events:none; transition:opacity .35s var(--ease), transform .35s var(--ease); }
-#aiModal.open{ opacity:1; pointer-events:auto; transform:translate(-50%,-50%); }
-.ai-body{ padding:22px 24px 24px; }
-.ai-note{ color:var(--muted); font-size:.82rem; line-height:1.6; font-weight:300; margin-bottom:18px; }
-.ai-l{ display:block; font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin:14px 0 8px; }
-.ai-input{ width:100%; background:var(--bg); color:var(--text); border:1px solid var(--line); padding:12px 14px; font-family:inherit; font-size:.86rem; }
-.ai-status{ font-size:.74rem; color:var(--amber); line-height:1.5; margin-top:14px; min-height:1em; }
-.ai-preview{ margin-top:16px; }
-.ai-canvas{ position:relative; width:220px; max-width:100%; aspect-ratio:3/4; margin:0 auto; background:radial-gradient(60% 56% at 50% 40%, #16161a, #0d0d10 76%); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
-.ai-badge{ text-align:center; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-top:10px; }
+.fp-foot{ padding:14px 16px; border-top:1px solid var(--line); }
+.fp-reset{ width:100%; margin-top:10px; display:inline-flex; align-items:center; justify-content:center; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; padding:11px; border:1px solid var(--line); color:var(--muted); transition:.25s; }
+.fp-reset:hover{ color:var(--text); border-color:var(--line2); }
 
 @media(max-width:560px){
   #frPanel{ left:0; right:0; bottom:0; width:100%; max-width:100%; max-height:90vh; border-radius:16px 16px 0 0; transform-origin:bottom center; transform:translateY(100%); }
@@ -392,33 +377,33 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 <div id="intro3d">
   <canvas id="introCanvas"></canvas>
   <div class="intro-logo">ADMV<span class="shine">ADMV</span></div>
-  <button class="intro-skip" id="introSkip">Skip Intro</button>
+  <button class="intro-skip" id="introSkip">Пропустить</button>
 </div>
 
 <header id="header">
   <div class="wrap nav">
-    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <button class="burger" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
     <a href="#" class="brand" onclick="goHome();return false;">ADMV</a>
     <nav class="nav-c">
-      <a href="#shop" onclick="toShop('all')">Shop</a>
-      <a href="#shop" onclick="toShop('new')">New Arrivals</a>
-      <a href="#shop" onclick="toShop('sale')">Sale</a>
-      <a href="#fitting-room" onclick="openFitting();return false">Fitting Room</a>
+      <a href="#shop" onclick="toShop('all')">Магазин</a>
+      <a href="#shop" onclick="toShop('new')">Новинки</a>
+      <a href="#shop" onclick="toShop('sale')">Распродажа</a>
+      <a href="#fitting-room" onclick="openFitting();return false">Примерочная</a>
     </nav>
     <div class="nav-r">
-      <button class="icn" onclick="openSearch()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span class="lab">Search</span></button>
-      <button class="icn" onclick="toast('Account coming soon')"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg><span class="lab">Account</span></button>
-      <button class="icn" onclick="openWish()"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg><span class="lab">Wishlist</span><span class="count" id="wishCount" style="display:none">0</span></button>
-      <button class="icn" onclick="openCart()"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="lab">Cart</span><span class="count" id="cartCount" style="display:none">0</span></button>
+      <button class="icn" onclick="openSearch()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span class="lab">Поиск</span></button>
+      <button class="icn" onclick="toast('Аккаунт скоро')"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg><span class="lab">Аккаунт</span></button>
+      <button class="icn" onclick="openWish()"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg><span class="lab">Избранное</span><span class="count" id="wishCount" style="display:none">0</span></button>
+      <button class="icn" onclick="openCart()"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="lab">Корзина</span><span class="count" id="cartCount" style="display:none">0</span></button>
     </div>
   </div>
 </header>
 
 <nav class="mnav" id="mnav">
-  <a href="#shop" onclick="toShop('all')">Shop</a>
-  <a href="#shop" onclick="toShop('new')">New Arrivals</a>
-  <a href="#shop" onclick="toShop('sale')">Sale</a>
-  <a href="#fitting-room" onclick="closeMenu();openFitting();return false">Fitting Room</a>
+  <a href="#shop" onclick="toShop('all')">Магазин</a>
+  <a href="#shop" onclick="toShop('new')">Новинки</a>
+  <a href="#shop" onclick="toShop('sale')">Распродажа</a>
+  <a href="#fitting-room" onclick="closeMenu();openFitting();return false">Примерочная</a>
 </nav>
 
 <!-- HERO -->
@@ -426,9 +411,9 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
   <div class="bg"><img src="https://loremflickr.com/1800/1200/fashion,editorial,man,dark?lock=301" alt="ADMV editorial"></div>
   <div class="wrap inner">
     <div class="kicker">ADMV</div>
-    <h1>Don't set<br>a ceiling.</h1>
-    <p>Premium clothing for those who move forward.</p>
-    <div class="btnrow"><button class="btn magnetic" onclick="toShop('all')">Shop Collection <span class="arr">→</span></button></div>
+    <h1>Не ставь<br>себе потолок.</h1>
+    <p>Премиальная одежда для тех, кто движется вперёд.</p>
+    <div class="btnrow"><button class="btn magnetic" onclick="toShop('all')">Смотреть коллекцию <span class="arr">→</span></button></div>
   </div>
 </section>
 
@@ -437,15 +422,15 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
   <div class="wrap">
     <div class="shop-head">
       <div class="rv">
-        <h2 id="shopTitle">New Arrivals</h2>
-        <p>Curated essentials. Premium materials. Designed for everyday movement.</p>
+        <h2 id="shopTitle">Новинки</h2>
+        <p>Отобранная база. Премиальные материалы. Создано для повседневного движения.</p>
       </div>
       <div class="toolbar rv">
-        <button class="tool" onclick="openFilter()"><svg viewBox="0 0 24 24"><path d="M3 5h18M6 12h12M10 19h4"/></svg>Filter</button>
+        <button class="tool" onclick="openFilter()"><svg viewBox="0 0 24 24"><path d="M3 5h18M6 12h12M10 19h4"/></svg>Фильтр</button>
         <select class="tool" id="sortSel" onchange="renderShop()">
-          <option value="new">Sort: Newest</option>
-          <option value="low">Price: Low to High</option>
-          <option value="high">Price: High to Low</option>
+          <option value="new">Сначала новинки</option>
+          <option value="low">Цена: по возрастанию</option>
+          <option value="high">Цена: по убыванию</option>
         </select>
         <div class="gridtog" id="gridtog">
           <button data-c="2">2</button><button data-c="3">3</button><button data-c="4" class="active">4</button>
@@ -461,9 +446,9 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 <section class="editorial rv">
   <img src="https://loremflickr.com/1800/1000/fashion,street,coat,dark?lock=322" alt="">
   <div class="wrap">
-    <div class="k">The ADMV Standard</div>
-    <h2 class="serif">Quiet pieces, built to last.</h2>
-    <p>Premium materials and a restrained palette. Nothing loud, everything considered.</p>
+    <div class="k">Стандарт ADMV</div>
+    <h2 class="serif">Тихие вещи, созданные надолго.</h2>
+    <p>Премиальные материалы и сдержанная палитра. Ничего лишнего, всё продумано.</p>
   </div>
 </section>
 
@@ -473,19 +458,19 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
     <div class="fgrid">
       <div>
         <div class="fbrand">ADMV</div>
-        <p>Premium clothing for those who move forward. Quiet luxury essentials, designed for everyday movement.</p>
+        <p>Премиальная одежда для тех, кто движется вперёд. Сдержанная роскошь для каждого дня.</p>
       </div>
-      <div class="fcol"><div class="ft">Shop</div>
-        <a href="#shop" onclick="toShop('all')">Shop</a><a href="#shop" onclick="toShop('new')">New Arrivals</a><a href="#shop" onclick="toShop('sale')">Sale</a><a href="#" onclick="return false">About</a>
+      <div class="fcol"><div class="ft">Магазин</div>
+        <a href="#shop" onclick="toShop('all')">Магазин</a><a href="#shop" onclick="toShop('new')">Новинки</a><a href="#shop" onclick="toShop('sale')">Распродажа</a><a href="#" onclick="return false">О бренде</a>
       </div>
-      <div class="fcol"><div class="ft">Help</div>
-        <a href="#" onclick="return false">Contact</a><a href="#" onclick="return false">Shipping</a><a href="#" onclick="return false">Returns</a><a href="#" onclick="return false">Size Guide</a>
+      <div class="fcol"><div class="ft">Помощь</div>
+        <a href="#" onclick="return false">Контакты</a><a href="#" onclick="return false">Доставка</a><a href="#" onclick="return false">Возврат</a><a href="#" onclick="return false">Размеры</a>
       </div>
-      <div class="fcol"><div class="ft">Social</div>
+      <div class="fcol"><div class="ft">Соцсети</div>
         <a href="#" onclick="return false">Instagram</a><a href="#" onclick="return false">TikTok</a>
       </div>
     </div>
-    <div class="fbot"><span>© 2026 ADMV. All rights reserved.</span><span>Worldwide shipping · Secure checkout</span></div>
+    <div class="fbot"><span>© 2026 ADMV. Все права защищены.</span><span>Доставка по миру · Безопасная оплата</span></div>
   </div>
 </footer>
 
@@ -494,24 +479,24 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 
 <!-- FILTER DRAWER -->
 <aside class="drawer sheet" id="filterDrawer">
-  <div class="dhead"><h3>Filter</h3><button class="xbtn" onclick="closeAll()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="dhead"><h3>Фильтр</h3><button class="xbtn" onclick="closeAll()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div class="dbody" id="filterBody"></div>
   <div class="dfoot" style="display:flex;gap:10px">
-    <button class="btn block" style="flex:1" onclick="clearFilters()">Clear</button>
-    <button class="btn solid block" style="flex:1" onclick="closeAll()">Apply</button>
+    <button class="btn block" style="flex:1" onclick="clearFilters()">Сбросить</button>
+    <button class="btn solid block" style="flex:1" onclick="closeAll()">Применить</button>
   </div>
 </aside>
 
 <!-- CART DRAWER -->
 <aside class="drawer" id="cartDrawer">
-  <div class="dhead"><h3>Cart</h3><button class="xbtn" onclick="closeAll()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="dhead"><h3>Корзина</h3><button class="xbtn" onclick="closeAll()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div class="dbody" id="cartBody"></div>
   <div class="dfoot" id="cartFoot"></div>
 </aside>
 
 <!-- WISHLIST DRAWER -->
 <aside class="drawer" id="wishDrawer">
-  <div class="dhead"><h3>Wishlist</h3><button class="xbtn" onclick="closeAll()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="dhead"><h3>Избранное</h3><button class="xbtn" onclick="closeAll()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div class="dbody" id="wishBody"></div>
 </aside>
 
@@ -519,70 +504,51 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 <div class="search-ov" id="searchOv">
   <div class="search-top">
     <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:var(--muted);stroke-width:1.4;fill:none"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-    <input id="searchInput" placeholder="What are you looking for?" oninput="runSearch()">
+    <input id="searchInput" placeholder="Что вы ищете?" oninput="runSearch()">
     <button class="xbtn" onclick="closeSearch()"><svg viewBox="0 0 24 24" style="stroke:var(--text)"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
   <div class="search-body">
     <div id="trendBlock">
-      <div class="slabel">Trending Searches</div>
+      <div class="slabel">Популярные запросы</div>
       <div class="trend">
-        <button onclick="setSearch('T-Shirts')">T-Shirts</button>
-        <button onclick="setSearch('Sneakers')">Sneakers</button>
-        <button onclick="setSearch('Pants')">Pants</button>
-        <button onclick="setSearch('New')">New Arrivals</button>
+        <button onclick="setSearch('Футболки')">Футболки</button>
+        <button onclick="setSearch('Кроссовки')">Кроссовки</button>
+        <button onclick="setSearch('Брюки')">Брюки</button>
+        <button onclick="setSearch('New')">Новинки</button>
       </div>
     </div>
     <div id="searchResults"></div>
   </div>
 </div>
 
-<!-- ===== VIRTUAL FITTING ROOM (floating panel, like reference) ===== -->
-<button id="tryLaunch" onclick="toggleFitting()" aria-label="Open fitting room">
+<!-- ===== ПРИМЕРОЧНАЯ (плавающая панель) ===== -->
+<button id="tryLaunch" onclick="toggleFitting()" aria-label="Открыть примерочную">
   <span class="tl-ic"><svg viewBox="0 0 24 24"><path d="M12 4.2a1.7 1.7 0 1 0 1.2 2.9l-1.2.9L4 13.6a1.3 1.3 0 0 0 .8 2.3h14.4a1.3 1.3 0 0 0 .8-2.3L12 8"/></svg></span>
-  Try it on
+  Примерить
   <span class="tl-c" id="tryLaunchCount" style="display:none">0</span>
 </button>
 
-<aside id="frPanel" aria-label="Fitting room">
+<aside id="frPanel" aria-label="Примерочная">
   <div class="fp-head">
-    <div><div class="fp-t">Fitting room</div><div class="fp-sub">Tap the hanger on any product to wear it.</div></div>
-    <button class="xbtn" onclick="closeFitting()" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div><div class="fp-t">Примерочная</div><div class="fp-sub">Нажмите на вешалку у товара, чтобы примерить.</div></div>
+    <button class="xbtn" onclick="closeFitting()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
   <div class="fp-stage" id="frStage">
-    <img class="base" src="images/tryon/model-base.png" alt="ADMV model">
+    <img class="base" src="images/tryon/model-base.png" alt="Модель ADMV">
     <img id="fr-shoes" alt=""><img id="fr-bottoms" alt=""><img id="fr-tops" alt=""><img id="fr-outerwear" alt=""><img id="fr-accessory" alt="">
-    <div class="fp-hint" id="frHint">Your model is ready</div>
+    <div class="fp-hint" id="frHint">Модель готова</div>
   </div>
   <div class="fp-picks">
-    <div class="fp-picks-h"><span>Your picks</span><span id="frCount">0 pieces</span></div>
+    <div class="fp-picks-h"><span>Ваш образ</span><span id="frCount">0 вещей</span></div>
     <div class="fp-pick-row" id="frPicks"></div>
-    <div class="fp-help" id="frHelp" style="display:none">Add another piece and it goes on top.</div>
+    <div class="fp-help" id="frHelp" style="display:none">Добавляйте вещи — они надеваются слоями.</div>
   </div>
-  <div class="fp-total" id="frTotalRow" style="display:none"><span class="l">Total</span><span class="v" id="frTotal">€0</span></div>
+  <div class="fp-total" id="frTotalRow" style="display:none"><span class="l">Итого</span><span class="v" id="frTotal">€0</span></div>
   <div class="fp-foot">
-    <button class="btn solid block" onclick="frAddAll()">Add look to cart</button>
-    <div class="fp-foot2">
-      <button class="fp-ai" onclick="openAI()"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:1.6;fill:none"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"/></svg> AI preview</button>
-      <button class="fp-reset" onclick="frClear()">Start over</button>
-    </div>
+    <button class="btn solid block" onclick="frAddAll()">Образ в корзину</button>
+    <button class="fp-reset block" onclick="frClear()">Сбросить</button>
   </div>
 </aside>
-
-<!-- AI preview (documented integration point; never fakes a result without a provider) -->
-<div class="scrim" id="aiScrim" onclick="closeAI()"></div>
-<div id="aiModal" aria-label="AI preview">
-  <div class="dhead"><h3>AI Preview</h3><button class="xbtn" onclick="closeAI()" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-  <div class="ai-body">
-    <p class="ai-note">Photoreal try-on runs through an external AI service. Add your provider API key to generate a realistic image of the current look. Nothing is generated until a provider is connected.</p>
-    <label class="ai-l">Your photo (optional)</label>
-    <input type="file" id="aiPhoto" accept="image/*" class="ai-input">
-    <label class="ai-l">AI provider API key</label>
-    <input type="password" id="aiKey" class="ai-input" placeholder="Paste your API key" autocomplete="off">
-    <button class="btn solid block" style="margin-top:14px" onclick="generateVirtualTryOn()">Generate preview</button>
-    <div class="ai-status" id="aiStatus"></div>
-    <div id="aiResult"></div>
-  </div>
-</div>
 
 <!-- PRODUCT PAGE -->
 <div class="pview" id="pview">
@@ -599,47 +565,47 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
    Чтобы поставить свои фото — замени ссылки в images на свои пути.
 ==================================================================== */
 const COLORS = {
-  Black:'#111111', White:'#F3F1EC', Grey:'#8A8A8A', Navy:'#2A3142',
-  Cream:'#D8CDBA', Brown:'#5A4636', Green:'#3B4A3A'
+  'Чёрный':'#111111', 'Белый':'#F3F1EC', 'Серый':'#8A8A8A', 'Тёмно-синий':'#2A3142',
+  'Кремовый':'#D8CDBA', 'Коричневый':'#5A4636', 'Зелёный':'#3B4A3A'
 };
 const img = (q,l)=>`https://loremflickr.com/800/1000/${q}?lock=${l}`;
 
 const PRODUCTS = [
-  { id:'tee-premium', name:'ADMV Premium T-Shirt', category:'T-Shirts', description:'Premium combed cotton T-shirt with a clean relaxed cut.',
+  { id:'tee-premium', name:'ADMV Футболка Premium', category:'Футболки', description:'Премиальная футболка из чесаного хлопка, свободный крой.',
     price:89, oldPrice:null, images:[img('mens,tshirt,fashion',401),img('mens,tshirt,model',402)],
-    colors:['Black','White','Grey','Cream'], sizes:['XS','S','M','L','XL','XXL','3XL'], stock:{XS:1,S:1,M:1,L:1,XL:1,XXL:1,'3XL':0}, featured:true, newArrival:true, sale:false },
-  { id:'tee-heavy', name:'ADMV Heavy Tee', category:'T-Shirts', description:'Heavyweight 240gsm cotton with structured drape.',
+    colors:['Чёрный','Белый','Серый','Кремовый'], sizes:['XS','S','M','L','XL','XXL','3XL'], stock:{XS:1,S:1,M:1,L:1,XL:1,XXL:1,'3XL':0}, featured:true, newArrival:true, sale:false },
+  { id:'tee-heavy', name:'ADMV Футболка Heavy', category:'Футболки', description:'Плотный хлопок 240 г/м², держит форму.',
     price:79, oldPrice:null, images:[img('mens,tshirt,streetwear',403),img('mens,plain,tshirt',404)],
-    colors:['Black','Grey','Green'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:1,XXL:1}, featured:false, newArrival:false, sale:false },
-  { id:'shirt-oxford', name:'ADMV Oxford Shirt', category:'Shirts', description:'Tailored oxford cotton shirt with mother-of-pearl buttons.',
+    colors:['Чёрный','Серый','Зелёный'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:1,XXL:1}, featured:false, newArrival:false, sale:false },
+  { id:'shirt-oxford', name:'ADMV Рубашка Oxford', category:'Рубашки', description:'Рубашка из оксфордского хлопка, перламутровые пуговицы.',
     price:129, oldPrice:null, images:[img('mens,shirt,fashion',405),img('mens,shirt,model',406)],
-    colors:['White','Navy','Cream'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, featured:false, newArrival:true, sale:false },
-  { id:'sweat-premium', name:'ADMV Premium Sweatshirt', category:'Sweatshirts', description:'Brushed-back loopwheel cotton crewneck, heavyweight.',
+    colors:['Белый','Тёмно-синий','Кремовый'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, featured:false, newArrival:true, sale:false },
+  { id:'sweat-premium', name:'ADMV Свитшот Premium', category:'Свитшоты', description:'Плотный свитшот с начёсом, круглый ворот.',
     price:149, oldPrice:null, images:[img('mens,sweatshirt,fashion',407),img('mens,crewneck,model',408)],
-    colors:['Grey','Black','Cream','Brown'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:1,XXL:1}, featured:true, newArrival:false, sale:false },
-  { id:'sweat-wool', name:'ADMV Wool Sweatshirt', category:'Sweatshirts', description:'Merino-blend sweatshirt with a soft refined hand.',
+    colors:['Серый','Чёрный','Кремовый','Коричневый'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:1,XXL:1}, featured:true, newArrival:false, sale:false },
+  { id:'sweat-wool', name:'ADMV Свитшот Wool', category:'Свитшоты', description:'Свитшот с мериносом, мягкий и благородный.',
     price:179, oldPrice:null, images:[img('mens,wool,sweater',409),img('mens,knit,fashion',410)],
-    colors:['Navy','Grey','Green'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, featured:false, newArrival:true, sale:false },
-  { id:'hoodie-zip', name:'ADMV Zip Hoodie', category:'Zip Hoodies', description:'Full-zip hoodie in heavyweight brushed cotton.',
+    colors:['Тёмно-синий','Серый','Зелёный'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, featured:false, newArrival:true, sale:false },
+  { id:'hoodie-zip', name:'ADMV Худи на молнии', category:'Худи', description:'Худи на молнии из плотного хлопка с начёсом.',
     price:169, oldPrice:199, images:[img('mens,hoodie,fashion',411),img('mens,hoodie,street',412)],
-    colors:['Black','Grey','Green'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:1,XXL:1}, featured:false, newArrival:false, sale:true },
-  { id:'pants-linen', name:'ADMV Linen Pants', category:'Pants', description:'Relaxed linen trousers with a clean tapered leg.',
+    colors:['Чёрный','Серый','Зелёный'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:1,XXL:1}, featured:false, newArrival:false, sale:true },
+  { id:'pants-linen', name:'ADMV Льняные брюки', category:'Брюки', description:'Свободные льняные брюки с лёгким зауженным кроем.',
     price:139, oldPrice:null, images:[img('mens,linen,pants',413),img('mens,trousers,fashion',414)],
-    colors:['Cream','Black','Brown'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, featured:false, newArrival:true, sale:false },
-  { id:'pants-cargo', name:'ADMV Cargo Pants', category:'Pants', description:'Utility cargo pants in cotton ripstop.',
+    colors:['Кремовый','Чёрный','Коричневый'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, featured:false, newArrival:true, sale:false },
+  { id:'pants-cargo', name:'ADMV Брюки Cargo', category:'Брюки', description:'Брюки карго из хлопкового рипстопа.',
     price:159, oldPrice:null, images:[img('mens,cargo,pants',415),img('mens,cargo,street',416)],
-    colors:['Green','Black','Grey'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:1,XXL:1}, featured:false, newArrival:false, sale:false },
-  { id:'sneak-runner', name:'ADMV Runner Sneakers', category:'Sneakers', description:'Minimal runner silhouette on a sculpted sole.',
+    colors:['Зелёный','Чёрный','Серый'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:1,XXL:1}, featured:false, newArrival:false, sale:false },
+  { id:'sneak-runner', name:'ADMV Кроссовки Runner', category:'Кроссовки', description:'Минималистичные кроссовки на скульптурной подошве.',
     price:219, oldPrice:null, images:[img('sneakers,shoes,fashion',417),img('sneakers,white,shoes',418)],
-    colors:['White','Black','Grey'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, featured:true, newArrival:true, sale:false },
-  { id:'sneak-court', name:'ADMV Court Sneakers', category:'Sneakers', description:'Low-profile court sneaker in premium leather.',
+    colors:['Белый','Чёрный','Серый'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, featured:true, newArrival:true, sale:false },
+  { id:'sneak-court', name:'ADMV Кроссовки Court', category:'Кроссовки', description:'Низкие кеды-корт из премиальной кожи.',
     price:199, oldPrice:239, images:[img('sneakers,leather,shoes',419),img('sneakers,court,fashion',420)],
-    colors:['White','Cream','Navy'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:0,XXL:1}, featured:false, newArrival:false, sale:true },
+    colors:['Белый','Кремовый','Тёмно-синий'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:0,XXL:1}, featured:false, newArrival:false, sale:true },
 ];
 
-const CATEGORIES = ['T-Shirts','Shirts','Sweatshirts','Zip Hoodies','Pants','Sneakers'];
+const CATEGORIES = ['Футболки','Рубашки','Свитшоты','Худи','Брюки','Кроссовки'];
 const ALLSIZES = ['XS','S','M','L','XL','XXL','3XL'];
-const ALLCOLORS = ['Black','White','Grey','Navy','Cream','Brown','Green'];
+const ALLCOLORS = ['Чёрный','Белый','Серый','Тёмно-синий','Кремовый','Коричневый','Зелёный'];
 const PRICE_MAX = 260;
 
 /* ===== STATE ===== */
@@ -649,6 +615,7 @@ let filters = { cats:new Set(), sizes:new Set(), colors:new Set(), price:PRICE_M
 let viewMode = 'all'; // all | new | sale
 const $ = s=>document.querySelector(s);
 const eur = n=>'€'+n;
+const plu = (n,a,b,c)=>{ const m=Math.abs(n)%100, d=m%10; if(m>10&&m<20) return c; if(d>1&&d<5) return b; if(d===1) return a; return c; };
 
 /* ===== SHOP RENDER ===== */
 function matches(p){
@@ -668,7 +635,7 @@ function sortList(list){
 }
 function cardHTML(p){
   const sw = p.colors.slice(0,5).map(c=>`<span class="sw" style="background:${COLORS[c]}"></span>`).join('');
-  const flag = p.sale?'<span class="flag sale">Sale</span>':(p.newArrival?'<span class="flag">New</span>':'');
+  const flag = p.sale?'<span class="flag sale">Скидка</span>':(p.newArrival?'<span class="flag">Новое</span>':'');
   const price = p.oldPrice
     ? `<s>${eur(p.oldPrice)}</s><span class="now sale">${eur(p.price)}</span>`
     : `<span class="now">${eur(p.price)}</span>`;
@@ -677,34 +644,34 @@ function cardHTML(p){
     <div class="imgwrap">
       ${flag}
       <div class="cardacts">
-        <button class="wish${onw}" onclick="event.stopPropagation();toggleWish('${p.id}')" aria-label="Wishlist"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg></button>
-        ${p.tryOn?`<button class="tryon${(frLook&&frLook[p.layer]&&frLook[p.layer].id===p.id)?' on':''}" onclick="event.stopPropagation();frWear('${p.id}')" aria-label="Try on"><svg viewBox="0 0 24 24"><path d="M12 4.2a1.7 1.7 0 1 0 1.2 2.9l-1.2.9L4 13.6a1.3 1.3 0 0 0 .8 2.3h14.4a1.3 1.3 0 0 0 .8-2.3L12 8"/></svg></button>`:''}
+        <button class="wish${onw}" onclick="event.stopPropagation();toggleWish('${p.id}')" aria-label="В избранное"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg></button>
+        ${p.tryOn?`<button class="tryon${(frLook&&frLook[p.layer]&&frLook[p.layer].id===p.id)?' on':''}" onclick="event.stopPropagation();frWear('${p.id}')" aria-label="Примерить"><svg viewBox="0 0 24 24"><path d="M12 4.2a1.7 1.7 0 1 0 1.2 2.9l-1.2.9L4 13.6a1.3 1.3 0 0 0 .8 2.3h14.4a1.3 1.3 0 0 0 .8-2.3L12 8"/></svg></button>`:''}
       </div>
       <img class="img1" src="${p.images[0]}" alt="${p.name}" loading="lazy">
       <img class="img2" src="${p.images[1]}" alt="" loading="lazy">
-      <button class="qadd" onclick="event.stopPropagation();quickAdd('${p.id}')">Quick Add</button>
+      <button class="qadd" onclick="event.stopPropagation();quickAdd('${p.id}')">Быстро в корзину</button>
     </div>
     <div class="pmeta">
       <div class="pname">${p.name}</div>
       <div class="pdesc">${p.description}</div>
       <div class="prow"><div class="price">${price}</div><div class="swatches">${sw}</div></div>
-      <div class="avail">Available in ${p.colors.length} colors</div>
+      <div class="avail">${p.colors.length} ${plu(p.colors.length,'цвет','цвета','цветов')}</div>
     </div>
   </article>`;
 }
 function renderShop(){
   const list = sortList(PRODUCTS.filter(matches));
   const g = $('#pgrid');
-  g.innerHTML = list.length ? list.map(cardHTML).join('') : '<div class="empty">No products match your filters.</div>';
+  g.innerHTML = list.length ? list.map(cardHTML).join('') : '<div class="empty">Ничего не найдено по фильтрам.</div>';
   observeReveal();
   renderActiveFilters();
 }
 function renderActiveFilters(){
   const el=$('#activeFilters'); const items=[];
-  filters.cats.forEach(c=>items.push(['Category',c,()=>{filters.cats.delete(c);}]));
-  filters.sizes.forEach(c=>items.push(['Size',c,()=>{filters.sizes.delete(c);}]));
-  filters.colors.forEach(c=>items.push(['Color',c,()=>{filters.colors.delete(c);}]));
-  if(filters.price<PRICE_MAX) items.push(['Max',eur(filters.price),()=>{filters.price=PRICE_MAX;}]);
+  filters.cats.forEach(c=>items.push(['Категория',c,()=>{filters.cats.delete(c);}]));
+  filters.sizes.forEach(c=>items.push(['Размер',c,()=>{filters.sizes.delete(c);}]));
+  filters.colors.forEach(c=>items.push(['Цвет',c,()=>{filters.colors.delete(c);}]));
+  if(filters.price<PRICE_MAX) items.push(['Макс',eur(filters.price),()=>{filters.price=PRICE_MAX;}]);
   el.innerHTML='';
   items.forEach(([k,v,fn])=>{
     const s=document.createElement('span'); s.className='chip-f';
@@ -724,7 +691,7 @@ $('#gridtog').addEventListener('click',e=>{
 
 /* ===== NAV / VIEW ===== */
 function toShop(mode){
-  viewMode=mode; $('#shopTitle').textContent = mode==='sale'?'Sale':mode==='new'?'New Arrivals':'Shop';
+  viewMode=mode; $('#shopTitle').textContent = mode==='sale'?'Распродажа':mode==='new'?'Новинки':'Магазин';
   renderShop(); closeMenu();
   $('#shop').scrollIntoView({behavior:'smooth'});
   return false;
@@ -737,10 +704,10 @@ function buildFilter(){
   const sz = ALLSIZES.map(s=>`<div class="sizepill${filters.sizes.has(s)?' on':''}" onclick="togF('sizes','${s}')">${s}</div>`).join('');
   const col = ALLCOLORS.map(c=>`<div class="colordot${filters.colors.has(c)?' on':''}" onclick="togF('colors','${c}')"><span class="d" style="background:${COLORS[c]}"></span><span>${c}</span></div>`).join('');
   $('#filterBody').innerHTML = `
-    <div class="fgroup"><div class="ft">Category</div>${cat}</div>
-    <div class="fgroup"><div class="ft">Size</div><div class="sizes-f">${sz}</div></div>
-    <div class="fgroup"><div class="ft">Color</div><div class="colors-f">${col}</div></div>
-    <div class="fgroup rangewrap"><div class="ft">Price</div>
+    <div class="fgroup"><div class="ft">Категория</div>${cat}</div>
+    <div class="fgroup"><div class="ft">Размер</div><div class="sizes-f">${sz}</div></div>
+    <div class="fgroup"><div class="ft">Цвет</div><div class="colors-f">${col}</div></div>
+    <div class="fgroup rangewrap"><div class="ft">Цена</div>
       <input type="range" min="0" max="${PRICE_MAX}" value="${filters.price}" oninput="setPrice(this.value)">
       <div class="rlabels"><span>€0</span><span id="priceLbl">${eur(filters.price)}</span></div>
     </div>`;
@@ -756,19 +723,19 @@ function clearFilters(){ filters={cats:new Set(),sizes:new Set(),colors:new Set(
 /* ===== WISHLIST ===== */
 function toggleWish(id){
   const i=wishlist.indexOf(id);
-  if(i>-1){ wishlist.splice(i,1); toast('Removed from wishlist'); }
-  else { wishlist.push(id); toast('Added to wishlist'); }
+  if(i>-1){ wishlist.splice(i,1); toast('Убрано из избранного'); }
+  else { wishlist.push(id); toast('Добавлено в избранное'); }
   updateCounts(); renderShop(); renderWish();
 }
 function renderWish(){
   const b=$('#wishBody');
-  if(!wishlist.length){ b.innerHTML='<div class="emptyd">Your wishlist is empty.</div>'; return; }
+  if(!wishlist.length){ b.innerHTML='<div class="emptyd">В избранном пусто.</div>'; return; }
   b.innerHTML = wishlist.map(id=>{ const p=PRODUCTS.find(x=>x.id===id);
     return `<div class="citem">
       <img src="${p.images[0]}" alt="" onclick="closeAll();openProduct('${p.id}')" style="cursor:pointer">
       <div><div class="cn">${p.name}</div><div class="cv">${eur(p.price)}</div>
-        <button class="btn" style="padding:9px 16px;margin-top:10px;font-size:.6rem" onclick="quickAdd('${p.id}')">Add to cart</button></div>
-      <div class="cr"><button class="rm" onclick="toggleWish('${p.id}')">Remove</button></div>
+        <button class="btn" style="padding:9px 16px;margin-top:10px;font-size:.6rem" onclick="quickAdd('${p.id}')">В корзину</button></div>
+      <div class="cr"><button class="rm" onclick="toggleWish('${p.id}')">Удалить</button></div>
     </div>`;}).join('');
 }
 
@@ -778,25 +745,25 @@ function addToCart(id,size,color,qty){
   const key=id+'|'+size+'|'+color;
   const ex=cart.find(c=>c.key===key);
   if(ex) ex.qty+=qty; else { const p=PRODUCTS.find(x=>x.id===id); cart.push({key,id,size,color,qty,price:p.price,name:p.name,img:p.images[0]}); }
-  updateCounts(); renderCart(); toast('Added to cart');
+  updateCounts(); renderCart(); toast('Добавлено в корзину');
 }
 function changeQty(key,d){ const it=cart.find(c=>c.key===key); if(!it) return; it.qty+=d; if(it.qty<=0) cart=cart.filter(c=>c.key!==key); updateCounts(); renderCart(); }
 function removeItem(key){ cart=cart.filter(c=>c.key!==key); updateCounts(); renderCart(); }
 function renderCart(){
   const b=$('#cartBody'), f=$('#cartFoot');
-  if(!cart.length){ b.innerHTML='<div class="emptyd">Your cart is empty.</div>'; f.innerHTML=''; return; }
+  if(!cart.length){ b.innerHTML='<div class="emptyd">Корзина пуста.</div>'; f.innerHTML=''; return; }
   b.innerHTML = cart.map(it=>`<div class="citem">
     <img src="${it.img}" alt="">
-    <div><div class="cn">${it.name}</div><div class="cv">${it.color} · Size ${it.size}</div>
+    <div><div class="cn">${it.name}</div><div class="cv">${it.color} · Размер ${it.size}</div>
       <div class="qty"><button onclick="changeQty('${it.key}',-1)">−</button><span>${it.qty}</span><button onclick="changeQty('${it.key}',1)">+</button></div></div>
-    <div class="cr"><div class="cp">${eur(it.price*it.qty)}</div><button class="rm" onclick="removeItem('${it.key}')">Remove</button></div>
+    <div class="cr"><div class="cp">${eur(it.price*it.qty)}</div><button class="rm" onclick="removeItem('${it.key}')">Удалить</button></div>
   </div>`).join('');
   const sub=cart.reduce((s,it)=>s+it.price*it.qty,0);
-  f.innerHTML=`<div class="subtotal"><span class="up" style="font-size:.66rem;color:var(--muted)">Subtotal</span><span class="s2 serif">${eur(sub)}</span></div>
-    <div class="shipnote">Free worldwide shipping</div>
-    <button class="btn solid block" onclick="checkout()">Checkout</button>`;
+  f.innerHTML=`<div class="subtotal"><span class="up" style="font-size:.66rem;color:var(--muted)">Подытог</span><span class="s2 serif">${eur(sub)}</span></div>
+    <div class="shipnote">Бесплатная доставка по миру</div>
+    <button class="btn solid block" onclick="checkout()">Оформить заказ</button>`;
 }
-function checkout(){ if(!cart.length){ toast('Your cart is empty'); return; } toast('Checkout — demo'); }
+function checkout(){ if(!cart.length){ toast('Корзина пуста'); return; } toast('Оформление · демо'); }
 function updateCounts(){
   const c=cart.reduce((s,i)=>s+i.qty,0);
   const cc=$('#cartCount'); cc.textContent=c; cc.style.display=c?'grid':'none';
@@ -827,25 +794,25 @@ function renderProduct(){
       <div class="cat">${p.category}</div>
       <h1>${p.name}</h1>
       <div class="pvprice">${price}</div>
-      <p class="desc">${p.description} Cut from premium materials with a considered, minimal finish built for everyday movement.</p>
-      <div class="pv-block"><div class="l">Color — ${pvState.color}</div><div class="pv-colors">${colors}</div></div>
-      <div class="pv-block"><div class="l">Size <span class="sizeguide" onclick="toast('Size guide — demo')">Size Guide</span></div><div class="pv-sizes">${sizes}</div></div>
+      <p class="desc">${p.description} Премиальные материалы и сдержанная отделка, созданные для повседневного движения.</p>
+      <div class="pv-block"><div class="l">Цвет — ${pvState.color}</div><div class="pv-colors">${colors}</div></div>
+      <div class="pv-block"><div class="l">Размер <span class="sizeguide" onclick="toast('Таблица размеров · демо')">Таблица размеров</span></div><div class="pv-sizes">${sizes}</div></div>
       <div class="pv-cta">
-        <button class="btn solid block" onclick="pvAdd(false)">Add to Cart</button>
-        <button class="btn amber block" onclick="pvAdd(true)">Buy Now</button>
+        <button class="btn solid block" onclick="pvAdd(false)">В корзину</button>
+        <button class="btn amber block" onclick="pvAdd(true)">Купить сейчас</button>
       </div>
       <div class="assure">
-        <div><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Premium quality</div>
-        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>Worldwide shipping</div>
-        <div><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Secure checkout</div>
-        <div><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 20v-5h5"/></svg>Easy returns</div>
+        <div><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Премиальное качество</div>
+        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>Доставка по миру</div>
+        <div><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Безопасная оплата</div>
+        <div><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 20v-5h5"/></svg>Лёгкий возврат</div>
       </div>
     </div>`;
 }
 function pvSetImg(i){ pvState.imgIndex=i; const im=$('#gmainImg'); im.style.opacity=0; setTimeout(()=>{ im.src=PRODUCTS.find(x=>x.id===pvState.id).images[i]; im.style.opacity=1; },180); document.querySelectorAll('.thumbs img').forEach((t,ti)=>t.classList.toggle('on',ti===i)); }
 function pvSetColor(c){ pvState.color=c; renderProduct(); }
 function pvSetSize(s){ pvState.size=s; renderProduct(); }
-function pvAdd(buy){ if(!pvState.size){ toast('Please select a size'); return; } addToCart(pvState.id,pvState.size,pvState.color,1); if(buy){ closeProduct(); openCart(); } }
+function pvAdd(buy){ if(!pvState.size){ toast('Выберите размер'); return; } addToCart(pvState.id,pvState.size,pvState.color,1); if(buy){ closeProduct(); openCart(); } }
 
 /* ===== SEARCH ===== */
 function openSearch(){ $('#searchOv').classList.add('open'); document.body.classList.add('lock'); setTimeout(()=>$('#searchInput').focus(),120); }
@@ -857,8 +824,8 @@ function runSearch(){
   if(!q){ res.innerHTML=''; tb.style.display='block'; return; }
   tb.style.display='none';
   const list=PRODUCTS.filter(p=>(p.name+' '+p.category+' '+p.description).toLowerCase().includes(q));
-  res.innerHTML = `<div class="slabel" style="margin-bottom:6px">${list.length} result${list.length!==1?'s':''}</div>
-    <div class="sresults">${list.map(cardHTML).join('')||'<div class="empty">Nothing found.</div>'}</div>`;
+  res.innerHTML = `<div class="slabel" style="margin-bottom:6px">${list.length} ${plu(list.length,'результат','результата','результатов')}</div>
+    <div class="sresults">${list.map(cardHTML).join('')||'<div class="empty">Ничего не найдено.</div>'}</div>`;
 }
 
 /* ===== DRAWERS ===== */
@@ -929,8 +896,8 @@ function currentLook(){ return LAYERS.map(l=>frLook[l]).filter(Boolean); }
 function frWear(id){
   const p=frFind(id); if(!p||!p.tryOn) return;
   const layer=p.layer;
-  if(frLook[layer] && frLook[layer].id===id){ frLook[layer]=null; toast('Removed from look'); }
-  else { frLook[layer]={ id, size:firstSize(p) }; toast('Added to your look'); openFitting(); }
+  if(frLook[layer] && frLook[layer].id===id){ frLook[layer]=null; toast('Убрано из образа'); }
+  else { frLook[layer]={ id, size:firstSize(p) }; toast('Добавлено в образ'); openFitting(); }
   renderPanel(); renderShop();
 }
 function frSetSize(layer,size){ if(frLook[layer]) frLook[layer].size=size; renderPanel(); }
@@ -938,9 +905,9 @@ function frRemove(layer){ frLook[layer]=null; renderPanel(); renderShop(); }
 function frClear(){ frLook={tops:null,outerwear:null,bottoms:null,shoes:null,accessory:null}; renderPanel(); renderShop(); }
 function frAddAll(){
   const look=currentLook();
-  if(!look.length){ toast('Add a piece first'); return; }
+  if(!look.length){ toast('Сначала добавьте вещь'); return; }
   look.forEach(sel=>{ const p=frFind(sel.id); addToCart(p.id, sel.size, p.colors[0], 1); });
-  toast('Look added to cart · '+look.length+' item'+(look.length>1?'s':''));
+  toast('Образ в корзине · '+look.length+' '+plu(look.length,'вещь','вещи','вещей'));
 }
 
 function renderPanel(){
@@ -952,7 +919,7 @@ function renderPanel(){
   });
   const look=currentLook();
   $('#frHint').style.opacity = look.length ? '0' : '1';
-  $('#frCount').textContent = look.length + ' piece' + (look.length===1?'':'s');
+  $('#frCount').textContent = look.length + ' ' + plu(look.length,'вещь','вещи','вещей');
   // your picks (chips with size + remove)
   $('#frPicks').innerHTML = look.length ? look.map(sel=>{
     const p=frFind(sel.id);
@@ -962,7 +929,7 @@ function renderPanel(){
       <div class="fp-pick-i"><div class="fp-pick-n">${p.name}</div>
         <select onchange="frSetSize('${p.layer}',this.value)">${opts}</select></div>
       <div class="fp-pick-r"><span class="fp-pick-p">${eur(p.price)}</span>
-        <button class="fp-pick-x" onclick="frRemove('${p.layer}')" aria-label="Remove">×</button></div>
+        <button class="fp-pick-x" onclick="frRemove('${p.layer}')" aria-label="Убрать">×</button></div>
     </div>`;
   }).join('') : '';
   $('#frHelp').style.display = look.length ? 'block' : 'none';
@@ -976,33 +943,6 @@ function renderPanel(){
 function openFitting(){ renderPanel(); $('#frPanel').classList.add('open'); $('#tryLaunch').classList.add('hidden'); if(location.hash!=='#fitting-room') history.replaceState(null,'',location.pathname+location.search+'#fitting-room'); }
 function closeFitting(){ $('#frPanel').classList.remove('open'); $('#tryLaunch').classList.remove('hidden'); if(location.hash==='#fitting-room') history.replaceState(null,'',location.pathname+location.search); }
 function toggleFitting(){ $('#frPanel').classList.contains('open') ? closeFitting() : openFitting(); }
-
-/* ===== AI PREVIEW (documented integration point) ===== */
-function openAI(){ $('#aiScrim').classList.add('show'); $('#aiModal').classList.add('open'); document.body.classList.add('lock');
-  const k=localStorage.getItem('admvAiKey'); if(k) $('#aiKey').value=k; $('#aiStatus').textContent=''; $('#aiResult').innerHTML=''; }
-function closeAI(){ $('#aiScrim').classList.remove('show'); $('#aiModal').classList.remove('open');
-  if(!anyDrawer() && !$('#pview').classList.contains('open') && !$('#searchOv').classList.contains('open')) document.body.classList.remove('lock'); }
-function layeredPreviewHTML(){
-  const look=currentLook();
-  const layers = `<img src="images/tryon/model-base.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain">`
-    + look.map(sel=>{ const p=frFind(sel.id); return `<img src="${p.tryOn}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain">`; }).join('');
-  return `<div class="ai-preview"><div class="ai-canvas">${layers}</div>
-    <div class="ai-badge">Layered preview · AI not connected</div></div>`;
-}
-/* INTEGRATION POINT. Wire a real virtual try-on provider (e.g. fal.ai, Replicate) here.
-   Inputs ready: the API key, an optional user photo (#aiPhoto), and the selected product images.
-   Until a provider endpoint is wired in, we never fake a photoreal result — we show the
-   deterministic layered composite and clearly label it. */
-async function generateVirtualTryOn(){
-  const key=$('#aiKey').value.trim();
-  const st=$('#aiStatus');
-  if(!currentLook().length){ st.textContent='Pick at least one item in the fitting room first.'; return; }
-  if(key){ localStorage.setItem('admvAiKey',key);
-    st.textContent='API key saved. Connect a provider endpoint inside generateVirtualTryOn() to produce a photoreal image. Showing layered preview for now.'; }
-  else { st.textContent='AI is not connected. Add your provider API key to enable photoreal try-on. Showing layered preview instead.'; }
-  // const result = await callProvider(key, document.getElementById('aiPhoto').files[0], currentLook().map(s=>frFind(s.id)));
-  $('#aiResult').innerHTML = layeredPreviewHTML();
-}
 
 /* ===== INTRO lifecycle (robust, never blocks the site) ===== */
 (function(){
