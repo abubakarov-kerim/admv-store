@@ -114,11 +114,14 @@ select.tool{ background:var(--bg); color:var(--text); -webkit-appearance:none; a
 .pcard:hover .img2{ opacity:1; transform:scale(1.05); }
 .pcard .flag{ position:absolute; top:12px; left:12px; z-index:3; font-size:.56rem; letter-spacing:.16em; text-transform:uppercase; padding:5px 10px; background:var(--bg); color:var(--text); }
 .pcard .flag.sale{ background:var(--amber); color:var(--bg); }
-.pcard .wish{ position:absolute; top:10px; right:10px; z-index:3; width:38px; height:38px; display:grid; place-items:center;
-  background:rgba(11,11,11,.4); backdrop-filter:blur(6px); opacity:0; transform:translateY(-6px); transition:.3s var(--ease); }
-.pcard:hover .wish{ opacity:1; transform:none; }
-.pcard .wish svg{ width:17px; height:17px; stroke:var(--text); stroke-width:1.5; fill:none; transition:.25s; }
+.pcard .cardacts{ position:absolute; top:10px; right:10px; z-index:3; display:flex; flex-direction:column; gap:8px; }
+.pcard .cardacts button{ width:38px; height:38px; display:grid; place-items:center; background:rgba(11,11,11,.5); backdrop-filter:blur(6px);
+  opacity:0; transform:translateY(-6px); transition:opacity .3s var(--ease), transform .3s var(--ease), background .25s; }
+.pcard:hover .cardacts button{ opacity:1; transform:none; }
+.pcard .cardacts button svg{ width:17px; height:17px; stroke:var(--text); stroke-width:1.5; fill:none; transition:.25s; }
 .pcard .wish.on svg{ fill:var(--amber); stroke:var(--amber); }
+.pcard .tryon.on{ background:var(--amber); } .pcard .tryon.on svg{ stroke:var(--bg); }
+.pcard .tryon:hover{ background:var(--amber); } .pcard .tryon:hover svg{ stroke:var(--bg); }
 .pcard .qadd{ position:absolute; left:0; right:0; bottom:0; z-index:3; background:var(--text); color:var(--bg);
   font-size:.66rem; letter-spacing:.22em; text-transform:uppercase; text-align:center; padding:14px; transform:translateY(100%); transition:transform .4s var(--ease); }
 .pcard:hover .qadd{ transform:none; }
@@ -309,58 +312,71 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
   color:var(--muted); border:1px solid var(--line); padding:9px 18px; background:rgba(11,11,11,.4); transition:.25s; }
 #intro3d .intro-skip:hover{ color:var(--amber); border-color:var(--amber); }
 
-/* ===== FITTING ROOM (new feature) ===== */
-#fittingView{ position:fixed; inset:0; z-index:430; background:var(--bg); overflow-y:auto; opacity:0; pointer-events:none; transition:opacity .4s var(--ease); }
-#fittingView.open{ opacity:1; pointer-events:auto; }
-.fr-top{ position:sticky; top:0; z-index:5; display:flex; align-items:center; justify-content:space-between; padding:18px clamp(18px,4vw,48px); border-bottom:1px solid var(--line); background:rgba(11,11,11,.82); backdrop-filter:blur(14px); }
-.fr-top .t{ font-family:var(--serif); font-size:1.4rem; letter-spacing:.14em; }
-.fr-top .t small{ display:block; font-family:var(--sans); font-size:.54rem; letter-spacing:.3em; color:var(--muted); text-transform:uppercase; margin-top:4px; }
-.fr-grid{ display:grid; grid-template-columns:300px 1fr 340px; min-height:calc(100vh - 62px); }
-.fr-left{ border-right:1px solid var(--line); padding:22px; overflow-y:auto; }
-.fr-center{ position:relative; display:flex; align-items:center; justify-content:center; padding:24px; background:radial-gradient(58% 54% at 50% 42%, #151515, #0B0B0B 74%); }
-.fr-right{ border-left:1px solid var(--line); padding:24px; }
-.fr-cats{ display:flex; flex-wrap:wrap; gap:7px; margin-bottom:20px; }
-.fr-cat{ font-size:.58rem; letter-spacing:.14em; text-transform:uppercase; padding:8px 13px; border:1px solid var(--line); color:var(--muted); cursor:pointer; transition:.2s; }
-.fr-cat.on{ border-color:var(--amber); color:var(--amber); }
-.fr-catalog{ display:flex; flex-direction:column; gap:12px; }
-.fr-card{ border:1px solid var(--line); padding:12px; display:flex; gap:12px; align-items:center; transition:border-color .2s; }
-.fr-card.active{ border-color:var(--amber); }
-.fr-card .fr-th{ width:62px; height:80px; object-fit:contain; background:var(--card2); cursor:pointer; flex-shrink:0; }
-.fr-card .fr-ci{ flex:1; min-width:0; }
-.fr-card .fr-cn{ font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; }
-.fr-card .fr-cp{ color:var(--muted); font-size:.74rem; margin-top:4px; }
-.fr-card .fr-try{ margin-top:10px; font-size:.56rem; letter-spacing:.14em; text-transform:uppercase; padding:8px 13px; border:1px solid var(--line); color:var(--text); transition:.2s; }
-.fr-card.active .fr-try{ background:var(--amber); border-color:var(--amber); color:var(--bg); }
-.fr-stage{ position:relative; width:min(400px,86%); aspect-ratio:2/3; }
-.fr-stage img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:0; transition:opacity .4s var(--ease); pointer-events:none; }
-.fr-stage img.base{ opacity:1; z-index:1; }
+/* ===== FITTING ROOM — floating panel (new feature) ===== */
+#tryLaunch{ position:fixed; left:22px; bottom:22px; z-index:340; display:inline-flex; align-items:center; gap:10px;
+  padding:13px 20px 13px 15px; background:var(--card); border:1px solid var(--line2); border-radius:999px; color:var(--text);
+  font-size:.66rem; letter-spacing:.18em; text-transform:uppercase; box-shadow:0 18px 40px -18px rgba(0,0,0,.9);
+  transition:transform .25s var(--ease), border-color .25s, opacity .3s; }
+#tryLaunch:hover{ transform:translateY(-2px); border-color:var(--amber); }
+#tryLaunch.hidden{ opacity:0; pointer-events:none; transform:translateY(10px); }
+#tryLaunch .tl-ic{ width:26px; height:26px; border-radius:50%; background:var(--amber); display:grid; place-items:center; }
+#tryLaunch .tl-ic svg{ width:15px; height:15px; stroke:var(--bg); stroke-width:1.6; fill:none; }
+#tryLaunch .tl-c{ min-width:18px; height:18px; padding:0 4px; border-radius:999px; background:var(--amber); color:var(--bg); font-size:.58rem; display:grid; place-items:center; letter-spacing:0; }
+
+#frPanel{ position:fixed; left:22px; bottom:22px; z-index:350; width:340px; max-width:calc(100vw - 44px); max-height:calc(100vh - 44px);
+  display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line2); border-radius:16px; overflow:hidden;
+  box-shadow:0 30px 70px -24px rgba(0,0,0,.95); opacity:0; pointer-events:none; transform:translateY(16px) scale(.98);
+  transform-origin:bottom left; transition:opacity .35s var(--ease), transform .35s var(--ease); }
+#frPanel.open{ opacity:1; pointer-events:auto; transform:none; }
+.fp-head{ display:flex; align-items:flex-start; justify-content:space-between; padding:16px 18px; border-bottom:1px solid var(--line); }
+.fp-t{ font-family:var(--serif); font-size:1.2rem; letter-spacing:.08em; }
+.fp-sub{ font-size:.62rem; color:var(--muted); margin-top:4px; letter-spacing:.02em; }
+.fp-stage{ position:relative; margin:16px 18px 0; aspect-ratio:3/4; background:radial-gradient(60% 56% at 50% 40%, #16161a, #0d0d10 76%); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+.fp-stage img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:0; transition:opacity .4s var(--ease); pointer-events:none; }
+.fp-stage img.base{ opacity:1; z-index:1; }
 #fr-shoes{ z-index:2; } #fr-bottoms{ z-index:3; } #fr-tops{ z-index:4; } #fr-outerwear{ z-index:5; } #fr-accessory{ z-index:6; }
-.fr-stage img.on{ opacity:1; }
-.fr-hint{ position:absolute; left:0; right:0; bottom:6px; text-align:center; font-size:.66rem; color:var(--muted); z-index:7; transition:opacity .3s; }
-.fr-look-h{ font-family:var(--serif); font-size:1.3rem; letter-spacing:.1em; margin-bottom:14px; }
-.fr-li{ display:flex; gap:12px; padding:13px 0; border-bottom:1px solid var(--line); }
-.fr-li img{ width:48px; height:62px; object-fit:contain; background:var(--card2); flex-shrink:0; }
-.fr-li-info{ flex:1; min-width:0; }
-.fr-li-n{ font-size:.64rem; letter-spacing:.1em; text-transform:uppercase; }
-.fr-li-row{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:8px; }
-.fr-li-row select{ background:var(--bg); color:var(--text); border:1px solid var(--line); font-family:inherit; font-size:.66rem; padding:5px 8px; -webkit-appearance:none; appearance:none; }
-.fr-li-p{ font-size:.78rem; }
-.fr-li-act{ display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
-.fr-li-add{ font-size:.54rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); } .fr-li-add:hover{ color:var(--amber); }
-.fr-li-x{ color:var(--muted); font-size:1rem; line-height:1; } .fr-li-x:hover{ color:var(--amber); }
-.fr-empty{ color:var(--muted); font-size:.82rem; padding:22px 0; font-weight:300; }
-.fr-total{ display:flex; justify-content:space-between; align-items:baseline; margin:18px 0 16px; padding-top:16px; border-top:1px solid var(--line); }
-.fr-total .l{ font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
-.fr-total .v{ font-family:var(--serif); font-size:1.6rem; }
-.fr-demo-note{ color:var(--muted); font-size:.64rem; line-height:1.5; margin-top:16px; font-weight:300; }
-@media(max-width:900px){
-  .fr-grid{ grid-template-columns:1fr; }
-  .fr-center{ order:-1; min-height:44vh; padding:18px; }
-  .fr-left,.fr-right{ border:none; border-top:1px solid var(--line); }
-  .fr-catalog{ flex-direction:row; overflow-x:auto; padding-bottom:8px; }
-  .fr-card{ flex-direction:column; min-width:152px; text-align:center; align-items:stretch; }
-  .fr-card .fr-th{ width:100%; height:130px; }
-  .fr-stage{ width:min(250px,66%); }
+.fp-stage img.on{ opacity:1; }
+.fp-hint{ position:absolute; left:0; right:0; bottom:8px; text-align:center; font-size:.62rem; color:var(--muted); z-index:7; transition:opacity .3s; }
+.fp-picks{ padding:16px 18px 4px; overflow-y:auto; }
+.fp-picks-h{ display:flex; justify-content:space-between; font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+.fp-pick-row{ display:flex; flex-direction:column; gap:10px; }
+.fp-pick{ display:flex; gap:11px; align-items:center; }
+.fp-pick img{ width:42px; height:54px; object-fit:contain; background:var(--card2); border:1px solid var(--line); border-radius:8px; flex-shrink:0; }
+.fp-pick-i{ flex:1; min-width:0; }
+.fp-pick-n{ font-size:.64rem; letter-spacing:.08em; text-transform:uppercase; margin-bottom:5px; }
+.fp-pick-i select{ background:var(--bg); color:var(--text); border:1px solid var(--line); font-family:inherit; font-size:.62rem; padding:4px 7px; -webkit-appearance:none; appearance:none; }
+.fp-pick-r{ display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
+.fp-pick-p{ font-size:.74rem; }
+.fp-pick-x{ color:var(--muted); font-size:1rem; line-height:1; } .fp-pick-x:hover{ color:var(--amber); }
+.fp-help{ font-size:.62rem; color:var(--muted); margin-top:12px; font-weight:300; }
+.fp-total{ display:flex; justify-content:space-between; align-items:baseline; margin:4px 18px 0; padding:14px 0 0; border-top:1px solid var(--line); }
+.fp-total .l{ font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+.fp-total .v{ font-family:var(--serif); font-size:1.4rem; }
+.fp-foot{ padding:16px 18px; border-top:1px solid var(--line); margin-top:14px; }
+.fp-foot2{ display:flex; gap:10px; margin-top:10px; }
+.fp-ai,.fp-reset{ flex:1; display:inline-flex; align-items:center; justify-content:center; gap:7px; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; padding:11px; border:1px solid var(--line); color:var(--text); transition:.25s; }
+.fp-ai:hover{ border-color:var(--amber); color:var(--amber); }
+.fp-reset{ color:var(--muted); } .fp-reset:hover{ color:var(--text); }
+
+/* AI preview modal */
+#aiModal{ position:fixed; top:50%; left:50%; transform:translate(-50%,-46%); z-index:360; width:min(440px,92vw); max-height:88vh; overflow-y:auto;
+  background:var(--card); border:1px solid var(--line2); border-radius:16px; opacity:0; pointer-events:none; transition:opacity .35s var(--ease), transform .35s var(--ease); }
+#aiModal.open{ opacity:1; pointer-events:auto; transform:translate(-50%,-50%); }
+.ai-body{ padding:22px 24px 24px; }
+.ai-note{ color:var(--muted); font-size:.82rem; line-height:1.6; font-weight:300; margin-bottom:18px; }
+.ai-l{ display:block; font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin:14px 0 8px; }
+.ai-input{ width:100%; background:var(--bg); color:var(--text); border:1px solid var(--line); padding:12px 14px; font-family:inherit; font-size:.86rem; }
+.ai-status{ font-size:.74rem; color:var(--amber); line-height:1.5; margin-top:14px; min-height:1em; }
+.ai-preview{ margin-top:16px; }
+.ai-canvas{ position:relative; width:220px; max-width:100%; aspect-ratio:3/4; margin:0 auto; background:radial-gradient(60% 56% at 50% 40%, #16161a, #0d0d10 76%); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+.ai-badge{ text-align:center; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-top:10px; }
+
+@media(max-width:560px){
+  #frPanel{ left:0; right:0; bottom:0; width:100%; max-width:100%; max-height:90vh; border-radius:16px 16px 0 0; transform-origin:bottom center; transform:translateY(100%); }
+  #frPanel.open{ transform:none; }
+  #tryLaunch{ left:50%; transform:translateX(-50%); } #tryLaunch:hover{ transform:translateX(-50%) translateY(-2px); }
+  #tryLaunch.hidden{ transform:translateX(-50%) translateY(10px); }
+  .fp-stage{ aspect-ratio:1/1; }
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -520,32 +536,51 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
   </div>
 </div>
 
-<!-- ===== VIRTUAL FITTING ROOM (new feature, isolated) ===== -->
-<div id="fittingView">
-  <div class="fr-top">
-    <div class="t">Virtual Fitting Room<small>Build your ADMV look</small></div>
+<!-- ===== VIRTUAL FITTING ROOM (floating panel, like reference) ===== -->
+<button id="tryLaunch" onclick="toggleFitting()" aria-label="Open fitting room">
+  <span class="tl-ic"><svg viewBox="0 0 24 24"><path d="M12 4.2a1.7 1.7 0 1 0 1.2 2.9l-1.2.9L4 13.6a1.3 1.3 0 0 0 .8 2.3h14.4a1.3 1.3 0 0 0 .8-2.3L12 8"/></svg></span>
+  Try it on
+  <span class="tl-c" id="tryLaunchCount" style="display:none">0</span>
+</button>
+
+<aside id="frPanel" aria-label="Fitting room">
+  <div class="fp-head">
+    <div><div class="fp-t">Fitting room</div><div class="fp-sub">Tap the hanger on any product to wear it.</div></div>
     <button class="xbtn" onclick="closeFitting()" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
-  <div class="fr-grid">
-    <aside class="fr-left">
-      <div class="fr-cats" id="frCats"></div>
-      <div class="fr-catalog" id="frCatalog"></div>
-    </aside>
-    <div class="fr-center">
-      <div class="fr-stage" id="frStage">
-        <img class="base" src="images/tryon/model-base.png" alt="ADMV model">
-        <img id="fr-shoes" alt=""><img id="fr-bottoms" alt=""><img id="fr-tops" alt=""><img id="fr-outerwear" alt=""><img id="fr-accessory" alt="">
-        <div class="fr-hint" id="frHint">Select items to dress the model</div>
-      </div>
+  <div class="fp-stage" id="frStage">
+    <img class="base" src="images/tryon/model-base.png" alt="ADMV model">
+    <img id="fr-shoes" alt=""><img id="fr-bottoms" alt=""><img id="fr-tops" alt=""><img id="fr-outerwear" alt=""><img id="fr-accessory" alt="">
+    <div class="fp-hint" id="frHint">Your model is ready</div>
+  </div>
+  <div class="fp-picks">
+    <div class="fp-picks-h"><span>Your picks</span><span id="frCount">0 pieces</span></div>
+    <div class="fp-pick-row" id="frPicks"></div>
+    <div class="fp-help" id="frHelp" style="display:none">Add another piece and it goes on top.</div>
+  </div>
+  <div class="fp-total" id="frTotalRow" style="display:none"><span class="l">Total</span><span class="v" id="frTotal">€0</span></div>
+  <div class="fp-foot">
+    <button class="btn solid block" onclick="frAddAll()">Add look to cart</button>
+    <div class="fp-foot2">
+      <button class="fp-ai" onclick="openAI()"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;stroke-width:1.6;fill:none"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"/></svg> AI preview</button>
+      <button class="fp-reset" onclick="frClear()">Start over</button>
     </div>
-    <aside class="fr-right">
-      <div class="fr-look-h">Your Look</div>
-      <div id="frLookList"></div>
-      <div class="fr-total"><span class="l">Total</span><span class="v" id="frTotal">€0</span></div>
-      <button class="btn solid block" onclick="frAddAll()">Add Complete Look To Cart</button>
-      <button class="btn block" style="margin-top:10px" onclick="frClear()">Clear Outfit</button>
-      <p class="fr-demo-note">Try-on uses temporary demo garment layers (see images/tryon/). Replace each file with a real product-specific transparent PNG on the same canvas to go production-ready.</p>
-    </aside>
+  </div>
+</aside>
+
+<!-- AI preview (documented integration point; never fakes a result without a provider) -->
+<div class="scrim" id="aiScrim" onclick="closeAI()"></div>
+<div id="aiModal" aria-label="AI preview">
+  <div class="dhead"><h3>AI Preview</h3><button class="xbtn" onclick="closeAI()" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="ai-body">
+    <p class="ai-note">Photoreal try-on runs through an external AI service. Add your provider API key to generate a realistic image of the current look. Nothing is generated until a provider is connected.</p>
+    <label class="ai-l">Your photo (optional)</label>
+    <input type="file" id="aiPhoto" accept="image/*" class="ai-input">
+    <label class="ai-l">AI provider API key</label>
+    <input type="password" id="aiKey" class="ai-input" placeholder="Paste your API key" autocomplete="off">
+    <button class="btn solid block" style="margin-top:14px" onclick="generateVirtualTryOn()">Generate preview</button>
+    <div class="ai-status" id="aiStatus"></div>
+    <div id="aiResult"></div>
   </div>
 </div>
 
@@ -641,7 +676,10 @@ function cardHTML(p){
   return `<article class="pcard" onclick="openProduct('${p.id}')">
     <div class="imgwrap">
       ${flag}
-      <button class="wish${onw}" onclick="event.stopPropagation();toggleWish('${p.id}')" aria-label="Wishlist"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg></button>
+      <div class="cardacts">
+        <button class="wish${onw}" onclick="event.stopPropagation();toggleWish('${p.id}')" aria-label="Wishlist"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg></button>
+        ${p.tryOn?`<button class="tryon${(frLook&&frLook[p.layer]&&frLook[p.layer].id===p.id)?' on':''}" onclick="event.stopPropagation();frWear('${p.id}')" aria-label="Try on"><svg viewBox="0 0 24 24"><path d="M12 4.2a1.7 1.7 0 1 0 1.2 2.9l-1.2.9L4 13.6a1.3 1.3 0 0 0 .8 2.3h14.4a1.3 1.3 0 0 0 .8-2.3L12 8"/></svg></button>`:''}
+      </div>
       <img class="img1" src="${p.images[0]}" alt="${p.name}" loading="lazy">
       <img class="img2" src="${p.images[1]}" alt="" loading="lazy">
       <button class="qadd" onclick="event.stopPropagation();quickAdd('${p.id}')">Quick Add</button>
@@ -877,100 +915,94 @@ const TRYON_META = {
 };
 PRODUCTS.forEach(p=>{ const l=TRYON_META[p.id]; if(l){ p.layer=l; p.tryOn='images/tryon/'+p.id+'.png'; p.tryThumb='images/tryon/thumb-'+p.id+'.png'; }});
 
-/* Isolated demo-only extras — NOT added to the shop catalog. */
-const FITTING_EXTRA = [
-  { id:'extra-coat', name:'ADMV Wool Overcoat', category:'Outerwear', price:329, colors:['Cream'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, images:['images/tryon/thumb-extra-coat.png'], layer:'outerwear', tryOn:'images/tryon/extra-coat.png', tryThumb:'images/tryon/thumb-extra-coat.png', demo:true },
-  { id:'extra-cap', name:'ADMV Cap', category:'Accessories', price:59, colors:['Black'], sizes:['OS'], stock:{OS:1}, images:['images/tryon/thumb-extra-cap.png'], layer:'accessory', tryOn:'images/tryon/extra-cap.png', tryThumb:'images/tryon/thumb-extra-cap.png', demo:true },
-];
-const FIT_PRODUCTS = [...PRODUCTS.filter(p=>p.tryOn), ...FITTING_EXTRA];
-const FR_CATS = ['All','Tops','Outerwear','Bottoms','Shoes','Accessories'];
-const CAT_LAYER = { Tops:'tops', Outerwear:'outerwear', Bottoms:'bottoms', Shoes:'shoes', Accessories:'accessory' };
-const frFind = id => FIT_PRODUCTS.find(p=>p.id===id);
+const frFind = id => PRODUCTS.find(p=>p.id===id);
 const firstSize = p => p.sizes.find(s=>!p.stock || p.stock[s]>0) || p.sizes[0];
+const LAYERS = ['shoes','bottoms','tops','outerwear','accessory'];
 
 let frLook = { tops:null, outerwear:null, bottoms:null, shoes:null, accessory:null }; // {id,size}
-let frCat = 'All';
 
-function frMatch(p){
-  if(frCat==='All') return true;
-  return p.layer===CAT_LAYER[frCat];
+renderShop();  // re-render so product cards show the try-on hanger (metadata + frLook are now set)
+
+function currentLook(){ return LAYERS.map(l=>frLook[l]).filter(Boolean); }
+
+/* Tap the hanger on a product -> wear it (replace only its layer). Same item -> remove it. */
+function frWear(id){
+  const p=frFind(id); if(!p||!p.tryOn) return;
+  const layer=p.layer;
+  if(frLook[layer] && frLook[layer].id===id){ frLook[layer]=null; toast('Removed from look'); }
+  else { frLook[layer]={ id, size:firstSize(p) }; toast('Added to your look'); openFitting(); }
+  renderPanel(); renderShop();
 }
-function renderFitting(){
-  // categories
-  $('#frCats').innerHTML = FR_CATS.map(c=>`<span class="fr-cat${c===frCat?' on':''}" onclick="frSetCat('${c}')">${c}</span>`).join('');
-  // catalog
-  const list = FIT_PRODUCTS.filter(frMatch);
-  $('#frCatalog').innerHTML = list.map(p=>{
-    const active = frLook[p.layer] && frLook[p.layer].id===p.id;
-    return `<div class="fr-card${active?' active':''}">
-      <img class="fr-th" src="${p.tryThumb}" alt="${p.name}" onclick="frTry('${p.id}')">
-      <div class="fr-ci">
-        <div class="fr-cn">${p.name}</div>
-        <div class="fr-cp">${eur(p.price)}${p.demo?' · demo':''}</div>
-        <button class="fr-try" onclick="frTry('${p.id}')">${active?'Remove':'Try On'}</button>
-      </div></div>`;
-  }).join('');
+function frSetSize(layer,size){ if(frLook[layer]) frLook[layer].size=size; renderPanel(); }
+function frRemove(layer){ frLook[layer]=null; renderPanel(); renderShop(); }
+function frClear(){ frLook={tops:null,outerwear:null,bottoms:null,shoes:null,accessory:null}; renderPanel(); renderShop(); }
+function frAddAll(){
+  const look=currentLook();
+  if(!look.length){ toast('Add a piece first'); return; }
+  look.forEach(sel=>{ const p=frFind(sel.id); addToCart(p.id, sel.size, p.colors[0], 1); });
+  toast('Look added to cart · '+look.length+' item'+(look.length>1?'s':''));
+}
+
+function renderPanel(){
   // model layers
-  ['shoes','bottoms','tops','outerwear','accessory'].forEach(layer=>{
+  LAYERS.forEach(layer=>{
     const el=document.getElementById('fr-'+layer), sel=frLook[layer];
     if(sel){ const p=frFind(sel.id); if(el.getAttribute('src')!==p.tryOn) el.src=p.tryOn; el.classList.add('on'); }
     else el.classList.remove('on');
   });
-  // your look
-  const chosen = ['tops','outerwear','bottoms','shoes','accessory'].map(l=>frLook[l]).filter(Boolean);
-  $('#frHint').style.opacity = chosen.length ? '0' : '1';
-  $('#frLookList').innerHTML = chosen.length ? chosen.map(sel=>{
+  const look=currentLook();
+  $('#frHint').style.opacity = look.length ? '0' : '1';
+  $('#frCount').textContent = look.length + ' piece' + (look.length===1?'':'s');
+  // your picks (chips with size + remove)
+  $('#frPicks').innerHTML = look.length ? look.map(sel=>{
     const p=frFind(sel.id);
     const opts=p.sizes.map(s=>`<option ${s===sel.size?'selected':''} ${(p.stock&&p.stock[s]<=0)?'disabled':''}>${s}</option>`).join('');
-    return `<div class="fr-li">
+    return `<div class="fp-pick">
       <img src="${p.tryThumb}" alt="">
-      <div class="fr-li-info">
-        <div class="fr-li-n">${p.name}</div>
-        <div class="fr-li-row">
-          <select onchange="frSetSize('${p.layer}',this.value)">${opts}</select>
-          <span class="fr-li-p">${eur(p.price)}</span>
-        </div>
-      </div>
-      <div class="fr-li-act">
-        <button class="fr-li-add" onclick="frAddOne('${p.id}')">Add</button>
-        <button class="fr-li-x" onclick="frRemove('${p.layer}')" aria-label="Remove">×</button>
-      </div></div>`;
-  }).join('') : '<div class="fr-empty">Your look is empty. Pick items to dress the model.</div>';
-  const total = chosen.reduce((s,sel)=>s+frFind(sel.id).price,0);
+      <div class="fp-pick-i"><div class="fp-pick-n">${p.name}</div>
+        <select onchange="frSetSize('${p.layer}',this.value)">${opts}</select></div>
+      <div class="fp-pick-r"><span class="fp-pick-p">${eur(p.price)}</span>
+        <button class="fp-pick-x" onclick="frRemove('${p.layer}')" aria-label="Remove">×</button></div>
+    </div>`;
+  }).join('') : '';
+  $('#frHelp').style.display = look.length ? 'block' : 'none';
+  const total=look.reduce((s,sel)=>s+frFind(sel.id).price,0);
   $('#frTotal').textContent = eur(total);
-}
-function frSetCat(c){ frCat=c; renderFitting(); }
-function frTry(id){
-  const p=frFind(id); const layer=p.layer;
-  if(frLook[layer] && frLook[layer].id===id){ frLook[layer]=null; }   // same item -> remove
-  else { frLook[layer]={ id, size:firstSize(p) }; }                    // replace only this layer
-  renderFitting();
-}
-function frSetSize(layer,size){ if(frLook[layer]) frLook[layer].size=size; renderFitting(); }
-function frRemove(layer){ frLook[layer]=null; renderFitting(); }
-function frClear(){ frLook={tops:null,outerwear:null,bottoms:null,shoes:null,accessory:null}; renderFitting(); }
-function frAddOne(id){ const p=frFind(id); const sel=frLook[p.layer]; addToCart(id, sel?sel.size:firstSize(p), p.colors[0], 1); }
-function frAddAll(){
-  const chosen = ['tops','outerwear','bottoms','shoes','accessory'].map(l=>frLook[l]).filter(Boolean);
-  if(!chosen.length){ toast('Pick at least one item'); return; }
-  chosen.forEach(sel=>{ const p=frFind(sel.id); addToCart(p.id, sel.size, p.colors[0], 1); });
-  toast('Look added to cart · '+chosen.length+' item'+(chosen.length>1?'s':''));
+  $('#frTotalRow').style.display = look.length ? 'flex' : 'none';
+  const lc=$('#tryLaunchCount'); lc.textContent=look.length; lc.style.display=look.length?'grid':'none';
 }
 
-/* open/close (hash route #fitting-room) */
-function openFitting(){
-  if(location.hash!=='#fitting-room') history.pushState(null,'',location.pathname+location.search+'#fitting-room');
-  renderFitting(); $('#fittingView').classList.add('open'); document.body.classList.add('lock');
+/* open / close / toggle the floating fitting panel */
+function openFitting(){ renderPanel(); $('#frPanel').classList.add('open'); $('#tryLaunch').classList.add('hidden'); if(location.hash!=='#fitting-room') history.replaceState(null,'',location.pathname+location.search+'#fitting-room'); }
+function closeFitting(){ $('#frPanel').classList.remove('open'); $('#tryLaunch').classList.remove('hidden'); if(location.hash==='#fitting-room') history.replaceState(null,'',location.pathname+location.search); }
+function toggleFitting(){ $('#frPanel').classList.contains('open') ? closeFitting() : openFitting(); }
+
+/* ===== AI PREVIEW (documented integration point) ===== */
+function openAI(){ $('#aiScrim').classList.add('show'); $('#aiModal').classList.add('open'); document.body.classList.add('lock');
+  const k=localStorage.getItem('admvAiKey'); if(k) $('#aiKey').value=k; $('#aiStatus').textContent=''; $('#aiResult').innerHTML=''; }
+function closeAI(){ $('#aiScrim').classList.remove('show'); $('#aiModal').classList.remove('open');
+  if(!anyDrawer() && !$('#pview').classList.contains('open') && !$('#searchOv').classList.contains('open')) document.body.classList.remove('lock'); }
+function layeredPreviewHTML(){
+  const look=currentLook();
+  const layers = `<img src="images/tryon/model-base.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain">`
+    + look.map(sel=>{ const p=frFind(sel.id); return `<img src="${p.tryOn}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain">`; }).join('');
+  return `<div class="ai-preview"><div class="ai-canvas">${layers}</div>
+    <div class="ai-badge">Layered preview · AI not connected</div></div>`;
 }
-function closeFitting(){
-  $('#fittingView').classList.remove('open');
-  if(location.hash==='#fitting-room') history.pushState(null,'',location.pathname+location.search);
-  if(!anyDrawer() && !$('#pview').classList.contains('open') && !$('#searchOv').classList.contains('open')) document.body.classList.remove('lock');
+/* INTEGRATION POINT. Wire a real virtual try-on provider (e.g. fal.ai, Replicate) here.
+   Inputs ready: the API key, an optional user photo (#aiPhoto), and the selected product images.
+   Until a provider endpoint is wired in, we never fake a photoreal result — we show the
+   deterministic layered composite and clearly label it. */
+async function generateVirtualTryOn(){
+  const key=$('#aiKey').value.trim();
+  const st=$('#aiStatus');
+  if(!currentLook().length){ st.textContent='Pick at least one item in the fitting room first.'; return; }
+  if(key){ localStorage.setItem('admvAiKey',key);
+    st.textContent='API key saved. Connect a provider endpoint inside generateVirtualTryOn() to produce a photoreal image. Showing layered preview for now.'; }
+  else { st.textContent='AI is not connected. Add your provider API key to enable photoreal try-on. Showing layered preview instead.'; }
+  // const result = await callProvider(key, document.getElementById('aiPhoto').files[0], currentLook().map(s=>frFind(s.id)));
+  $('#aiResult').innerHTML = layeredPreviewHTML();
 }
-window.addEventListener('popstate',()=>{
-  if(location.hash==='#fitting-room'){ if(!$('#fittingView').classList.contains('open')) openFitting(); }
-  else if($('#fittingView').classList.contains('open')) closeFitting();
-});
 
 /* ===== INTRO lifecycle (robust, never blocks the site) ===== */
 (function(){
