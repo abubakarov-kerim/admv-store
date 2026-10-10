@@ -502,6 +502,43 @@ textarea.inp{ resize:vertical; min-height:92px; line-height:1.55; }
   .modal{ padding:0; align-items:flex-end; }
   .modal .box{ width:100%; max-height:94vh; border-radius:16px 16px 0 0; }
 }
+
+/* ===== РЕЖИМ АДМИНА НА САЙТЕ (инлайн-редактирование) ===== */
+#adminBar{ position:fixed; top:0; left:0; right:0; z-index:260; display:none; align-items:center; gap:10px;
+  height:42px; padding:0 clamp(12px,3vw,24px); background:#17130D; border-bottom:1px solid var(--amber); color:#F3F1EC;
+  font-size:.64rem; letter-spacing:.16em; text-transform:uppercase; }
+body.admin-on #adminBar{ display:flex; }
+#adminBar .ab-dot{ width:7px; height:7px; border-radius:50%; background:var(--amber); box-shadow:0 0 0 3px rgba(200,134,60,.22); flex-shrink:0; }
+#adminBar .ab-t{ color:var(--amber); white-space:nowrap; }
+#adminBar .ab-sp{ flex:1; }
+#adminBar button{ font:inherit; letter-spacing:.14em; text-transform:uppercase; color:#F3F1EC; opacity:.86;
+  padding:7px 12px; border:1px solid rgba(255,255,255,.18); border-radius:7px; transition:.2s; white-space:nowrap; }
+#adminBar button:hover{ opacity:1; border-color:var(--amber); color:var(--amber); }
+#adminBar button.solid{ background:var(--amber); color:#0B0B0B; border-color:var(--amber); opacity:1; }
+#adminBar button.solid:hover{ color:#0B0B0B; filter:brightness(1.08); }
+body.admin-on header{ top:42px; }
+body.admin-on .mnav{ top:114px; }
+body.admin-on .hero{ margin-top:114px; }
+
+body.admin-on .pcard{ outline:1px dashed var(--line2); outline-offset:5px; border-radius:2px; transition:outline-color .25s; }
+body.admin-on .pcard:hover{ outline-color:var(--amber); }
+.pcard .cardacts .adm{ background:rgba(200,134,60,.94) !important; }
+.pcard .cardacts .adm svg{ stroke:#0B0B0B !important; }
+body.admin-on .pcard .cardacts .adm{ opacity:1 !important; transform:none !important; }
+
+.adm-inline{ display:inline-flex; align-items:center; gap:7px; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase;
+  padding:9px 14px; border:1px solid var(--amber); color:var(--amber); background:rgba(11,11,11,.55); backdrop-filter:blur(6px); border-radius:8px; transition:.2s; cursor:pointer; }
+.adm-inline:hover{ background:var(--amber); color:#0B0B0B; }
+.adm-inline svg{ width:14px; height:14px; stroke:currentColor; stroke-width:1.6; fill:none; }
+body:not(.admin-on) .adm-inline{ display:none; }
+.hero-edit{ position:absolute; top:16px; right:16px; z-index:4; }
+
+@media(max-width:560px){
+  #adminBar{ overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+  #adminBar::-webkit-scrollbar{ display:none; }
+  #adminBar .ab-dot,#adminBar .ab-t,#adminBar .ab-sp{ display:none; }
+  #adminBar button{ flex:0 0 auto; }
+}
 </style>
 <script>(function(){try{var t=localStorage.getItem('admvTheme')||'dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 </head>
@@ -515,6 +552,17 @@ textarea.inp{ resize:vertical; min-height:92px; line-height:1.55; }
   <div class="intro-line"></div>
   <div class="intro-tag">Премиальная одежда</div>
   <button class="intro-skip" id="introSkip">Пропустить</button>
+</div>
+
+<!-- ПАНЕЛЬ РЕЖИМА АДМИНА (видна только после входа) -->
+<div id="adminBar">
+  <span class="ab-dot"></span><span class="ab-t">Режим админа</span>
+  <span class="ab-sp"></span>
+  <button class="solid" onclick="editProduct(null)">+ Товар</button>
+  <button onclick="openAdminAt('cats')">Каталог</button>
+  <button onclick="openAdminAt('store')">Магазин</button>
+  <button onclick="openAdminAt('products')">Панель</button>
+  <button onclick="logoutAdmin()">Выйти</button>
 </div>
 
 <header id="header">
@@ -547,7 +595,8 @@ textarea.inp{ resize:vertical; min-height:92px; line-height:1.55; }
 
 <!-- HERO -->
 <section class="hero">
-  <img class="hero-img" src="images/hero-admv.jpg" alt="ADMV — премиальная одежда, обувь, аксессуары">
+  <img id="heroImg" class="hero-img" src="images/hero-admv.jpg" alt="ADMV — премиальная одежда, обувь, аксессуары">
+  <button class="adm-inline hero-edit" onclick="openAdminAt('store')"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13 7l4 4"/></svg>Изменить заставку</button>
 </section>
 
 <!-- SHOP -->
@@ -829,7 +878,7 @@ const DEFAULT_STORE = {
   address:'Укажите адрес магазина в админке',
   hours:'Пн–Вс: 10:00–22:00',
   telegram:'admvme', whatsapp:'7 (989) 918-81-61', instagram:'admv.so',
-  currency:'€'
+  currency:'€', hero:''
 };
 const DEFAULT_ADMIN = { user:'admin', pass:'admv2026' };
 
@@ -916,6 +965,8 @@ function cardHTML(p){
     <div class="imgwrap">
       ${flag}
       <div class="cardacts">
+        ${isAdmin()?`<button class="adm" onclick="event.stopPropagation();editProduct('${p.id}')" aria-label="Редактировать" title="Редактировать"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13 7l4 4"/></svg></button>
+        <button class="adm" onclick="event.stopPropagation();askDeleteProduct('${p.id}')" aria-label="Удалить" title="Удалить"><svg viewBox="0 0 24 24"><path d="M5 7h14M10 7V5h4v2M7 7l1 13h8l1-13"/></svg></button>`:''}
         <button class="wish${onw}" onclick="event.stopPropagation();toggleWish('${p.id}')" aria-label="В избранное"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg></button>
         ${p.tryOn?`<button class="tryon${(frLook&&frLook[p.layer]&&frLook[p.layer].id===p.id)?' on':''}" onclick="event.stopPropagation();frWear('${p.id}')" aria-label="Примерить"><svg viewBox="0 0 24 24"><path d="M12 4.2a1.7 1.7 0 1 0 1.2 2.9l-1.2.9L4 13.6a1.3 1.3 0 0 0 .8 2.3h14.4a1.3 1.3 0 0 0 .8-2.3L12 8"/></svg></button>`:''}
       </div>
@@ -1212,6 +1263,7 @@ function renderFooter(){
       <div>
         <div class="fbrand">${esc(s.name)}</div>
         <p>${esc(s.about)}</p>
+        <button class="adm-inline" style="margin-top:16px" onclick="openAdminAt('store')"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13 7l4 4"/></svg>Изменить информацию</button>
       </div>
       <div class="fcol"><div class="ft">Каталог</div>
         ${CATEGORIES.map(c=>`<a href="#shop" class="fcat" data-cat="${esc(c)}">${esc(c)}</a>`).join('')||'<span style="color:var(--muted);font-size:.84rem">—</span>'}
@@ -1245,7 +1297,7 @@ function updateContacts(){
 }
 
 /* Перерисовать весь сайт после изменений в админке */
-function reloadAll(){ loadData(); renderShop(); renderFooter(); updateContacts(); renderCart(); renderWish(); updateCounts(); }
+function reloadAll(){ loadData(); renderShop(); renderFooter(); renderHero(); updateContacts(); renderCart(); renderWish(); updateCounts(); }
 
 /* Блокировка прокрутки: держим, пока открыт любой слой */
 function syncLock(){
@@ -1273,6 +1325,15 @@ function promptModal(title,label,value,onOk){
   setTimeout(()=>{ const el=$('#f_prompt'); if(el){ el.focus(); el.select(); } },100);
 }
 
+/* ===== ЗАСТАВКА (hero) ===== */
+function renderHero(){ const im=$('#heroImg'); if(im) im.src = (STORE.hero && STORE.hero.trim()) ? STORE.hero : 'images/hero-admv.jpg'; }
+
+/* ===== РЕЖИМ АДМИНА НА САЙТЕ ===== */
+function isAdmin(){ try{ return sessionStorage.getItem('admv_authed')==='1'; }catch(e){ return false; } }
+function enableAdminMode(){ document.body.classList.add('admin-on'); renderShop(); renderFooter(); }
+function disableAdminMode(){ document.body.classList.remove('admin-on'); renderShop(); renderFooter(); }
+function openAdminAt(tab){ adminTab=tab; openAdmin(); }
+
 /* ===== АДМИН: ВХОД ===== */
 let adminTab='products';
 function openAdminGate(){
@@ -1285,11 +1346,12 @@ function closeLogin(){ $('#loginModal').classList.remove('open'); syncLock(); }
 function tryLogin(){
   const a=DB.admin();
   if($('#loginUser').value.trim()===a.user && $('#loginPass').value===a.pass){
-    sessionStorage.setItem('admv_authed','1'); closeLogin(); openAdmin();
+    sessionStorage.setItem('admv_authed','1'); enableAdminMode(); closeLogin(); openAdmin();
+    toast('Вы вошли. Редактируйте прямо на сайте или в панели.');
   } else { $('#loginErr').style.display='block'; }
 }
-function logoutAdmin(){ sessionStorage.removeItem('admv_authed'); closeAdmin(); toast('Вы вышли из админки'); }
-function openAdmin(){ $('#adminPanel').classList.add('open'); document.body.classList.add('lock'); admTab(adminTab); }
+function logoutAdmin(){ sessionStorage.removeItem('admv_authed'); disableAdminMode(); closeAdmin(); toast('Вы вышли из админки'); }
+function openAdmin(){ if(isAdmin()&&!document.body.classList.contains('admin-on')) enableAdminMode(); $('#adminPanel').classList.add('open'); document.body.classList.add('lock'); admTab(adminTab); }
 function closeAdmin(){ $('#adminPanel').classList.remove('open'); if(location.hash==='#admin') history.replaceState(null,'',location.pathname+location.search); syncLock(); }
 function admTab(t){
   adminTab=t;
@@ -1445,16 +1507,19 @@ function admStore(){
       <div class="fld"><label>WhatsApp (номер с кодом страны)</label><input class="inp" id="s_wa" value="${esc(s.whatsapp)}" placeholder="79990000000"></div>
     </div>
     <div class="fld-row">
-      <div class="fld"><label>Instagram (без @)</label><input class="inp" id="s_ig" value="${esc(s.instagram)}" placeholder="admv.store"></div>
+      <div class="fld"><label>Instagram (без @)</label><input class="inp" id="s_ig" value="${esc(s.instagram)}" placeholder="admv.so"></div>
       <div class="fld"><label>Валюта</label><input class="inp" id="s_cur" value="${esc(s.currency)}" maxlength="3"></div>
     </div>
+    <div class="fld"><label>Фото заставки (ссылка) — пусто = стандартное</label><input class="inp" id="s_hero" value="${esc(s.hero||'')}" placeholder="https://...">
+      <label class="filepick" style="margin-top:9px"><input type="file" accept="image/*" hidden onchange="pickImg(this,'s_hero')">Загрузить фото заставки</label></div>
     <button class="btn solid" onclick="saveStore()">Сохранить изменения</button>`;
 }
 function saveStore(){
   const obj={ name:$('#s_name').value.trim()||'ADMV', tagline:STORE.tagline||'Премиальная одежда',
     about:$('#s_about').value.trim(), address:$('#s_addr').value.trim(), hours:$('#s_hours').value.trim(),
     telegram:$('#s_tg').value.trim().replace(/^@/,''), whatsapp:$('#s_wa').value.trim(),
-    instagram:$('#s_ig').value.trim().replace(/^@/,''), currency:$('#s_cur').value.trim()||'€' };
+    instagram:$('#s_ig').value.trim().replace(/^@/,''), currency:$('#s_cur').value.trim()||'€',
+    hero:$('#s_hero').value.trim() };
   confirmAction('Сохранить информацию о магазине?', ()=>{ DB.save(LS.store,obj); reloadAll(); toast('Сохранено'); });
 }
 
@@ -1520,8 +1585,10 @@ $('#catbar').addEventListener('click',e=>{ const b=e.target.closest('.catpill');
 loadData();
 renderShop();
 renderFooter();
+renderHero();
 updateContacts();
 observeReveal();
+if(isAdmin()) enableAdminMode();
 </script>
 
 <!-- ============ NEW FEATURE SCRIPT: Fitting Room + Intro lifecycle ============ -->
