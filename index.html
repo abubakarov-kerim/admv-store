@@ -387,8 +387,7 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 @media(max-width:560px){
   #frPanel{ left:0; right:0; bottom:0; width:100%; max-width:100%; max-height:90vh; border-radius:16px 16px 0 0; transform-origin:bottom center; transform:translateY(100%); }
   #frPanel.open{ transform:none; }
-  #tryLaunch{ left:50%; transform:translateX(-50%); } #tryLaunch:hover{ transform:translateX(-50%) translateY(-2px); }
-  #tryLaunch.hidden{ transform:translateX(-50%) translateY(10px); }
+  #tryLaunch{ left:16px; bottom:16px; }
   .fp-stage{ aspect-ratio:1/1; }
 }
 
@@ -396,6 +395,112 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
   *{ animation:none!important; }
   .rv{ opacity:1!important; transform:none!important; }
   .hero .bg img{ transform:none!important; }
+}
+
+/* ===== CATALOG BAR ===== */
+.catbar{ display:flex; gap:10px; overflow-x:auto; padding:2px 0 16px; margin-bottom:6px; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+.catbar::-webkit-scrollbar{ display:none; }
+.catpill{ flex:0 0 auto; font-size:.64rem; letter-spacing:.18em; text-transform:uppercase; color:var(--text); opacity:.8;
+  padding:10px 18px; border:1px solid var(--line); white-space:nowrap; transition:border-color .25s,color .25s,background .25s,opacity .25s; }
+.catpill:hover{ border-color:var(--amber); color:var(--amber); opacity:1; }
+.catpill.on{ background:var(--amber); color:var(--bg); border-color:var(--amber); opacity:1; }
+
+/* ===== GENERIC MODAL (order / login / confirm / admin form) ===== */
+.modal{ position:fixed; inset:0; z-index:470; display:flex; align-items:center; justify-content:center; padding:20px;
+  background:rgba(0,0,0,.66); opacity:0; pointer-events:none; transition:opacity .35s var(--ease); }
+.modal.open{ opacity:1; pointer-events:auto; }
+.modal .box{ width:min(560px,100%); max-height:90vh; overflow-y:auto; background:var(--card); border:1px solid var(--line2); border-radius:16px;
+  transform:translateY(16px) scale(.985); transition:transform .35s var(--ease); }
+.modal.open .box{ transform:none; }
+.mbox-head{ display:flex; align-items:center; justify-content:space-between; padding:20px 24px; border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--card); z-index:2; }
+.mbox-head h3{ font-family:var(--serif); font-size:1.5rem; font-weight:500; letter-spacing:.04em; }
+.mbox-body{ padding:22px 24px; }
+.mbox-foot{ padding:18px 24px; border-top:1px solid var(--line); display:flex; gap:12px; }
+
+/* order */
+.order-ch{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:16px 0 20px; }
+.ch-btn{ display:flex; flex-direction:column; align-items:center; gap:9px; padding:18px 8px; border:1px solid var(--line); transition:border-color .25s,color .25s,transform .2s; }
+.ch-btn:hover{ border-color:var(--amber); color:var(--amber); transform:translateY(-2px); }
+.ch-btn svg{ width:26px; height:26px; }
+.ch-btn span{ font-size:.58rem; letter-spacing:.14em; text-transform:uppercase; }
+.order-text{ width:100%; min-height:160px; background:var(--bg); color:var(--text); border:1px solid var(--line); border-radius:10px;
+  padding:14px; font-family:var(--sans); font-size:.84rem; line-height:1.55; resize:vertical; }
+.order-lbl{ font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:8px; }
+
+/* forms */
+.fld{ margin-bottom:16px; }
+.fld > label{ display:block; font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+.inp{ width:100%; background:var(--bg); color:var(--text); border:1px solid var(--line); border-radius:8px;
+  padding:12px 14px; font-family:var(--sans); font-size:.9rem; outline:none; transition:border-color .25s; -webkit-appearance:none; appearance:none; }
+.inp:focus{ border-color:var(--amber); }
+textarea.inp{ resize:vertical; min-height:92px; line-height:1.55; }
+.fld-row{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.chkwrap{ display:flex; flex-wrap:wrap; gap:8px; }
+.chk{ font-size:.72rem; letter-spacing:.06em; padding:9px 13px; border:1px solid var(--line); cursor:pointer; user-select:none; transition:.2s; }
+.chk.on{ border-color:var(--amber); color:var(--amber); background:var(--amber-soft); }
+.filepick{ display:inline-flex; align-items:center; gap:9px; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; padding:11px 16px; border:1px solid var(--line); cursor:pointer; transition:.2s; }
+.filepick:hover{ border-color:var(--amber); color:var(--amber); }
+
+/* ===== ADMIN ===== */
+.admin{ position:fixed; inset:0; z-index:450; background:var(--bg); overflow-y:auto; opacity:0; pointer-events:none; transition:opacity .4s var(--ease); }
+.admin.open{ opacity:1; pointer-events:auto; }
+.adm-top{ position:sticky; top:0; z-index:5; display:flex; align-items:center; justify-content:space-between; gap:14px;
+  padding:16px clamp(16px,4vw,40px); background:var(--glass-strong); backdrop-filter:blur(14px); border-bottom:1px solid var(--line); }
+.adm-top .at-title{ font-family:var(--serif); font-size:1.4rem; letter-spacing:.06em; }
+.adm-top .at-title b{ color:var(--amber); font-weight:600; }
+.adm-top .at-r{ display:flex; gap:10px; align-items:center; }
+.adm-tabs{ display:flex; gap:6px; flex-wrap:wrap; padding:18px clamp(16px,4vw,40px) 0; }
+.adm-tab{ font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); padding:10px 16px; border:1px solid var(--line); transition:.25s; }
+.adm-tab.on{ color:var(--amber); border-color:var(--amber); }
+.adm-body{ padding:22px clamp(16px,4vw,40px) 90px; max-width:1100px; }
+.adm-sec-h{ display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:18px; }
+.adm-sec-h h2{ font-family:var(--serif); font-size:1.7rem; font-weight:500; }
+.adm-row{ display:flex; align-items:center; gap:14px; padding:12px 14px; border:1px solid var(--line); border-radius:10px; margin-bottom:10px; background:var(--card); }
+.adm-row img{ width:46px; height:58px; object-fit:cover; background:var(--card2); border-radius:6px; flex-shrink:0; }
+.adm-row .ar-i{ flex:1; min-width:0; }
+.adm-row .ar-n{ font-size:.82rem; letter-spacing:.05em; }
+.adm-row .ar-m{ font-size:.72rem; color:var(--muted); margin-top:3px; }
+.adm-row .ar-acts{ display:flex; gap:8px; flex-shrink:0; }
+.adm-mini{ font-size:.56rem; letter-spacing:.14em; text-transform:uppercase; padding:9px 13px; border:1px solid var(--line); transition:.2s; white-space:nowrap; }
+.adm-mini:hover{ border-color:var(--amber); color:var(--amber); }
+.adm-mini.danger:hover{ border-color:#e05a4a; color:#e05a4a; }
+.adm-hint{ font-size:.78rem; color:var(--muted); line-height:1.65; margin-bottom:18px; max-width:70ch; }
+.adm-hint b{ color:var(--text); font-weight:500; }
+
+/* login gate */
+.login-ic{ width:48px; height:48px; border-radius:50%; background:var(--amber-soft); display:grid; place-items:center; margin:0 auto 16px; }
+.login-ic svg{ width:22px; height:22px; stroke:var(--amber); stroke-width:1.5; fill:none; }
+
+/* ===== TELEGRAM FLOAT ===== */
+.tg-float{ position:fixed; right:22px; bottom:22px; z-index:360; width:56px; height:56px; border-radius:50%;
+  background:#229ED9; display:grid; place-items:center; box-shadow:0 14px 34px -10px rgba(34,158,217,.7); transition:transform .25s var(--ease); }
+.tg-float:hover{ transform:translateY(-3px) scale(1.05); }
+.tg-float svg{ width:28px; height:28px; fill:#fff; }
+
+/* ===== FOOTER INFO ===== */
+.finfo{ display:flex; flex-direction:column; gap:12px; }
+.finfo .fi{ display:flex; gap:11px; align-items:flex-start; font-size:.84rem; color:var(--muted); font-weight:300; line-height:1.5; }
+.finfo .fi svg{ width:16px; height:16px; stroke:var(--amber); stroke-width:1.5; fill:none; flex-shrink:0; margin-top:3px; }
+.finfo .fi a{ transition:.2s; } .finfo .fi a:hover{ color:var(--amber); }
+
+/* ===== PRODUCT SPECS ===== */
+.pv-specs{ margin-top:26px; border-top:1px solid var(--line); padding-top:24px; }
+.pv-specs .l{ font-size:.64rem; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+.pv-specs .srow{ display:flex; justify-content:space-between; gap:16px; padding:10px 0; border-bottom:1px solid var(--line); font-size:.84rem; }
+.pv-specs .srow:last-child{ border-bottom:none; }
+.pv-specs .srow .sk{ color:var(--muted); font-weight:300; }
+
+@media(max-width:560px){
+  .order-ch{ grid-template-columns:1fr 1fr 1fr; }
+  .ch-btn{ padding:14px 4px; }
+  .fld-row{ grid-template-columns:1fr; }
+  .tg-float{ right:16px; bottom:16px; width:52px; height:52px; }
+  .tg-float svg{ width:26px; height:26px; }
+  .adm-row{ flex-wrap:wrap; }
+  .adm-row .ar-acts{ width:100%; }
+  .adm-mini{ flex:1; text-align:center; }
+  .modal{ padding:0; align-items:flex-end; }
+  .modal .box{ width:100%; max-height:94vh; border-radius:16px 16px 0 0; }
 }
 </style>
 <script>(function(){try{var t=localStorage.getItem('admvTheme')||'dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
@@ -427,7 +532,6 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
     </nav>
     <div class="nav-r">
       <button class="icn" onclick="openSearch()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span class="lab">Поиск</span></button>
-      <button class="icn" onclick="toast('Аккаунт скоро')"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg><span class="lab">Аккаунт</span></button>
       <button class="icn" onclick="openWish()"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg><span class="lab">Избранное</span><span class="count" id="wishCount" style="display:none">0</span></button>
       <button class="icn" onclick="openCart()"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="lab">Корзина</span><span class="count" id="cartCount" style="display:none">0</span></button>
     </div>
@@ -466,6 +570,7 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
         </div>
       </div>
     </div>
+    <div class="catbar" id="catbar"></div>
     <div class="active-filters" id="activeFilters"></div>
     <div class="pgrid" data-cols="4" id="pgrid"></div>
   </div>
@@ -481,26 +586,9 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="wrap">
-    <div class="fgrid">
-      <div>
-        <div class="fbrand">ADMV</div>
-        <p>Премиальная одежда для тех, кто движется вперёд. Сдержанная роскошь для каждого дня.</p>
-      </div>
-      <div class="fcol"><div class="ft">Магазин</div>
-        <a href="#shop" onclick="toShop('all')">Магазин</a><a href="#shop" onclick="toShop('new')">Новинки</a><a href="#shop" onclick="toShop('sale')">Распродажа</a><a href="#" onclick="return false">О бренде</a>
-      </div>
-      <div class="fcol"><div class="ft">Помощь</div>
-        <a href="#" onclick="return false">Контакты</a><a href="#" onclick="return false">Доставка</a><a href="#" onclick="return false">Возврат</a><a href="#" onclick="return false">Размеры</a>
-      </div>
-      <div class="fcol"><div class="ft">Соцсети</div>
-        <a href="#" onclick="return false">Instagram</a><a href="#" onclick="return false">TikTok</a>
-      </div>
-    </div>
-    <div class="fbot"><span>© 2026 ADMV. Все права защищены.</span><span>Доставка по миру · Безопасная оплата</span></div>
-  </div>
+<!-- FOOTER (информация о магазине — заполняется из админки) -->
+<footer id="siteFooter">
+  <div class="wrap" id="footerWrap"></div>
 </footer>
 
 <!-- SCRIM + DRAWERS -->
@@ -585,6 +673,89 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
   <div class="pv-grid" id="pvGrid"></div>
 </div>
 
+<!-- ===== ОКНО ЗАКАЗА (отправка менеджеру) ===== -->
+<div class="modal" id="orderModal">
+  <div class="box">
+    <div class="mbox-head"><h3>Оформление заказа</h3><button class="xbtn" onclick="closeOrder()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="mbox-body">
+      <p class="adm-hint" style="margin-bottom:14px">Выберите, где написать менеджеру. Текст заказа скопируется автоматически — вставьте его в чат (или он подставится сам).</p>
+      <div class="order-ch">
+        <button class="ch-btn" onclick="sendOrder('whatsapp')"><svg viewBox="0 0 24 24" fill="#25D366"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.3c-.2.2-.3.4-.2.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.2.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l2 .9c.2.1.4.2.5.3.1.3.1.8-.1 1.4Z"/></svg><span>WhatsApp</span></button>
+        <button class="ch-btn" onclick="sendOrder('telegram')"><svg viewBox="0 0 24 24" fill="#229ED9"><path d="M21.9 4.3 2.9 11.6c-1 .4-1 1.7.1 2l4.8 1.5 1.8 5.8c.3.8 1.2 1 1.8.4l2.6-2.4 4.9 3.6c.7.5 1.6.1 1.8-.7l3-15c.2-1-.7-1.8-1.6-1.5ZM9.6 14.5l9-5.8c.2-.1.4.1.3.3l-7.3 6.9c-.3.2-.4.5-.5.9l-.3 2.1-1.2-4c-.1-.2 0-.4.3-.5Z"/></svg><span>Telegram</span></button>
+        <button class="ch-btn" onclick="sendOrder('instagram')"><svg viewBox="0 0 24 24" fill="#E4405F"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.1.4.3 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.1-1 .3-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.1-.4-.3-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.1 1-.3 2.2-.4C8.4 2.2 8.8 2.2 12 2.2Zm0 1.8c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.3.8-.4.4-.6.8-.8 1.3-.2.4-.3 1-.4 2.1-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.3.4.4.8.6 1.3.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.3-.8.4-.4.6-.8.8-1.3.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.3-.4-.4-.8-.6-1.3-.8-.4-.2-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1Zm0 3.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8Zm0 8a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Zm6.3-8.2a1.15 1.15 0 1 1-2.3 0 1.15 1.15 0 0 1 2.3 0Z"/></svg><span>Instagram</span></button>
+      </div>
+      <label class="order-lbl">Текст заказа</label>
+      <textarea class="order-text" id="orderText" readonly></textarea>
+    </div>
+    <div class="mbox-foot">
+      <button class="btn block" style="flex:1" onclick="copyOrder()">Скопировать текст</button>
+      <button class="btn solid block" style="flex:1" onclick="closeOrder()">Готово</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== АДМИН: ВХОД ===== -->
+<div class="modal" id="loginModal">
+  <div class="box" style="width:min(420px,100%)">
+    <div class="mbox-head"><h3>Вход в админку</h3><button class="xbtn" onclick="closeLogin()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="mbox-body">
+      <div class="login-ic"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+      <div class="fld"><label>Логин</label><input class="inp" id="loginUser" autocomplete="username"></div>
+      <div class="fld"><label>Пароль</label><input class="inp" id="loginPass" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')tryLogin()"></div>
+      <div id="loginErr" style="color:#e05a4a;font-size:.76rem;display:none;margin-bottom:6px">Неверный логин или пароль.</div>
+    </div>
+    <div class="mbox-foot"><button class="btn solid block" style="flex:1" onclick="tryLogin()">Войти</button></div>
+  </div>
+</div>
+
+<!-- ===== АДМИН-ПАНЕЛЬ ===== -->
+<div class="admin" id="adminPanel">
+  <div class="adm-top">
+    <div class="at-title"><b>ADMV</b> · Админ-панель</div>
+    <div class="at-r">
+      <button class="adm-mini" onclick="logoutAdmin()">Выйти</button>
+      <button class="xbtn" onclick="closeAdmin()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+  </div>
+  <div class="adm-tabs" id="admTabs">
+    <button class="adm-tab on" data-tab="products" onclick="admTab('products')">Товары</button>
+    <button class="adm-tab" data-tab="cats" onclick="admTab('cats')">Каталог</button>
+    <button class="adm-tab" data-tab="store" onclick="admTab('store')">Магазин</button>
+    <button class="adm-tab" data-tab="access" onclick="admTab('access')">Доступ</button>
+    <button class="adm-tab" data-tab="data" onclick="admTab('data')">База</button>
+  </div>
+  <div class="adm-body" id="admBody"></div>
+</div>
+
+<!-- ===== АДМИН: ФОРМА ТОВАРА / КАТЕГОРИИ ===== -->
+<div class="modal" id="formModal">
+  <div class="box">
+    <div class="mbox-head"><h3 id="formTitle">Товар</h3><button class="xbtn" onclick="closeForm()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="mbox-body" id="formBody"></div>
+    <div class="mbox-foot">
+      <button class="btn block" style="flex:1" onclick="closeForm()">Отмена</button>
+      <button class="btn solid block" style="flex:1" id="formSave">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ПОДТВЕРЖДЕНИЕ ===== -->
+<div class="modal" id="confirmModal">
+  <div class="box" style="width:min(420px,100%)">
+    <div class="mbox-head"><h3 id="confirmTitle">Подтверждение</h3></div>
+    <div class="mbox-body"><p id="confirmMsg" style="font-size:.9rem;line-height:1.6;color:var(--muted)"></p></div>
+    <div class="mbox-foot">
+      <button class="btn block" style="flex:1" onclick="closeConfirm()">Отмена</button>
+      <button class="btn solid block" style="flex:1" id="confirmYes">Подтвердить</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ПЛАВАЮЩАЯ КНОПКА TELEGRAM (чат продавца) ===== -->
+<a class="tg-float" id="tgFloat" href="#" target="_blank" rel="noopener" aria-label="Написать в Telegram">
+  <svg viewBox="0 0 24 24"><path d="M21.9 4.3 2.9 11.6c-1 .4-1 1.7.1 2l4.8 1.5 1.8 5.8c.3.8 1.2 1 1.8.4l2.6-2.4 4.9 3.6c.7.5 1.6.1 1.8-.7l3-15c.2-1-.7-1.8-1.6-1.5ZM9.6 14.5l9-5.8c.2-.1.4.1.3.3l-7.3 6.9c-.3.2-.4.5-.5.9l-.3 2.1-1.2-4c-.1-.2 0-.4.3-.5Z"/></svg>
+</a>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -598,8 +769,9 @@ const COLORS = {
   'Кремовый':'#D8CDBA', 'Коричневый':'#5A4636', 'Зелёный':'#3B4A3A'
 };
 const img = (q,l)=>`https://loremflickr.com/800/1000/${q}?lock=${l}`;
+const PLACEHOLDER = 'https://picsum.photos/seed/admv-product/800/1000';
 
-const PRODUCTS = [
+const DEFAULT_PRODUCTS = [
   { id:'tee-premium', name:'ADMV Футболка Premium', category:'Футболки', description:'Премиальная футболка из чесаного хлопка, свободный крой.',
     price:89, oldPrice:null, images:[img('mens,tshirt,fashion',401),img('mens,tshirt,model',402)],
     colors:['Чёрный','Белый','Серый','Кремовый'], sizes:['XS','S','M','L','XL','XXL','3XL'], stock:{XS:1,S:1,M:1,L:1,XL:1,XXL:1,'3XL':0}, featured:true, newArrival:true, sale:false },
@@ -632,18 +804,89 @@ const PRODUCTS = [
     colors:['Белый','Кремовый','Тёмно-синий'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:0,XXL:1}, featured:false, newArrival:false, sale:true },
 ];
 
-const CATEGORIES = ['Футболки','Рубашки','Свитшоты','Худи','Брюки','Кроссовки'];
+const DEFAULT_CATEGORIES = ['Футболки','Рубашки','Свитшоты','Худи','Брюки','Кроссовки'];
 const ALLSIZES = ['XS','S','M','L','XL','XXL','3XL'];
 const ALLCOLORS = ['Чёрный','Белый','Серый','Тёмно-синий','Кремовый','Коричневый','Зелёный'];
-const PRICE_MAX = 260;
+
+/* Характеристики встроенных товаров (для карточек по умолчанию) */
+const DEFAULT_SPECS = {
+  'tee-premium':[{k:'Материал',v:'100% чесаный хлопок'},{k:'Крой',v:'Свободный'},{k:'Плотность',v:'180 г/м²'},{k:'Уход',v:'Машинная стирка 30°'}],
+  'tee-heavy':[{k:'Материал',v:'100% хлопок'},{k:'Плотность',v:'240 г/м²'},{k:'Крой',v:'Прямой, держит форму'}],
+  'shirt-oxford':[{k:'Материал',v:'Оксфордский хлопок'},{k:'Пуговицы',v:'Перламутр'},{k:'Крой',v:'Классический'}],
+  'sweat-premium':[{k:'Материал',v:'Хлопок с начёсом'},{k:'Ворот',v:'Круглый, рибана'},{k:'Крой',v:'Регуляр'}],
+  'sweat-wool':[{k:'Материал',v:'Шерсть мериноса'},{k:'Крой',v:'Регуляр'},{k:'Уход',v:'Деликатная стирка'}],
+  'hoodie-zip':[{k:'Материал',v:'Хлопок с начёсом'},{k:'Застёжка',v:'Молния'},{k:'Капюшон',v:'Двойной'}],
+  'pants-linen':[{k:'Материал',v:'Лён'},{k:'Крой',v:'Свободный, слегка зауженный'},{k:'Сезон',v:'Лето'}],
+  'pants-cargo':[{k:'Материал',v:'Хлопковый рипстоп'},{k:'Карманы',v:'Накладные боковые'},{k:'Крой',v:'Прямой'}],
+  'sneak-runner':[{k:'Верх',v:'Текстиль / сетка'},{k:'Подошва',v:'Скульптурная EVA'},{k:'Вес',v:'Лёгкий'}],
+  'sneak-court':[{k:'Верх',v:'Премиальная кожа'},{k:'Силуэт',v:'Низкий корт'},{k:'Подошва',v:'Резина'}]
+};
+
+/* Информация о магазине (редактируется в админке) */
+const DEFAULT_STORE = {
+  name:'ADMV', tagline:'Премиальная одежда',
+  about:'Премиальная одежда для тех, кто движется вперёд. Сдержанная роскошь и качественные материалы для каждого дня.',
+  address:'Укажите адрес магазина в админке',
+  hours:'Пн–Вс: 10:00–22:00',
+  telegram:'admv_store', whatsapp:'79990000000', instagram:'admv.store',
+  currency:'€'
+};
+const DEFAULT_ADMIN = { user:'admin', pass:'admv2026' };
+
+/* Связь товаров со слоями примерочной (только для встроенных товаров) */
+const TRYON_META = {
+  'tee-premium':'tops','tee-heavy':'tops','shirt-oxford':'tops','sweat-premium':'tops','sweat-wool':'tops',
+  'hoodie-zip':'outerwear','pants-linen':'bottoms','pants-cargo':'bottoms','sneak-runner':'shoes','sneak-court':'shoes'
+};
+
+/* ====== БАЗА ДАННЫХ (localStorage + стандартные данные) ====== */
+const LS = { prod:'admv_products', cats:'admv_categories', store:'admv_store', admin:'admv_admin' };
+const clone = o => JSON.parse(JSON.stringify(o));
+const DB = {
+  load(key,def){ try{ const v=localStorage.getItem(key); return v?JSON.parse(v):clone(def); }catch(e){ return clone(def); } },
+  save(key,val){ try{ localStorage.setItem(key,JSON.stringify(val)); return true; }
+    catch(e){ toast('Недостаточно места в браузере — используйте ссылки на фото вместо загрузки файлов.'); return false; } },
+  products(){ return this.load(LS.prod, DEFAULT_PRODUCTS); },
+  categories(){ return this.load(LS.cats, DEFAULT_CATEGORIES); },
+  store(){ return Object.assign(clone(DEFAULT_STORE), this.load(LS.store, {})); },
+  admin(){ return Object.assign(clone(DEFAULT_ADMIN), this.load(LS.admin, {})); }
+};
+
+/* Накладываем слои примерки и характеристики на загруженные товары */
+function applyMeta(list){
+  list.forEach(p=>{
+    const l=TRYON_META[p.id];
+    if(l && !p.tryOn){ p.layer=l; p.tryOn='images/tryon/'+p.id+'.png'; p.tryThumb='images/tryon/thumb-'+p.id+'.png'; }
+    if(!p.specs) p.specs = DEFAULT_SPECS[p.id] ? clone(DEFAULT_SPECS[p.id]) : [];
+    if(!Array.isArray(p.images)) p.images=[PLACEHOLDER,PLACEHOLDER];
+    if(!p.images[1]) p.images[1]=p.images[0];
+    if(!p.stock) p.stock={};
+  });
+  return list;
+}
+
+/* Живые данные магазина */
+let PRODUCTS=[], CATEGORIES=[], STORE={}, PRICE_MAX=260;
+function loadData(){
+  PRODUCTS = applyMeta(DB.products());
+  CATEGORIES = DB.categories();
+  STORE = DB.store();
+  const mx = Math.max(60, ...PRODUCTS.map(p=>+p.price||0));
+  PRICE_MAX = Math.ceil(mx/20)*20;
+}
+loadData();
+
+/* Безопасный вывод пользовательского текста */
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 
 /* ===== STATE ===== */
 let cart = [], wishlist = [];
 let gridCols = 4;
 let filters = { cats:new Set(), sizes:new Set(), colors:new Set(), price:PRICE_MAX };
 let viewMode = 'all'; // all | new | sale
+let frLook = { tops:null, outerwear:null, bottoms:null, shoes:null, accessory:null }; // примерочная
 const $ = s=>document.querySelector(s);
-const eur = n=>'€'+n;
+const eur = n=>(STORE.currency||'€')+n;
 const plu = (n,a,b,c)=>{ const m=Math.abs(n)%100, d=m%10; if(m>10&&m<20) return c; if(d>1&&d<5) return b; if(d===1) return a; return c; };
 
 /* ===== SHOP RENDER ===== */
@@ -681,8 +924,8 @@ function cardHTML(p){
       <button class="qadd" onclick="event.stopPropagation();quickAdd('${p.id}')">Быстро в корзину</button>
     </div>
     <div class="pmeta">
-      <div class="pname">${p.name}</div>
-      <div class="pdesc">${p.description}</div>
+      <div class="pname">${esc(p.name)}</div>
+      <div class="pdesc">${esc(p.description)}</div>
       <div class="prow"><div class="price">${price}</div><div class="swatches">${sw}</div></div>
       <div class="avail">${p.colors.length} ${plu(p.colors.length,'цвет','цвета','цветов')}</div>
     </div>
@@ -694,6 +937,20 @@ function renderShop(){
   g.innerHTML = list.length ? list.map(cardHTML).join('') : '<div class="empty">Ничего не найдено по фильтрам.</div>';
   observeReveal();
   renderActiveFilters();
+  renderCatalog();
+}
+
+/* ===== КАТАЛОГ (категории) ===== */
+function renderCatalog(){
+  const bar=$('#catbar'); if(!bar) return;
+  const all = !filters.cats.size;
+  bar.innerHTML = `<button class="catpill${all?' on':''}" data-cat="">Все</button>`
+    + CATEGORIES.map(c=>`<button class="catpill${filters.cats.has(c)?' on':''}" data-cat="${esc(c)}">${esc(c)}</button>`).join('');
+}
+function catPick(c){
+  filters.cats = new Set(c?[c]:[]);
+  buildFilter(); renderShop();
+  $('#shop').scrollIntoView({behavior:'smooth'});
 }
 function renderActiveFilters(){
   const el=$('#activeFilters'); const items=[];
@@ -788,11 +1045,37 @@ function renderCart(){
     <div class="cr"><div class="cp">${eur(it.price*it.qty)}</div><button class="rm" onclick="removeItem('${it.key}')">Удалить</button></div>
   </div>`).join('');
   const sub=cart.reduce((s,it)=>s+it.price*it.qty,0);
-  f.innerHTML=`<div class="subtotal"><span class="up" style="font-size:.66rem;color:var(--muted)">Подытог</span><span class="s2 serif">${eur(sub)}</span></div>
-    <div class="shipnote">Бесплатная доставка по миру</div>
-    <button class="btn solid block" onclick="checkout()">Оформить заказ</button>`;
+  f.innerHTML=`<div class="subtotal"><span class="up" style="font-size:.66rem;color:var(--muted)">Итого</span><span class="s2 serif">${eur(sub)}</span></div>
+    <div class="shipnote">Оформление и оплата — напрямую с менеджером магазина.</div>
+    <button class="btn solid block" onclick="openOrder()">Оформить заказ</button>`;
 }
-function checkout(){ if(!cart.length){ toast('Корзина пуста'); return; } toast('Оформление · демо'); }
+
+/* ===== ЗАКАЗ ЧЕРЕЗ МЕНЕДЖЕРА (WhatsApp / Telegram / Instagram) ===== */
+function buildOrderText(){
+  const lines = cart.map((it,i)=>`${i+1}. ${it.name}\n   Цвет: ${it.color} · Размер: ${it.size} · Кол-во: ${it.qty} · ${eur(it.price*it.qty)}`);
+  const sub = cart.reduce((s,it)=>s+it.price*it.qty,0);
+  return `Здравствуйте! Хочу оформить заказ в ${STORE.name}:\n\n${lines.join('\n')}\n\nИтого: ${eur(sub)}\n\nПодскажите, пожалуйста, по оплате и доставке.`;
+}
+function openOrder(){
+  if(!cart.length){ toast('Корзина пуста'); return; }
+  $('#orderText').value = buildOrderText();
+  $('#orderModal').classList.add('open'); document.body.classList.add('lock');
+}
+function closeOrder(){ $('#orderModal').classList.remove('open'); syncLock(); }
+function copyOrder(){
+  const t=$('#orderText'); t.select();
+  try{ navigator.clipboard.writeText(t.value); }catch(e){ try{document.execCommand('copy');}catch(_){} }
+  toast('Текст скопирован');
+}
+function sendOrder(ch){
+  const raw=$('#orderText').value; const text=encodeURIComponent(raw);
+  try{ navigator.clipboard.writeText(raw); }catch(e){}
+  let url='';
+  if(ch==='whatsapp'){ const n=(STORE.whatsapp||'').replace(/\D/g,''); if(!n){ toast('Номер WhatsApp не указан в админке'); return; } url=`https://wa.me/${n}?text=${text}`; }
+  else if(ch==='telegram'){ if(!STORE.telegram){ toast('Telegram не указан в админке'); return; } url=`https://t.me/${STORE.telegram}`; toast('Текст скопирован — вставьте в чат'); }
+  else if(ch==='instagram'){ if(!STORE.instagram){ toast('Instagram не указан в админке'); return; } url=`https://ig.me/m/${STORE.instagram}`; toast('Текст скопирован — вставьте в чат'); }
+  window.open(url,'_blank','noopener');
+}
 function updateCounts(){
   const c=cart.reduce((s,i)=>s+i.qty,0);
   const cc=$('#cartCount'); cc.textContent=c; cc.style.display=c?'grid':'none';
@@ -814,22 +1097,24 @@ function renderProduct(){
   const colors=p.colors.map(c=>`<div class="pv-color${c===pvState.color?' on':''}" style="background:${COLORS[c]}" onclick="pvSetColor('${c}')" title="${c}"></div>`).join('');
   const sizes=p.sizes.map(s=>{ const off=p.stock[s]<=0; return `<div class="pv-size${pvState.size===s?' on':''}${off?' off':''}" ${off?'':`onclick="pvSetSize('${s}')"`}>${s}</div>`;}).join('');
   const price=p.oldPrice?`<s>${eur(p.oldPrice)}</s><span class="now sale">${eur(p.price)}</span>`:`<span class="now">${eur(p.price)}</span>`;
+  const specsHTML=(p.specs&&p.specs.length)?`<div class="pv-specs"><div class="l">Характеристики</div>${p.specs.map(s=>`<div class="srow"><span class="sk">${esc(s.k)}</span><span>${esc(s.v)}</span></div>`).join('')}</div>`:'';
   $('#pvGrid').innerHTML=`
     <div class="gallery">
       <div class="thumbs">${thumbs}</div>
       <div class="gmain"><img id="gmainImg" src="${p.images[pvState.imgIndex]}" alt="${p.name}"></div>
     </div>
     <div class="pv-info">
-      <div class="cat">${p.category}</div>
-      <h1>${p.name}</h1>
+      <div class="cat">${esc(p.category)}</div>
+      <h1>${esc(p.name)}</h1>
       <div class="pvprice">${price}</div>
-      <p class="desc">${p.description} Премиальные материалы и сдержанная отделка, созданные для повседневного движения.</p>
+      <p class="desc">${esc(p.description)}</p>
       <div class="pv-block"><div class="l">Цвет — ${pvState.color}</div><div class="pv-colors">${colors}</div></div>
       <div class="pv-block"><div class="l">Размер <span class="sizeguide" onclick="toast('Таблица размеров · демо')">Таблица размеров</span></div><div class="pv-sizes">${sizes}</div></div>
       <div class="pv-cta">
         <button class="btn solid block" onclick="pvAdd(false)">В корзину</button>
         <button class="btn amber block" onclick="pvAdd(true)">Купить сейчас</button>
       </div>
+      ${specsHTML}
       <div class="assure">
         <div><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Премиальное качество</div>
         <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>Доставка по миру</div>
@@ -858,10 +1143,10 @@ function runSearch(){
 }
 
 /* ===== DRAWERS ===== */
-function openFilter(){ buildFilter(); open('filterDrawer'); }
-function openCart(){ renderCart(); open('cartDrawer'); }
-function openWish(){ renderWish(); open('wishDrawer'); }
-function open(id){ $('#scrim').classList.add('show'); $('#'+id).classList.add('open'); document.body.classList.add('lock'); }
+function openFilter(){ buildFilter(); openDrawer('filterDrawer'); }
+function openCart(){ renderCart(); openDrawer('cartDrawer'); }
+function openWish(){ renderWish(); openDrawer('wishDrawer'); }
+function openDrawer(id){ $('#scrim').classList.add('show'); $('#'+id).classList.add('open'); document.body.classList.add('lock'); }
 function anyDrawer(){ return document.querySelector('.drawer.open'); }
 function closeAll(){
   document.querySelectorAll('.drawer').forEach(d=>d.classList.remove('open'));
@@ -909,29 +1194,345 @@ if(!matchMedia('(prefers-reduced-motion:reduce)').matches && matchMedia('(pointe
   });
 }
 
+/* ===== ПОДВАЛ (информация о магазине) ===== */
+function renderFooter(){
+  const s=STORE;
+  const tg = s.telegram?`https://t.me/${encodeURIComponent(s.telegram)}`:'';
+  const wa = s.whatsapp?`https://wa.me/${s.whatsapp.replace(/\D/g,'')}`:'';
+  const ig = s.instagram?`https://instagram.com/${encodeURIComponent(s.instagram)}`:'';
+  const I = {
+    pin:'<svg viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 1 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>',
+    clock:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    tg:'<svg viewBox="0 0 24 24"><path d="m22 4-11 7"/><path d="M22 4 15 21l-4-6-6-2 17-9z"/></svg>',
+    wa:'<svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h2l2 5-2 1a12 12 0 0 0 5 5l1-2 5 2v2a2 2 0 0 1-2 2A16 16 0 0 1 4 5z"/></svg>',
+    ig:'<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3.5"/><circle cx="17" cy="7" r="1"/></svg>'
+  };
+  $('#footerWrap').innerHTML = `
+    <div class="fgrid">
+      <div>
+        <div class="fbrand">${esc(s.name)}</div>
+        <p>${esc(s.about)}</p>
+      </div>
+      <div class="fcol"><div class="ft">Каталог</div>
+        ${CATEGORIES.map(c=>`<a href="#shop" class="fcat" data-cat="${esc(c)}">${esc(c)}</a>`).join('')||'<span style="color:var(--muted);font-size:.84rem">—</span>'}
+      </div>
+      <div class="fcol"><div class="ft">Магазин</div>
+        <div class="finfo">
+          <div class="fi">${I.pin}<span>${esc(s.address)}</span></div>
+          <div class="fi">${I.clock}<span>${esc(s.hours)}</span></div>
+        </div>
+      </div>
+      <div class="fcol"><div class="ft">Связь</div>
+        <div class="finfo">
+          ${s.telegram?`<div class="fi">${I.tg}<a href="${tg}" target="_blank" rel="noopener">Telegram: @${esc(s.telegram)}</a></div>`:''}
+          ${s.whatsapp?`<div class="fi">${I.wa}<a href="${wa}" target="_blank" rel="noopener">WhatsApp: ${esc(s.whatsapp)}</a></div>`:''}
+          ${s.instagram?`<div class="fi">${I.ig}<a href="${ig}" target="_blank" rel="noopener">Instagram: @${esc(s.instagram)}</a></div>`:''}
+        </div>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© ${new Date().getFullYear()} ${esc(s.name)}. Все права защищены.</span>
+      <span><a href="#admin" id="adminLink" style="color:inherit;opacity:.65">Админ-панель</a></span>
+    </div>`;
+  $('#footerWrap').querySelectorAll('.fcat').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); catPick(a.dataset.cat); }));
+  const al=$('#adminLink'); if(al) al.addEventListener('click',e=>{ e.preventDefault(); openAdminGate(); });
+}
+
+/* Контакты: плавающая кнопка Telegram */
+function updateContacts(){
+  const f=$('#tgFloat');
+  if(STORE.telegram){ f.href=`https://t.me/${encodeURIComponent(STORE.telegram)}`; f.style.display='grid'; }
+  else f.style.display='none';
+}
+
+/* Перерисовать весь сайт после изменений в админке */
+function reloadAll(){ loadData(); renderShop(); renderFooter(); updateContacts(); renderCart(); renderWish(); updateCounts(); }
+
+/* Блокировка прокрутки: держим, пока открыт любой слой */
+function syncLock(){
+  const on = document.querySelector('.drawer.open')
+    || $('#pview').classList.contains('open')
+    || $('#searchOv').classList.contains('open')
+    || $('#adminPanel').classList.contains('open')
+    || document.querySelector('.modal.open');
+  document.body.classList.toggle('lock', !!on);
+}
+
+/* ===== ПОДТВЕРЖДЕНИЕ ===== */
+let confirmCb=null;
+function confirmAction(msg,cb){ $('#confirmMsg').textContent=msg; confirmCb=cb; $('#confirmModal').classList.add('open'); document.body.classList.add('lock'); }
+function closeConfirm(){ $('#confirmModal').classList.remove('open'); confirmCb=null; syncLock(); }
+$('#confirmYes').addEventListener('click',()=>{ const cb=confirmCb; closeConfirm(); if(cb) cb(); });
+
+/* ===== ФОРМА / ПРОМПТ ===== */
+function closeForm(){ $('#formModal').classList.remove('open'); syncLock(); }
+function promptModal(title,label,value,onOk){
+  $('#formTitle').textContent=title;
+  $('#formBody').innerHTML=`<div class="fld"><label>${esc(label)}</label><input class="inp" id="f_prompt" value="${esc(value)}"></div>`;
+  $('#formSave').onclick=()=>{ onOk($('#f_prompt').value); };
+  $('#formModal').classList.add('open'); document.body.classList.add('lock');
+  setTimeout(()=>{ const el=$('#f_prompt'); if(el){ el.focus(); el.select(); } },100);
+}
+
+/* ===== АДМИН: ВХОД ===== */
+let adminTab='products';
+function openAdminGate(){
+  if(sessionStorage.getItem('admv_authed')==='1'){ openAdmin(); return; }
+  $('#loginUser').value=''; $('#loginPass').value=''; $('#loginErr').style.display='none';
+  $('#loginModal').classList.add('open'); document.body.classList.add('lock');
+  setTimeout(()=>$('#loginUser').focus(),120);
+}
+function closeLogin(){ $('#loginModal').classList.remove('open'); syncLock(); }
+function tryLogin(){
+  const a=DB.admin();
+  if($('#loginUser').value.trim()===a.user && $('#loginPass').value===a.pass){
+    sessionStorage.setItem('admv_authed','1'); closeLogin(); openAdmin();
+  } else { $('#loginErr').style.display='block'; }
+}
+function logoutAdmin(){ sessionStorage.removeItem('admv_authed'); closeAdmin(); toast('Вы вышли из админки'); }
+function openAdmin(){ $('#adminPanel').classList.add('open'); document.body.classList.add('lock'); admTab(adminTab); }
+function closeAdmin(){ $('#adminPanel').classList.remove('open'); if(location.hash==='#admin') history.replaceState(null,'',location.pathname+location.search); syncLock(); }
+function admTab(t){
+  adminTab=t;
+  document.querySelectorAll('.adm-tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));
+  ({products:admProducts,cats:admCats,store:admStore,access:admAccess,data:admData}[t]||admProducts)();
+}
+
+/* ===== АДМИН: ТОВАРЫ ===== */
+function admProducts(){
+  const rows = PRODUCTS.map(p=>`
+    <div class="adm-row">
+      <img src="${esc((p.images&&p.images[0])||PLACEHOLDER)}" alt="">
+      <div class="ar-i"><div class="ar-n">${esc(p.name)}</div><div class="ar-m">${esc(p.category)} · ${eur(p.price)}${p.newArrival?' · Новинка':''}${p.sale?' · Скидка':''}</div></div>
+      <div class="ar-acts">
+        <button class="adm-mini" onclick="editProduct('${p.id}')">Изменить</button>
+        <button class="adm-mini danger" onclick="askDeleteProduct('${p.id}')">Удалить</button>
+      </div>
+    </div>`).join('');
+  $('#admBody').innerHTML = `
+    <div class="adm-sec-h"><h2>Товары</h2><button class="btn solid" onclick="editProduct(null)">+ Добавить товар</button></div>
+    <div class="adm-hint">Фото, описание, характеристики, цена, цвета и размеры. Изменения видны на сайте сразу и сохраняются в этом браузере. Чтобы их увидели все посетители — вкладка <b>База</b> → «Экспорт», и пришлите файл для публикации.</div>
+    ${rows||'<div class="emptyd">Товаров пока нет. Добавьте первый.</div>'}`;
+}
+let editingId=null;
+function editProduct(id){
+  editingId=id;
+  const p = id ? clone(PRODUCTS.find(x=>x.id===id)) : { id:'', name:'', category:CATEGORIES[0]||'', description:'', price:0, oldPrice:null, images:['',''], colors:[], sizes:[], stock:{}, specs:[], newArrival:false, sale:false, featured:false };
+  $('#formTitle').textContent = id?'Редактирование товара':'Новый товар';
+  const catOpts = CATEGORIES.map(c=>`<option ${c===p.category?'selected':''}>${esc(c)}</option>`).join('');
+  const colChk = ALLCOLORS.map(c=>`<span class="chk${(p.colors||[]).includes(c)?' on':''}" data-col="${esc(c)}" onclick="this.classList.toggle('on')">${esc(c)}</span>`).join('');
+  const szChk = ALLSIZES.map(s=>`<span class="chk${(p.sizes||[]).includes(s)?' on':''}" data-sz="${s}" onclick="this.classList.toggle('on')">${s}</span>`).join('');
+  const specsText = (p.specs||[]).map(s=>`${s.k}: ${s.v}`).join('\n');
+  $('#formBody').innerHTML = `
+    <div class="fld"><label>Название</label><input class="inp" id="f_name" value="${esc(p.name)}"></div>
+    <div class="fld-row">
+      <div class="fld"><label>Категория</label><select class="inp" id="f_cat">${catOpts}</select></div>
+      <div class="fld"><label>Цена (${esc(STORE.currency)})</label><input class="inp" id="f_price" type="number" min="0" value="${p.price||0}"></div>
+    </div>
+    <div class="fld-row">
+      <div class="fld"><label>Старая цена (для скидки, необязательно)</label><input class="inp" id="f_old" type="number" min="0" value="${p.oldPrice||''}"></div>
+      <div class="fld"><label>Метки</label><div class="chkwrap">
+        <span class="chk${p.newArrival?' on':''}" id="f_new" onclick="this.classList.toggle('on')">Новинка</span>
+        <span class="chk${p.sale?' on':''}" id="f_sale" onclick="this.classList.toggle('on')">Скидка</span>
+        <span class="chk${p.featured?' on':''}" id="f_feat" onclick="this.classList.toggle('on')">Рекомендуемое</span>
+      </div></div>
+    </div>
+    <div class="fld"><label>Описание</label><textarea class="inp" id="f_desc">${esc(p.description)}</textarea></div>
+    <div class="fld"><label>Характеристики (каждая с новой строки: «Название: значение»)</label><textarea class="inp" id="f_specs" placeholder="Материал: 100% хлопок\nКрой: свободный">${esc(specsText)}</textarea></div>
+    <div class="fld"><label>Цвета</label><div class="chkwrap" id="f_colors">${colChk}</div></div>
+    <div class="fld"><label>Размеры</label><div class="chkwrap" id="f_sizes">${szChk}</div></div>
+    <div class="fld"><label>Фото 1 (главное) — ссылка</label><input class="inp" id="f_img1" value="${esc(p.images[0]||'')}" placeholder="https://...">
+      <label class="filepick" style="margin-top:9px"><input type="file" accept="image/*" hidden onchange="pickImg(this,'f_img1')">Загрузить фото</label></div>
+    <div class="fld"><label>Фото 2 (показывается при наведении) — ссылка</label><input class="inp" id="f_img2" value="${esc(p.images[1]||'')}" placeholder="https://...">
+      <label class="filepick" style="margin-top:9px"><input type="file" accept="image/*" hidden onchange="pickImg(this,'f_img2')">Загрузить фото</label></div>`;
+  $('#formSave').textContent='Сохранить';
+  $('#formSave').onclick=saveProductForm;
+  $('#formModal').classList.add('open'); document.body.classList.add('lock');
+}
+function pickImg(input,targetId){
+  const file=input.files[0]; if(!file) return;
+  if(file.size>1.5*1024*1024) toast('Фото большое — лучше вставить ссылку');
+  const r=new FileReader(); r.onload=()=>{ $('#'+targetId).value=r.result; toast('Фото загружено'); }; r.readAsDataURL(file);
+}
+function saveProductForm(){
+  const name=$('#f_name').value.trim();
+  if(!name){ toast('Укажите название'); return; }
+  const colors=[...$('#f_colors').querySelectorAll('.chk.on')].map(x=>x.dataset.col);
+  const sizes =[...$('#f_sizes').querySelectorAll('.chk.on')].map(x=>x.dataset.sz);
+  const specs =$('#f_specs').value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{ const i=l.indexOf(':'); return i>-1?{k:l.slice(0,i).trim(),v:l.slice(i+1).trim()}:{k:l,v:''}; });
+  const stock={}; sizes.forEach(s=>stock[s]=1);
+  const img1=$('#f_img1').value.trim(), img2=$('#f_img2').value.trim();
+  const old=parseFloat($('#f_old').value)||null;
+  const obj={
+    id: editingId || ('p'+Date.now()),
+    name, category:$('#f_cat').value,
+    description:$('#f_desc').value.trim(),
+    price: Math.max(0, parseFloat($('#f_price').value)||0),
+    oldPrice: old,
+    images:[img1||PLACEHOLDER, img2||img1||PLACEHOLDER],
+    colors: colors.length?colors:['Чёрный'],
+    sizes: sizes.length?sizes:['M'],
+    stock, specs,
+    newArrival:$('#f_new').classList.contains('on'),
+    sale: old?true:$('#f_sale').classList.contains('on'),
+    featured:$('#f_feat').classList.contains('on')
+  };
+  confirmAction(editingId?`Сохранить изменения в карточке «${name}»?`:`Добавить товар «${name}»?`, ()=>{
+    const list=DB.products();
+    if(editingId){ const i=list.findIndex(x=>x.id===editingId); if(i>-1) list[i]=obj; else list.push(obj); }
+    else list.push(obj);
+    if(DB.save(LS.prod,list)){ reloadAll(); closeForm(); admProducts(); toast('Сохранено'); }
+  });
+}
+function askDeleteProduct(id){
+  const p=PRODUCTS.find(x=>x.id===id);
+  confirmAction(`Удалить товар «${p?p.name:''}»? Отменить будет нельзя.`, ()=>{
+    DB.save(LS.prod, DB.products().filter(x=>x.id!==id)); reloadAll(); admProducts(); toast('Товар удалён');
+  });
+}
+
+/* ===== АДМИН: КАТАЛОГ ===== */
+function admCats(){
+  const rows=CATEGORIES.map((c,i)=>`
+    <div class="adm-row">
+      <div class="ar-i"><div class="ar-n">${esc(c)}</div><div class="ar-m">${PRODUCTS.filter(p=>p.category===c).length} товаров</div></div>
+      <div class="ar-acts">
+        <button class="adm-mini" onclick="renameCat(${i})">Переименовать</button>
+        <button class="adm-mini danger" onclick="askDeleteCat(${i})">Удалить</button>
+      </div>
+    </div>`).join('');
+  $('#admBody').innerHTML=`
+    <div class="adm-sec-h"><h2>Каталог</h2><button class="btn solid" onclick="addCat()">+ Добавить категорию</button></div>
+    <div class="adm-hint">Категории каталога (брюки, футболки, обувь и т.д.). Показываются в магазине, фильтрах и подвале.</div>
+    ${rows||'<div class="emptyd">Категорий нет.</div>'}`;
+}
+function addCat(){
+  promptModal('Новая категория','Название','', v=>{ v=(v||'').trim(); if(!v) return;
+    const list=DB.categories(); if(list.includes(v)){ toast('Такая категория уже есть'); return; }
+    confirmAction(`Добавить категорию «${v}»?`, ()=>{ list.push(v); DB.save(LS.cats,list); reloadAll(); closeForm(); admCats(); toast('Категория добавлена'); });
+  });
+}
+function renameCat(i){
+  const old=CATEGORIES[i];
+  promptModal('Переименовать категорию','Название',old, v=>{ v=(v||'').trim(); if(!v) return;
+    confirmAction(`Переименовать «${old}» в «${v}»? Товары этой категории обновятся.`, ()=>{
+      const cats=DB.categories(); cats[i]=v; DB.save(LS.cats,cats);
+      const prods=DB.products(); prods.forEach(p=>{ if(p.category===old) p.category=v; }); DB.save(LS.prod,prods);
+      reloadAll(); closeForm(); admCats(); toast('Переименовано');
+    });
+  });
+}
+function askDeleteCat(i){
+  const c=CATEGORIES[i]; const n=PRODUCTS.filter(p=>p.category===c).length;
+  confirmAction(`Удалить категорию «${c}»?`+(n?` ${n} товаров останутся без этой категории.`:''), ()=>{
+    DB.save(LS.cats, DB.categories().filter((_,j)=>j!==i)); reloadAll(); admCats(); toast('Категория удалена');
+  });
+}
+
+/* ===== АДМИН: МАГАЗИН ===== */
+function admStore(){
+  const s=STORE;
+  $('#admBody').innerHTML=`
+    <div class="adm-sec-h"><h2>Магазин</h2></div>
+    <div class="adm-hint">Эти данные показываются в подвале сайта и используются для кнопок заказа и Telegram. Укажите реальные контакты.</div>
+    <div class="fld"><label>Название</label><input class="inp" id="s_name" value="${esc(s.name)}"></div>
+    <div class="fld"><label>О магазине (текст в подвале)</label><textarea class="inp" id="s_about">${esc(s.about)}</textarea></div>
+    <div class="fld-row">
+      <div class="fld"><label>Адрес</label><input class="inp" id="s_addr" value="${esc(s.address)}"></div>
+      <div class="fld"><label>Время работы</label><input class="inp" id="s_hours" value="${esc(s.hours)}"></div>
+    </div>
+    <div class="fld-row">
+      <div class="fld"><label>Telegram (без @)</label><input class="inp" id="s_tg" value="${esc(s.telegram)}" placeholder="admv_store"></div>
+      <div class="fld"><label>WhatsApp (номер с кодом страны)</label><input class="inp" id="s_wa" value="${esc(s.whatsapp)}" placeholder="79990000000"></div>
+    </div>
+    <div class="fld-row">
+      <div class="fld"><label>Instagram (без @)</label><input class="inp" id="s_ig" value="${esc(s.instagram)}" placeholder="admv.store"></div>
+      <div class="fld"><label>Валюта</label><input class="inp" id="s_cur" value="${esc(s.currency)}" maxlength="3"></div>
+    </div>
+    <button class="btn solid" onclick="saveStore()">Сохранить изменения</button>`;
+}
+function saveStore(){
+  const obj={ name:$('#s_name').value.trim()||'ADMV', tagline:STORE.tagline||'Премиальная одежда',
+    about:$('#s_about').value.trim(), address:$('#s_addr').value.trim(), hours:$('#s_hours').value.trim(),
+    telegram:$('#s_tg').value.trim().replace(/^@/,''), whatsapp:$('#s_wa').value.trim(),
+    instagram:$('#s_ig').value.trim().replace(/^@/,''), currency:$('#s_cur').value.trim()||'€' };
+  confirmAction('Сохранить информацию о магазине?', ()=>{ DB.save(LS.store,obj); reloadAll(); toast('Сохранено'); });
+}
+
+/* ===== АДМИН: ДОСТУП ===== */
+function admAccess(){
+  const a=DB.admin();
+  $('#admBody').innerHTML=`
+    <div class="adm-sec-h"><h2>Доступ</h2></div>
+    <div class="adm-hint">Логин и пароль администратора. Это лёгкая защита статического сайта — не используйте здесь важные пароли от других сервисов.</div>
+    <div class="fld-row">
+      <div class="fld"><label>Логин</label><input class="inp" id="a_user" value="${esc(a.user)}"></div>
+      <div class="fld"><label>Пароль</label><input class="inp" id="a_pass" value="${esc(a.pass)}"></div>
+    </div>
+    <button class="btn solid" onclick="saveAccess()">Сохранить</button>`;
+}
+function saveAccess(){
+  const u=$('#a_user').value.trim(), p=$('#a_pass').value;
+  if(!u||!p){ toast('Заполните логин и пароль'); return; }
+  confirmAction('Изменить логин и пароль администратора?', ()=>{ DB.save(LS.admin,{user:u,pass:p}); toast('Доступ обновлён'); });
+}
+
+/* ===== АДМИН: БАЗА ===== */
+function admData(){
+  $('#admBody').innerHTML=`
+    <div class="adm-sec-h"><h2>База данных</h2></div>
+    <div class="adm-hint">Товары, категории и настройки хранятся в этом браузере. <b>Экспорт</b> — скачать резервную копию. <b>Импорт</b> — загрузить её (например, на другом устройстве) или прислать мне для публикации всем посетителям.</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn solid" onclick="exportDB()">Экспорт базы</button>
+      <label class="btn" style="cursor:pointer">Импорт базы<input type="file" accept="application/json" hidden onchange="importDB(this)"></label>
+      <button class="btn amber" onclick="askReset()">Сбросить к стандартным</button>
+    </div>`;
+}
+function exportDB(){
+  const data={ products:DB.products(), categories:DB.categories(), store:DB.store(), admin:DB.admin(), _v:1, _date:new Date().toISOString() };
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
+  a.download='admv-store-base.json'; a.click(); URL.revokeObjectURL(a.href);
+  toast('База экспортирована');
+}
+function importDB(input){
+  const f=input.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{ let d; try{ d=JSON.parse(r.result); }catch(e){ toast('Файл повреждён'); return; }
+    confirmAction('Импортировать базу? Текущие данные будут заменены.', ()=>{
+      if(d.products) DB.save(LS.prod,d.products);
+      if(d.categories) DB.save(LS.cats,d.categories);
+      if(d.store) DB.save(LS.store,d.store);
+      if(d.admin) DB.save(LS.admin,d.admin);
+      reloadAll(); admData(); toast('База импортирована');
+    });
+  };
+  r.readAsText(f); input.value='';
+}
+function askReset(){
+  confirmAction('Сбросить ВСЕ данные к стандартным? Ваши товары и настройки будут удалены.', ()=>{
+    [LS.prod,LS.cats,LS.store,LS.admin].forEach(k=>localStorage.removeItem(k));
+    reloadAll(); admTab(adminTab); toast('Сброшено к стандартным');
+  });
+}
+
 /* ===== INIT ===== */
+$('#catbar').addEventListener('click',e=>{ const b=e.target.closest('.catpill'); if(b) catPick(b.dataset.cat||''); });
+loadData();
 renderShop();
+renderFooter();
+updateContacts();
 observeReveal();
 </script>
 
 <!-- ============ NEW FEATURE SCRIPT: Fitting Room + Intro lifecycle ============ -->
 <script>
-/* Additive only: augments products with layer/tryOn metadata (no price/name/desc changes). */
-const TRYON_META = {
-  'tee-premium':'tops','tee-heavy':'tops','shirt-oxford':'tops','sweat-premium':'tops','sweat-wool':'tops',
-  'hoodie-zip':'outerwear','pants-linen':'bottoms','pants-cargo':'bottoms','sneak-runner':'shoes','sneak-court':'shoes'
-};
-PRODUCTS.forEach(p=>{ const l=TRYON_META[p.id]; if(l){ p.layer=l; p.tryOn='images/tryon/'+p.id+'.png'; p.tryThumb='images/tryon/thumb-'+p.id+'.png'; }});
-
+/* Примерочная использует живые данные PRODUCTS (слои добавляет applyMeta в основном скрипте). */
 const frFind = id => PRODUCTS.find(p=>p.id===id);
-const firstSize = p => p.sizes.find(s=>!p.stock || p.stock[s]>0) || p.sizes[0];
+const firstSize = p => (p.sizes||[]).find(s=>!p.stock || p.stock[s]>0) || (p.sizes||[])[0];
 const LAYERS = ['shoes','bottoms','tops','outerwear','accessory'];
 
-let frLook = { tops:null, outerwear:null, bottoms:null, shoes:null, accessory:null }; // {id,size}
-
-renderShop();  // re-render so product cards show the try-on hanger (metadata + frLook are now set)
-
-function currentLook(){ return LAYERS.map(l=>frLook[l]).filter(Boolean); }
+function currentLook(){ return LAYERS.map(l=>frLook[l]).filter(sel=>sel && frFind(sel.id)); }
 
 /* Tap the hanger on a product -> wear it (replace only its layer). Same item -> remove it. */
 function frWear(id){
@@ -955,7 +1556,9 @@ function renderPanel(){
   // model layers
   LAYERS.forEach(layer=>{
     const el=document.getElementById('fr-'+layer), sel=frLook[layer];
-    if(sel){ const p=frFind(sel.id); if(el.getAttribute('src')!==p.tryOn) el.src=p.tryOn; el.classList.add('on'); }
+    const p=sel?frFind(sel.id):null;
+    if(sel && !p) frLook[layer]=null;
+    if(p && p.tryOn){ if(el.getAttribute('src')!==p.tryOn) el.src=p.tryOn; el.classList.add('on'); }
     else el.classList.remove('on');
   });
   const look=currentLook();
@@ -989,9 +1592,10 @@ function toggleFitting(){ $('#frPanel').classList.contains('open') ? closeFittin
 (function(){
   const intro=document.getElementById('intro3d');
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  const deep=location.hash==='#fitting-room';   // прямой заход во внутренний раздел — без заставки
+  const h=location.hash;
+  const deep=(h==='#fitting-room'||h==='#admin');   // прямой заход во внутренний раздел — без заставки
   if(!intro) return;
-  if(deep){ intro.remove(); window.__introActive=false; openFitting(); return; }
+  if(deep){ intro.remove(); window.__introActive=false; if(h==='#fitting-room') openFitting(); else if(h==='#admin') openAdminGate(); return; }
 
   const box=document.getElementById('introAdmv');
   const letters="ADMV".split("");
