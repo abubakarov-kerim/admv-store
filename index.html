@@ -828,7 +828,7 @@ const DEFAULT_STORE = {
   about:'Премиальная одежда для тех, кто движется вперёд. Сдержанная роскошь и качественные материалы для каждого дня.',
   address:'Укажите адрес магазина в админке',
   hours:'Пн–Вс: 10:00–22:00',
-  telegram:'admv_store', whatsapp:'79990000000', instagram:'admv.store',
+  telegram:'admvme', whatsapp:'7 (989) 918-81-61', instagram:'admv.so',
   currency:'€'
 };
 const DEFAULT_ADMIN = { user:'admin', pass:'admv2026' };
@@ -1226,16 +1226,15 @@ function renderFooter(){
         <div class="finfo">
           ${s.telegram?`<div class="fi">${I.tg}<a href="${tg}" target="_blank" rel="noopener">Telegram: @${esc(s.telegram)}</a></div>`:''}
           ${s.whatsapp?`<div class="fi">${I.wa}<a href="${wa}" target="_blank" rel="noopener">WhatsApp: ${esc(s.whatsapp)}</a></div>`:''}
-          ${s.instagram?`<div class="fi">${I.ig}<a href="${ig}" target="_blank" rel="noopener">Instagram: @${esc(s.instagram)}</a></div>`:''}
+          ${s.instagram?`<div class="fi">${I.ig}<a href="${ig}" target="_blank" rel="noopener">${esc(s.name)}</a></div>`:''}
         </div>
       </div>
     </div>
     <div class="fbot">
       <span>© ${new Date().getFullYear()} ${esc(s.name)}. Все права защищены.</span>
-      <span><a href="#admin" id="adminLink" style="color:inherit;opacity:.65">Админ-панель</a></span>
+      <span>Сдержанная роскошь каждый день</span>
     </div>`;
   $('#footerWrap').querySelectorAll('.fcat').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); catPick(a.dataset.cat); }));
-  const al=$('#adminLink'); if(al) al.addEventListener('click',e=>{ e.preventDefault(); openAdminGate(); });
 }
 
 /* Контакты: плавающая кнопка Telegram */
