@@ -364,11 +364,18 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 .fp-head{ display:flex; align-items:flex-start; justify-content:space-between; padding:16px 18px; border-bottom:1px solid var(--line); }
 .fp-t{ font-family:var(--serif); font-size:1.2rem; letter-spacing:.08em; }
 .fp-sub{ font-size:.62rem; color:var(--muted); margin-top:4px; letter-spacing:.02em; }
-.fp-stage{ position:relative; flex-shrink:0; margin:14px 16px 0; height:180px; background:radial-gradient(60% 56% at 50% 40%, #1A1B20, #101114 76%); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+.fp-stage{ position:relative; flex-shrink:0; margin:14px 16px 0; height:180px; background:radial-gradient(60% 56% at 50% 40%, var(--card2), var(--bg) 76%); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
 .fp-stage img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:0; transition:opacity .4s var(--ease); pointer-events:none; }
 .fp-stage img.base{ opacity:1; z-index:1; }
 #fr-shoes{ z-index:2; } #fr-bottoms{ z-index:3; } #fr-tops{ z-index:4; } #fr-outerwear{ z-index:5; } #fr-accessory{ z-index:6; }
 .fp-stage img.on{ opacity:1; }
+/* своё фото вещи: ставим на нужную часть манекена (доли от высоты сцены, манекен 2:3 по центру) */
+.fp-stage img.fit{ inset:auto; left:50%; width:auto; transform:translateX(-50%); object-position:50% 0; }
+#fr-accessory.fit{ top:7%;   height:11%; aspect-ratio:1.3; }
+#fr-outerwear.fit{ top:13%;  height:48%; aspect-ratio:.68; }
+#fr-tops.fit{      top:22.5%;height:37%; aspect-ratio:.85; }
+#fr-bottoms.fit{   top:51%;  height:40%; aspect-ratio:.45; }
+#fr-shoes.fit{     top:86.5%;height:8%;  aspect-ratio:2.4; object-position:50% 100%; }
 .fp-hint{ position:absolute; left:0; right:0; bottom:8px; text-align:center; font-size:.62rem; color:var(--muted); z-index:7; transition:opacity .3s; }
 .fp-picks{ padding:14px 16px 4px; overflow-y:auto; flex:1; min-height:0; }
 .fp-picks-h{ display:flex; justify-content:space-between; font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
@@ -566,7 +573,7 @@ body.admin-on .pcard{ border-radius:var(--r-lg); }
 /* АВТООБНОВЛЕНИЕ: браузер может показывать старую сохранённую копию сайта.
    Сверяем номер версии с сервером и, если вышла новая, сами открываем её.
    При каждой публикации менять ADMV_BUILD. */
-var ADMV_BUILD='2026-10-12.4';
+var ADMV_BUILD='2026-10-12.5';
 (function(){
   if(location.protocol.indexOf('http')!==0 || !window.fetch) return;
   fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.text():''; }).then(function(t){
@@ -942,9 +949,32 @@ const TRYON_META = {
 /* ====== БАЗА ДАННЫХ (localStorage + стандартные данные) ====== */
 const LS = { prod:'admv_products', cats:'admv_categories', store:'admv_store', admin:'admv_admin' };
 const clone = o => JSON.parse(JSON.stringify(o));
+/* Товары вместе с загруженными фото лежат в большом хранилище браузера (IndexedDB):
+   в обычном (localStorage) всего ~5 МБ, и несколько фото его переполняли. */
+const BIG = { mem:null, db:null,
+  open(){ return new Promise(res=>{ try{
+      const r=indexedDB.open('admv',1);
+      r.onupgradeneeded=()=>r.result.createObjectStore('kv');
+      r.onsuccess=()=>{ BIG.db=r.result; res(true); };
+      r.onerror=()=>res(false); r.onblocked=()=>res(false);
+    }catch(e){ res(false); } }); },
+  get(k){ return new Promise(res=>{ try{
+      const q=BIG.db.transaction('kv').objectStore('kv').get(k);
+      q.onsuccess=()=>res(q.result||null); q.onerror=()=>res(null);
+    }catch(e){ res(null); } }); },
+  put(k,v){ try{
+      const tx=BIG.db.transaction('kv','readwrite'); tx.objectStore('kv').put(v,k);
+      tx.onabort=()=>toast('Не удалось сохранить: в браузере закончилось место. Удалите лишние фото.');
+    }catch(e){ toast('Не удалось сохранить изменения в браузере.'); } },
+  del(k){ try{ BIG.db.transaction('kv','readwrite').objectStore('kv').delete(k); }catch(e){} }
+};
 const DB = {
-  load(key,def){ try{ const v=localStorage.getItem(key); return v?JSON.parse(v):clone(def); }catch(e){ return clone(def); } },
-  save(key,val){ try{ localStorage.setItem(key,JSON.stringify(val)); return true; }
+  load(key,def){
+    if(key===LS.prod && BIG.mem) return clone(BIG.mem);
+    try{ const v=localStorage.getItem(key); return v?JSON.parse(v):clone(def); }catch(e){ return clone(def); } },
+  save(key,val){
+    if(key===LS.prod && BIG.db){ BIG.mem=clone(val); BIG.put(key,BIG.mem); try{ localStorage.removeItem(key); }catch(e){} return true; }
+    try{ localStorage.setItem(key,JSON.stringify(val)); return true; }
     catch(e){ toast('В браузере закончилось место для фото. Удалите лишние фото товаров или вставьте ссылку вместо файла.'); return false; } },
   products(){ return this.load(LS.prod, DEFAULT_PRODUCTS); },
   categories(){ return this.load(LS.cats, DEFAULT_CATEGORIES); },
@@ -972,11 +1002,27 @@ const DB = {
   }catch(e){}
 })();
 
+const cutImg = u => typeof u==='string' && u.indexOf('data:')===0 && u.length===524288;   // след старой ошибки: поле обрезало фото ровно на этой длине
+/* Куда надевается вещь на манекене — определяем по категории и названию */
+function fitLayer(p){
+  const t=((p.category||'')+' '+(p.name||'')).toLowerCase();
+  if(/кроссов|кед|ботин|обув|туфл|лофер|сланц/.test(t)) return 'shoes';
+  if(/брюк|джинс|шорт|штан|карго|трико/.test(t)) return 'bottoms';
+  if(/худи|зип|куртк|пальто|бомбер|жилет|пухов|ветровк|кардиган|пиджак/.test(t)) return 'outerwear';
+  if(/футбол|рубаш|свитш|свитер|поло|лонг|майк|джемпер/.test(t)) return 'tops';
+  if(/кепк|шапк|панам|аксесс/.test(t)) return 'accessory';
+  return null;
+}
+/* Фото годится для примерки, если это вырезанная вещь на прозрачном фоне (PNG / WebP) */
+const cutoutImg = u => typeof u==='string' && !cutImg(u) && (/^data:image\/(png|webp)/i.test(u) || /\.(png|webp)(\?|#|$)/i.test(u));
+
 /* Накладываем слои примерки и характеристики на загруженные товары */
 function applyMeta(list){
   list.forEach(p=>{
     const l=TRYON_META[p.id];
-    if(l && !p.tryOn){ p.layer=l; p.tryOn='images/tryon/'+p.id+'.png'; p.tryThumb='images/tryon/thumb-'+p.id+'.png'; }
+    const own=(p.images||[])[0], fl=fitLayer(p);
+    if(fl && cutoutImg(own)){ p.layer=fl; p.tryOn=own; p.tryThumb=own; p.tryFit=true; }      // своё фото вещи на прозрачном фоне
+    else if(l && !p.tryOn){ p.layer=l; p.tryOn='images/tryon/'+p.id+'.png'; p.tryThumb='images/tryon/thumb-'+p.id+'.png'; }
     if(!p.specs) p.specs = DEFAULT_SPECS[p.id] ? clone(DEFAULT_SPECS[p.id]) : [];
     if(!Array.isArray(p.images)) p.images=[PLACEHOLDER,PLACEHOLDER];
     if(!p.images[1]) p.images[1]=p.images[0];
@@ -992,7 +1038,10 @@ function loadData(){
   CATEGORIES = DB.categories();
   STORE = DB.store();
   const mx = Math.max(60, ...PRODUCTS.map(p=>+p.price||0));
+  const was = PRICE_MAX;
   PRICE_MAX = Math.ceil(mx/20)*20;
+  // фильтр цены стоял на максимуме — двигаем его вместе с новым максимумом, иначе более дорогой товар скрывался
+  try{ if(filters.price>=was || filters.price>PRICE_MAX) filters.price=PRICE_MAX; }catch(e){}
 }
 loadData();
 
@@ -1489,7 +1538,6 @@ function editProduct(id){
 /* Загруженное фото лежит в IMG_BUF, а не в текстовом поле: поле обрезает длинный текст,
    и большое фото сохранялось наполовину. В поле показываем только пометку. */
 const IMG_BUF={}, IMG_MARK='Загруженное фото (файл)';
-const cutImg = u => typeof u==='string' && u.indexOf('data:')===0 && u.length===524288;   // след старой ошибки: поле обрезало фото ровно на этой длине
 function imgField(id,val){ val=val||''; if(val.indexOf('data:')===0){ IMG_BUF[id]=val; return IMG_MARK; } delete IMG_BUF[id]; return val; }
 function imgVal(id){ const v=$('#'+id).value.trim(); return (v===IMG_MARK && IMG_BUF[id]) ? IMG_BUF[id] : v; }
 /* Загруженное фото уменьшаем и сжимаем, чтобы оно целиком помещалось в память браузера */
@@ -1507,9 +1555,13 @@ function pickImg(input,targetId){
       const c=document.createElement('canvas');
       c.width=Math.round(im.naturalWidth*k); c.height=Math.round(im.naturalHeight*k);
       c.getContext('2d').drawImage(im,0,0,c.width,c.height);
-      let out=c.toDataURL('image/webp',.82);               // webp хранит и прозрачный фон
-      if(out.indexOf('data:image/webp')!==0) out=c.toDataURL('image/jpeg',.85);
-      if(out.length>r.result.length) out=r.result;          // маленький файл оставляем как есть
+      // есть ли у фото прозрачный фон (вырезанная вещь)? тогда его нельзя сохранять в JPG — фон станет чёрным
+      let alpha=false;
+      try{ const d=c.getContext('2d').getImageData(0,0,c.width,c.height).data;
+        for(let i=3;i<d.length;i+=64){ if(d[i]<250){ alpha=true; break; } } }catch(e){}
+      let out=c.toDataURL('image/webp',alpha?.9:.82);        // webp хранит и прозрачный фон
+      if(out.indexOf('data:image/webp')!==0) out = alpha ? c.toDataURL('image/png') : c.toDataURL('image/jpeg',.85);
+      if(out.length>r.result.length && r.result.length<1500000) out=r.result;   // маленький файл оставляем как есть
       IMG_BUF[targetId]=out; $('#'+targetId).value=IMG_MARK; toast('Фото загружено');
     };
     im.src=r.result;
@@ -1676,7 +1728,7 @@ function importDB(input){
 }
 function askReset(){
   confirmAction('Сбросить ВСЕ данные к стандартным? Ваши товары и настройки будут удалены.', ()=>{
-    [LS.prod,LS.cats,LS.store,LS.admin].forEach(k=>localStorage.removeItem(k));
+    [LS.prod,LS.cats,LS.store,LS.admin].forEach(k=>localStorage.removeItem(k)); BIG.mem=null; BIG.del(LS.prod);
     reloadAll(); admTab(adminTab); toast('Сброшено к стандартным');
   });
 }
@@ -1690,6 +1742,14 @@ renderHero();
 updateContacts();
 observeReveal();
 if(isAdmin()) enableAdminMode();
+BIG.open().then(async ok=>{
+  if(!ok) return;
+  let v=await BIG.get(LS.prod);
+  if(!v){ try{ const ls=localStorage.getItem(LS.prod); if(ls){ v=JSON.parse(ls); BIG.put(LS.prod,v); localStorage.removeItem(LS.prod); } }catch(e){} }
+  if(!v) return;
+  BIG.mem=v; reloadAll();
+  if($('#adminPanel').classList.contains('open')) admTab(adminTab);
+});
 </script>
 
 <!-- ============ NEW FEATURE SCRIPT: Fitting Room + Intro lifecycle ============ -->
@@ -1725,7 +1785,7 @@ function renderPanel(){
     const el=document.getElementById('fr-'+layer), sel=frLook[layer];
     const p=sel?frFind(sel.id):null;
     if(sel && !p) frLook[layer]=null;
-    if(p && p.tryOn){ if(el.getAttribute('src')!==p.tryOn) el.src=p.tryOn; el.classList.add('on'); }
+    if(p && p.tryOn){ if(el.getAttribute('src')!==p.tryOn) el.src=p.tryOn; el.classList.toggle('fit',!!p.tryFit); el.classList.add('on'); }
     else el.classList.remove('on');
   });
   const look=currentLook();
