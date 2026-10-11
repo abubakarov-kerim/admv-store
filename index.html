@@ -515,6 +515,7 @@ textarea.inp{ resize:vertical; min-height:92px; line-height:1.55; }
 body.admin-on #adminBar{ display:flex; }
 #adminBar .ab-dot{ width:7px; height:7px; border-radius:50%; background:var(--amber); box-shadow:0 0 0 3px rgba(169,155,133,.22); flex-shrink:0; }
 #adminBar .ab-t{ color:var(--amber); white-space:nowrap; }
+#adminBar .ab-v{ color:var(--muted); white-space:nowrap; letter-spacing:.08em; text-transform:none; }
 #adminBar .ab-sp{ flex:1; }
 #adminBar button{ font:inherit; letter-spacing:.14em; text-transform:uppercase; color:#F2EFE8; opacity:.86;
   padding:7px 12px; border:1px solid rgba(255,255,255,.18); border-radius:7px; transition:.2s; white-space:nowrap; }
@@ -562,6 +563,20 @@ body.admin-on .pcard{ border-radius:var(--r-lg); }
 </style>
 <script>(function(){try{var t=localStorage.getItem('admvTheme')||'dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <script>
+/* АВТООБНОВЛЕНИЕ: браузер может показывать старую сохранённую копию сайта.
+   Сверяем номер версии с сервером и, если вышла новая, сами открываем её.
+   При каждой публикации менять ADMV_BUILD. */
+var ADMV_BUILD='2026-10-12.4';
+(function(){
+  if(location.protocol.indexOf('http')!==0 || !window.fetch) return;
+  fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.text():''; }).then(function(t){
+    var m=t.match(/ADMV_BUILD='([^']+)'/); if(!m || m[1]===ADMV_BUILD) return;
+    try{ if(sessionStorage.getItem('admv_upd')===m[1]) return; sessionStorage.setItem('admv_upd',m[1]); }catch(e){ return; }
+    location.replace(location.pathname+'?v='+encodeURIComponent(m[1])+location.hash);
+  }).catch(function(){});
+})();
+</script>
+<script>
 /* Фото не загрузилось: вместо сломанной картинки показываем заглушку «Фото скоро» */
 (function(){
   var svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000"><g fill="#A99B85" text-anchor="middle" font-family="Georgia,serif">'+
@@ -591,7 +606,7 @@ body.admin-on .pcard{ border-radius:var(--r-lg); }
 
 <!-- ПАНЕЛЬ РЕЖИМА АДМИНА (видна только после входа) -->
 <div id="adminBar">
-  <span class="ab-dot"></span><span class="ab-t">Режим админа</span>
+  <span class="ab-dot"></span><span class="ab-t">Режим админа</span><span class="ab-v" id="abVer"></span>
   <span class="ab-sp"></span>
   <button class="solid" onclick="editProduct(null)">+ Товар</button>
   <button onclick="openAdminAt('cats')">Каталог</button>
@@ -1391,7 +1406,7 @@ function renderHero(){
 
 /* ===== РЕЖИМ АДМИНА НА САЙТЕ ===== */
 function isAdmin(){ try{ return sessionStorage.getItem('admv_authed')==='1'; }catch(e){ return false; } }
-function enableAdminMode(){ document.body.classList.add('admin-on'); renderShop(); renderFooter(); }
+function enableAdminMode(){ document.body.classList.add('admin-on'); const v=$('#abVer'); if(v) v.textContent='версия '+ADMV_BUILD; renderShop(); renderFooter(); }
 function disableAdminMode(){ document.body.classList.remove('admin-on'); renderShop(); renderFooter(); }
 function openAdminAt(tab){ adminTab=tab; openAdmin(); }
 
@@ -1425,7 +1440,7 @@ function admProducts(){
   const rows = PRODUCTS.map(p=>`
     <div class="adm-row">
       <img src="${esc((p.images&&p.images[0])||PLACEHOLDER)}" alt="">
-      <div class="ar-i"><div class="ar-n">${esc(p.name)}</div><div class="ar-m">${esc(p.category)} · ${eur(p.price)}${p.newArrival?' · Новинка':''}${p.sale?' · Скидка':''}</div></div>
+      <div class="ar-i"><div class="ar-n">${esc(p.name)}</div><div class="ar-m">${esc(p.category)} · ${eur(p.price)}${(p.images||[]).some(cutImg)?' · <b style="color:#e05a4a">фото сохранено наполовину — загрузите заново</b>':''}${p.newArrival?' · Новинка':''}${p.sale?' · Скидка':''}</div></div>
       <div class="ar-acts">
         <button class="adm-mini" onclick="editProduct('${p.id}')">Изменить</button>
         <button class="adm-mini danger" onclick="askDeleteProduct('${p.id}')">Удалить</button>
@@ -1474,6 +1489,7 @@ function editProduct(id){
 /* Загруженное фото лежит в IMG_BUF, а не в текстовом поле: поле обрезает длинный текст,
    и большое фото сохранялось наполовину. В поле показываем только пометку. */
 const IMG_BUF={}, IMG_MARK='Загруженное фото (файл)';
+const cutImg = u => typeof u==='string' && u.indexOf('data:')===0 && u.length===524288;   // след старой ошибки: поле обрезало фото ровно на этой длине
 function imgField(id,val){ val=val||''; if(val.indexOf('data:')===0){ IMG_BUF[id]=val; return IMG_MARK; } delete IMG_BUF[id]; return val; }
 function imgVal(id){ const v=$('#'+id).value.trim(); return (v===IMG_MARK && IMG_BUF[id]) ? IMG_BUF[id] : v; }
 /* Загруженное фото уменьшаем и сжимаем, чтобы оно целиком помещалось в память браузера */
