@@ -67,6 +67,9 @@ header{ position:fixed; top:0; left:0; right:0; z-index:200; transition:backgrou
 /* ===== HERO (баннер-картинка) ===== */
 .hero{ position:relative; display:block; margin-top:72px; overflow:hidden; }
 .hero-img{ display:block; width:100%; height:auto; }
+/* у каждой темы своя заставка: тёмная студия в тёмной теме, светлая — в светлой */
+:root[data-theme="light"] .hero-img--dark{ display:none; }
+:root:not([data-theme="light"]) .hero-img--light{ display:none; }
 .hero::after{ display:none; }
 .hero .inner{ position:relative; z-index:2; padding-bottom:clamp(44px,8vh,92px); padding-top:120px; max-width:760px; color:#F3F1EC; }
 .hero .kicker{ font-size:.72rem; letter-spacing:.42em; text-transform:uppercase; color:var(--amber); margin-bottom:22px; opacity:0; animation:fadeUp 1s var(--ease) .3s forwards; }
@@ -595,7 +598,8 @@ body:not(.admin-on) .adm-inline{ display:none; }
 
 <!-- HERO -->
 <section class="hero">
-  <img id="heroImg" class="hero-img" src="images/hero-admv.jpg" alt="ADMV — премиальная одежда, обувь, аксессуары">
+  <img id="heroImg" class="hero-img hero-img--light" src="images/hero-admv.jpg" alt="ADMV — премиальная одежда, обувь, аксессуары">
+  <img id="heroImgDark" class="hero-img hero-img--dark" src="images/hero-admv-dark.jpg" alt="ADMV — премиальная одежда, обувь, аксессуары">
   <button class="adm-inline hero-edit" onclick="openAdminAt('store')"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13 7l4 4"/></svg>Изменить заставку</button>
 </section>
 
@@ -1113,18 +1117,18 @@ function openOrder(){
   $('#orderModal').classList.add('open'); document.body.classList.add('lock');
 }
 function closeOrder(){ $('#orderModal').classList.remove('open'); syncLock(); }
-function copyOrder(){
-  const t=$('#orderText'); t.select();
-  try{ navigator.clipboard.writeText(t.value); }catch(e){ try{document.execCommand('copy');}catch(_){} }
-  toast('Текст скопирован');
+function copyText(raw){
+  const old=()=>{ const t=$('#orderText'); try{ t.select(); document.execCommand('copy'); }catch(_){} };
+  try{ navigator.clipboard.writeText(raw).catch(old); }catch(e){ old(); }
 }
+function copyOrder(){ copyText($('#orderText').value); toast('Текст скопирован'); }
 function sendOrder(ch){
   const raw=$('#orderText').value; const text=encodeURIComponent(raw);
-  try{ navigator.clipboard.writeText(raw); }catch(e){}
+  copyText(raw);   // запасной вариант: если чат не подставит текст сам, его можно вставить
   let url='';
   if(ch==='whatsapp'){ const n=(STORE.whatsapp||'').replace(/\D/g,''); if(!n){ toast('Номер WhatsApp не указан в админке'); return; } url=`https://wa.me/${n}?text=${text}`; }
-  else if(ch==='telegram'){ if(!STORE.telegram){ toast('Telegram не указан в админке'); return; } url=`https://t.me/${STORE.telegram}`; toast('Текст скопирован — вставьте в чат'); }
-  else if(ch==='instagram'){ if(!STORE.instagram){ toast('Instagram не указан в админке'); return; } url=`https://ig.me/m/${STORE.instagram}`; toast('Текст скопирован — вставьте в чат'); }
+  else if(ch==='telegram'){ if(!STORE.telegram){ toast('Telegram не указан в админке'); return; } url=`https://t.me/${encodeURIComponent(STORE.telegram.replace(/^@/,''))}?text=${text}`; }
+  else if(ch==='instagram'){ if(!STORE.instagram){ toast('Instagram не указан в админке'); return; } url=`https://ig.me/m/${encodeURIComponent(STORE.instagram.replace(/^@/,''))}?text=${text}`; toast('Если текст не появился в чате — вставьте его, он уже скопирован'); }
   window.open(url,'_blank','noopener');
 }
 function updateCounts(){
@@ -1326,7 +1330,12 @@ function promptModal(title,label,value,onOk){
 }
 
 /* ===== ЗАСТАВКА (hero) ===== */
-function renderHero(){ const im=$('#heroImg'); if(im) im.src = (STORE.hero && STORE.hero.trim()) ? STORE.hero : 'images/hero-admv.jpg'; }
+function renderHero(){
+  const own=(STORE.hero && STORE.hero.trim()) ? STORE.hero : '';   // своё фото из админки показываем в обеих темах
+  const im=$('#heroImg'), dk=$('#heroImgDark');
+  if(im) im.src = own || 'images/hero-admv.jpg';
+  if(dk) dk.src = own || 'images/hero-admv-dark.jpg';
+}
 
 /* ===== РЕЖИМ АДМИНА НА САЙТЕ ===== */
 function isAdmin(){ try{ return sessionStorage.getItem('admv_authed')==='1'; }catch(e){ return false; } }
