@@ -123,6 +123,8 @@ select.tool{ background:var(--bg); color:var(--text); -webkit-appearance:none; a
 .pcard .imgwrap{ position:relative; aspect-ratio:4/5; overflow:hidden; background:var(--card2); }
 .pcard .imgwrap img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:opacity .6s var(--ease), transform 1s var(--ease); filter:grayscale(.15); }
 .pcard .imgwrap .img2{ opacity:0; }
+/* загруженные через админку фото показываем целиком, без обрезки под рамку */
+.pcard .imgwrap img[src^="data:"], .gmain img[src^="data:"]{ object-fit:contain; }
 .pcard:hover .img1{ opacity:0; transform:scale(1.05); }
 .pcard:hover .img2{ opacity:1; transform:scale(1.05); }
 .pcard .flag{ position:absolute; top:12px; left:12px; z-index:3; font-size:.56rem; letter-spacing:.16em; text-transform:uppercase; padding:5px 10px; background:var(--bg); color:var(--text); }
@@ -728,7 +730,7 @@ body.admin-on .pcard{ border-radius:var(--r-lg); }
     <div class="fp-pick-row" id="frPicks"></div>
     <div class="fp-help" id="frHelp" style="display:none">Добавляйте вещи — они надеваются слоями.</div>
   </div>
-  <div class="fp-total" id="frTotalRow" style="display:none"><span class="l">Итого</span><span class="v" id="frTotal">€0</span></div>
+  <div class="fp-total" id="frTotalRow" style="display:none"><span class="l">Итого</span><span class="v" id="frTotal">0 ₽</span></div>
   <div class="fp-foot">
     <button class="btn solid block" onclick="frAddAll()">Образ в корзину</button>
     <button class="fp-reset block" onclick="frClear()">Сбросить</button>
@@ -841,34 +843,34 @@ const PLACEHOLDER = 'https://picsum.photos/seed/admv-product/800/1000';
 
 const DEFAULT_PRODUCTS = [
   { id:'tee-premium', name:'ADMV Футболка Premium', category:'Футболки', description:'Премиальная футболка из чесаного хлопка, свободный крой.',
-    price:89, oldPrice:null, images:[img('mens,tshirt,fashion',401),img('mens,tshirt,model',402)],
+    price:8900, oldPrice:null, images:[img('mens,tshirt,fashion',401),img('mens,tshirt,model',402)],
     colors:['Чёрный','Белый','Серый','Кремовый'], sizes:['XS','S','M','L','XL','XXL','3XL'], stock:{XS:1,S:1,M:1,L:1,XL:1,XXL:1,'3XL':0}, featured:true, newArrival:true, sale:false },
   { id:'tee-heavy', name:'ADMV Футболка Heavy', category:'Футболки', description:'Плотный хлопок 240 г/м², держит форму.',
-    price:79, oldPrice:null, images:[img('mens,tshirt,streetwear',403),img('mens,plain,tshirt',404)],
+    price:7900, oldPrice:null, images:[img('mens,tshirt,streetwear',403),img('mens,plain,tshirt',404)],
     colors:['Чёрный','Серый','Зелёный'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:1,XXL:1}, featured:false, newArrival:false, sale:false },
   { id:'shirt-oxford', name:'ADMV Рубашка Oxford', category:'Рубашки', description:'Рубашка из оксфордского хлопка, перламутровые пуговицы.',
-    price:129, oldPrice:null, images:[img('mens,shirt,fashion',405),img('mens,shirt,model',406)],
+    price:12900, oldPrice:null, images:[img('mens,shirt,fashion',405),img('mens,shirt,model',406)],
     colors:['Белый','Тёмно-синий','Кремовый'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, featured:false, newArrival:true, sale:false },
   { id:'sweat-premium', name:'ADMV Свитшот Premium', category:'Свитшоты', description:'Плотный свитшот с начёсом, круглый ворот.',
-    price:149, oldPrice:null, images:[img('mens,sweatshirt,fashion',407),img('mens,crewneck,model',408)],
+    price:14900, oldPrice:null, images:[img('mens,sweatshirt,fashion',407),img('mens,crewneck,model',408)],
     colors:['Серый','Чёрный','Кремовый','Коричневый'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:1,XXL:1}, featured:true, newArrival:false, sale:false },
   { id:'sweat-wool', name:'ADMV Свитшот Wool', category:'Свитшоты', description:'Свитшот с мериносом, мягкий и благородный.',
-    price:179, oldPrice:null, images:[img('mens,wool,sweater',409),img('mens,knit,fashion',410)],
+    price:17900, oldPrice:null, images:[img('mens,wool,sweater',409),img('mens,knit,fashion',410)],
     colors:['Тёмно-синий','Серый','Зелёный'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, featured:false, newArrival:true, sale:false },
   { id:'hoodie-zip', name:'ADMV Худи на молнии', category:'Худи', description:'Худи на молнии из плотного хлопка с начёсом.',
-    price:169, oldPrice:199, images:[img('mens,hoodie,fashion',411),img('mens,hoodie,street',412)],
+    price:16900, oldPrice:19900, images:[img('mens,hoodie,fashion',411),img('mens,hoodie,street',412)],
     colors:['Чёрный','Серый','Зелёный'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:1,XXL:1}, featured:false, newArrival:false, sale:true },
   { id:'pants-linen', name:'ADMV Льняные брюки', category:'Брюки', description:'Свободные льняные брюки с лёгким зауженным кроем.',
-    price:139, oldPrice:null, images:[img('mens,linen,pants',413),img('mens,trousers,fashion',414)],
+    price:13900, oldPrice:null, images:[img('mens,linen,pants',413),img('mens,trousers,fashion',414)],
     colors:['Кремовый','Чёрный','Коричневый'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, featured:false, newArrival:true, sale:false },
   { id:'pants-cargo', name:'ADMV Брюки Cargo', category:'Брюки', description:'Брюки карго из хлопкового рипстопа.',
-    price:159, oldPrice:null, images:[img('mens,cargo,pants',415),img('mens,cargo,street',416)],
+    price:15900, oldPrice:null, images:[img('mens,cargo,pants',415),img('mens,cargo,street',416)],
     colors:['Зелёный','Чёрный','Серый'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:1,XXL:1}, featured:false, newArrival:false, sale:false },
   { id:'sneak-runner', name:'ADMV Кроссовки Runner', category:'Кроссовки', description:'Минималистичные кроссовки на скульптурной подошве.',
-    price:219, oldPrice:null, images:[img('sneakers,shoes,fashion',417),img('sneakers,white,shoes',418)],
+    price:21900, oldPrice:null, images:[img('sneakers,shoes,fashion',417),img('sneakers,white,shoes',418)],
     colors:['Белый','Чёрный','Серый'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, featured:true, newArrival:true, sale:false },
   { id:'sneak-court', name:'ADMV Кроссовки Court', category:'Кроссовки', description:'Низкие кеды-корт из премиальной кожи.',
-    price:199, oldPrice:239, images:[img('sneakers,leather,shoes',419),img('sneakers,court,fashion',420)],
+    price:19900, oldPrice:23900, images:[img('sneakers,leather,shoes',419),img('sneakers,court,fashion',420)],
     colors:['Белый','Кремовый','Тёмно-синий'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:0,XXL:1}, featured:false, newArrival:false, sale:true },
 ];
 
@@ -897,7 +899,7 @@ const DEFAULT_STORE = {
   address:'Укажите адрес магазина в админке',
   hours:'Пн–Вс: 10:00–22:00',
   telegram:'admvme', whatsapp:'7 (989) 918-81-61', instagram:'admv.so',
-  currency:'€', hero:''
+  currency:'₽', hero:''
 };
 const DEFAULT_ADMIN = { user:'admin', pass:'admv2026' };
 
@@ -913,12 +915,32 @@ const clone = o => JSON.parse(JSON.stringify(o));
 const DB = {
   load(key,def){ try{ const v=localStorage.getItem(key); return v?JSON.parse(v):clone(def); }catch(e){ return clone(def); } },
   save(key,val){ try{ localStorage.setItem(key,JSON.stringify(val)); return true; }
-    catch(e){ toast('Недостаточно места в браузере — используйте ссылки на фото вместо загрузки файлов.'); return false; } },
+    catch(e){ toast('В браузере закончилось место для фото. Удалите лишние фото товаров или вставьте ссылку вместо файла.'); return false; } },
   products(){ return this.load(LS.prod, DEFAULT_PRODUCTS); },
   categories(){ return this.load(LS.cats, DEFAULT_CATEGORIES); },
   store(){ return Object.assign(clone(DEFAULT_STORE), this.load(LS.store, {})); },
   admin(){ return Object.assign(clone(DEFAULT_ADMIN), this.load(LS.admin, {})); }
 };
+
+/* Одноразовый перевод сохранённых в браузере данных с евро на рубли:
+   валюта магазина и цены стандартных товаров (свои цены не трогаем) */
+(function(){
+  try{
+    if(localStorage.getItem('admv_rub')) return;
+    const st=localStorage.getItem(LS.store);
+    if(st){ const o=JSON.parse(st); if(!o.currency || o.currency==='€'){ o.currency='₽'; localStorage.setItem(LS.store,JSON.stringify(o)); } }
+    const pr=localStorage.getItem(LS.prod);
+    if(pr){
+      const def={}; DEFAULT_PRODUCTS.forEach(d=>def[d.id]=d);
+      const list=JSON.parse(pr);
+      list.forEach(x=>{ const d=def[x.id]; if(!d) return;
+        if(x.price*100===d.price) x.price=d.price;
+        if(x.oldPrice && d.oldPrice && x.oldPrice*100===d.oldPrice) x.oldPrice=d.oldPrice; });
+      localStorage.setItem(LS.prod,JSON.stringify(list));
+    }
+    localStorage.setItem('admv_rub','1');
+  }catch(e){}
+})();
 
 /* Накладываем слои примерки и характеристики на загруженные товары */
 function applyMeta(list){
@@ -934,7 +956,7 @@ function applyMeta(list){
 }
 
 /* Живые данные магазина */
-let PRODUCTS=[], CATEGORIES=[], STORE={}, PRICE_MAX=260;
+let PRODUCTS=[], CATEGORIES=[], STORE={}, PRICE_MAX=26000;
 function loadData(){
   PRODUCTS = applyMeta(DB.products());
   CATEGORIES = DB.categories();
@@ -954,7 +976,7 @@ let filters = { cats:new Set(), sizes:new Set(), colors:new Set(), price:PRICE_M
 let viewMode = 'all'; // all | new | sale
 let frLook = { tops:null, outerwear:null, bottoms:null, shoes:null, accessory:null }; // примерочная
 const $ = s=>document.querySelector(s);
-const eur = n=>(STORE.currency||'€')+n;
+const eur = n=>{ const c=STORE.currency||'₽', v=Number(n||0).toLocaleString('ru-RU'); return c==='₽' ? v+' ₽' : c+v; };
 const plu = (n,a,b,c)=>{ const m=Math.abs(n)%100, d=m%10; if(m>10&&m<20) return c; if(d>1&&d<5) return b; if(d===1) return a; return c; };
 
 /* ===== SHOP RENDER ===== */
@@ -1065,7 +1087,7 @@ function buildFilter(){
     <div class="fgroup"><div class="ft">Цвет</div><div class="colors-f">${col}</div></div>
     <div class="fgroup rangewrap"><div class="ft">Цена</div>
       <input type="range" min="0" max="${PRICE_MAX}" value="${filters.price}" oninput="setPrice(this.value)">
-      <div class="rlabels"><span>€0</span><span id="priceLbl">${eur(filters.price)}</span></div>
+      <div class="rlabels"><span>${eur(0)}</span><span id="priceLbl">${eur(filters.price)}</span></div>
     </div>`;
 }
 function togF(group,val){
@@ -1434,10 +1456,29 @@ function editProduct(id){
   $('#formSave').onclick=saveProductForm;
   $('#formModal').classList.add('open'); document.body.classList.add('lock');
 }
+/* Загруженное фото уменьшаем и сжимаем, чтобы оно целиком помещалось в память браузера */
 function pickImg(input,targetId){
   const file=input.files[0]; if(!file) return;
-  if(file.size>1.5*1024*1024) toast('Фото большое — лучше вставить ссылку');
-  const r=new FileReader(); r.onload=()=>{ $('#'+targetId).value=r.result; toast('Фото загружено'); }; r.readAsDataURL(file);
+  const max = targetId==='s_hero' ? 2000 : 1200;
+  const fail=()=>toast('Не удалось прочитать фото — попробуйте JPG или PNG');
+  const r=new FileReader();
+  r.onerror=fail;
+  r.onload=()=>{
+    const im=new Image();
+    im.onerror=fail;
+    im.onload=()=>{
+      const k=Math.min(1, max/Math.max(im.naturalWidth,im.naturalHeight));
+      const c=document.createElement('canvas');
+      c.width=Math.round(im.naturalWidth*k); c.height=Math.round(im.naturalHeight*k);
+      c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+      let out=c.toDataURL('image/webp',.82);               // webp хранит и прозрачный фон
+      if(out.indexOf('data:image/webp')!==0) out=c.toDataURL('image/jpeg',.85);
+      if(out.length>r.result.length) out=r.result;          // маленький файл оставляем как есть
+      $('#'+targetId).value=out; toast('Фото загружено');
+    };
+    im.src=r.result;
+  };
+  r.readAsDataURL(file); input.value='';
 }
 function saveProductForm(){
   const name=$('#f_name').value.trim();
@@ -1542,7 +1583,7 @@ function saveStore(){
   const obj={ name:$('#s_name').value.trim()||'ADMV', tagline:STORE.tagline||'Премиальная одежда',
     about:$('#s_about').value.trim(), address:$('#s_addr').value.trim(), hours:$('#s_hours').value.trim(),
     telegram:$('#s_tg').value.trim().replace(/^@/,''), whatsapp:$('#s_wa').value.trim(),
-    instagram:$('#s_ig').value.trim().replace(/^@/,''), currency:$('#s_cur').value.trim()||'€',
+    instagram:$('#s_ig').value.trim().replace(/^@/,''), currency:$('#s_cur').value.trim()||'₽',
     hero:$('#s_hero').value.trim() };
   confirmAction('Сохранить информацию о магазине?', ()=>{ DB.save(LS.store,obj); reloadAll(); toast('Сохранено'); });
 }
