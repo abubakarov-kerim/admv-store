@@ -542,6 +542,21 @@ body:not(.admin-on) .adm-inline{ display:none; }
   #adminBar .ab-dot,#adminBar .ab-t,#adminBar .ab-sp{ display:none; }
   #adminBar button{ flex:0 0 auto; }
 }
+
+/* ===== СКРУГЛЕНИЯ (единая система) =====
+   --r-xs: мелкие метки и галочки · --r: кнопки, поля, плашки · --r-lg: фото и карточки */
+:root{ --r-xs:6px; --r:10px; --r-lg:16px; }
+.btn, .tool, .gridtog, .catpill, .trend button, .ch-btn, .chk, .filepick, .adm-tab, .adm-mini, .fp-reset,
+.sizepill, .pv-size, .qty, .inp, .toast, .xbtn, .themebtn, .burger, .adm-inline, #adminBar button,
+#intro3d .intro-skip, .pcard .cardacts button, .thumbs img, .citem img, .fp-pick img{ border-radius:var(--r); }
+.chip-f, .fp-pick-i select{ border-radius:8px; }
+.pcard .flag{ border-radius:var(--r-xs); }
+.fopt .box{ border-radius:5px; }
+.gridtog, .qty{ overflow:hidden; }
+.pcard .imgwrap, .gmain, .order-text, .adm-row{ border-radius:var(--r-lg); }
+body.admin-on .pcard{ border-radius:var(--r-lg); }
+.rangewrap input[type=range]{ border-radius:999px; }
+@media(min-width:701px){ .drawer{ border-radius:18px 0 0 18px; } }
 </style>
 <script>(function(){try{var t=localStorage.getItem('admvTheme')||'dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 </head>
