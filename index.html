@@ -561,6 +561,21 @@ body.admin-on .pcard{ border-radius:var(--r-lg); }
 @media(min-width:701px){ .drawer{ border-radius:18px 0 0 18px; } }
 </style>
 <script>(function(){try{var t=localStorage.getItem('admvTheme')||'dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<script>
+/* Фото не загрузилось: вместо сломанной картинки показываем заглушку «Фото скоро» */
+(function(){
+  var svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000"><g fill="#A99B85" text-anchor="middle" font-family="Georgia,serif">'+
+    '<text x="408" y="500" font-size="92" letter-spacing="14" opacity=".55">ADMV</text>'+
+    '<text x="404" y="556" font-size="20" letter-spacing="8" opacity=".5" font-family="Arial,sans-serif">ФОТО СКОРО</text></g></svg>';
+  var NOPHOTO='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+  document.addEventListener('error',function(e){
+    var t=e.target; if(!t || t.tagName!=='IMG' || t.dataset.fb) return;
+    t.dataset.fb='1';
+    if(t.closest('.editorial')||t.closest('.hero')) t.style.visibility='hidden';
+    else t.src=NOPHOTO;
+  },true);
+})();
+</script>
 </head>
 <body>
 
@@ -1448,14 +1463,19 @@ function editProduct(id){
     <div class="fld"><label>Характеристики (каждая с новой строки: «Название: значение»)</label><textarea class="inp" id="f_specs" placeholder="Материал: 100% хлопок\nКрой: свободный">${esc(specsText)}</textarea></div>
     <div class="fld"><label>Цвета</label><div class="chkwrap" id="f_colors">${colChk}</div></div>
     <div class="fld"><label>Размеры</label><div class="chkwrap" id="f_sizes">${szChk}</div></div>
-    <div class="fld"><label>Фото 1 (главное) — ссылка</label><input class="inp" id="f_img1" value="${esc(p.images[0]||'')}" placeholder="https://...">
+    <div class="fld"><label>Фото 1 (главное) — ссылка</label><input class="inp" id="f_img1" value="${esc(imgField('f_img1',p.images[0]))}" placeholder="https://...">
       <label class="filepick" style="margin-top:9px"><input type="file" accept="image/*" hidden onchange="pickImg(this,'f_img1')">Загрузить фото</label></div>
-    <div class="fld"><label>Фото 2 (показывается при наведении) — ссылка</label><input class="inp" id="f_img2" value="${esc(p.images[1]||'')}" placeholder="https://...">
+    <div class="fld"><label>Фото 2 (показывается при наведении) — ссылка</label><input class="inp" id="f_img2" value="${esc(imgField('f_img2',p.images[1]))}" placeholder="https://...">
       <label class="filepick" style="margin-top:9px"><input type="file" accept="image/*" hidden onchange="pickImg(this,'f_img2')">Загрузить фото</label></div>`;
   $('#formSave').textContent='Сохранить';
   $('#formSave').onclick=saveProductForm;
   $('#formModal').classList.add('open'); document.body.classList.add('lock');
 }
+/* Загруженное фото лежит в IMG_BUF, а не в текстовом поле: поле обрезает длинный текст,
+   и большое фото сохранялось наполовину. В поле показываем только пометку. */
+const IMG_BUF={}, IMG_MARK='Загруженное фото (файл)';
+function imgField(id,val){ val=val||''; if(val.indexOf('data:')===0){ IMG_BUF[id]=val; return IMG_MARK; } delete IMG_BUF[id]; return val; }
+function imgVal(id){ const v=$('#'+id).value.trim(); return (v===IMG_MARK && IMG_BUF[id]) ? IMG_BUF[id] : v; }
 /* Загруженное фото уменьшаем и сжимаем, чтобы оно целиком помещалось в память браузера */
 function pickImg(input,targetId){
   const file=input.files[0]; if(!file) return;
@@ -1474,7 +1494,7 @@ function pickImg(input,targetId){
       let out=c.toDataURL('image/webp',.82);               // webp хранит и прозрачный фон
       if(out.indexOf('data:image/webp')!==0) out=c.toDataURL('image/jpeg',.85);
       if(out.length>r.result.length) out=r.result;          // маленький файл оставляем как есть
-      $('#'+targetId).value=out; toast('Фото загружено');
+      IMG_BUF[targetId]=out; $('#'+targetId).value=IMG_MARK; toast('Фото загружено');
     };
     im.src=r.result;
   };
@@ -1487,7 +1507,7 @@ function saveProductForm(){
   const sizes =[...$('#f_sizes').querySelectorAll('.chk.on')].map(x=>x.dataset.sz);
   const specs =$('#f_specs').value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{ const i=l.indexOf(':'); return i>-1?{k:l.slice(0,i).trim(),v:l.slice(i+1).trim()}:{k:l,v:''}; });
   const stock={}; sizes.forEach(s=>stock[s]=1);
-  const img1=$('#f_img1').value.trim(), img2=$('#f_img2').value.trim();
+  const img1=imgVal('f_img1'), img2=imgVal('f_img2');
   const old=parseFloat($('#f_old').value)||null;
   const obj={
     id: editingId || ('p'+Date.now()),
@@ -1575,7 +1595,7 @@ function admStore(){
       <div class="fld"><label>Instagram (без @)</label><input class="inp" id="s_ig" value="${esc(s.instagram)}" placeholder="admv.so"></div>
       <div class="fld"><label>Валюта</label><input class="inp" id="s_cur" value="${esc(s.currency)}" maxlength="3"></div>
     </div>
-    <div class="fld"><label>Фото заставки (ссылка) — пусто = стандартное</label><input class="inp" id="s_hero" value="${esc(s.hero||'')}" placeholder="https://...">
+    <div class="fld"><label>Фото заставки (ссылка) — пусто = стандартное</label><input class="inp" id="s_hero" value="${esc(imgField('s_hero',s.hero))}" placeholder="https://...">
       <label class="filepick" style="margin-top:9px"><input type="file" accept="image/*" hidden onchange="pickImg(this,'s_hero')">Загрузить фото заставки</label></div>
     <button class="btn solid" onclick="saveStore()">Сохранить изменения</button>`;
 }
@@ -1584,7 +1604,7 @@ function saveStore(){
     about:$('#s_about').value.trim(), address:$('#s_addr').value.trim(), hours:$('#s_hours').value.trim(),
     telegram:$('#s_tg').value.trim().replace(/^@/,''), whatsapp:$('#s_wa').value.trim(),
     instagram:$('#s_ig').value.trim().replace(/^@/,''), currency:$('#s_cur').value.trim()||'₽',
-    hero:$('#s_hero').value.trim() };
+    hero:imgVal('s_hero') };
   confirmAction('Сохранить информацию о магазине?', ()=>{ DB.save(LS.store,obj); reloadAll(); toast('Сохранено'); });
 }
 
