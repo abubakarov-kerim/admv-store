@@ -5,9 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ADMV — Премиальная одежда</title>
 <meta name="description" content="ADMV. Премиальная одежда для тех, кто движется вперёд. Сдержанная роскошь и премиальные материалы для каждого дня.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts/fonts.css">
+<meta name="theme-color" content="#101114">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101114'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' text-anchor='middle' fill='%23F2EFE8'%3EA%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ADMV — Премиальная одежда">
+<meta property="og:description" content="Мужская одежда премиум-качества. Примерка у вас дома, доставка и обмен размера.">
+<meta property="og:image" content="https://abubakarov-kerim.github.io/admv-store/images/og.jpg">
 <style>
 :root{
   --bg:#101114; --card:#15161A; --card2:#1A1B20; --text:#F2EFE8; --muted:#86837C;
@@ -429,6 +433,19 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 .mbox-body{ padding:22px 24px; }
 .mbox-foot{ padding:18px 24px; border-top:1px solid var(--line); display:flex; gap:12px; }
 
+.info-text{ font-size:.88rem; line-height:1.7; color:var(--muted); font-weight:300; }
+.info-text h4{ font-family:var(--sans); font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--text); font-weight:500; margin:20px 0 8px; }
+.info-text h4:first-child{ margin-top:0; }
+.size-tbl{ overflow-x:auto; }
+.size-tbl table{ width:100%; border-collapse:collapse; font-size:.84rem; }
+.size-tbl th{ font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); font-weight:500; text-align:left; padding:0 10px 10px 0; }
+.size-tbl td{ padding:9px 10px 9px 0; color:var(--text); border-top:1px solid var(--line); }
+.info-text b{ color:var(--text); font-weight:500; }
+.order-note{ font-size:.72rem; line-height:1.6; color:var(--muted); margin-top:14px; }
+.order-note a, .fbot a{ text-decoration:underline; text-underline-offset:3px; cursor:pointer; }
+.order-note a:hover, .fbot a:hover{ color:var(--amber); }
+.fbot .flinks{ display:flex; gap:18px; flex-wrap:wrap; }
+
 /* order */
 .order-ch{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:16px 0 20px; }
 .ch-btn{ display:flex; flex-direction:column; align-items:center; gap:9px; padding:18px 8px; border:1px solid var(--line); transition:border-color .25s,color .25s,transform .2s; }
@@ -475,6 +492,8 @@ textarea.inp{ resize:vertical; min-height:92px; line-height:1.55; }
 .adm-row .ar-acts{ display:flex; gap:8px; flex-shrink:0; }
 .adm-mini{ font-size:.56rem; letter-spacing:.14em; text-transform:uppercase; padding:9px 13px; border:1px solid var(--line); transition:.2s; white-space:nowrap; }
 .adm-mini:hover{ border-color:var(--amber); color:var(--amber); }
+.adm-mini.on{ background:var(--amber); border-color:var(--amber); color:var(--bg); }
+.adm-mini:disabled{ opacity:.5; cursor:default; }
 .adm-mini.danger:hover{ border-color:#e05a4a; color:#e05a4a; }
 .adm-hint{ font-size:.78rem; color:var(--muted); line-height:1.65; margin-bottom:18px; max-width:70ch; }
 .adm-hint b{ color:var(--text); font-weight:500; }
@@ -487,6 +506,9 @@ textarea.inp{ resize:vertical; min-height:92px; line-height:1.55; }
 .tg-float{ position:fixed; right:22px; bottom:22px; z-index:360; width:56px; height:56px; border-radius:50%;
   background:#229ED9; display:grid; place-items:center; box-shadow:0 14px 34px -10px rgba(34,158,217,.7); transition:transform .25s var(--ease); }
 .tg-float:hover{ transform:translateY(-3px) scale(1.05); }
+/* пока открыта панель или окно, плавающие кнопки прячем — иначе на телефоне они закрывают кнопки панели */
+body.lock #tryLaunch, body.lock .tg-float{ opacity:0; pointer-events:none; }
+.tg-float{ transition:transform .25s var(--ease), opacity .25s; }
 .tg-float svg{ width:28px; height:28px; fill:#fff; }
 
 /* ===== FOOTER INFO ===== */
@@ -502,6 +524,14 @@ textarea.inp{ resize:vertical; min-height:92px; line-height:1.55; }
 .pv-specs .srow:last-child{ border-bottom:none; }
 .pv-specs .srow .sk{ color:var(--muted); font-weight:300; }
 
+@media(max-width:700px){
+  .toast{ top:calc(84px + env(safe-area-inset-top,0px)); bottom:auto; width:max-content; max-width:calc(100vw - 32px); text-align:center; line-height:1.5;
+    transform:translateX(-50%) translateY(-12px); letter-spacing:.1em; }
+  .toast.show{ transform:translateX(-50%); }
+  body.admin-on .toast{ top:calc(126px + env(safe-area-inset-top,0px)); }
+  footer{ padding-bottom:110px; }   /* место под плавающие кнопки, чтобы не закрывали последнюю строку */
+  body.fr-open .tg-float{ opacity:0; pointer-events:none; }
+}
 @media(max-width:560px){
   .order-ch{ grid-template-columns:1fr 1fr 1fr; }
   .ch-btn{ padding:14px 4px; }
@@ -529,6 +559,7 @@ body.admin-on #adminBar{ display:flex; }
 #adminBar button:hover{ opacity:1; border-color:var(--amber); color:var(--amber); }
 #adminBar button.solid{ background:var(--amber); color:#101114; border-color:var(--amber); opacity:1; }
 #adminBar button.solid:hover{ color:#101114; filter:brightness(1.08); }
+#adminBar button:disabled{ opacity:.5; cursor:default; border-color:rgba(255,255,255,.18); color:#F2EFE8; }
 body.admin-on header{ top:42px; }
 body.admin-on .mnav{ top:114px; }
 body.admin-on .hero{ margin-top:114px; }
@@ -573,7 +604,7 @@ body.admin-on .pcard{ border-radius:var(--r-lg); }
 /* АВТООБНОВЛЕНИЕ: браузер может показывать старую сохранённую копию сайта.
    Сверяем номер версии с сервером и, если вышла новая, сами открываем её.
    При каждой публикации менять ADMV_BUILD. */
-var ADMV_BUILD='2026-10-12.5';
+var ADMV_BUILD='2026-10-14.1';
 (function(){
   if(location.protocol.indexOf('http')!==0 || !window.fetch) return;
   fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.text():''; }).then(function(t){
@@ -589,7 +620,7 @@ var ADMV_BUILD='2026-10-12.5';
   var svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000"><g fill="#A99B85" text-anchor="middle" font-family="Georgia,serif">'+
     '<text x="408" y="500" font-size="92" letter-spacing="14" opacity=".55">ADMV</text>'+
     '<text x="404" y="556" font-size="20" letter-spacing="8" opacity=".5" font-family="Arial,sans-serif">ФОТО СКОРО</text></g></svg>';
-  var NOPHOTO='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+  var NOPHOTO=window.NOPHOTO='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
   document.addEventListener('error',function(e){
     var t=e.target; if(!t || t.tagName!=='IMG' || t.dataset.fb) return;
     t.dataset.fb='1';
@@ -619,6 +650,7 @@ var ADMV_BUILD='2026-10-12.5';
   <button onclick="openAdminAt('cats')">Каталог</button>
   <button onclick="openAdminAt('store')">Магазин</button>
   <button onclick="openAdminAt('products')">Панель</button>
+  <button id="abPub" onclick="publishDB()">Опубликовать</button>
   <button onclick="logoutAdmin()">Выйти</button>
 </div>
 
@@ -685,7 +717,7 @@ var ADMV_BUILD='2026-10-12.5';
 
 <!-- EDITORIAL BREAK -->
 <section class="editorial rv">
-  <img src="https://loremflickr.com/1800/1000/fashion,street,coat,dark?lock=322" alt="">
+  <img src="images/hero-admv-dark.jpg" alt="" loading="lazy">
   <div class="wrap">
     <div class="k">Стандарт ADMV</div>
     <h2 class="serif">Тихие вещи, созданные надолго.</h2>
@@ -789,10 +821,11 @@ var ADMV_BUILD='2026-10-12.5';
       <div class="order-ch">
         <button class="ch-btn" onclick="sendOrder('whatsapp')"><svg viewBox="0 0 24 24" fill="#25D366"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.3c-.2.2-.3.4-.2.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.2.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l2 .9c.2.1.4.2.5.3.1.3.1.8-.1 1.4Z"/></svg><span>WhatsApp</span></button>
         <button class="ch-btn" onclick="sendOrder('telegram')"><svg viewBox="0 0 24 24" fill="#229ED9"><path d="M21.9 4.3 2.9 11.6c-1 .4-1 1.7.1 2l4.8 1.5 1.8 5.8c.3.8 1.2 1 1.8.4l2.6-2.4 4.9 3.6c.7.5 1.6.1 1.8-.7l3-15c.2-1-.7-1.8-1.6-1.5ZM9.6 14.5l9-5.8c.2-.1.4.1.3.3l-7.3 6.9c-.3.2-.4.5-.5.9l-.3 2.1-1.2-4c-.1-.2 0-.4.3-.5Z"/></svg><span>Telegram</span></button>
-        <button class="ch-btn" onclick="sendOrder('instagram')"><svg viewBox="0 0 24 24" fill="#E4405F"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.1.4.3 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.1-1 .3-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.1-.4-.3-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.1 1-.3 2.2-.4C8.4 2.2 8.8 2.2 12 2.2Zm0 1.8c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.3.8-.4.4-.6.8-.8 1.3-.2.4-.3 1-.4 2.1-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.3.4.4.8.6 1.3.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.3-.8.4-.4.6-.8.8-1.3.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.3-.4-.4-.8-.6-1.3-.8-.4-.2-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1Zm0 3.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8Zm0 8a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Zm6.3-8.2a1.15 1.15 0 1 1-2.3 0 1.15 1.15 0 0 1 2.3 0Z"/></svg><span>Instagram</span></button>
+        <button class="ch-btn" onclick="sendOrder('instagram')"><svg viewBox="0 0 24 24" fill="#E4405F"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.1.4.3 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.1-1 .3-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.1-.4-.3-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.1 1-.3 2.2-.4C8.4 2.2 8.8 2.2 12 2.2Zm0 1.8c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.3.8-.4.4-.6.8-.8 1.3-.2.4-.3 1-.4 2.1-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.3.4.4.8.6 1.3.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.3-.8.4-.4.6-.8.8-1.3.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.3-.4-.4-.8-.6-1.3-.8-.4-.2-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1Zm0 3.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8Zm0 8a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Zm6.3-8.2a1.15 1.15 0 1 1-2.3 0 1.15 1.15 0 0 1 2.3 0Z"/></svg><span>Instagram*</span></button>
       </div>
       <label class="order-lbl">Текст заказа</label>
       <textarea class="order-text" id="orderText" readonly></textarea>
+      <p class="order-note">Сайт не собирает ваши данные. Имя, телефон и адрес вы сообщаете менеджеру в переписке, они нужны только для доставки. <a onclick="openInfo('privacy')">Конфиденциальность</a> · <a onclick="openInfo('terms')">Условия покупки</a><br>* Instagram принадлежит компании Meta, признанной экстремистской организацией и запрещённой в России.</p>
     </div>
     <div class="mbox-foot">
       <button class="btn block" style="flex:1" onclick="copyOrder()">Скопировать текст</button>
@@ -820,6 +853,7 @@ var ADMV_BUILD='2026-10-12.5';
   <div class="adm-top">
     <div class="at-title"><b>ADMV</b> · Админ-панель</div>
     <div class="at-r">
+      <button class="adm-mini pubbtn" onclick="publishDB()">Опубликовать</button>
       <button class="adm-mini" onclick="logoutAdmin()">Выйти</button>
       <button class="xbtn" onclick="closeAdmin()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
@@ -858,6 +892,14 @@ var ADMV_BUILD='2026-10-12.5';
   </div>
 </div>
 
+<!-- ===== УСЛОВИЯ ПОКУПКИ / ПОЛИТИКА ===== -->
+<div class="modal" id="infoModal">
+  <div class="box">
+    <div class="mbox-head"><h3 id="infoTitle">Условия</h3><button class="xbtn" onclick="closeInfo()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="mbox-body info-text" id="infoBody"></div>
+  </div>
+</div>
+
 <!-- ===== ПЛАВАЮЩАЯ КНОПКА TELEGRAM (чат продавца) ===== -->
 <a class="tg-float" id="tgFloat" href="#" target="_blank" rel="noopener" aria-label="Написать в Telegram">
   <svg viewBox="0 0 24 24"><path d="M21.9 4.3 2.9 11.6c-1 .4-1 1.7.1 2l4.8 1.5 1.8 5.8c.3.8 1.2 1 1.8.4l2.6-2.4 4.9 3.6c.7.5 1.6.1 1.8-.7l3-15c.2-1-.7-1.8-1.6-1.5ZM9.6 14.5l9-5.8c.2-.1.4.1.3.3l-7.3 6.9c-.3.2-.4.5-.5.9l-.3 2.1-1.2-4c-.1-.2 0-.4.3-.5Z"/></svg>
@@ -875,39 +917,39 @@ const COLORS = {
   'Чёрный':'#111111', 'Белый':'#F3F1EC', 'Серый':'#8A8A8A', 'Тёмно-синий':'#2A3142',
   'Кремовый':'#D8CDBA', 'Коричневый':'#5A4636', 'Зелёный':'#3B4A3A'
 };
-const img = (q,l)=>`https://loremflickr.com/800/1000/${q}?lock=${l}`;
-const PLACEHOLDER = 'https://picsum.photos/seed/admv-product/800/1000';
+const PLACEHOLDER = window.NOPHOTO;   // заглушка «Фото скоро» (определена в начале страницы)
+const EXT_DEMO = /loremflickr\.com|picsum\.photos/;   // старые демо-фото со сторонних сервисов — не загружаем
 
 const DEFAULT_PRODUCTS = [
   { id:'tee-premium', name:'ADMV Футболка Premium', category:'Футболки', description:'Премиальная футболка из чесаного хлопка, свободный крой.',
-    price:8900, oldPrice:null, images:[img('mens,tshirt,fashion',401),img('mens,tshirt,model',402)],
+    price:8900, oldPrice:null, images:[],
     colors:['Чёрный','Белый','Серый','Кремовый'], sizes:['XS','S','M','L','XL','XXL','3XL'], stock:{XS:1,S:1,M:1,L:1,XL:1,XXL:1,'3XL':0}, featured:true, newArrival:true, sale:false },
   { id:'tee-heavy', name:'ADMV Футболка Heavy', category:'Футболки', description:'Плотный хлопок 240 г/м², держит форму.',
-    price:7900, oldPrice:null, images:[img('mens,tshirt,streetwear',403),img('mens,plain,tshirt',404)],
+    price:7900, oldPrice:null, images:[],
     colors:['Чёрный','Серый','Зелёный'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:1,XXL:1}, featured:false, newArrival:false, sale:false },
   { id:'shirt-oxford', name:'ADMV Рубашка Oxford', category:'Рубашки', description:'Рубашка из оксфордского хлопка, перламутровые пуговицы.',
-    price:12900, oldPrice:null, images:[img('mens,shirt,fashion',405),img('mens,shirt,model',406)],
+    price:12900, oldPrice:null, images:[],
     colors:['Белый','Тёмно-синий','Кремовый'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, featured:false, newArrival:true, sale:false },
   { id:'sweat-premium', name:'ADMV Свитшот Premium', category:'Свитшоты', description:'Плотный свитшот с начёсом, круглый ворот.',
-    price:14900, oldPrice:null, images:[img('mens,sweatshirt,fashion',407),img('mens,crewneck,model',408)],
+    price:14900, oldPrice:null, images:[],
     colors:['Серый','Чёрный','Кремовый','Коричневый'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:1,XXL:1}, featured:true, newArrival:false, sale:false },
   { id:'sweat-wool', name:'ADMV Свитшот Wool', category:'Свитшоты', description:'Свитшот с мериносом, мягкий и благородный.',
-    price:17900, oldPrice:null, images:[img('mens,wool,sweater',409),img('mens,knit,fashion',410)],
+    price:17900, oldPrice:null, images:[],
     colors:['Тёмно-синий','Серый','Зелёный'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, featured:false, newArrival:true, sale:false },
   { id:'hoodie-zip', name:'ADMV Худи на молнии', category:'Худи', description:'Худи на молнии из плотного хлопка с начёсом.',
-    price:16900, oldPrice:19900, images:[img('mens,hoodie,fashion',411),img('mens,hoodie,street',412)],
+    price:16900, oldPrice:19900, images:[],
     colors:['Чёрный','Серый','Зелёный'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:1,XXL:1}, featured:false, newArrival:false, sale:true },
   { id:'pants-linen', name:'ADMV Льняные брюки', category:'Брюки', description:'Свободные льняные брюки с лёгким зауженным кроем.',
-    price:13900, oldPrice:null, images:[img('mens,linen,pants',413),img('mens,trousers,fashion',414)],
+    price:13900, oldPrice:null, images:[],
     colors:['Кремовый','Чёрный','Коричневый'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, featured:false, newArrival:true, sale:false },
   { id:'pants-cargo', name:'ADMV Брюки Cargo', category:'Брюки', description:'Брюки карго из хлопкового рипстопа.',
-    price:15900, oldPrice:null, images:[img('mens,cargo,pants',415),img('mens,cargo,street',416)],
+    price:15900, oldPrice:null, images:[],
     colors:['Зелёный','Чёрный','Серый'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:1,XXL:1}, featured:false, newArrival:false, sale:false },
   { id:'sneak-runner', name:'ADMV Кроссовки Runner', category:'Кроссовки', description:'Минималистичные кроссовки на скульптурной подошве.',
-    price:21900, oldPrice:null, images:[img('sneakers,shoes,fashion',417),img('sneakers,white,shoes',418)],
+    price:21900, oldPrice:null, images:[],
     colors:['Белый','Чёрный','Серый'], sizes:['S','M','L','XL'], stock:{S:1,M:1,L:1,XL:1}, featured:true, newArrival:true, sale:false },
   { id:'sneak-court', name:'ADMV Кроссовки Court', category:'Кроссовки', description:'Низкие кеды-корт из премиальной кожи.',
-    price:19900, oldPrice:23900, images:[img('sneakers,leather,shoes',419),img('sneakers,court,fashion',420)],
+    price:19900, oldPrice:23900, images:[],
     colors:['Белый','Кремовый','Тёмно-синий'], sizes:['S','M','L','XL','XXL'], stock:{S:1,M:1,L:1,XL:0,XXL:1}, featured:false, newArrival:false, sale:true },
 ];
 
@@ -933,12 +975,13 @@ const DEFAULT_SPECS = {
 const DEFAULT_STORE = {
   name:'ADMV', tagline:'Премиальная одежда',
   about:'Премиальная одежда для тех, кто движется вперёд. Сдержанная роскошь и качественные материалы для каждого дня.',
-  address:'Укажите адрес магазина в админке',
+  address:'', seller:'', inn:'',
+  delivery:'Привезём вещи для примерки к вам домой или в удобное место. Время и адрес согласуем в переписке.',
   hours:'Пн–Вс: 10:00–22:00',
   telegram:'admvme', whatsapp:'7 (989) 918-81-61', instagram:'admv.so',
   currency:'₽', hero:''
 };
-const DEFAULT_ADMIN = { user:'admin', pass:'admv2026' };
+const DEFAULT_ADMIN = { user:'admin', hash:'1cb941c5ef1f147894213a567d9de69f1cd02af42ec26f15d7ac6511d23ae546' };   // пароль хранится только в виде отпечатка (SHA-256)
 
 /* Связь товаров со слоями примерочной (только для встроенных товаров) */
 const TRYON_META = {
@@ -951,6 +994,9 @@ const LS = { prod:'admv_products', cats:'admv_categories', store:'admv_store', a
 const clone = o => JSON.parse(JSON.stringify(o));
 /* Товары вместе с загруженными фото лежат в большом хранилище браузера (IndexedDB):
    в обычном (localStorage) всего ~5 МБ, и несколько фото его переполняли. */
+/* Опубликованная база (data/db.json в файлах сайта) — её видят все посетители.
+   Изменения админа до публикации — черновик, он хранится только в его браузере. */
+let PUB = null;
 const BIG = { mem:null, db:null,
   open(){ return new Promise(res=>{ try{
       const r=indexedDB.open('admv',1);
@@ -971,14 +1017,16 @@ const BIG = { mem:null, db:null,
 const DB = {
   load(key,def){
     if(key===LS.prod && BIG.mem) return clone(BIG.mem);
-    try{ const v=localStorage.getItem(key); return v?JSON.parse(v):clone(def); }catch(e){ return clone(def); } },
+    const pub = PUB && {[LS.prod]:PUB.products,[LS.cats]:PUB.categories}[key];
+    try{ const v=localStorage.getItem(key); return v?JSON.parse(v):clone(pub||def); }catch(e){ return clone(pub||def); } },
   save(key,val){
     if(key===LS.prod && BIG.db){ BIG.mem=clone(val); BIG.put(key,BIG.mem); try{ localStorage.removeItem(key); }catch(e){} return true; }
     try{ localStorage.setItem(key,JSON.stringify(val)); return true; }
     catch(e){ toast('В браузере закончилось место для фото. Удалите лишние фото товаров или вставьте ссылку вместо файла.'); return false; } },
   products(){ return this.load(LS.prod, DEFAULT_PRODUCTS); },
   categories(){ return this.load(LS.cats, DEFAULT_CATEGORIES); },
-  store(){ return Object.assign(clone(DEFAULT_STORE), this.load(LS.store, {})); },
+  store(){ return Object.assign(clone(DEFAULT_STORE), clone((PUB&&PUB.store)||{}), this.load(LS.store, {})); },
+  hasDraft(){ try{ return !!(BIG.mem || localStorage.getItem(LS.prod) || localStorage.getItem(LS.cats) || localStorage.getItem(LS.store)); }catch(e){ return false; } },
   admin(){ return Object.assign(clone(DEFAULT_ADMIN), this.load(LS.admin, {})); }
 };
 
@@ -1024,7 +1072,9 @@ function applyMeta(list){
     if(fl && cutoutImg(own)){ p.layer=fl; p.tryOn=own; p.tryThumb=own; p.tryFit=true; }      // своё фото вещи на прозрачном фоне
     else if(l && !p.tryOn){ p.layer=l; p.tryOn='images/tryon/'+p.id+'.png'; p.tryThumb='images/tryon/thumb-'+p.id+'.png'; }
     if(!p.specs) p.specs = DEFAULT_SPECS[p.id] ? clone(DEFAULT_SPECS[p.id]) : [];
-    if(!Array.isArray(p.images)) p.images=[PLACEHOLDER,PLACEHOLDER];
+    if(!Array.isArray(p.images)) p.images=[];
+    p.images=p.images.map(u=>(!u||EXT_DEMO.test(u))?'':u);
+    if(!p.images[0]) p.images[0]=PLACEHOLDER;
     if(!p.images[1]) p.images[1]=p.images[0];
     if(!p.stock) p.stock={};
   });
@@ -1046,7 +1096,8 @@ function loadData(){
 loadData();
 
 /* Безопасный вывод пользовательского текста */
-const esc = s => String(s==null?'':s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const jsq = s => esc(JSON.stringify(String(s)));   // текст как безопасная строка внутри onclick
 
 /* ===== STATE ===== */
 let cart = [], wishlist = [];
@@ -1090,7 +1141,7 @@ function cardHTML(p){
         <button class="wish${onw}" onclick="event.stopPropagation();toggleWish('${p.id}')" aria-label="В избранное"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg></button>
         ${p.tryOn?`<button class="tryon${(frLook&&frLook[p.layer]&&frLook[p.layer].id===p.id)?' on':''}" onclick="event.stopPropagation();frWear('${p.id}')" aria-label="Примерить"><svg viewBox="0 0 24 24"><path d="M12 4.2a1.7 1.7 0 1 0 1.2 2.9l-1.2.9L4 13.6a1.3 1.3 0 0 0 .8 2.3h14.4a1.3 1.3 0 0 0 .8-2.3L12 8"/></svg></button>`:''}
       </div>
-      <img class="img1" src="${p.images[0]}" alt="${p.name}" loading="lazy">
+      <img class="img1" src="${p.images[0]}" alt="${esc(p.name)}" loading="lazy">
       <img class="img2" src="${p.images[1]}" alt="" loading="lazy">
       <button class="qadd" onclick="event.stopPropagation();quickAdd('${p.id}')">Быстро в корзину</button>
     </div>
@@ -1157,7 +1208,7 @@ function goHome(){ window.scrollTo({top:0,behavior:'smooth'}); closeMenu(); retu
 
 /* ===== FILTER DRAWER ===== */
 function buildFilter(){
-  const cat = CATEGORIES.map(c=>`<div class="fopt${filters.cats.has(c)?' on':''}" onclick="togF('cats','${c}')"><span class="box"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span>${c}</div>`).join('');
+  const cat = CATEGORIES.map(c=>`<div class="fopt${filters.cats.has(c)?' on':''}" onclick="togF('cats',${jsq(c)})"><span class="box"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span>${c}</div>`).join('');
   const sz = ALLSIZES.map(s=>`<div class="sizepill${filters.sizes.has(s)?' on':''}" onclick="togF('sizes','${s}')">${s}</div>`).join('');
   const col = ALLCOLORS.map(c=>`<div class="colordot${filters.colors.has(c)?' on':''}" onclick="togF('colors','${c}')"><span class="d" style="background:${COLORS[c]}"></span><span>${c}</span></div>`).join('');
   $('#filterBody').innerHTML = `
@@ -1190,7 +1241,7 @@ function renderWish(){
   b.innerHTML = wishlist.map(id=>{ const p=PRODUCTS.find(x=>x.id===id);
     return `<div class="citem">
       <img src="${p.images[0]}" alt="" onclick="closeAll();openProduct('${p.id}')" style="cursor:pointer">
-      <div><div class="cn">${p.name}</div><div class="cv">${eur(p.price)}</div>
+      <div><div class="cn">${esc(p.name)}</div><div class="cv">${eur(p.price)}</div>
         <button class="btn" style="padding:9px 16px;margin-top:10px;font-size:.6rem" onclick="quickAdd('${p.id}')">В корзину</button></div>
       <div class="cr"><button class="rm" onclick="toggleWish('${p.id}')">Удалить</button></div>
     </div>`;}).join('');
@@ -1211,7 +1262,7 @@ function renderCart(){
   if(!cart.length){ b.innerHTML='<div class="emptyd">Корзина пуста.</div>'; f.innerHTML=''; return; }
   b.innerHTML = cart.map(it=>`<div class="citem">
     <img src="${it.img}" alt="">
-    <div><div class="cn">${it.name}</div><div class="cv">${it.color} · Размер ${it.size}</div>
+    <div><div class="cn">${esc(it.name)}</div><div class="cv">${esc(it.color)} · Размер ${esc(it.size)}</div>
       <div class="qty"><button onclick="changeQty('${it.key}',-1)">−</button><span>${it.qty}</span><button onclick="changeQty('${it.key}',1)">+</button></div></div>
     <div class="cr"><div class="cp">${eur(it.price*it.qty)}</div><button class="rm" onclick="removeItem('${it.key}')">Удалить</button></div>
   </div>`).join('');
@@ -1272,7 +1323,7 @@ function renderProduct(){
   $('#pvGrid').innerHTML=`
     <div class="gallery">
       <div class="thumbs">${thumbs}</div>
-      <div class="gmain"><img id="gmainImg" src="${p.images[pvState.imgIndex]}" alt="${p.name}"></div>
+      <div class="gmain"><img id="gmainImg" src="${p.images[pvState.imgIndex]}" alt="${esc(p.name)}"></div>
     </div>
     <div class="pv-info">
       <div class="cat">${esc(p.category)}</div>
@@ -1280,7 +1331,7 @@ function renderProduct(){
       <div class="pvprice">${price}</div>
       <p class="desc">${esc(p.description)}</p>
       <div class="pv-block"><div class="l">Цвет — ${pvState.color}</div><div class="pv-colors">${colors}</div></div>
-      <div class="pv-block"><div class="l">Размер <span class="sizeguide" onclick="toast('Таблица размеров · демо')">Таблица размеров</span></div><div class="pv-sizes">${sizes}</div></div>
+      <div class="pv-block"><div class="l">Размер <span class="sizeguide" onclick="openInfo('sizes')">Таблица размеров</span></div><div class="pv-sizes">${sizes}</div></div>
       <div class="pv-cta">
         <button class="btn solid block" onclick="pvAdd(false)">В корзину</button>
         <button class="btn amber block" onclick="pvAdd(true)">Купить сейчас</button>
@@ -1288,9 +1339,9 @@ function renderProduct(){
       ${specsHTML}
       <div class="assure">
         <div><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Премиальное качество</div>
-        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>Доставка по миру</div>
-        <div><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Безопасная оплата</div>
-        <div><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 20v-5h5"/></svg>Лёгкий возврат</div>
+        <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>Примерка у вас дома</div>
+        <div><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Доставка лично в руки</div>
+        <div><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 20v-5h5"/></svg>Обмен размера</div>
       </div>
     </div>`;
 }
@@ -1324,7 +1375,13 @@ function closeAll(){
   $('#scrim').classList.remove('show');
   if(!$('#pview').classList.contains('open') && !$('#searchOv').classList.contains('open')) document.body.classList.remove('lock');
 }
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeAll(); closeSearch(); closeProduct(); } });
+document.addEventListener('keydown',e=>{ if(e.key!=='Escape') return;
+  const m=[...document.querySelectorAll('.modal.open')].pop();   // сначала закрываем верхнее окно
+  if(m){ if(m.id==='confirmModal') closeConfirm(); else if(m.id==='orderModal') closeOrder(); else if(m.id==='formModal') closeForm(); else if(m.id==='infoModal') closeInfo(); else if(m.id==='loginModal') closeLogin(); return; }
+  closeAll(); closeSearch(); closeProduct(); });
+/* клик по затемнению вокруг окна закрывает его */
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{ if(e.target!==m) return;
+  if(m.id==='orderModal') closeOrder(); else if(m.id==='infoModal') closeInfo(); else if(m.id==='loginModal') closeLogin(); }));
 
 /* ===== MOBILE MENU ===== */
 function closeMenu(){ $('#mnav').classList.remove('open'); $('#burger').classList.remove('open'); }
@@ -1376,7 +1433,8 @@ function renderFooter(){
     clock:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
     tg:'<svg viewBox="0 0 24 24"><path d="m22 4-11 7"/><path d="M22 4 15 21l-4-6-6-2 17-9z"/></svg>',
     wa:'<svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h2l2 5-2 1a12 12 0 0 0 5 5l1-2 5 2v2a2 2 0 0 1-2 2A16 16 0 0 1 4 5z"/></svg>',
-    ig:'<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3.5"/><circle cx="17" cy="7" r="1"/></svg>'
+    ig:'<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3.5"/><circle cx="17" cy="7" r="1"/></svg>',
+    user:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>'
   };
   $('#footerWrap').innerHTML = `
     <div class="fgrid">
@@ -1390,22 +1448,24 @@ function renderFooter(){
       </div>
       <div class="fcol"><div class="ft">Магазин</div>
         <div class="finfo">
-          <div class="fi">${I.pin}<span>${esc(s.address)}</span></div>
-          <div class="fi">${I.clock}<span>${esc(s.hours)}</span></div>
+          ${s.address?`<div class="fi">${I.pin}<span>${esc(s.address)}</span></div>`:`<div class="fi">${I.pin}<span>Примерка у вас дома или в удобном месте</span></div>`}
+          ${s.hours?`<div class="fi">${I.clock}<span>${esc(s.hours)}</span></div>`:''}
+          ${s.seller?`<div class="fi">${I.user}<span>${esc(s.seller)}${s.inn?`, ИНН ${esc(s.inn)}`:''}</span></div>`:''}
         </div>
       </div>
       <div class="fcol"><div class="ft">Связь</div>
         <div class="finfo">
           ${s.telegram?`<div class="fi">${I.tg}<a href="${tg}" target="_blank" rel="noopener">Telegram: @${esc(s.telegram)}</a></div>`:''}
           ${s.whatsapp?`<div class="fi">${I.wa}<a href="${wa}" target="_blank" rel="noopener">WhatsApp: ${esc(s.whatsapp)}</a></div>`:''}
-          ${s.instagram?`<div class="fi">${I.ig}<a href="${ig}" target="_blank" rel="noopener">${esc(s.name)}</a></div>`:''}
+          ${s.instagram?`<div class="fi">${I.ig}<a href="${ig}" target="_blank" rel="noopener">Instagram*: ${esc(s.instagram)}</a></div>`:''}
         </div>
       </div>
     </div>
     <div class="fbot">
       <span>© ${new Date().getFullYear()} ${esc(s.name)}. Все права защищены.</span>
-      <span>Сдержанная роскошь каждый день</span>
-    </div>`;
+      <span class="flinks"><a onclick="openInfo('terms')">Условия покупки</a><a onclick="openInfo('privacy')">Конфиденциальность</a></span>
+    </div>
+    ${s.instagram?'<p class="order-note" style="margin-top:18px">* Instagram принадлежит компании Meta, признанной экстремистской организацией и запрещённой в России.</p>':''}`;
   $('#footerWrap').querySelectorAll('.fcat').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); catPick(a.dataset.cat); }));
 }
 
@@ -1417,7 +1477,7 @@ function updateContacts(){
 }
 
 /* Перерисовать весь сайт после изменений в админке */
-function reloadAll(){ loadData(); renderShop(); renderFooter(); renderHero(); updateContacts(); renderCart(); renderWish(); updateCounts(); }
+function reloadAll(){ updateDraftUI(); loadData(); renderShop(); renderFooter(); renderHero(); updateContacts(); renderCart(); renderWish(); updateCounts(); }
 
 /* Блокировка прокрутки: держим, пока открыт любой слой */
 function syncLock(){
@@ -1468,9 +1528,15 @@ function openAdminGate(){
   setTimeout(()=>$('#loginUser').focus(),120);
 }
 function closeLogin(){ $('#loginModal').classList.remove('open'); syncLock(); }
+function sha256(s){const k=[],h=[];let p=2;for(let c=0;c<64;p++){let f=1;for(let d=2;d*d<=p;d++)if(p%d==0){f=0;break}if(f){if(c<8)h[c]=(Math.pow(p,.5)*4294967296)|0;k[c++]=(Math.pow(p,1/3)*4294967296)|0}}
+const b=unescape(encodeURIComponent(s)),l=b.length*8,w=[];for(let i=0;i<b.length;i++)w[i>>2]|=b.charCodeAt(i)<<(24-(i%4)*8);w[l>>5]|=0x80<<(24-l%32);w[((l+64>>9)<<4)+15]=l;
+for(let j=0;j<w.length;j+=16){const a=h.slice(0,8),W=[];for(let i=0;i<64;i++){if(i<16)W[i]=w[j+i]|0;else{const x=W[i-15],y=W[i-2];W[i]=(((x>>>7|x<<25)^(x>>>18|x<<14)^x>>>3)+W[i-7]+((y>>>17|y<<15)^(y>>>19|y<<13)^y>>>10)+W[i-16])|0}
+const e=a[4],t1=a[7]+((e>>>6|e<<26)^(e>>>11|e<<21)^(e>>>25|e<<7))+(e&a[5]^~e&a[6])+k[i]+W[i],A=a[0],t2=((A>>>2|A<<30)^(A>>>13|A<<19)^(A>>>22|A<<10))+(A&a[1]^A&a[2]^a[1]&a[2]);a.unshift((t1+t2)|0);a[4]=(a[4]+t1)|0;a.pop()}for(let i=0;i<8;i++)h[i]=(h[i]+a[i])|0}
+return h.map(x=>(x>>>0).toString(16).padStart(8,'0')).join('')}
 function tryLogin(){
   const a=DB.admin();
-  if($('#loginUser').value.trim()===a.user && $('#loginPass').value===a.pass){
+  const pw=$('#loginPass').value, okPass = a.hash ? sha256(pw)===a.hash : pw===a.pass;
+  if($('#loginUser').value.trim()===a.user && okPass){
     sessionStorage.setItem('admv_authed','1'); enableAdminMode(); closeLogin(); openAdmin();
     toast('Вы вошли. Редактируйте прямо на сайте или в панели.');
   } else { $('#loginErr').style.display='block'; }
@@ -1497,7 +1563,7 @@ function admProducts(){
     </div>`).join('');
   $('#admBody').innerHTML = `
     <div class="adm-sec-h"><h2>Товары</h2><button class="btn solid" onclick="editProduct(null)">+ Добавить товар</button></div>
-    <div class="adm-hint">Фото, описание, характеристики, цена, цвета и размеры. Изменения видны на сайте сразу и сохраняются в этом браузере. Чтобы их увидели все посетители — вкладка <b>База</b> → «Экспорт», и пришлите файл для публикации.</div>
+    <div class="adm-hint">Фото, описание, характеристики, цена, цвета и размеры. Изменения сразу видны вам и сохраняются как черновик в этом браузере. Чтобы их увидели все посетители, нажмите <b>«Опубликовать»</b> вверху.</div>
     ${rows||'<div class="emptyd">Товаров пока нет. Добавьте первый.</div>'}`;
 }
 let editingId=null;
@@ -1652,9 +1718,14 @@ function admStore(){
     <div class="fld"><label>Название</label><input class="inp" id="s_name" value="${esc(s.name)}"></div>
     <div class="fld"><label>О магазине (текст в подвале)</label><textarea class="inp" id="s_about">${esc(s.about)}</textarea></div>
     <div class="fld-row">
-      <div class="fld"><label>Адрес</label><input class="inp" id="s_addr" value="${esc(s.address)}"></div>
+      <div class="fld"><label>Адрес (если есть точка выдачи, иначе пусто)</label><input class="inp" id="s_addr" value="${esc(s.address)}"></div>
       <div class="fld"><label>Время работы</label><input class="inp" id="s_hours" value="${esc(s.hours)}"></div>
     </div>
+    <div class="fld-row">
+      <div class="fld"><label>Продавец (ИП / самозанятый, ФИО)</label><input class="inp" id="s_seller" value="${esc(s.seller||'')}" placeholder="Самозанятый Иванов Иван Иванович"></div>
+      <div class="fld"><label>ИНН</label><input class="inp" id="s_inn" value="${esc(s.inn||'')}" inputmode="numeric"></div>
+    </div>
+    <div class="fld"><label>Примерка и доставка (текст для «Условий покупки»)</label><textarea class="inp" id="s_delivery">${esc(s.delivery||'')}</textarea></div>
     <div class="fld-row">
       <div class="fld"><label>Telegram (без @)</label><input class="inp" id="s_tg" value="${esc(s.telegram)}" placeholder="admv_store"></div>
       <div class="fld"><label>WhatsApp (номер с кодом страны)</label><input class="inp" id="s_wa" value="${esc(s.whatsapp)}" placeholder="79990000000"></div>
@@ -1672,6 +1743,7 @@ function saveStore(){
     about:$('#s_about').value.trim(), address:$('#s_addr').value.trim(), hours:$('#s_hours').value.trim(),
     telegram:$('#s_tg').value.trim().replace(/^@/,''), whatsapp:$('#s_wa').value.trim(),
     instagram:$('#s_ig').value.trim().replace(/^@/,''), currency:$('#s_cur').value.trim()||'₽',
+    seller:$('#s_seller').value.trim(), inn:$('#s_inn').value.replace(/\D/g,''), delivery:$('#s_delivery').value.trim(),
     hero:imgVal('s_hero') };
   confirmAction('Сохранить информацию о магазине?', ()=>{ DB.save(LS.store,obj); reloadAll(); toast('Сохранено'); });
 }
@@ -1681,30 +1753,143 @@ function admAccess(){
   const a=DB.admin();
   $('#admBody').innerHTML=`
     <div class="adm-sec-h"><h2>Доступ</h2></div>
-    <div class="adm-hint">Логин и пароль администратора. Это лёгкая защита статического сайта — не используйте здесь важные пароли от других сервисов.</div>
+    <div class="adm-hint">Логин и пароль для входа в админку на этом устройстве. Пароль хранится только в виде отпечатка. Настоящая защита сайта — ключ публикации: без него никто не сможет изменить сайт для посетителей.</div>
     <div class="fld-row">
       <div class="fld"><label>Логин</label><input class="inp" id="a_user" value="${esc(a.user)}"></div>
-      <div class="fld"><label>Пароль</label><input class="inp" id="a_pass" value="${esc(a.pass)}"></div>
+      <div class="fld"><label>Новый пароль</label><input class="inp" id="a_pass" type="password" autocomplete="new-password" placeholder="не менее 8 символов"></div>
     </div>
     <button class="btn solid" onclick="saveAccess()">Сохранить</button>`;
 }
 function saveAccess(){
   const u=$('#a_user').value.trim(), p=$('#a_pass').value;
-  if(!u||!p){ toast('Заполните логин и пароль'); return; }
-  confirmAction('Изменить логин и пароль администратора?', ()=>{ DB.save(LS.admin,{user:u,pass:p}); toast('Доступ обновлён'); });
+  if(!u||p.length<8){ toast('Укажите логин и пароль не короче 8 символов'); return; }
+  confirmAction('Изменить логин и пароль администратора?', ()=>{ DB.save(LS.admin,{user:u,hash:sha256(p)}); toast('Доступ обновлён'); });
 }
 
 /* ===== АДМИН: БАЗА ===== */
 function admData(){
+  const g=GH.get();
   $('#admBody').innerHTML=`
-    <div class="adm-sec-h"><h2>База данных</h2></div>
-    <div class="adm-hint">Товары, категории и настройки хранятся в этом браузере. <b>Экспорт</b> — скачать резервную копию. <b>Импорт</b> — загрузить её (например, на другом устройстве) или прислать мне для публикации всем посетителям.</div>
+    <div class="adm-sec-h"><h2>Публикация</h2></div>
+    <div class="adm-hint" id="pubState"></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px">
+      <button class="btn solid" onclick="publishDB()">Опубликовать на сайт</button>
+      <button class="btn amber" onclick="askReset()">Удалить черновик</button>
+    </div>
+    <div class="adm-sec-h"><h2>Ключ публикации</h2></div>
+    <div class="adm-hint">Ключ нужен один раз на каждом устройстве, с которого вы публикуете. Он хранится только в этом браузере.<br>
+      Как получить: github.com → Settings → Developer settings → Personal access tokens → <b>Fine-grained tokens</b> → Generate new token.
+      Repository access: <b>Only select repositories → admv-store</b>. Permissions → Repository → <b>Contents: Read and write</b>. Скопируйте ключ и вставьте ниже.</div>
+    <div class="fld-row">
+      <div class="fld"><label>Репозиторий</label><input class="inp" id="gh_repo" value="${esc(g.repo)}"></div>
+      <div class="fld"><label>Ветка</label><input class="inp" id="gh_branch" value="${esc(g.branch)}"></div>
+    </div>
+    <div class="fld"><label>Ключ (token)</label><input class="inp" id="gh_token" type="password" autocomplete="off" value="${esc(g.token)}" placeholder="github_pat_..."></div>
+    <button class="btn" onclick="saveGH()">Сохранить ключ</button>
+    <div class="adm-sec-h" style="margin-top:34px"><h2>Резервная копия</h2></div>
+    <div class="adm-hint"><b>Экспорт</b> — скачать файл со всеми товарами и настройками. <b>Импорт</b> — загрузить такой файл (он станет черновиком, затем нажмите «Опубликовать»).</div>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
       <button class="btn solid" onclick="exportDB()">Экспорт базы</button>
       <label class="btn" style="cursor:pointer">Импорт базы<input type="file" accept="application/json" hidden onchange="importDB(this)"></label>
-      <button class="btn amber" onclick="askReset()">Сбросить к стандартным</button>
     </div>`;
+  updateDraftUI();
 }
+/* ===== ПУБЛИКАЦИЯ: одна кнопка отправляет товары, фото и настройки в файлы сайта (GitHub) =====
+   Ключ доступа хранится только в браузере админа. Без ключа опубликовать нельзя. */
+const GH = {
+  get(){ try{ return Object.assign({repo:'abubakarov-kerim/admv-store',branch:'main',token:''}, JSON.parse(localStorage.getItem('admv_gh')||'{}')); }catch(e){ return {repo:'abubakarov-kerim/admv-store',branch:'main',token:''}; } },
+  set(o){ try{ localStorage.setItem('admv_gh',JSON.stringify(o)); }catch(e){} }
+};
+async function ghApi(g,path,method,body){
+  let r;
+  try{ r=await fetch('https://api.github.com/repos/'+g.repo+path,{method:method||'GET',cache:'no-store',
+    headers:Object.assign({'Authorization':'Bearer '+g.token,'Accept':'application/vnd.github+json'}, body?{'Content-Type':'application/json'}:{}),
+    body:body?JSON.stringify(body):undefined}); }
+  catch(e){ throw new Error('Нет связи с GitHub. Проверьте интернет и попробуйте ещё раз.'); }
+  if(!r.ok){
+    const m={401:'Ключ доступа неверный или истёк. Создайте новый (вкладка «База»).',403:'У ключа нет права записи. Дайте ему доступ «Contents: Read and write».',
+      404:'Репозиторий не найден или ключ к нему не допущен.',409:'Сайт изменился во время публикации. Нажмите «Опубликовать» ещё раз.',422:'Сайт изменился во время публикации. Нажмите «Опубликовать» ещё раз.'};
+    throw new Error(m[r.status]||('GitHub ответил ошибкой '+r.status+'.'));
+  }
+  return r.json();
+}
+let publishing=false;
+async function publishDB(){
+  const g=GH.get();
+  if(!g.token){ toast('Сначала добавьте ключ публикации — вкладка «База».'); openAdminAt('data'); return; }
+  if(publishing) return; publishing=true; updateDraftUI('Публикую…');
+  try{
+    const products=DB.products(), categories=DB.categories(), store=DB.store();
+    const blobs=[], stamp=Date.now().toString(36), done=new Map();
+    const toFile=(u,name)=>{
+      const m=/^data:image\/(png|webp|jpeg|gif);base64,(.+)$/.exec(u||''); if(!m) return u;
+      if(done.has(u)) return done.get(u);   // одно и то же фото сохраняем один раз
+      const path='images/p/'+name+'-'+stamp+'.'+(m[1]==='jpeg'?'jpg':m[1]); blobs.push({path,b64:m[2]}); done.set(u,path); return path;
+    };
+    products.forEach(p=>{ const sid=String(p.id).replace(/[^a-z0-9_-]/gi,'');
+      p.images=(p.images||[]).map((u,i)=>(!u||u===PLACEHOLDER||EXT_DEMO.test(u))?'':toFile(u,sid+'-'+(i+1))); });
+    store.hero=toFile(store.hero,'hero');
+    const db={_v:2,_rev:Date.now(),_date:new Date().toISOString(),products,categories,store};
+    const br=encodeURIComponent(g.branch||'main');
+    const ref=await ghApi(g,'/git/ref/heads/'+br);
+    const base=await ghApi(g,'/git/commits/'+ref.object.sha);
+    const tree=[];
+    for(const f of blobs){ const bl=await ghApi(g,'/git/blobs','POST',{content:f.b64,encoding:'base64'}); tree.push({path:f.path,mode:'100644',type:'blob',sha:bl.sha}); }
+    tree.push({path:'data/db.json',mode:'100644',type:'blob',content:JSON.stringify(db,null,1)});
+    const nt=await ghApi(g,'/git/trees','POST',{base_tree:base.tree.sha,tree});
+    const nc=await ghApi(g,'/git/commits','POST',{message:'Публикация из админки: '+products.length+' товаров',tree:nt.sha,parents:[ref.object.sha]});
+    await ghApi(g,'/git/refs/heads/'+br,'PATCH',{sha:nc.sha});
+    // опубликовано: черновик больше не нужен, этот браузер показывает новую версию сразу
+    PUB=db; BIG.put('pub',db); BIG.mem=null; BIG.del(LS.prod);
+    try{ [LS.prod,LS.cats,LS.store].forEach(k=>localStorage.removeItem(k)); }catch(e){}
+    reloadAll(); if($('#adminPanel').classList.contains('open')) admTab(adminTab);
+    toast('Опубликовано. Все посетители увидят изменения через 1–2 минуты.');
+  }catch(e){ toast(e.message||'Не удалось опубликовать.'); }
+  finally{ publishing=false; updateDraftUI(); }
+}
+/* Полоса админа: есть ли неопубликованные изменения */
+function updateDraftUI(busy){
+  const draft=DB.hasDraft();
+  document.querySelectorAll('#abPub, .pubbtn').forEach(b=>{
+    b.textContent = busy || (draft ? 'Опубликовать' : 'Всё опубликовано');
+    b.classList.toggle('solid', !!draft && !busy); b.classList.toggle('on', !!draft && !busy); b.disabled=!!busy || !draft; });
+  const st=document.getElementById('pubState');
+  if(st) st.innerHTML = draft ? '<b>Есть неопубликованные изменения.</b> Посетители их пока не видят.' : 'Всё, что вы видите, уже опубликовано на сайте.';
+}
+function saveGH(){
+  const o={repo:$('#gh_repo').value.trim()||'abubakarov-kerim/admv-store', branch:$('#gh_branch').value.trim()||'main', token:$('#gh_token').value.trim()};
+  GH.set(o); toast(o.token?'Ключ сохранён в этом браузере':'Ключ удалён');
+}
+
+/* ===== УСЛОВИЯ ПОКУПКИ И КОНФИДЕНЦИАЛЬНОСТЬ ===== */
+function sellerLine(){ const s=STORE; return s.seller ? esc(s.seller)+(s.inn?', ИНН '+esc(s.inn):'') : 'продавец магазина '+esc(s.name); }
+function openInfo(kind){
+  const s=STORE, contacts=[s.telegram?'Telegram @'+esc(s.telegram):'', s.whatsapp?'WhatsApp '+esc(s.whatsapp):'', s.instagram?'Instagram* '+esc(s.instagram):''].filter(Boolean).join(', ');
+  if(kind==='sizes'){
+    const R=[['XS','44','88','76'],['S','46','92','80'],['M','48','96','84'],['L','50','100','88'],['XL','52','104','92'],['XXL','54','108','96'],['3XL','56','112','100']];
+    $('#infoTitle').textContent='Таблица размеров';
+    $('#infoBody').innerHTML=`<div class="size-tbl"><table><thead><tr><th>Размер</th><th>RU</th><th>Грудь, см</th><th>Талия, см</th></tr></thead><tbody>`+
+      R.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')+`</tbody></table></div>
+      <p style="margin-top:14px">Размеры ориентировочные: посадка зависит от модели. Точные мерки конкретной вещи пришлёт менеджер, а на примерке можно сразу поменять размер.</p>`;
+    $('#infoModal').classList.add('open'); document.body.classList.add('lock'); return;
+  }
+  const T = kind==='privacy' ? ['Конфиденциальность',`
+    <h4>Что собирает сайт</h4><p>Ничего. На сайте нет регистрации, форм, счётчиков посещений, рекламных трекеров и cookie. Шрифты и картинки загружаются с самого сайта.</p>
+    <h4>Корзина и избранное</h4><p>Хранятся только в памяти вашего браузера и никуда не отправляются. Их можно удалить, очистив данные сайта в браузере.</p>
+    <h4>Когда вы пишете менеджеру</h4><p>Кнопки заказа открывают переписку в мессенджере (${contacts||'контакты в подвале сайта'}). Имя, телефон и адрес, которые вы там сообщаете, используются только чтобы согласовать примерку и доставку, и не передаются третьим лицам. Мессенджеры обрабатывают данные по своим правилам.</p>
+    <h4>Удаление данных</h4><p>Напишите менеджеру, и переписка с вашими данными будет удалена.</p>
+    <h4>Кто отвечает</h4><p>${sellerLine()}.</p>`]
+  : ['Условия покупки',`
+    <h4>Как заказать</h4><p>Добавьте вещи в корзину, нажмите «Оформить заказ» и выберите мессенджер. Менеджер уточнит размер, адрес и удобное время.</p>
+    <h4>Примерка и доставка</h4><p>${esc(s.delivery||DEFAULT_STORE.delivery)}</p>
+    <h4>Оплата</h4><p>Способ и момент оплаты согласуются с менеджером до доставки.</p>
+    <h4>Обмен и возврат</h4><p>Если вещь не подошла, обменяем её на другой размер или другую вещь. Возврат товара — в соответствии с законом «О защите прав потребителей».</p>
+    <h4>Продавец</h4><p>${sellerLine()}. Связь: ${contacts||'контакты в подвале сайта'}.</p>`];
+  $('#infoTitle').textContent=T[0]; $('#infoBody').innerHTML=T[1];
+  $('#infoModal').classList.add('open'); document.body.classList.add('lock');
+}
+function closeInfo(){ $('#infoModal').classList.remove('open'); syncLock(); }
+
 function exportDB(){
   const data={ products:DB.products(), categories:DB.categories(), store:DB.store(), admin:DB.admin(), _v:1, _date:new Date().toISOString() };
   const a=document.createElement('a');
@@ -1720,16 +1905,15 @@ function importDB(input){
       if(d.products) DB.save(LS.prod,d.products);
       if(d.categories) DB.save(LS.cats,d.categories);
       if(d.store) DB.save(LS.store,d.store);
-      if(d.admin) DB.save(LS.admin,d.admin);
       reloadAll(); admData(); toast('База импортирована');
     });
   };
   r.readAsText(f); input.value='';
 }
 function askReset(){
-  confirmAction('Сбросить ВСЕ данные к стандартным? Ваши товары и настройки будут удалены.', ()=>{
-    [LS.prod,LS.cats,LS.store,LS.admin].forEach(k=>localStorage.removeItem(k)); BIG.mem=null; BIG.del(LS.prod);
-    reloadAll(); admTab(adminTab); toast('Сброшено к стандартным');
+  confirmAction('Удалить неопубликованные изменения? Сайт в этом браузере вернётся к опубликованной версии.', ()=>{
+    [LS.prod,LS.cats,LS.store].forEach(k=>localStorage.removeItem(k)); BIG.mem=null; BIG.del(LS.prod); updateDraftUI();
+    reloadAll(); admTab(adminTab); toast('Черновик удалён');
   });
 }
 
@@ -1742,14 +1926,21 @@ renderHero();
 updateContacts();
 observeReveal();
 if(isAdmin()) enableAdminMode();
-BIG.open().then(async ok=>{
-  if(!ok) return;
-  let v=await BIG.get(LS.prod);
-  if(!v){ try{ const ls=localStorage.getItem(LS.prod); if(ls){ v=JSON.parse(ls); BIG.put(LS.prod,v); localStorage.removeItem(LS.prod); } }catch(e){} }
-  if(!v) return;
-  BIG.mem=v; reloadAll();
+(async()=>{
+  const fetchPub = fetch('data/db.json?_='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
+  const [pub,ok] = await Promise.all([fetchPub, BIG.open()]);
+  let local=null;
+  if(ok){
+    let v=await BIG.get(LS.prod);
+    if(!v){ try{ const ls=localStorage.getItem(LS.prod); if(ls){ v=JSON.parse(ls); BIG.put(LS.prod,v); localStorage.removeItem(LS.prod); } }catch(e){} }
+    if(v) BIG.mem=v;
+    local=await BIG.get('pub');   // только что опубликованная с этого устройства версия (пока сайт обновляется)
+  }
+  const pick = (local && (!pub || (local._rev||0)>(pub._rev||0))) ? local : pub;
+  if(pick && pick.products){ PUB=pick; }
+  reloadAll(); updateDraftUI();
   if($('#adminPanel').classList.contains('open')) admTab(adminTab);
-});
+})();
 </script>
 
 <!-- ============ NEW FEATURE SCRIPT: Fitting Room + Intro lifecycle ============ -->
@@ -1797,7 +1988,7 @@ function renderPanel(){
     const opts=p.sizes.map(s=>`<option ${s===sel.size?'selected':''} ${(p.stock&&p.stock[s]<=0)?'disabled':''}>${s}</option>`).join('');
     return `<div class="fp-pick">
       <img src="${p.tryThumb}" alt="">
-      <div class="fp-pick-i"><div class="fp-pick-n">${p.name}</div>
+      <div class="fp-pick-i"><div class="fp-pick-n">${esc(p.name)}</div>
         <select onchange="frSetSize('${p.layer}',this.value)">${opts}</select></div>
       <div class="fp-pick-r"><span class="fp-pick-p">${eur(p.price)}</span>
         <button class="fp-pick-x" onclick="frRemove('${p.layer}')" aria-label="Убрать">×</button></div>
@@ -1811,8 +2002,8 @@ function renderPanel(){
 }
 
 /* open / close / toggle the floating fitting panel */
-function openFitting(){ renderPanel(); $('#frPanel').classList.add('open'); $('#tryLaunch').classList.add('hidden'); if(location.hash!=='#fitting-room') history.replaceState(null,'',location.pathname+location.search+'#fitting-room'); }
-function closeFitting(){ $('#frPanel').classList.remove('open'); $('#tryLaunch').classList.remove('hidden'); if(location.hash==='#fitting-room') history.replaceState(null,'',location.pathname+location.search); }
+function openFitting(){ document.body.classList.add('fr-open'); renderPanel(); $('#frPanel').classList.add('open'); $('#tryLaunch').classList.add('hidden'); if(location.hash!=='#fitting-room') history.replaceState(null,'',location.pathname+location.search+'#fitting-room'); }
+function closeFitting(){ document.body.classList.remove('fr-open'); $('#frPanel').classList.remove('open'); $('#tryLaunch').classList.remove('hidden'); if(location.hash==='#fitting-room') history.replaceState(null,'',location.pathname+location.search); }
 function toggleFitting(){ $('#frPanel').classList.contains('open') ? closeFitting() : openFitting(); }
 
 /* ===== INTRO — сборка букв ADMV; играет при КАЖДОМ обновлении/входе; не на внутренних оверлеях ===== */
@@ -1851,6 +2042,11 @@ function toggleFitting(){ $('#frPanel').classList.contains('open') ? closeFittin
   setTimeout(()=>intro.classList.add('ready'), assemble);
   setTimeout(finish, assemble + 1500);
 })();
+/* адрес поменяли в уже открытой вкладке (#admin, #fitting-room) — открываем нужный раздел */
+window.addEventListener('hashchange',()=>{
+  if(location.hash==='#admin') openAdminGate();
+  else if(location.hash==='#fitting-room') openFitting();
+});
 window.playIntro=function(){ location.hash=''; location.reload(); };
 </script>
 </body>
