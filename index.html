@@ -360,7 +360,7 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 #tryLaunch .tl-ic svg{ width:15px; height:15px; stroke:var(--bg); stroke-width:1.6; fill:none; }
 #tryLaunch .tl-c{ min-width:18px; height:18px; padding:0 4px; border-radius:999px; background:var(--amber); color:var(--bg); font-size:.58rem; display:grid; place-items:center; letter-spacing:0; }
 
-#frPanel{ position:fixed; left:22px; bottom:22px; z-index:350; width:320px; max-width:calc(100vw - 44px); max-height:min(62vh,560px);
+#frPanel{ position:fixed; left:22px; bottom:22px; z-index:350; width:340px; max-width:calc(100vw - 44px); max-height:min(86vh,720px);
   display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line2); border-radius:16px; overflow:hidden;
   box-shadow:0 30px 70px -24px rgba(0,0,0,.95); opacity:0; pointer-events:none; transform:translateY(16px) scale(.98);
   transform-origin:bottom left; transition:opacity .35s var(--ease), transform .35s var(--ease); }
@@ -368,18 +368,17 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 .fp-head{ display:flex; align-items:flex-start; justify-content:space-between; padding:16px 18px; border-bottom:1px solid var(--line); }
 .fp-t{ font-family:var(--serif); font-size:1.2rem; letter-spacing:.08em; }
 .fp-sub{ font-size:.62rem; color:var(--muted); margin-top:4px; letter-spacing:.02em; }
-.fp-stage{ position:relative; flex-shrink:0; margin:14px 16px 0; height:180px; background:radial-gradient(60% 56% at 50% 40%, var(--card2), var(--bg) 76%); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
-.fp-stage img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:0; transition:opacity .4s var(--ease); pointer-events:none; }
-.fp-stage img.base{ opacity:1; z-index:1; }
-#fr-shoes{ z-index:2; } #fr-bottoms{ z-index:3; } #fr-tops{ z-index:4; } #fr-outerwear{ z-index:5; } #fr-accessory{ z-index:6; }
-.fp-stage img.on{ opacity:1; }
-/* своё фото вещи: ставим на нужную часть манекена (доли от высоты сцены, манекен 2:3 по центру) */
-.fp-stage img.fit{ inset:auto; left:50%; width:auto; transform:translateX(-50%); object-position:50% 0; }
-#fr-accessory.fit{ top:7%;   height:11%; aspect-ratio:1.3; }
-#fr-outerwear.fit{ top:13%;  height:48%; aspect-ratio:.68; }
-#fr-tops.fit{      top:22.5%;height:37%; aspect-ratio:.85; }
-#fr-bottoms.fit{   top:51%;  height:40%; aspect-ratio:.45; }
-#fr-shoes.fit{     top:86.5%;height:8%;  aspect-ratio:2.4; object-position:50% 100%; }
+.fp-stage{ position:relative; flex-shrink:0; margin:14px 16px 0; height:clamp(240px,38vh,330px); background:radial-gradient(60% 56% at 50% 40%, var(--card2), var(--bg) 76%); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+/* рамка фигуры 2:3 — манекен и вещи считаются в одной системе координат */
+.fp-fig{ position:absolute; top:3%; height:94%; left:50%; aspect-ratio:2/3; transform:translateX(-50%); }
+.fp-fig svg, .fp-fig img{ position:absolute; left:0; top:0; width:100%; height:100%; pointer-events:none; }
+.fp-fig img{ opacity:0; transition:opacity .35s var(--ease); }
+.fp-fig img.on{ opacity:1; }
+.fp-fig img.fit{ height:auto; }
+.fp-fig .mq{ z-index:1; } .fp-fig .mq-head{ z-index:6; }
+.fp-fig .l-shoes{ z-index:2; } .fp-fig .l-bottoms{ z-index:3; } .fp-fig .l-tops{ z-index:4; } .fp-fig .l-outerwear{ z-index:5; } .fp-fig .l-accessory{ z-index:7; }
+:root{ --mq-l:#7d7972; --mq-e:#45444a; }
+:root[data-theme="light"]{ --mq-l:#ebe6dc; --mq-e:#b9b1a3; }
 .fp-hint{ position:absolute; left:0; right:0; bottom:8px; text-align:center; font-size:.62rem; color:var(--muted); z-index:7; transition:opacity .3s; }
 .fp-picks{ padding:14px 16px 4px; overflow-y:auto; flex:1; min-height:0; }
 .fp-picks-h{ display:flex; justify-content:space-between; font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
@@ -404,7 +403,7 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
   #frPanel{ left:0; right:0; bottom:0; width:100%; max-width:100%; max-height:90vh; border-radius:16px 16px 0 0; transform-origin:bottom center; transform:translateY(100%); }
   #frPanel.open{ transform:none; }
   #tryLaunch{ left:16px; bottom:16px; }
-  .fp-stage{ aspect-ratio:1/1; }
+  .fp-stage{ height:min(46vh,380px); }
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -469,6 +468,17 @@ textarea.inp{ resize:vertical; min-height:92px; line-height:1.55; }
 .chk.on{ border-color:var(--amber); color:var(--amber); background:var(--amber-soft); }
 .filepick{ display:inline-flex; align-items:center; gap:9px; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; padding:11px 16px; border:1px solid var(--line); cursor:pointer; transition:.2s; }
 .filepick:hover{ border-color:var(--amber); color:var(--amber); }
+/* примерка в карточке товара */
+.fe-wrap{ display:grid; grid-template-columns:minmax(170px,210px) 1fr; gap:18px; align-items:start; }
+.fe-stage{ margin:0; height:300px; }
+.fe-ctl{ display:flex; flex-direction:column; gap:12px; min-width:0; }
+.fe-r{ display:flex; flex-direction:column; gap:5px; font-size:.68rem; color:var(--muted); }
+.fe-r b{ font-weight:400; color:var(--text); }
+.fe-r input{ width:100%; accent-color:var(--amber); }
+.fe-r input:disabled{ opacity:.35; }
+.fe-ctl .adm-mini{ align-self:flex-start; }
+.fe-msg{ font-size:.7rem; color:var(--muted); line-height:1.55; }
+@media(max-width:560px){ .fe-wrap{ grid-template-columns:1fr; } .fe-stage{ height:min(70vw,320px); } }
 
 /* ===== ADMIN ===== */
 .admin{ position:fixed; inset:0; z-index:450; background:var(--bg); overflow-y:auto; opacity:0; pointer-events:none; transition:opacity .4s var(--ease); }
@@ -604,7 +614,7 @@ body.admin-on .pcard{ border-radius:var(--r-lg); }
 /* АВТООБНОВЛЕНИЕ: браузер может показывать старую сохранённую копию сайта.
    Сверяем номер версии с сервером и, если вышла новая, сами открываем её.
    При каждой публикации менять ADMV_BUILD. */
-var ADMV_BUILD='2026-10-14.1';
+var ADMV_BUILD='2026-10-16.1';
 (function(){
   if(location.protocol.indexOf('http')!==0 || !window.fetch) return;
   fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.text():''; }).then(function(t){
@@ -790,8 +800,7 @@ var ADMV_BUILD='2026-10-14.1';
     <button class="xbtn" onclick="closeFitting()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
   <div class="fp-stage" id="frStage">
-    <img class="base" src="images/tryon/model-base.png" alt="Модель ADMV">
-    <img id="fr-shoes" alt=""><img id="fr-bottoms" alt=""><img id="fr-tops" alt=""><img id="fr-outerwear" alt=""><img id="fr-accessory" alt="">
+    <div class="fp-fig" id="frFig" role="img" aria-label="Манекен ADMV"></div>
     <div class="fp-hint" id="frHint">Модель готова</div>
   </div>
   <div class="fp-picks">
@@ -908,6 +917,244 @@ var ADMV_BUILD='2026-10-14.1';
 <div class="toast" id="toast"></div>
 
 <script>
+/* ===== ПРИМЕРОЧНАЯ: манекен, демо-вещи и подгонка своих фото по фигуре =====
+   Всё рисуется в одной системе координат 400×600 (рамка фигуры 2:3):
+   плечи ~y 128, талия ~y 266, щиколотки ~y 540, пол ~y 580. */
+const FIT = (function(){
+  const mir = pts => pts.map(([x,y])=>[400-x,y]);
+  const sym = r => r.concat(mir(r.slice(1,-1)).reverse());          // правая половина → весь контур
+  // плавный замкнутый контур через точки
+  function smooth(p){
+    const n=p.length, P=i=>p[(i+n)%n], f=v=>Math.round(v*10)/10;
+    let d=`M${f(p[0][0])} ${f(p[0][1])}`;
+    for(let i=0;i<n;i++){
+      const a=P(i-1), b=P(i), c=P(i+1), e=P(i+2);
+      d+=`C${f(b[0]+(c[0]-a[0])/6)} ${f(b[1]+(c[1]-a[1])/6)} ${f(c[0]-(e[0]-b[0])/6)} ${f(c[1]-(e[1]-b[1])/6)} ${f(c[0])} ${f(c[1])}`;
+    }
+    return d+'Z';
+  }
+  // «трубка» вокруг средней линии (рука, рукав)
+  function tube(c,w){
+    const L=[],R=[];
+    c.forEach((p,i)=>{
+      const a=c[Math.max(0,i-1)], b=c[Math.min(c.length-1,i+1)];
+      let dx=b[0]-a[0], dy=b[1]-a[1]; const l=Math.hypot(dx,dy)||1; dx/=l; dy/=l;
+      L.push([p[0]-dy*w[i], p[1]+dx*w[i]]); R.push([p[0]+dy*w[i], p[1]-dx*w[i]]);
+    });
+    const e=c[c.length-1], s=c[c.length-2], k=Math.hypot(e[0]-s[0],e[1]-s[1])||1, ww=w[w.length-1]*.45;
+    return smooth(L.concat([[e[0]+(e[0]-s[0])/k*ww, e[1]+(e[1]-s[1])/k*ww]], R.reverse()));
+  }
+  const both = d => [d, d.replace(/-?\d+(\.\d+)? -?\d+(\.\d+)?/g, m=>{ const [x,y]=m.split(' ').map(Number); return `${Math.round((400-x)*10)/10} ${y}`; })];
+
+  /* ---------- манекен ---------- */
+  const BODY = sym([[200,103],[211,104],[232,111],[254,119],[266,128],[271,143],[266,170],[262,200],[252,240],[246,266],[250,292],[254,318],[252,350],[246,400],[239,452],[238,492],[231,536],[231,550],[238,560],[247,569],[245,577],[211,577],[205,562],[207,536],[208,492],[206,452],[205,400],[203,364],[200,354]]);
+  const ARM_C = [[266,136],[274,196],[279,258],[282,300],[284,336]];
+  const ARM = both(tube(ARM_C,[15,13.5,12,10.5,9]));
+  const HAND = both(smooth([[279,334],[290,336],[294,356],[291,374],[284,384],[277,378],[275,356]]));
+  const NECK = smooth([[188,82],[212,82],[213,100],[216,110],[200,113],[184,110],[187,100]]);
+  function mannequin(id){
+    const g=`<defs><linearGradient id="${id}b" x1="0" x2="1"><stop offset="0" style="stop-color:var(--mq-e)"/><stop offset=".5" style="stop-color:var(--mq-l)"/><stop offset="1" style="stop-color:var(--mq-e)"/></linearGradient>
+      <radialGradient id="${id}h" cx=".42" cy=".36" r=".75"><stop offset="0" style="stop-color:var(--mq-l)"/><stop offset="1" style="stop-color:var(--mq-e)"/></radialGradient></defs>`;
+    const f=`fill="url(#${id}b)"`;
+    return `<svg class="mq" viewBox="0 0 400 600" aria-hidden="true">${g}
+      <ellipse cx="200" cy="582" rx="78" ry="7" fill="#000" opacity=".28"/>
+      <path d="${smooth(BODY)}" ${f}/><path d="${NECK}" ${f}/>
+      <path d="${ARM[0]}" ${f}/><path d="${ARM[1]}" ${f}/><path d="${HAND[0]}" ${f}/><path d="${HAND[1]}" ${f}/>
+      <path d="M246 266Q200 274 154 266" fill="none" stroke="#000" stroke-opacity=".12"/>
+    </svg>
+    <svg class="mq-head" viewBox="0 0 400 600" aria-hidden="true">${g.replace(/id="(\w+)"/g,'id="$1x"')}
+      <ellipse cx="200" cy="61" rx="25" ry="31" fill="url(#${id}hx)"/></svg>`;
+  }
+
+  /* ---------- демо-вещи (рисунки точно по манекену) ---------- */
+  const SH = `<defs><linearGradient id="s" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".3"/><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></linearGradient></defs>`;
+  const shade = (d,col,extra='') => `<path d="${d}" fill="${col}"${extra}/><path d="${d}" fill="url(#s)"/>`;
+  const svgUrl = (inner,vb='0 0 400 600') => 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}">${SH}${inner}</svg>`);
+  const dk = 'fill="#000" fill-opacity=".22"';
+  function top(o){            // o: col, hem, long, out (верхняя одежда), kind
+    const e=o.out?6:0, h=o.hem;
+    const body=sym([[200,o.out?122:117],[213,106],[234,112-e/2],[256,120],[270+e,131],[276+e,146],[270+e,172],[267+e,205],[263+e,250],[264+e,h-6],[262+e,h],[200,h+2]]);
+    const sl = o.long ? both(tube(ARM_C.concat([[285,342]]),[21+e,19.5+e,18+e,16+e,15+e,15+e])) : both(tube([[267,134],[272,164],[274,186]],[20,18,17]));
+    let s='';
+    if(o.hood) s+=shade(smooth(sym([[200,112],[214,104],[226,92],[228,74],[220,58],[212,54],[214,74],[208,96],[200,100]])),o.col);
+    s+=shade(smooth(body),o.col)+shade(sl[0],o.col)+shade(sl[1],o.col);
+    if(o.band){ s+=`<path d="M${136-e} ${h-11}H${264+e}L${264+e} ${h}Q200 ${h+3} ${136-e} ${h}Z" ${dk}/>`;
+      if(o.long) both(tube([[284,326],[285,342]],[15+e,15+e])).forEach(d=>s+=`<path d="${d}" ${dk}/>`); }
+    if(o.kind==='shirt'){
+      s+=`<path d="M200 120L186 104L176 116L195 130Z M200 120L214 104L224 116L205 130Z" fill="${o.col}" stroke="#000" stroke-opacity=".18"/>`;
+      s+=`<path d="M200 124V${h}" stroke="#000" stroke-opacity=".18" stroke-width="1.5"/>`+[150,182,214,246,278,310].filter(y=>y<h-6).map(y=>`<circle cx="203" cy="${y}" r="2.2" fill="#fff" stroke="#000" stroke-opacity=".25"/>`).join('');
+    } else if(!o.out) s+=`<path d="M187 109Q200 124 213 109" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="3"/>`;
+    if(o.kind==='knit') s+=[160,176,192,208,224,240].map(x=>`<path d="M${x} 128V${h-12}M${400-x} 128V${h-12}" stroke="#fff" stroke-opacity=".06" stroke-width="3"/>`).join('');
+    if(o.zip) s+=`<path d="M200 122V${h+1}" stroke="#c9c6bf" stroke-width="2.5"/><path d="M160 ${h-62}Q200 ${h-74} 240 ${h-62}L246 ${h-16}H154Z" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="1.5"/>`;
+    s+=`<path d="M232 150Q236 210 230 ${h-20}M168 150Q164 210 170 ${h-20}" fill="none" stroke="#000" stroke-opacity=".1" stroke-width="2"/>`;
+    return s;
+  }
+  function pants(o){
+    const d=smooth(sym([[200,262],[247,262],[251,290],[255,318],[254,350],[249,400],[244,452],[243,500],[241,552],[205,552],[206,500],[206,452],[205,400],[203,366],[200,358]]));
+    let s=shade(d,o.col)+`<path d="M153 262H247L248 273H152Z" ${dk}/><path d="M200 262V300" stroke="#000" stroke-opacity=".2"/>`;
+    if(o.cargo) s+=both('M246 388L262 386L263 432L247 436Z').map(p=>`<path d="${p}" fill="${o.col}" stroke="#000" stroke-opacity=".3"/><path d="${p}" fill="#000" fill-opacity=".1"/>`).join('')+both('M245 386L263 383L263 396L246 399Z').map(p=>`<path d="${p}" ${dk}/>`).join('');
+    else s+=`<path d="M226 300L224 550M174 300L176 550" stroke="#000" stroke-opacity=".12" stroke-width="1.5"/>`;
+    return s;
+  }
+  function shoes(o){
+    const up=both(smooth([[204,553],[226,549],[240,556],[249,567],[251,575],[205,575],[202,566]]));
+    const so=both('M202 573L252 573Q253 582 246 583L206 583Q201 582 202 573Z');
+    let s=up.map(d=>shade(d,o.col)).join('')+so.map(d=>`<path d="${d}" fill="${o.sole}"/>`).join('');
+    if(o.acc) s+=both('M212 566Q228 558 244 566').map(d=>`<path d="${d}" fill="none" stroke="${o.acc}" stroke-width="3" stroke-linecap="round"/>`).join('');
+    return s;
+  }
+  const VB = { tops:'112 92 176 260', outerwear:'104 50 192 300', bottoms:'140 256 120 300', shoes:'146 544 108 44', accessory:'160 20 80 50' };
+  const DEMO_DEF = {
+    'tee-premium':  ['tops',      ()=>top({col:'#26272b',hem:318})],
+    'tee-heavy':    ['tops',      ()=>top({col:'#6c6d71',hem:322})],
+    'shirt-oxford': ['tops',      ()=>top({col:'#e8e3d6',hem:330,long:true,kind:'shirt'})],
+    'sweat-premium':['tops',      ()=>top({col:'#7a7566',hem:326,long:true,band:true})],
+    'sweat-wool':   ['tops',      ()=>top({col:'#2b3346',hem:324,long:true,band:true,kind:'knit'})],
+    'hoodie-zip':   ['outerwear', ()=>top({col:'#36363b',hem:334,long:true,band:true,out:true,hood:true,zip:true})],
+    'pants-linen':  ['bottoms',   ()=>pants({col:'#d2c7ae'})],
+    'pants-cargo':  ['bottoms',   ()=>pants({col:'#3e4936',cargo:true})],
+    'sneak-runner': ['shoes',     ()=>shoes({col:'#eeeae2',sole:'#d6cfc2',acc:'#b98a5a'})],
+    'sneak-court':  ['shoes',     ()=>shoes({col:'#e7dcc6',sole:'#f6f2ea'})]
+  };
+  const DEMO={};
+  function demo(id){
+    if(!DEMO_DEF[id]) return null;
+    if(!DEMO[id]){ const [layer,fn]=DEMO_DEF[id], s=fn(); DEMO[id]={layer, src:svgUrl(s), thumb:svgUrl(s,VB[layer])}; }
+    return DEMO[id];
+  }
+
+  /* ---------- своё фото вещи: разбор и подгонка ---------- */
+  const AN=new Map(), PREP=new Map();
+  // Разбираем фото: убираем мелкие куски по краям (соседние люди, мусор), находим контур вещи
+  function analyze(url){
+    if(AN.has(url)) return AN.get(url);
+    const pr=new Promise(res=>{
+      const im=new Image();
+      im.onerror=()=>res({ok:false});
+      im.onload=()=>{
+        const k=Math.min(1,640/Math.max(im.naturalWidth,im.naturalHeight,1));
+        const w=Math.max(1,Math.round(im.naturalWidth*k)), h=Math.max(1,Math.round(im.naturalHeight*k)), N=w*h;
+        const c=document.createElement('canvas'); c.width=w; c.height=h;
+        const x=c.getContext('2d'); x.drawImage(im,0,0,w,h);
+        let img; try{ img=x.getImageData(0,0,w,h); }
+        catch(e){ return res({ok:true,c,w,h,x0:0,y0:0,x1:w-1,y1:h-1,A:null}); }      // чужой сайт — разобрать нельзя, ставим как есть
+        const d=img.data, A=new Uint8Array(N);
+        let clear=0; for(let i=0;i<N;i++){ if(d[i*4+3]>=40) A[i]=1; else clear++; }
+        if(clear<N*.04) return res({ok:false});                                       // у фото есть фон — на манекен не надеваем
+        const lab=new Int32Array(N), st=new Int32Array(N), size=[0]; let cur=0;
+        for(let i=0;i<N;i++){
+          if(!A[i]||lab[i]) continue;
+          cur++; let sp=0, cnt=0; st[sp++]=i; lab[i]=cur;
+          while(sp){ const j=st[--sp], jx=j%w; cnt++;
+            if(jx>0   && A[j-1] && !lab[j-1]){ lab[j-1]=cur; st[sp++]=j-1; }
+            if(jx<w-1 && A[j+1] && !lab[j+1]){ lab[j+1]=cur; st[sp++]=j+1; }
+            if(j>=w   && A[j-w] && !lab[j-w]){ lab[j-w]=cur; st[sp++]=j-w; }
+            if(j<N-w  && A[j+w] && !lab[j+w]){ lab[j+w]=cur; st[sp++]=j+w; } }
+          size.push(cnt);
+        }
+        let big=0; for(let i=1;i<size.length;i++) if(size[i]>big) big=size[i];
+        let x0=w,y0=h,x1=-1,y1=-1;
+        for(let i=0;i<N;i++){
+          if(!A[i]) continue;
+          if(size[lab[i]]<big*.2){ A[i]=0; d[i*4+3]=0; continue; }
+          const px=i%w, py=(i-px)/w;
+          if(px<x0)x0=px; if(px>x1)x1=px; if(py<y0)y0=py; if(py>y1)y1=py;
+        }
+        if(x1<0) return res({ok:false});
+        x.putImageData(img,0,0);
+        res({ok:true,c,w,h,x0,y0,x1,y1,A});
+      };
+      im.src=url;
+    });
+    AN.set(url,pr); return pr;
+  }
+  const rowExt = (a,y,xa,xb) => { let l=-1,r=-1; const o=y*a.w; for(let x=xa;x<=xb;x++) if(a.A[o+x]){ if(l<0) l=x; r=x; } return [l,r]; };
+  // У вещи на человеке сверху бывает лицо/шея: срезаем всё узкое над плечами
+  function autoTop(a){
+    if(!a.A) return 0;
+    const bh=a.y1-a.y0+1; let mx=0; const E=[];
+    for(let y=a.y0;y<=a.y1;y++){ const [l,r]=rowExt(a,y,a.x0,a.x1); const e=l<0?0:r-l+1; E.push(e); if(e>mx) mx=e; }
+    let ys=E.findIndex(e=>e>=mx*.72); if(ys<0) ys=0;
+    return ys>bh*.14 ? Math.min(.5, Math.max(0, ys/bh-.02)) : 0;
+  }
+  // Готовим картинку (обрезка) и считаем, куда и каким размером поставить её на манекен
+  async function prepare(url,layer,fit){
+    fit=fit||{};
+    const a=await analyze(url); if(!a.ok) return null;
+    const auto=(layer==='tops'||layer==='outerwear') ? autoTop(a) : 0;
+    const t=fit.t!=null ? +fit.t : auto, b=+fit.b||0, bh=a.y1-a.y0+1;
+    const ry0=Math.round(a.y0+t*bh), ry1=Math.round(a.y1-b*bh);
+    if(ry1-ry0<4) return null;
+    const side=Math.min(.4,+fit.w||0), sx=Math.round((a.x1-a.x0+1)*side), cx0=a.x0+sx, cx1=a.x1-sx;
+    let rx0=cx0, rx1=cx1;
+    if(a.A){ rx0=a.w; rx1=-1; for(let y=ry0;y<=ry1;y++){ const [l,r]=rowExt(a,y,cx0,cx1); if(l>=0){ if(l<rx0)rx0=l; if(r>rx1)rx1=r; } } if(rx1<0) return null; }
+    const cw=rx1-rx0+1, ch=ry1-ry0+1, key=url.length+'|'+url.slice(-64)+'|'+url.slice(0,96)+'|'+ry0+'|'+ry1+'|'+rx0+'|'+rx1;
+    let src=PREP.get(key);
+    if(!src){
+      const c=document.createElement('canvas'); c.width=cw; c.height=ch;
+      const g=c.getContext('2d'); g.drawImage(a.c,rx0,ry0,cw,ch,0,0,cw,ch);
+      // срезанный край делаем мягким, без резкой линии
+      const fade=(x0,y0,x1,y1)=>{ const gr=g.createLinearGradient(x0,y0,x1,y1); gr.addColorStop(0,'rgba(0,0,0,0)'); gr.addColorStop(1,'#000'); g.globalCompositeOperation='destination-in'; g.fillStyle=gr; g.fillRect(0,0,cw,ch); };
+      const fy=Math.max(2,ch*.05), fx=Math.max(2,cw*.05);
+      if(t>0) fade(0,0,0,fy); if(b>0) fade(0,ch,0,ch-fy);
+      if(sx>0){ fade(0,0,fx,0); fade(cw,0,cw-fx,0); }
+      src=await new Promise(r=>c.toBlob(bl=>r(bl?URL.createObjectURL(bl):c.toDataURL('image/png')),'image/png'));
+      PREP.set(key,src);
+    }
+    // мерки вещи
+    let run=cw, waist=cw;
+    if(a.A){
+      const hy=Math.min(ry1,Math.round(ry0+ch*.9)), cx=Math.round((rx0+rx1)/2), o=hy*a.w;
+      let s=-1; for(let k=0;k<cw*.15 && s<0;k++){ if(a.A[o+cx+k]) s=cx+k; else if(a.A[o+cx-k]) s=cx-k; }
+      if(s>=0){ let l=s,r=s; while(l>rx0&&a.A[o+l-1]) l--; while(r<rx1&&a.A[o+r+1]) r++; run=r-l+1; }
+      const [wl,wr]=rowExt(a,Math.min(ry1,Math.round(ry0+ch*.03)),rx0,rx1); if(wl>=0) waist=wr-wl+1;
+    }
+    let k, y, bottom=false;
+    if(layer==='tops'||layer==='outerwear'){
+      const out=layer==='outerwear';
+      k = run/cw>.8 ? (out?190:180)/cw : (out?128:120)/run;    // рукава опущены — по ширине с рукавами; разложены — по корпусу
+      y = out?100:104;
+    } else if(layer==='bottoms'){
+      k=Math.min(102/waist, 292/ch); y=264;                    // пояс по талии, низ не ниже щиколотки
+    } else if(layer==='shoes'){
+      k=Math.min(104/cw,46/ch); y=583; bottom=true;
+    } else {
+      k=Math.min(74/cw,58/ch); y=65; bottom=true;
+    }
+    k*=(+fit.s||1);
+    const W=cw*k, Hh=ch*k;
+    return { src, auto, x:200-W/2+(+fit.x||0), y:(bottom?y-Hh:y)+(+fit.y||0), w:W, h:Hh };
+  }
+  // Надеть вещь на слой-картинку внутри .fp-fig
+  async function wear(el,url,layer,fit){
+    const tok=String(Math.random()); el.dataset.tok=tok;
+    const r=await prepare(url,layer,fit);
+    if(el.dataset.tok!==tok) return r;
+    if(!r){ off(el); return null; }
+    if(el.getAttribute('src')!==r.src) el.src=r.src;
+    el.classList.add('fit');
+    el.style.left=(r.x/4)+'%'; el.style.top=(r.y/6)+'%'; el.style.width=(r.w/4)+'%';
+    el.classList.add('on');
+    return r;
+  }
+  function plain(el,src){
+    el.dataset.tok=''; el.classList.remove('fit'); el.style.left=el.style.top=el.style.width='';
+    if(el.getAttribute('src')!==src) el.src=src; el.classList.add('on');
+    return Promise.resolve({x:0,y:0,w:400,h:600,plain:true});
+  }
+  function off(el){ el.dataset.tok=''; el.classList.remove('on'); el.style.clipPath=''; }
+  // Вещь под верхней одеждой обрезаем по её ширине (иначе рукава футболки торчат из-под худи)
+  function under(el,box,outer){
+    if(!box || !outer){ el.style.clipPath=''; return; }
+    const l=Math.max(0,(outer.x-box.x)/box.w*100), r=Math.max(0,(box.x+box.w-outer.x-outer.w)/box.w*100);
+    el.style.clipPath = (l||r) ? `inset(0 ${r.toFixed(2)}% 0 ${l.toFixed(2)}%)` : '';
+  }
+  // манекен + пустые слои для вещей (id слоёв: <pre>-shoes, <pre>-tops …)
+  const figHTML = pre => mannequin(pre)+['shoes','bottoms','tops','outerwear','accessory'].map(l=>`<img class="l-${l}" id="${pre}-${l}" alt="">`).join('');
+  return { mannequin, figHTML, demo, analyze, prepare, wear, plain, off, under };
+})();
+</script>
+<script>
 /* ====================================================================
    PRODUCT DATA — добавляй товары сюда. Поля по ТЗ.
    images: массив URL (первое = главное, второе = hover). colors: {name,hex}.
@@ -983,11 +1230,6 @@ const DEFAULT_STORE = {
 };
 const DEFAULT_ADMIN = { user:'admin', hash:'1cb941c5ef1f147894213a567d9de69f1cd02af42ec26f15d7ac6511d23ae546' };   // пароль хранится только в виде отпечатка (SHA-256)
 
-/* Связь товаров со слоями примерочной (только для встроенных товаров) */
-const TRYON_META = {
-  'tee-premium':'tops','tee-heavy':'tops','shirt-oxford':'tops','sweat-premium':'tops','sweat-wool':'tops',
-  'hoodie-zip':'outerwear','pants-linen':'bottoms','pants-cargo':'bottoms','sneak-runner':'shoes','sneak-court':'shoes'
-};
 
 /* ====== БАЗА ДАННЫХ (localStorage + стандартные данные) ====== */
 const LS = { prod:'admv_products', cats:'admv_categories', store:'admv_store', admin:'admv_admin' };
@@ -1061,16 +1303,28 @@ function fitLayer(p){
   if(/кепк|шапк|панам|аксесс/.test(t)) return 'accessory';
   return null;
 }
+/* Куда надевать: выбор админа в карточке товара или автоматически по категории */
+const tryLayerOf = p => p.tryLayer==='none' ? null : (p.tryLayer || fitLayer(p));
+/* Фото, у которых при проверке оказался фон, — на манекен не надеваем */
+const FIT_BAD = new Set();
+function fitVerify(){
+  PRODUCTS.filter(p=>p.tryFit).forEach(p=>{ const u=p.tryOn;
+    FIT.analyze(u).then(a=>{ if(a.ok || FIT_BAD.has(u)) return;
+      FIT_BAD.add(u); PRODUCTS=applyMeta(PRODUCTS);
+      LAYERS_ALL.forEach(l=>{ if(frLook[l] && frLook[l].id===p.id && (p.layer!==l || !p.tryOn)) frLook[l]=null; });
+      try{ renderShop(); renderPanel(); }catch(e){} }); });
+}
+const LAYERS_ALL=['shoes','bottoms','tops','outerwear','accessory'];
 /* Фото годится для примерки, если это вырезанная вещь на прозрачном фоне (PNG / WebP) */
 const cutoutImg = u => typeof u==='string' && !cutImg(u) && (/^data:image\/(png|webp)/i.test(u) || /\.(png|webp)(\?|#|$)/i.test(u));
 
 /* Накладываем слои примерки и характеристики на загруженные товары */
 function applyMeta(list){
   list.forEach(p=>{
-    const l=TRYON_META[p.id];
-    const own=(p.images||[])[0], fl=fitLayer(p);
-    if(fl && cutoutImg(own)){ p.layer=fl; p.tryOn=own; p.tryThumb=own; p.tryFit=true; }      // своё фото вещи на прозрачном фоне
-    else if(l && !p.tryOn){ p.layer=l; p.tryOn='images/tryon/'+p.id+'.png'; p.tryThumb='images/tryon/thumb-'+p.id+'.png'; }
+    p.layer=null; p.tryOn=null; p.tryThumb=null; p.tryFit=false;
+    const own=(p.images||[])[0], fl=tryLayerOf(p), dm=p.tryLayer==='none'?null:FIT.demo(p.id);
+    if(fl && cutoutImg(own) && !FIT_BAD.has(own)){ p.layer=fl; p.tryOn=own; p.tryThumb=own; p.tryFit=true; }      // своё фото вещи на прозрачном фоне
+    else if(dm){ p.layer=dm.layer; p.tryOn=dm.src; p.tryThumb=dm.thumb; p.tryFit=false; }                       // встроенный рисунок-демо
     if(!p.specs) p.specs = DEFAULT_SPECS[p.id] ? clone(DEFAULT_SPECS[p.id]) : [];
     if(!Array.isArray(p.images)) p.images=[];
     p.images=p.images.map(u=>(!u||EXT_DEMO.test(u))?'':u);
@@ -1092,6 +1346,7 @@ function loadData(){
   PRICE_MAX = Math.ceil(mx/20)*20;
   // фильтр цены стоял на максимуме — двигаем его вместе с новым максимумом, иначе более дорогой товар скрывался
   try{ if(filters.price>=was || filters.price>PRICE_MAX) filters.price=PRICE_MAX; }catch(e){}
+  setTimeout(fitVerify,600);      // проверяем свои фото для примерки (нет ли у них фона)
 }
 loadData();
 
@@ -1576,9 +1831,9 @@ function editProduct(id){
   const szChk = ALLSIZES.map(s=>`<span class="chk${(p.sizes||[]).includes(s)?' on':''}" data-sz="${s}" onclick="this.classList.toggle('on')">${s}</span>`).join('');
   const specsText = (p.specs||[]).map(s=>`${s.k}: ${s.v}`).join('\n');
   $('#formBody').innerHTML = `
-    <div class="fld"><label>Название</label><input class="inp" id="f_name" value="${esc(p.name)}"></div>
+    <div class="fld"><label>Название</label><input class="inp" id="f_name" value="${esc(p.name)}" onchange="fitEdRefresh()"></div>
     <div class="fld-row">
-      <div class="fld"><label>Категория</label><select class="inp" id="f_cat">${catOpts}</select></div>
+      <div class="fld"><label>Категория</label><select class="inp" id="f_cat" onchange="fitEdRefresh()">${catOpts}</select></div>
       <div class="fld"><label>Цена (${esc(STORE.currency)})</label><input class="inp" id="f_price" type="number" min="0" value="${p.price||0}"></div>
     </div>
     <div class="fld-row">
@@ -1593,13 +1848,68 @@ function editProduct(id){
     <div class="fld"><label>Характеристики (каждая с новой строки: «Название: значение»)</label><textarea class="inp" id="f_specs" placeholder="Материал: 100% хлопок\nКрой: свободный">${esc(specsText)}</textarea></div>
     <div class="fld"><label>Цвета</label><div class="chkwrap" id="f_colors">${colChk}</div></div>
     <div class="fld"><label>Размеры</label><div class="chkwrap" id="f_sizes">${szChk}</div></div>
-    <div class="fld"><label>Фото 1 (главное) — ссылка</label><input class="inp" id="f_img1" value="${esc(imgField('f_img1',p.images[0]))}" placeholder="https://...">
+    <div class="fld"><label>Фото 1 (главное) — ссылка</label><input class="inp" id="f_img1" value="${esc(imgField('f_img1',p.images[0]===PLACEHOLDER?'':p.images[0]))}" placeholder="https://..." onchange="fitEdRefresh()">
       <label class="filepick" style="margin-top:9px"><input type="file" accept="image/*" hidden onchange="pickImg(this,'f_img1')">Загрузить фото</label></div>
     <div class="fld"><label>Фото 2 (показывается при наведении) — ссылка</label><input class="inp" id="f_img2" value="${esc(imgField('f_img2',p.images[1]))}" placeholder="https://...">
-      <label class="filepick" style="margin-top:9px"><input type="file" accept="image/*" hidden onchange="pickImg(this,'f_img2')">Загрузить фото</label></div>`;
+      <label class="filepick" style="margin-top:9px"><input type="file" accept="image/*" hidden onchange="pickImg(this,'f_img2')">Загрузить фото</label></div>
+    ${fitEdHTML(p)}`;
+  fitEdRefresh();
   $('#formSave').textContent='Сохранить';
   $('#formSave').onclick=saveProductForm;
   $('#formModal').classList.add('open'); document.body.classList.add('lock');
+}
+/* ===== Примерка в карточке товара: куда надевать + ручная подгонка на манекене ===== */
+const FE_SL = [ ['s','Размер',50,170,100,'%'], ['y','Выше / ниже',-90,90,0,''], ['x','Левее / правее',-70,70,0,''], ['t','Обрезать сверху',0,60,0,'%'], ['b','Обрезать снизу',0,60,0,'%'], ['w','Обрезать по бокам',0,35,0,'%'] ];
+function fitEdHTML(p){
+  const f=p.fit||{}, L=[['','Автоматически (по категории)'],['tops','Верх — футболка, рубашка, свитшот'],['outerwear','Верхняя одежда — худи, куртка, пальто'],['bottoms','Низ — брюки, джинсы, шорты'],['shoes','Обувь'],['accessory','Головной убор'],['none','Не показывать в примерочной']];
+  const val=k=> k==='s' ? Math.round((+f.s||1)*100) : 'tbw'.includes(k) ? Math.round((+f[k]||0)*100) : Math.round(+f[k]||0);
+  return `<div class="fld fe" id="fitEd"><label>Примерочная — как вещь сидит на манекене</label>
+    <div class="fe-wrap">
+      <div class="fp-stage fe-stage"><div class="fp-fig" id="feFig">${FIT.figHTML('fe')}</div></div>
+      <div class="fe-ctl">
+        <select class="inp" id="f_layer" onchange="fitEdRefresh()">${L.map(([v,t])=>`<option value="${v}"${(p.tryLayer||'')===v?' selected':''}>${t}</option>`).join('')}</select>
+        ${FE_SL.map(([k,t,mn,mx,d,u])=>`<label class="fe-r"><span>${t}<b id="fe_${k}_v"></b></span><input type="range" id="fe_${k}" min="${mn}" max="${mx}" value="${val(k)}" data-u="${u}"${k==='t'&&f.t==null?' data-auto="1"':''} oninput="${k==='t'?'this.dataset.auto=\'\';':''}fitEdRefresh()"></label>`).join('')}
+        <button type="button" class="adm-mini" onclick="fitEdReset()">Подогнать автоматически</button>
+        <div class="fe-msg" id="feMsg"></div>
+      </div>
+    </div></div>`;
+}
+function fitEdValues(){
+  if(!$('#fe_s')) return null;
+  const g=k=>+$('#fe_'+k).value, f={};
+  if(g('s')!==100) f.s=g('s')/100;
+  if(g('x')) f.x=g('x'); if(g('y')) f.y=g('y'); if(g('b')) f.b=g('b')/100; if(g('w')) f.w=g('w')/100;
+  if(!$('#fe_t').dataset.auto) f.t=g('t')/100;
+  return Object.keys(f).length ? f : null;
+}
+function fitEdReset(){
+  FE_SL.forEach(([k,,,,d])=>{ $('#fe_'+k).value=d; }); $('#fe_t').dataset.auto='1'; fitEdRefresh();
+}
+function fitEdRefresh(){
+  if(!$('#fitEd')) return;
+  FE_SL.forEach(([k])=>{ const el=$('#fe_'+k); $('#fe_'+k+'_v').textContent=' '+el.value+el.dataset.u; });
+  const sel=$('#f_layer').value, img=imgVal('f_img1');
+  const layer = sel==='none' ? null : (sel || fitLayer({category:$('#f_cat').value, name:$('#f_name').value}));
+  const dm = sel==='none' ? null : FIT.demo(editingId);
+  const msg=t=>{ $('#feMsg').innerHTML=t; };
+  const lock=on=>FE_SL.forEach(([k])=>$('#fe_'+k).disabled=on);
+  LAYERS_ALL.forEach(l=>FIT.off($('#fe-'+l)));
+  if(sel==='none'){ lock(true); msg('Вещь не будет надеваться на манекен.'); return; }
+  if(!layer){ lock(true); msg('По категории не понять, куда надевать вещь. Выберите вариант в списке выше.'); return; }
+  if(!img || !cutoutImg(img)){
+    lock(true);
+    if(dm){ FIT.plain($('#fe-'+dm.layer),dm.src); msg('Сейчас в примерочной — рисунок-образец. Загрузите главное фото вещи <b>без фона (PNG)</b>, и надеваться будет оно.'); }
+    else msg('Для примерки нужно главное фото вещи <b>без фона</b> (PNG). С обычным фото вещь в примерочной не показывается.');
+    return;
+  }
+  lock(false); msg('Подгоняем…');
+  const fit=fitEdValues()||{};
+  FIT.wear($('#fe-'+layer),img,layer,fit).then(r=>{
+    if(!$('#fitEd')) return;
+    if(!r){ lock(true); msg('У этого фото есть фон, поэтому на манекен его не надеть. Загрузите фото вещи <b>без фона</b> (PNG).'); return; }
+    if($('#fe_t').dataset.auto){ $('#fe_t').value=Math.round(r.auto*100); $('#fe_t_v').textContent=' '+$('#fe_t').value+'%'; }
+    msg('Двигайте ползунки, пока вещь не сядет ровно. Если на фото видно лицо, ноги или соседних людей — срежьте их ползунками «Обрезать».');
+  });
 }
 /* Загруженное фото лежит в IMG_BUF, а не в текстовом поле: поле обрезает длинный текст,
    и большое фото сохранялось наполовину. В поле показываем только пометку. */
@@ -1629,6 +1939,7 @@ function pickImg(input,targetId){
       if(out.indexOf('data:image/webp')!==0) out = alpha ? c.toDataURL('image/png') : c.toDataURL('image/jpeg',.85);
       if(out.length>r.result.length && r.result.length<1500000) out=r.result;   // маленький файл оставляем как есть
       IMG_BUF[targetId]=out; $('#'+targetId).value=IMG_MARK; toast('Фото загружено');
+      if(targetId==='f_img1') fitEdRefresh();
     };
     im.src=r.result;
   };
@@ -1657,6 +1968,8 @@ function saveProductForm(){
     sale: old?true:$('#f_sale').classList.contains('on'),
     featured:$('#f_feat').classList.contains('on')
   };
+  const tl=$('#f_layer').value; if(tl) obj.tryLayer=tl;
+  const fit=fitEdValues(); if(fit) obj.fit=fit;
   confirmAction(editingId?`Сохранить изменения в карточке «${name}»?`:`Добавить товар «${name}»?`, ()=>{
     const list=DB.products();
     if(editingId){ const i=list.findIndex(x=>x.id===editingId); if(i>-1) list[i]=obj; else list.push(obj); }
@@ -1949,6 +2262,7 @@ if(isAdmin()) enableAdminMode();
 const frFind = id => PRODUCTS.find(p=>p.id===id);
 const firstSize = p => (p.sizes||[]).find(s=>!p.stock || p.stock[s]>0) || (p.sizes||[])[0];
 const LAYERS = ['shoes','bottoms','tops','outerwear','accessory'];
+$('#frFig').innerHTML = FIT.figHTML('fr');
 
 function currentLook(){ return LAYERS.map(l=>frLook[l]).filter(sel=>sel && frFind(sel.id)); }
 
@@ -1970,15 +2284,21 @@ function frAddAll(){
   toast('Образ в корзине · '+look.length+' '+plu(look.length,'вещь','вещи','вещей'));
 }
 
+let frGen=0;
 function renderPanel(){
   // model layers
+  const put={}, gen=++frGen;
   LAYERS.forEach(layer=>{
     const el=document.getElementById('fr-'+layer), sel=frLook[layer];
     const p=sel?frFind(sel.id):null;
-    if(sel && !p) frLook[layer]=null;
-    if(p && p.tryOn){ if(el.getAttribute('src')!==p.tryOn) el.src=p.tryOn; el.classList.toggle('fit',!!p.tryFit); el.classList.add('on'); }
-    else el.classList.remove('on');
+    if(sel && (!p || !p.tryOn || p.layer!==layer)) frLook[layer]=null;
+    if(!frLook[layer]){ FIT.off(el); put[layer]=Promise.resolve(null); }
+    else if(p.tryFit) put[layer]=FIT.wear(el,p.tryOn,layer,p.fit).then(r=>{
+      if(r || !frLook[layer] || frLook[layer].id!==p.id) return r;
+      frLook[layer]=null; toast('У фото этой вещи есть фон — на манекене её не показать'); renderPanel(); renderShop(); return null; });
+    else put[layer]=FIT.plain(el,p.tryOn).then(r=>Object.assign(r, frLook.outerwear===sel ? {x:92,w:216} : {}));   // рисунок-демо: ширина верхней одежды
   });
+  Promise.all([put.tops,put.outerwear]).then(([t,o])=>{ if(gen===frGen) FIT.under($('#fr-tops'),t,o); });
   const look=currentLook();
   $('#frHint').style.opacity = look.length ? '0' : '1';
   $('#frCount').textContent = look.length + ' ' + plu(look.length,'вещь','вещи','вещей');
