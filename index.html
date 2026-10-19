@@ -103,6 +103,7 @@ header{ position:fixed; top:0; left:0; right:0; z-index:200; transition:backgrou
 .shop-head h2{ font-family:var(--serif); font-weight:500; font-size:clamp(2.2rem,5vw,3.6rem); line-height:1; }
 .shop-head p{ color:var(--muted); margin-top:14px; max-width:46ch; font-size:.95rem; line-height:1.5; }
 .toolbar{ display:flex; align-items:center; gap:10px; }
+.toolbar > *{ min-width:0; } .toolbar select.tool{ max-width:100%; text-overflow:ellipsis; }
 .tool{ font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--text); opacity:.82; padding:11px 18px; border:1px solid var(--line); transition:border-color .25s, color .25s; display:inline-flex; align-items:center; gap:9px; }
 .tool:hover{ border-color:var(--amber); color:var(--amber); }
 .tool svg{ width:14px; height:14px; stroke:currentColor; stroke-width:1.5; fill:none; }
@@ -297,6 +298,7 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
   .sresults{ grid-template-columns:repeat(2,1fr); }
   .gridtog{ display:none; }
   .shop-head{ align-items:flex-start; }
+  .shop-head .toolbar{ width:100%; } .shop-head .toolbar .tool{ flex:none; padding-inline:14px; } .shop-head .toolbar select.tool{ flex:1 1 0; letter-spacing:.1em; padding-left:14px; padding-right:26px; }
   .pv-cta{ grid-template-columns:1fr; }
   .assure{ grid-template-columns:1fr; }
   /* filter as bottom sheet */
@@ -398,12 +400,50 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 .fp-foot{ padding:14px 16px; border-top:1px solid var(--line); }
 .fp-reset{ width:100%; margin-top:10px; display:inline-flex; align-items:center; justify-content:center; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; padding:11px; border:1px solid var(--line); color:var(--muted); transition:.25s; }
 .fp-reset:hover{ color:var(--text); border-color:var(--line2); }
+.fp-body{ display:flex; flex-direction:column; flex:1; min-height:0; }
+.fp-grab, .fp-big-t{ display:none; }
 
 @media(max-width:560px){
-  #frPanel{ left:0; right:0; bottom:0; width:100%; max-width:100%; max-height:90vh; border-radius:16px 16px 0 0; transform-origin:bottom center; transform:translateY(100%); }
+  /* Телефон: компактная панель снизу (манекен слева, вещи справа), каталог над ней остаётся видимым.
+     Ручка сверху или кнопка в углу разворачивает большой манекен; свайп вниз сворачивает/закрывает. */
+  #frPanel{ left:0; right:0; bottom:0; width:100%; max-width:100%; max-height:none; border-radius:18px 18px 0 0; border-bottom:none;
+    transform-origin:bottom center; transform:translateY(100%); padding-bottom:env(safe-area-inset-bottom,0px);
+    transition:opacity .35s var(--ease), transform .4s var(--ease); touch-action:pan-x; }
   #frPanel.open{ transform:none; }
-  #tryLaunch{ left:16px; bottom:16px; }
-  .fp-stage{ height:min(46vh,380px); }
+  #frPanel.drag{ transition:none; }
+  .fp-grab{ display:grid; place-items:center; width:100%; height:22px; padding-top:6px; flex-shrink:0; cursor:grab; }
+  .fp-grab i{ width:40px; height:4px; border-radius:4px; background:var(--line2); }
+  .fp-head{ padding:2px 14px 10px 18px; border-bottom:none; align-items:center; }
+  .fp-t{ font-size:1.1rem; }
+  .fp-sub{ display:none; }
+  .fp-head .xbtn{ width:40px; height:40px; }
+  .fp-body{ flex-direction:row; gap:12px; padding:0 14px; height:clamp(180px,29svh,260px); flex:none; }
+  .fp-stage{ margin:0; width:42%; height:100%; flex-shrink:0; }
+  .fp-hint{ font-size:.56rem; padding:0 6px; }
+  .fp-picks{ padding:2px 0 4px; height:100%; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; }
+  .fp-picks-h{ margin-bottom:10px; }
+  .fp-pick{ gap:9px; align-items:flex-start; }
+  .fp-pick img{ width:38px; height:48px; }
+  .fp-pick-n{ font-size:.58rem; line-height:1.35; margin-bottom:6px; }
+  .fp-pick-i select{ font-size:.7rem; padding:6px 9px; min-height:32px; }
+  .fp-pick-p{ font-size:.68rem; white-space:nowrap; }
+  .fp-pick-x{ width:32px; height:32px; display:grid; place-items:center; margin-right:-4px; font-size:1.2rem; }
+  .fp-help{ font-size:.6rem; }
+  .fp-total{ margin:10px 18px 0; padding:10px 0 0; }
+  .fp-total .v{ font-size:1.25rem; }
+  .fp-foot{ display:flex; gap:8px; padding:10px 14px 12px; border-top:none; }
+  .fp-foot .btn{ flex:1; min-height:48px; font-size:.66rem; padding:0 12px; white-space:nowrap; letter-spacing:.14em; }
+  .fp-foot .fp-reset{ width:auto; margin:0; padding:0 14px; min-height:48px; flex:none; }
+  .fp-big-t{ display:grid; place-items:center; width:48px; min-height:48px; flex:none; border:1px solid var(--line); border-radius:var(--r); color:var(--muted); }
+  .fp-big-t svg{ width:18px; height:18px; stroke:currentColor; stroke-width:1.5; fill:none; }
+  /* развёрнутый вид: большой манекен сверху, вещи под ним */
+  #frPanel.big .fp-body{ flex-direction:column; height:auto; flex:1; min-height:0; max-height:calc(92svh - 190px); }
+  #frPanel.big .fp-stage{ width:100%; height:min(50svh,430px); }
+  #frPanel.big .fp-picks{ height:auto; padding-top:14px; }
+  #frPanel.big .fp-big-t svg{ transform:rotate(180deg); }
+  #tryLaunch{ left:16px; bottom:calc(16px + env(safe-area-inset-bottom,0px)); }
+  /* место под панелью, чтобы низ каталога не прятался */
+  body.fr-open main, body.fr-open footer{ padding-bottom:clamp(330px,52svh,450px); }
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -614,7 +654,7 @@ body.admin-on .pcard{ border-radius:var(--r-lg); }
 /* АВТООБНОВЛЕНИЕ: браузер может показывать старую сохранённую копию сайта.
    Сверяем номер версии с сервером и, если вышла новая, сами открываем её.
    При каждой публикации менять ADMV_BUILD. */
-var ADMV_BUILD='2026-10-16.1';
+var ADMV_BUILD='2026-10-19.1';
 (function(){
   if(location.protocol.indexOf('http')!==0 || !window.fetch) return;
   fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.text():''; }).then(function(t){
@@ -795,10 +835,12 @@ var ADMV_BUILD='2026-10-16.1';
 </button>
 
 <aside id="frPanel" aria-label="Примерочная">
+  <button class="fp-grab" type="button" onclick="frToggleBig()" aria-label="Развернуть примерочную"><i></i></button>
   <div class="fp-head">
     <div><div class="fp-t">Примерочная</div><div class="fp-sub">Нажмите на вешалку у товара, чтобы примерить.</div></div>
     <button class="xbtn" onclick="closeFitting()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
+  <div class="fp-body">
   <div class="fp-stage" id="frStage">
     <div class="fp-fig" id="frFig" role="img" aria-label="Манекен ADMV"></div>
     <div class="fp-hint" id="frHint">Модель готова</div>
@@ -808,10 +850,12 @@ var ADMV_BUILD='2026-10-16.1';
     <div class="fp-pick-row" id="frPicks"></div>
     <div class="fp-help" id="frHelp" style="display:none">Добавляйте вещи — они надеваются слоями.</div>
   </div>
+  </div>
   <div class="fp-total" id="frTotalRow" style="display:none"><span class="l">Итого</span><span class="v" id="frTotal">0 ₽</span></div>
   <div class="fp-foot">
     <button class="btn solid block" onclick="frAddAll()">Образ в корзину</button>
     <button class="fp-reset block" onclick="frClear()">Сбросить</button>
+    <button class="fp-big-t" type="button" onclick="frToggleBig()" aria-label="Развернуть примерочную"><svg viewBox="0 0 24 24"><path d="M8 4H4v4M16 4h4v4M8 20H4v-4M16 20h4v-4"/></svg></button>
   </div>
 </aside>
 
@@ -2323,7 +2367,21 @@ function renderPanel(){
 
 /* open / close / toggle the floating fitting panel */
 function openFitting(){ document.body.classList.add('fr-open'); renderPanel(); $('#frPanel').classList.add('open'); $('#tryLaunch').classList.add('hidden'); if(location.hash!=='#fitting-room') history.replaceState(null,'',location.pathname+location.search+'#fitting-room'); }
-function closeFitting(){ document.body.classList.remove('fr-open'); $('#frPanel').classList.remove('open'); $('#tryLaunch').classList.remove('hidden'); if(location.hash==='#fitting-room') history.replaceState(null,'',location.pathname+location.search); }
+function closeFitting(){ document.body.classList.remove('fr-open'); $('#frPanel').classList.remove('open','big'); $('#tryLaunch').classList.remove('hidden'); if(location.hash==='#fitting-room') history.replaceState(null,'',location.pathname+location.search); }
+function frToggleBig(force){
+  const pn=$('#frPanel'), big = force===undefined ? !pn.classList.contains('big') : force;
+  pn.classList.toggle('big',big);
+  document.querySelectorAll('#frPanel .fp-grab, #frPanel .fp-big-t').forEach(b=>b.setAttribute('aria-label', big?'Свернуть примерочную':'Развернуть примерочную'));
+}
+(function(){ /* свайп по верхней части панели на телефоне: вверх развернуть, вниз свернуть/закрыть */
+  const pn=document.getElementById('frPanel'); if(!pn) return;
+  let y0=null, dy=0;
+  pn.addEventListener('touchstart',e=>{ if(innerWidth>560 || !e.target.closest('.fp-grab, .fp-head')) return; y0=e.touches[0].clientY; dy=0; pn.classList.add('drag'); },{passive:true});
+  pn.addEventListener('touchmove',e=>{ if(y0===null) return; dy=e.touches[0].clientY-y0; if(dy>0) pn.style.transform='translateY('+dy+'px)'; },{passive:true});
+  pn.addEventListener('touchend',()=>{ if(y0===null) return; pn.classList.remove('drag'); pn.style.transform=''; y0=null;
+    if(dy>70){ if(pn.classList.contains('big')) frToggleBig(false); else closeFitting(); }
+    else if(dy<-50) frToggleBig(true); });
+})();
 function toggleFitting(){ $('#frPanel').classList.contains('open') ? closeFitting() : openFitting(); }
 
 /* ===== INTRO — сборка букв ADMV; играет при КАЖДОМ обновлении/входе; не на внутренних оверлеях ===== */
