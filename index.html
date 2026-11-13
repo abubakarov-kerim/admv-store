@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ADMV - Премиальная одежда</title>
 <meta name="description" content="ADMV. Премиальная одежда для тех, кто движется вперёд. Сдержанная роскошь и премиальные материалы для каждого дня.">
-<link rel="stylesheet" href="fonts/fonts.css?v=2026-11-13.3">
+<link rel="stylesheet" href="fonts/fonts.css?v=2026-11-13.4">
 <meta name="theme-color" content="#0B0B0C">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101114'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' text-anchor='middle' fill='%23F2EFE8'%3EA%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="website">
@@ -559,13 +559,13 @@ body{ font-weight:400; }
 ::selection{ background:var(--red); color:#fff; }
 
 </style>
-<link rel="stylesheet" href="css/admin-tools.css?v=2026-11-13.3">
+<link rel="stylesheet" href="css/admin-tools.css?v=2026-11-13.4">
 <script>(function(){try{var t=localStorage.getItem('admvTheme')||'dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <script>
 /* АВТООБНОВЛЕНИЕ: браузер может показывать старую сохранённую копию сайта.
    Сверяем номер версии с сервером и, если вышла новая, сами открываем её.
    При каждой публикации менять ADMV_BUILD. */
-var ADMV_BUILD='2026-11-13.3';
+var ADMV_BUILD='2026-11-13.4';
 (function(){
   if(location.protocol.indexOf('http')!==0 || !window.fetch) return;
   fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.text():''; }).then(function(t){
@@ -839,9 +839,10 @@ var ADMV_BUILD='2026-11-13.3';
 
 <div class="toast" id="toast"></div>
 
-<script src="js/cutout.js?v=2026-11-13.3"></script>
-<script src="js/admin-media.js?v=2026-11-13.3"></script>
-<script src="js/site-admin.js?v=2026-11-13.3"></script>
+<script src="js/cutout.js?v=2026-11-13.4"></script>
+<script src="js/admin-media.js?v=2026-11-13.4"></script>
+<script src="js/site-admin.js?v=2026-11-13.4"></script>
+<script src="js/admin-auth.js?v=2026-11-13.4"></script>
 <script>
 /* ====================================================================
    PRODUCT DATA - добавляй товары сюда. Поля по ТЗ.
@@ -1454,11 +1455,11 @@ function openAdminAt(tab){ adminTab=tab; openAdmin(); }
 let adminTab='products';
 function openAdminGate(){
   if(sessionStorage.getItem('admv_authed')==='1'){ openAdmin(); return; }
-  $('#loginUser').value=''; $('#loginPass').value=''; $('#loginErr').style.display='none';
+  hideSecrets(); $('#loginUser').value=''; $('#loginPass').value=''; $('#loginErr').style.display='none';
   $('#loginModal').classList.add('open'); document.body.classList.add('lock');
   setTimeout(()=>$('#loginUser').focus(),120);
 }
-function closeLogin(){ $('#loginModal').classList.remove('open'); syncLock(); }
+function closeLogin(){ hideSecrets(); $('#loginModal').classList.remove('open'); syncLock(); }
 function sha256(s){const k=[],h=[];let p=2;for(let c=0;c<64;p++){let f=1;for(let d=2;d*d<=p;d++)if(p%d==0){f=0;break}if(f){if(c<8)h[c]=(Math.pow(p,.5)*4294967296)|0;k[c++]=(Math.pow(p,1/3)*4294967296)|0}}
 const b=unescape(encodeURIComponent(s)),l=b.length*8,w=[];for(let i=0;i<b.length;i++)w[i>>2]|=b.charCodeAt(i)<<(24-(i%4)*8);w[l>>5]|=0x80<<(24-l%32);w[((l+64>>9)<<4)+15]=l;
 for(let j=0;j<w.length;j+=16){const a=h.slice(0,8),W=[];for(let i=0;i<64;i++){if(i<16)W[i]=w[j+i]|0;else{const x=W[i-15],y=W[i-2];W[i]=(((x>>>7|x<<25)^(x>>>18|x<<14)^x>>>3)+W[i-7]+((y>>>17|y<<15)^(y>>>19|y<<13)^y>>>10)+W[i-16])|0}
@@ -1474,7 +1475,7 @@ function tryLogin(){
 }
 function logoutAdmin(){ sessionStorage.removeItem('admv_authed'); disableAdminMode(); closeAdmin(); toast('Вы вышли из админки'); }
 function openAdmin(){ if(isAdmin()&&!document.body.classList.contains('admin-on')) enableAdminMode(); $('#adminPanel').classList.add('open'); document.body.classList.add('lock'); admTab(adminTab); }
-function closeAdmin(){ $('#adminPanel').classList.remove('open'); if(location.hash==='#admin') history.replaceState(null,'',location.pathname+location.search); syncLock(); }
+function closeAdmin(){ hideSecrets(); $('#adminPanel').classList.remove('open'); if(location.hash==='#admin') history.replaceState(null,'',location.pathname+location.search); syncLock(); }
 function admTab(t){
   PHOTO_GEN++; PHOTO_BUSY=0;
   adminTab=t;
@@ -1699,8 +1700,9 @@ function admData(){
       <div class="fld"><label>Репозиторий</label><input class="inp" id="gh_repo" value="${esc(g.repo)}"></div>
       <div class="fld"><label>Ветка</label><input class="inp" id="gh_branch" value="${esc(g.branch)}"></div>
     </div>
-    <div class="fld"><label>Ключ (token)</label><input class="inp" id="gh_token" type="password" autocomplete="off" value="${esc(g.token)}" placeholder="github_pat_..."></div>
-    <button class="btn" onclick="saveGH()">Сохранить ключ</button>
+    <div class="fld"><label>Ключ (token)</label><input class="inp" id="gh_token" type="password" autocomplete="off" placeholder="${g.token?'Ключ уже сохранён. Вставьте новый только для замены':'Вставьте ключ GitHub'}"></div>
+    <div class="gh-actions"><button class="btn" onclick="saveGH()">Сохранить ключ</button><button class="btn" id="ghCheck" onclick="checkGH()">Проверить ключ</button><button class="adm-mini" onclick="removeGH()">Удалить сохранённый ключ</button></div>
+    <p class="gh-status" id="ghStatus" role="status" aria-live="polite">${g.token?'Ключ сохранён в этом браузере. Можно проверить доступ или вставить новый для замены.':'Сохранённого ключа нет.'}</p>
     <div class="adm-sec-h" style="margin-top:34px"><h2>Резервная копия</h2></div>
     <div class="adm-hint"><b>Экспорт</b> - скачать файл со всеми товарами и настройками. <b>Импорт</b> - загрузить такой файл (он станет черновиком, затем нажмите «Опубликовать»).</div>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
@@ -1713,26 +1715,33 @@ function admData(){
    Ключ доступа хранится только в браузере админа. Без ключа опубликовать нельзя. */
 const GH = {
   get(){ try{ return Object.assign({repo:'abubakarov-kerim/admv-store',branch:'main',token:''}, JSON.parse(localStorage.getItem('admv_gh')||'{}')); }catch(e){ return {repo:'abubakarov-kerim/admv-store',branch:'main',token:''}; } },
-  set(o){ try{ localStorage.setItem('admv_gh',JSON.stringify(o)); }catch(e){} }
+  set(o){ try{ localStorage.setItem('admv_gh',JSON.stringify(cleanGH(o))); return true; }catch(e){return false;} }
 };
 async function ghApi(g,path,method,body){
-  let r;
-  try{ r=await fetch('https://api.github.com/repos/'+g.repo+path,{method:method||'GET',cache:'no-store',
-    headers:Object.assign({'Authorization':'Bearer '+g.token,'Accept':'application/vnd.github+json'}, body?{'Content-Type':'application/json'}:{}),
-    body:body?JSON.stringify(body):undefined}); }
-  catch(e){ throw new Error('Нет связи с GitHub. Проверьте интернет и попробуйте ещё раз.'); }
+  g=cleanGH(g); validGH(g);
+  let r;const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),30000);
+  try{ r=await fetch('https://api.github.com/repos/'+g.repo+path,{method:method||'GET',cache:'no-store',signal:controller.signal,
+    headers:Object.assign({'Authorization':'Bearer '+g.token,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'},body?{'Content-Type':'application/json'}:{}),body:body?JSON.stringify(body):undefined}); }
+  catch(e){throw new Error(e.name==='AbortError'?'GitHub долго не отвечает. Ключ не удалён, черновик сохранён. Попробуйте позже.':'Нет связи с GitHub. Проверьте интернет. Ключ и черновик сохранены.');}
+  finally{clearTimeout(timer);}
   if(!r.ok){
-    const m={401:'Ключ доступа неверный или истёк. Создайте новый (вкладка «База»).',403:'У ключа нет права записи. Дайте ему доступ «Contents: Read and write».',
-      404:'Репозиторий не найден или ключ к нему не допущен.',409:'Сайт изменился во время публикации. Нажмите «Опубликовать» ещё раз.',422:'Сайт изменился во время публикации. Нажмите «Опубликовать» ещё раз.'};
-    throw new Error(m[r.status]||('GitHub ответил ошибкой '+r.status+'.'));
+    let limited=false;try{const data=await r.json();limited=/rate limit|abuse detection/i.test(data.message||'');}catch(_){}
+    let message;
+    if(r.status===401)message='GitHub не принял ключ. Он может быть неверным, истёкшим или отозванным. Проверьте ключ в GitHub и при необходимости создайте новый для admv-store.';
+    else if(r.status===429||(r.status===403&&(r.headers.get('x-ratelimit-remaining')==='0'||r.headers.get('retry-after')||limited)))message='GitHub временно ограничил запросы. Подождите и повторите позже. Менять ключ из-за этого сообщения не нужно.';
+    else if(r.status===403)message='GitHub запретил действие. Проверьте доступ ключа к admv-store и разрешение Contents: Read and write. Возможна временная блокировка GitHub.';
+    else if(r.status===404)message=path.includes('/git/ref/heads/')?'Ветка не найдена или ключу недоступно её содержимое. Проверьте название ветки и доступ Contents.':'Репозиторий или его содержимое недоступны. Проверьте владельца, название и доступ ключа к admv-store.';
+    else if(r.status===409||r.status===422)message='GitHub не принял изменение: проверьте ветку и её правила. Если сайт недавно обновился, повторите публикацию.';
+    else message='GitHub ответил ошибкой '+r.status+'. Черновик сохранён. Попробуйте позже.';
+    const error=new Error(message);error.status=r.status;throw error;
   }
-  return r.json();
+  try{return await r.json();}catch(e){throw new Error('GitHub вернул неожиданный ответ. Черновик сохранён. Повторите позже.');}
 }
 let publishing=false;
 async function publishDB(){
   const g=GH.get();
   if(!g.token){ toast('Сначала добавьте ключ публикации - вкладка «База».'); openAdminAt('data'); return; }
-  if(publishing) return; publishing=true; updateDraftUI('Публикую…');
+  if(publishing) return; document.getElementById('publishError')?.remove(); publishing=true; updateDraftUI('Публикую…');
   try{
     const products=DB.products(), categories=DB.categories(), store=DB.store();
     const blobs=[], stamp=Date.now().toString(36), done=new Map();
@@ -1761,7 +1770,7 @@ async function publishDB(){
     try{ [LS.prod,LS.cats,LS.store].forEach(k=>localStorage.removeItem(k)); }catch(e){}
     reloadAll(); if($('#adminPanel').classList.contains('open')) admTab(adminTab);
     toast('Опубликовано. Все посетители увидят изменения через 1-2 минуты.');
-  }catch(e){ toast(e.message||'Не удалось опубликовать.'); }
+  }catch(e){ publishError(e.message||'Не удалось опубликовать. Черновик сохранён.'); }
   finally{ publishing=false; updateDraftUI(); }
 }
 /* Полоса админа: есть ли неопубликованные изменения */
@@ -1774,8 +1783,8 @@ function updateDraftUI(busy){
   if(st) st.innerHTML = draft ? '<b>Есть неопубликованные изменения.</b> Посетители их пока не видят.' : 'Всё, что вы видите, уже опубликовано на сайте.';
 }
 function saveGH(){
-  const o={repo:$('#gh_repo').value.trim()||'abubakarov-kerim/admv-store', branch:$('#gh_branch').value.trim()||'main', token:$('#gh_token').value.trim()};
-  GH.set(o); toast(o.token?'Ключ сохранён в этом браузере':'Ключ удалён');
+  try{const o=readGHForm();validGH(o);if(!GH.set(o))throw new Error('Браузер не разрешил сохранить ключ. Проверьте настройки хранения данных.');const input=$('#gh_token');input.value='';input.placeholder='Ключ сохранён. Вставьте новый только для замены';hideSecrets();ghStatus('Ключ сохранён в этом браузере. Нажмите «Проверить ключ».');}
+  catch(e){ghStatus(e.message,true);}
 }
 
 /* ===== УСЛОВИЯ ПОКУПКИ И КОНФИДЕНЦИАЛЬНОСТЬ ===== */
