@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ADMV - Премиальная одежда</title>
 <meta name="description" content="ADMV. Премиальная одежда для тех, кто движется вперёд. Сдержанная роскошь и премиальные материалы для каждого дня.">
-<link rel="stylesheet" href="fonts/fonts.css?v=2026-11-13.2">
+<link rel="stylesheet" href="fonts/fonts.css?v=2026-11-13.3">
 <meta name="theme-color" content="#0B0B0C">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101114'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' text-anchor='middle' fill='%23F2EFE8'%3EA%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="website">
@@ -334,7 +334,7 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 @keyframes introGa{ 50%{ transform:translate(50px,30px) scale(1.15);} }
 @keyframes introGb{ 50%{ transform:translate(-40px,-25px) scale(1.1);} }
 #intro3d .admv{ display:flex; gap:clamp(2px,1.2vw,16px); transform-style:preserve-3d; }
-#intro3d .admv .ch{ font-family:var(--serif); font-size:clamp(3.6rem,20vw,12rem); font-weight:600; letter-spacing:.02em; line-height:1;
+#intro3d .admv .ch{ font-family:var(--serif); font-size:var(--intro-size,clamp(3.6rem,20vw,12rem)); font-weight:600; letter-spacing:.02em; line-height:1;
   color:#EDEDEE; opacity:0;
   transform:translate3d(var(--x),var(--y),var(--z)) rotateX(var(--rx)) rotateY(var(--ry)) scale(.4);
   filter:blur(12px);
@@ -559,12 +559,13 @@ body{ font-weight:400; }
 ::selection{ background:var(--red); color:#fff; }
 
 </style>
+<link rel="stylesheet" href="css/admin-tools.css?v=2026-11-13.3">
 <script>(function(){try{var t=localStorage.getItem('admvTheme')||'dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <script>
 /* АВТООБНОВЛЕНИЕ: браузер может показывать старую сохранённую копию сайта.
    Сверяем номер версии с сервером и, если вышла новая, сами открываем её.
    При каждой публикации менять ADMV_BUILD. */
-var ADMV_BUILD='2026-11-13.2';
+var ADMV_BUILD='2026-11-13.3';
 (function(){
   if(location.protocol.indexOf('http')!==0 || !window.fetch) return;
   fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.text():''; }).then(function(t){
@@ -608,7 +609,8 @@ var ADMV_BUILD='2026-11-13.2';
   <span class="ab-sp"></span>
   <button class="solid" onclick="editProduct(null)">+ Товар</button>
   <button onclick="openAdminAt('cats')">Каталог</button>
-  <button onclick="openAdminAt('store')">Магазин</button>
+  <button onclick="openAdminAt('site')">Сайт</button>
+  <button onclick="openAdminAt('store')">Контакты</button>
   <button onclick="openAdminAt('products')">Панель</button>
   <button id="abPub" onclick="publishDB()">Опубликовать</button>
   <button onclick="logoutAdmin()">Выйти</button>
@@ -644,7 +646,7 @@ var ADMV_BUILD='2026-11-13.2';
 <section class="hero">
   <img id="heroImg" class="hero-img hero-img--light" src="images/hero-admv.jpg" alt="ADMV - премиальная одежда, обувь, аксессуары">
   <img id="heroImgDark" class="hero-img hero-img--dark" src="images/hero-admv-dark.jpg" alt="ADMV - премиальная одежда, обувь, аксессуары">
-  <button class="adm-inline hero-edit" onclick="openAdminAt('store')"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13 7l4 4"/></svg>Изменить заставку</button>
+  <button class="adm-inline hero-edit" onclick="openAdminAt('site')"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13 7l4 4"/></svg>Изменить заставку</button>
 </section>
 
 <!-- SHOP -->
@@ -780,7 +782,7 @@ var ADMV_BUILD='2026-11-13.2';
 <!-- ===== АДМИН-ПАНЕЛЬ ===== -->
 <div class="admin" id="adminPanel">
   <div class="adm-top">
-    <div class="at-title"><b>ADMV</b> · Админ-панель</div>
+    <div class="at-title"><b>ADMV</b><span class="admin-caption"> · Админ-панель</span></div>
     <div class="at-r">
       <button class="adm-mini pubbtn" onclick="publishDB()">Опубликовать</button>
       <button class="adm-mini" onclick="logoutAdmin()">Выйти</button>
@@ -790,7 +792,8 @@ var ADMV_BUILD='2026-11-13.2';
   <div class="adm-tabs" id="admTabs">
     <button class="adm-tab on" data-tab="products" onclick="admTab('products')">Товары</button>
     <button class="adm-tab" data-tab="cats" onclick="admTab('cats')">Каталог</button>
-    <button class="adm-tab" data-tab="store" onclick="admTab('store')">Магазин</button>
+    <button class="adm-tab" data-tab="site" onclick="admTab('site')">Сайт</button>
+    <button class="adm-tab" data-tab="store" onclick="admTab('store')">Контакты</button>
     <button class="adm-tab" data-tab="access" onclick="admTab('access')">Доступ</button>
     <button class="adm-tab" data-tab="data" onclick="admTab('data')">База</button>
   </div>
@@ -836,6 +839,9 @@ var ADMV_BUILD='2026-11-13.2';
 
 <div class="toast" id="toast"></div>
 
+<script src="js/cutout.js?v=2026-11-13.3"></script>
+<script src="js/admin-media.js?v=2026-11-13.3"></script>
+<script src="js/site-admin.js?v=2026-11-13.3"></script>
 <script>
 /* ====================================================================
    PRODUCT DATA - добавляй товары сюда. Поля по ТЗ.
@@ -1015,7 +1021,7 @@ let cart = loadSaved(SAVE_KEY.cart).filter(c=>c&&c.key&&c.id&&c.qty>0), wishlist
 function saveCartWish(){ try{ localStorage.setItem(SAVE_KEY.cart,JSON.stringify(cart)); localStorage.setItem(SAVE_KEY.wish,JSON.stringify(wishlist)); }catch(e){} }
 /* после загрузки товаров: свежие цены, названия и фото в сохранённой корзине */
 function syncSaved(){
-  cart.forEach(c=>{ const p=PRODUCTS.find(x=>x.id===c.id); if(p){ c.price=p.price; c.name=p.name; c.img=pimg(p,0); c.illus=pcls(p,0); } });
+  cart.forEach(c=>{ const p=PRODUCTS.find(x=>x.id===c.id); if(p){ c.price=p.price; c.name=p.name; c.img=(p.images&&p.images[0])||PLACEHOLDER; delete c.illus; } });
   if(document.getElementById('cartCount')) updateCounts();
 }
 let gridCols = 4;
@@ -1197,6 +1203,7 @@ function renderCart(){
 function buildOrderText(){
   const lines = cart.map((it,i)=>`${i+1}. ${it.name}\n   Цвет: ${it.color} · Размер: ${it.size} · Кол-во: ${it.qty} · ${eur(it.price*it.qty)}`);
   const sub = cart.reduce((s,it)=>s+it.price*it.qty,0);
+  if(STORE.orderTemplate) return STORE.orderTemplate.replace(/\{(store|items|total)\}/g,(_,k)=>({store:STORE.name,items:lines.join('\n'),total:eur(sub)})[k]);
   return `Здравствуйте! Хочу оформить заказ в ${STORE.name}:\n\n${lines.join('\n')}\n\nИтого: ${eur(sub)}\n\nПодскажите, пожалуйста, по оплате и доставке.`;
 }
 function openOrder(){
@@ -1232,7 +1239,7 @@ let pvState={id:null,color:null,size:null,imgIndex:0};
 function openProduct(id){
   const p=PRODUCTS.find(x=>x.id===id); if(!p) return;
   pvState={id,color:firstColor(p),size:null,imgIndex:0};
-  renderProduct(); closeSearch();
+  renderProduct(); applySite(); closeSearch();
   const v=$('#pview'); v.classList.add('open'); v.scrollTop=0; document.body.classList.add('lock');
 }
 function closeProduct(){ $('#pview').classList.remove('open'); if(!anyDrawer()) document.body.classList.remove('lock'); }
@@ -1253,8 +1260,8 @@ function renderProduct(){
       <h1>${esc(p.name)}</h1>
       <div class="pvprice">${price}</div>
       <p class="desc">${esc(p.description)}</p>
-      <div class="pv-block"><div class="l">Цвет: ${colorOn(p,pvState.color)?pvState.color:'нет в наличии'}</div><div class="pv-colors">${colors}</div></div>
-      <div class="pv-block"><div class="l">Размер <span class="sizeguide" onclick="openInfo('sizes')">Таблица размеров</span></div><div class="pv-sizes">${sizes}</div></div>
+      <div class="pv-block"><div class="l">${esc(siteText('Цвет'))}: ${colorOn(p,pvState.color)?pvState.color:'нет в наличии'}</div><div class="pv-colors">${colors}</div></div>
+      <div class="pv-block"><div class="l">${esc(siteText('Размер'))} <span class="sizeguide" onclick="openInfo('sizes')">${esc(siteText('Таблица размеров'))}</span></div><div class="pv-sizes">${sizes}</div></div>
       <div class="pv-cta">
         ${soldOut(p)?`<button class="btn block" disabled style="opacity:.5;cursor:not-allowed">Нет в наличии</button>`:`<button class="btn solid block" onclick="pvAdd()">В корзину</button>
         <button class="btn amber block" onclick="pvAdd(true)">Заказать</button>`}
@@ -1269,8 +1276,8 @@ function renderProduct(){
     </div>`;
 }
 function pvSetImg(i){ pvState.imgIndex=i; const im=$('#gmainImg'); im.style.opacity=0; setTimeout(()=>{ im.src=PRODUCTS.find(x=>x.id===pvState.id).images[i]; im.style.opacity=1; },180); document.querySelectorAll('.thumbs img').forEach((t,ti)=>t.classList.toggle('on',ti===i)); }
-function pvSetColor(c){ const p=PRODUCTS.find(x=>x.id===pvState.id); if(p&&!colorOn(p,c)) return; pvState.color=c; renderProduct(); }
-function pvSetSize(s){ const p=PRODUCTS.find(x=>x.id===pvState.id); if(p&&!sizeOn(p,s)) return; pvState.size=s; renderProduct(); }
+function pvSetColor(c){ const p=PRODUCTS.find(x=>x.id===pvState.id); if(p&&!colorOn(p,c)) return; pvState.color=c; renderProduct(); applySite(); }
+function pvSetSize(s){ const p=PRODUCTS.find(x=>x.id===pvState.id); if(p&&!sizeOn(p,s)) return; pvState.size=s; renderProduct(); applySite(); }
 function pvAdd(order=false){ if(!pvState.size){ toast('Выберите размер'); return; } addToCart(pvState.id,pvState.size,pvState.color,1); if(order){ closeProduct(); openOrder(); } }
 
 /* ===== SEARCH ===== */
@@ -1321,7 +1328,7 @@ function applyThemeIcon(){
     ? '<svg viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8z"/></svg>'
     : '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.4"/><path d="M12 2v2M12 20v2M4.5 12H2M22 12h-2.5M5.5 5.5 7 7M17 17l1.5 1.5M18.5 5.5 17 7M7 17l-1.5 1.5"/></svg>';
 }
-function setTheme(t){ document.documentElement.setAttribute('data-theme',t); try{localStorage.setItem('admvTheme',t);}catch(e){} applyThemeIcon(); }
+function setTheme(t){ document.documentElement.setAttribute('data-theme',t); try{localStorage.setItem('admvTheme',t);}catch(e){} applyThemeIcon(); applySite(); }
 function toggleTheme(){ setTheme(document.documentElement.getAttribute('data-theme')==='light'?'dark':'light'); }
 applyThemeIcon();
 
@@ -1400,7 +1407,7 @@ function updateContacts(){
 }
 
 /* Перерисовать весь сайт после изменений в админке */
-function reloadAll(){ updateDraftUI(); loadData(); renderShop(); renderFooter(); renderHero(); updateContacts(); renderCart(); renderWish(); updateCounts(); }
+function reloadAll(){ updateDraftUI(); loadData(); renderShop(); renderFooter(); renderHero(); updateContacts(); renderCart(); renderWish(); updateCounts(); applySite(); }
 
 /* Блокировка прокрутки: держим, пока открыт любой слой */
 function syncLock(){
@@ -1419,7 +1426,7 @@ function closeConfirm(){ $('#confirmModal').classList.remove('open'); confirmCb=
 $('#confirmYes').addEventListener('click',()=>{ const cb=confirmCb; closeConfirm(); if(cb) cb(); });
 
 /* ===== ФОРМА / ПРОМПТ ===== */
-function closeForm(){ $('#formModal').classList.remove('open'); syncLock(); }
+function closeForm(){ PHOTO_GEN++; PHOTO_BUSY=0; $('#formModal').classList.remove('open'); syncLock(); }
 function promptModal(title,label,value,onOk){
   $('#formTitle').textContent=title;
   $('#formBody').innerHTML=`<div class="fld"><label>${esc(label)}</label><input class="inp" id="f_prompt" value="${esc(value)}"></div>`;
@@ -1433,7 +1440,8 @@ function renderHero(){
   const own=(STORE.hero && STORE.hero.trim()) ? STORE.hero : '';   // своё фото из админки показываем в обеих темах
   const im=$('#heroImg'), dk=$('#heroImgDark');
   if(im) im.src = own || 'images/hero-admv.jpg';
-  if(dk) dk.src = own || 'images/hero-admv-dark.jpg';
+  if(dk) dk.src = STORE.heroDark || own || 'images/hero-admv-dark.jpg';
+  applySite();
 }
 
 /* ===== РЕЖИМ АДМИНА НА САЙТЕ ===== */
@@ -1468,9 +1476,10 @@ function logoutAdmin(){ sessionStorage.removeItem('admv_authed'); disableAdminMo
 function openAdmin(){ if(isAdmin()&&!document.body.classList.contains('admin-on')) enableAdminMode(); $('#adminPanel').classList.add('open'); document.body.classList.add('lock'); admTab(adminTab); }
 function closeAdmin(){ $('#adminPanel').classList.remove('open'); if(location.hash==='#admin') history.replaceState(null,'',location.pathname+location.search); syncLock(); }
 function admTab(t){
+  PHOTO_GEN++; PHOTO_BUSY=0;
   adminTab=t;
   document.querySelectorAll('.adm-tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));
-  ({products:admProducts,cats:admCats,store:admStore,access:admAccess,data:admData}[t]||admProducts)();
+  ({products:admProducts,cats:admCats,site:admSite,store:admStore,access:admAccess,data:admData}[t]||admProducts)();
 }
 
 /* ===== АДМИН: ТОВАРЫ ===== */
@@ -1516,13 +1525,15 @@ function editProduct(id){
     <div class="fld"><label>Характеристики (каждая с новой строки: «Название: значение»)</label><textarea class="inp" id="f_specs" placeholder="Материал: 100% хлопок\nКрой: свободный">${esc(specsText)}</textarea></div>
     <div class="fld"><label>Цвета</label><div class="chkwrap" id="f_colors">${colChk}</div><span class="chk-hint">Нажатие: <b>есть</b> (выделено), ещё раз: <b>закончился</b> (серый, покупатель видит, но выбрать не может), ещё раз: убрать из карточки.</span></div>
     <div class="fld"><label>Размеры</label><div class="chkwrap" id="f_sizes">${szChk}</div><span class="chk-hint">Нажатие: <b>есть</b> (выделено), ещё раз: <b>закончился</b> (серый, покупатель видит, но выбрать не может), ещё раз: убрать из карточки.</span></div>
-    <div class="fld"><label>Фото 1 (главное) - ссылка</label><input class="inp" id="f_img1" value="${esc(imgField('f_img1',p.images[0]===PLACEHOLDER?'':p.images[0]))}" placeholder="https://...">
+    <label class="site-toggle"><input type="checkbox" id="autoCutPhotos" ${PHOTO_AUTO?'checked':''} onchange="PHOTO_AUTO=this.checked">Автоматически убирать фон и выравнивать фото, как в BAKHUR</label>
+    <div class="fld"><label>Фото 1 (главное) - ссылка</label><input class="inp" id="f_img1" onchange="PHOTO_JOBS.f_img1=(PHOTO_JOBS.f_img1||0)+1;PHOTO_ORIGINAL.f_img1=imgVal('f_img1');mediaPreview('f_img1')" value="${esc(imgField('f_img1',p.images[0]===PLACEHOLDER?'':p.images[0]))}" placeholder="https://...">
       <label class="filepick" style="margin-top:9px"><input type="file" accept="image/*" hidden onchange="pickImg(this,'f_img1')">Загрузить фото</label>
       <div class="cut-box" id="cut_f_img1"></div></div>
-    <div class="fld"><label>Фото 2 (показывается при наведении) - ссылка</label><input class="inp" id="f_img2" value="${esc(imgField('f_img2',p.images[1]))}" placeholder="https://...">
+    <div class="fld"><label>Фото 2 (показывается при наведении) - ссылка</label><input class="inp" id="f_img2" onchange="PHOTO_JOBS.f_img2=(PHOTO_JOBS.f_img2||0)+1;PHOTO_ORIGINAL.f_img2=imgVal('f_img2');mediaPreview('f_img2')" value="${esc(imgField('f_img2',p.images[1]))}" placeholder="https://...">
       <label class="filepick" style="margin-top:9px"><input type="file" accept="image/*" hidden onchange="pickImg(this,'f_img2')">Загрузить фото</label>
       <div class="cut-box" id="cut_f_img2"></div></div>
     `;
+  mediaProductStart(p);
   $('#formSave').textContent='Сохранить';
   $('#formSave').onclick=saveProductForm;
   $('#formModal').classList.add('open'); document.body.classList.add('lock');
@@ -1532,37 +1543,8 @@ function editProduct(id){
 const IMG_BUF={}, IMG_MARK='Загруженное фото (файл)';
 function imgField(id,val){ val=val||''; if(val.indexOf('data:')===0){ IMG_BUF[id]=val; return IMG_MARK; } delete IMG_BUF[id]; return val; }
 function imgVal(id){ const v=$('#'+id).value.trim(); return (v===IMG_MARK && IMG_BUF[id]) ? IMG_BUF[id] : v; }
-/* Загруженное фото уменьшаем и сжимаем, чтобы оно целиком помещалось в память браузера */
-function pickImg(input,targetId){
-  const file=input.files[0]; if(!file) return;
-  const max = targetId==='s_hero' ? 2000 : 1200;
-  const fail=()=>toast('Не удалось прочитать фото - попробуйте JPG или PNG');
-  const r=new FileReader();
-  r.onerror=fail;
-  r.onload=()=>{
-    const im=new Image();
-    im.onerror=fail;
-    im.onload=()=>{
-      const k=Math.min(1, max/Math.max(im.naturalWidth,im.naturalHeight));
-      const c=document.createElement('canvas');
-      c.width=Math.round(im.naturalWidth*k); c.height=Math.round(im.naturalHeight*k);
-      c.getContext('2d').drawImage(im,0,0,c.width,c.height);
-      // есть ли у фото прозрачный фон (вырезанная вещь)? тогда его нельзя сохранять в JPG - фон станет чёрным
-      let alpha=false;
-      try{ const d=c.getContext('2d').getImageData(0,0,c.width,c.height).data;
-        for(let i=3;i<d.length;i+=64){ if(d[i]<250){ alpha=true; break; } } }catch(e){}
-      // фото с прозрачным фоном храним в webp/png, обычное фото - в jpeg (так сразу видно, что фон у него есть)
-      let out = alpha ? c.toDataURL('image/webp',.9) : c.toDataURL('image/jpeg',.86);
-      if(alpha && out.indexOf('data:image/webp')!==0) out=c.toDataURL('image/png');
-      if(out.length>r.result.length && r.result.length<1500000) out=r.result;   // маленький файл оставляем как есть
-      IMG_BUF[targetId]=out; $('#'+targetId).value=IMG_MARK;
-      toast('Фото загружено');
-    };
-    im.src=r.result;
-  };
-  r.readAsDataURL(file); input.value='';
-}
 function saveProductForm(){
+  if(PHOTO_BUSY){ toast('Дождитесь обработки фото'); return; }
   const name=$('#f_name').value.trim();
   if(!name){ toast('Укажите название'); return; }
   const colors=[...$('#f_colors').querySelectorAll('.chk.on,.chk.out')].map(x=>x.dataset.col);
@@ -1581,6 +1563,7 @@ function saveProductForm(){
     price: Math.max(0, parseFloat($('#f_price').value)||0),
     oldPrice: old,
     images:[img1||PLACEHOLDER, img2||img1||PLACEHOLDER],
+    originalImages:[PHOTO_ORIGINAL.f_img1||img1||'',PHOTO_ORIGINAL.f_img2||img2||''],
     colors: colors.length?colors:['Чёрный'],
     colorsOut,
     sizes: sizes.length?sizes:['M'],
@@ -1645,7 +1628,7 @@ function askDeleteCat(i){
 function admStore(){
   const s=STORE;
   $('#admBody').innerHTML=`
-    <div class="adm-sec-h"><h2>Магазин</h2></div>
+    <div class="adm-sec-h"><h2>Контакты и магазин</h2></div>
     <div class="adm-hint">Эти данные показываются в подвале сайта и используются для кнопок заказа и Telegram. Укажите реальные контакты.</div>
     <div class="fld"><label>Название</label><input class="inp" id="s_name" value="${esc(s.name)}"></div>
     <div class="fld"><label>О магазине (текст в подвале)</label><textarea class="inp" id="s_about">${esc(s.about)}</textarea></div>
@@ -1671,12 +1654,12 @@ function admStore(){
     <button class="btn solid" onclick="saveStore()">Сохранить изменения</button>`;
 }
 function saveStore(){
-  const obj={ name:$('#s_name').value.trim()||'ADMV', tagline:STORE.tagline||'Премиальная одежда',
+  const obj=Object.assign({},DB.store(),{ name:$('#s_name').value.trim()||'ADMV', tagline:STORE.tagline||'Премиальная одежда',
     about:$('#s_about').value.trim(), address:$('#s_addr').value.trim(), hours:$('#s_hours').value.trim(),
     telegram:$('#s_tg').value.trim().replace(/^@/,''), whatsapp:$('#s_wa').value.trim(),
     instagram:$('#s_ig').value.trim().replace(/^@/,''), currency:$('#s_cur').value.trim()||'₽',
     seller:$('#s_seller').value.trim(), inn:$('#s_inn').value.replace(/\D/g,''), delivery:$('#s_delivery').value.trim(),
-    hero:imgVal('s_hero') };
+    hero:imgVal('s_hero') });
   confirmAction('Сохранить информацию о магазине?', ()=>{ DB.save(LS.store,obj); reloadAll(); toast('Сохранено'); });
 }
 
@@ -1760,8 +1743,9 @@ async function publishDB(){
     };
     products.forEach(p=>{ const sid=String(p.id).replace(/[^a-z0-9_-]/gi,'');
       p.images=(p.images||[]).map((u,i)=>(!u||u===PLACEHOLDER||EXT_DEMO.test(u))?'':toFile(u,sid+'-'+(i+1)));
+      if(p.originalImages) p.originalImages=p.originalImages.map((u,i)=>toFile(u,sid+'-original-'+i));
       if(p.tryImg) p.tryImg=toFile(p.tryImg,sid+'-try'); });
-    store.hero=toFile(store.hero,'hero');
+    ['hero','heroDark','editorialImg'].forEach(k=>store[k]=toFile(store[k],k));
     const db={_v:2,_rev:Date.now(),_date:new Date().toISOString(),products,categories,store};
     const br=encodeURIComponent(g.branch||'main');
     const ref=await ghApi(g,'/git/ref/heads/'+br);
@@ -1797,6 +1781,7 @@ function saveGH(){
 /* ===== УСЛОВИЯ ПОКУПКИ И КОНФИДЕНЦИАЛЬНОСТЬ ===== */
 function sellerLine(){ const s=STORE; return s.seller ? esc(s.seller)+(s.inn?', ИНН '+esc(s.inn):'') : 'продавец магазина '+esc(s.name); }
 function openInfo(kind){
+  if(STORE[kind+'Text']){ $('#infoTitle').textContent=siteText({terms:'Условия покупки',privacy:'Конфиденциальность',sizes:'Таблица размеров'}[kind]||'Информация'); $('#infoBody').innerHTML=STORE[kind+'Text'].split(/\n+/).filter(Boolean).map(t=>'<p>'+esc(t)+'</p>').join(''); $('#infoModal').classList.add('open'); syncLock(); return; }
   const s=STORE, contacts=[s.telegram?'Telegram @'+esc(s.telegram):'', s.whatsapp?'WhatsApp '+esc(s.whatsapp):'', s.instagram?'Instagram* '+esc(s.instagram):''].filter(Boolean).join(', ');
   if(kind==='sizes'){
     const R=[['XS','44','88','76'],['S','46','92','80'],['M','48','96','84'],['L','50','100','88'],['XL','52','104','92'],['XXL','54','108','96'],['3XL','56','112','100']];
@@ -1888,7 +1873,8 @@ if(isAdmin()) enableAdminMode();
   if(deep){ intro.remove(); window.__introActive=false; if(h==='#admin') openAdminGate(); return; }
 
   const box=document.getElementById('introAdmv');
-  const letters="ADMV".split("");
+  const letters=Array.from(STORE.name||'ADMV');
+  if(letters.length>6) box.style.setProperty('--intro-size','clamp(1.2rem,'+(72/letters.length).toFixed(2)+'vw,5rem)');
   box.innerHTML=letters.map((c,i)=>{
     const x=((Math.random()*2-1)*560).toFixed(0);
     const y=((Math.random()*2-1)*380).toFixed(0);
@@ -1899,6 +1885,7 @@ if(isAdmin()) enableAdminMode();
     return '<span class="'+cls+'" style="--x:'+x+'px;--y:'+y+'px;--z:'+z+'px;--rx:'+rx+'deg;--ry:'+ry+'deg;transition-delay:'+(i*0.11).toFixed(2)+'s">'+c+'</span>';
   }).join('');
 
+  siteApplyTexts();
   window.__introActive=true;
   document.body.classList.add('lock');
   let done=false;

@@ -1,0 +1,4 @@
+ONNX Runtime Web 1.17.3
+Source: https://www.npmjs.com/package/onnxruntime-web/v/1.17.3
+Copyright Microsoft Corporation. MIT License, see LICENSE.
+Included: ort.min.js, single-thread WebAssembly builds with and without SIMD.
