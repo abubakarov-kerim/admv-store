@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ADMV - Премиальная одежда</title>
 <meta name="description" content="ADMV. Премиальная одежда для тех, кто движется вперёд. Сдержанная роскошь и премиальные материалы для каждого дня.">
-<link rel="stylesheet" href="fonts/fonts.css?v=2026-11-12.1">
+<link rel="stylesheet" href="fonts/fonts.css?v=2026-11-13.1">
 <meta name="theme-color" content="#0B0B0C">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101114'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' text-anchor='middle' fill='%23F2EFE8'%3EA%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="website">
@@ -140,7 +140,6 @@ select.tool{ background:var(--bg); color:var(--text); -webkit-appearance:none; a
 .pcard:hover .cardacts button{ opacity:1; transform:none; }
 .pcard .cardacts button svg{ width:17px; height:17px; stroke:#EDEDEE; stroke-width:1.5; fill:none; transition:.25s; }
 .pcard .wish.on svg{ fill:var(--amber); stroke:var(--amber); }
-.pcard .tryon.on{ background:var(--amber); } .pcard .tryon.on svg{ stroke:var(--bg); }
 .pcard .tryon:hover{ background:var(--amber); } .pcard .tryon:hover svg{ stroke:var(--bg); }
 .pcard .qadd{ position:absolute; left:0; right:0; bottom:0; z-index:3; background:var(--text); color:var(--bg);
   font-size:.66rem; letter-spacing:.22em; text-transform:uppercase; text-align:center; padding:14px; transform:translateY(100%); transition:transform .4s var(--ease); }
@@ -356,127 +355,6 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
   #intro3d .admv .ch{ transition:opacity .4s ease !important; transform:none !important; filter:none !important; }
 }
 
-/* ===== FITTING ROOM - floating panel (new feature) ===== */
-#tryLaunch{ position:fixed; left:22px; bottom:22px; z-index:340; display:inline-flex; align-items:center; gap:10px;
-  padding:13px 20px 13px 15px; background:var(--card); border:1px solid var(--line2); border-radius:999px; color:var(--text);
-  font-size:.66rem; letter-spacing:.18em; text-transform:uppercase; box-shadow:0 18px 40px -18px rgba(0,0,0,.9);
-  transition:transform .25s var(--ease), border-color .25s, opacity .3s; }
-#tryLaunch:hover{ transform:translateY(-2px); border-color:var(--amber); }
-#tryLaunch.hidden{ opacity:0; pointer-events:none; transform:translateY(10px); }
-#tryLaunch .tl-ic{ width:26px; height:26px; border-radius:50%; background:var(--amber); display:grid; place-items:center; }
-#tryLaunch .tl-ic svg{ width:15px; height:15px; stroke:var(--bg); stroke-width:1.6; fill:none; }
-#tryLaunch .tl-c{ min-width:18px; height:18px; padding:0 4px; border-radius:999px; background:var(--amber); color:var(--bg); font-size:.58rem; display:grid; place-items:center; letter-spacing:0; }
-
-#frPanel{ position:fixed; left:22px; bottom:22px; z-index:350; width:340px; max-width:calc(100vw - 44px); max-height:min(86vh,720px);
-  display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line2); border-radius:16px; overflow:hidden;
-  box-shadow:0 30px 70px -24px rgba(0,0,0,.95); opacity:0; pointer-events:none; transform:translateY(16px) scale(.98);
-  transform-origin:bottom left; transition:opacity .35s var(--ease), transform .35s var(--ease); }
-#frPanel.open{ opacity:1; pointer-events:auto; transform:none; }
-.fp-head{ display:flex; align-items:flex-start; justify-content:space-between; padding:16px 18px; border-bottom:1px solid var(--line); }
-.fp-t{ font-family:var(--serif); font-size:1.2rem; letter-spacing:.08em; }
-.fp-sub{ font-size:.62rem; color:var(--muted); margin-top:4px; letter-spacing:.02em; }
-.fp-stage{ position:relative; flex-shrink:0; margin:14px 16px 0; height:clamp(240px,38vh,330px); background:radial-gradient(60% 56% at 50% 40%, var(--card2), var(--bg) 76%); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
-/* рамка фигуры 2:3 - манекен и вещи считаются в одной системе координат */
-.fp-fig{ position:absolute; top:3%; height:94%; left:50%; aspect-ratio:2/3; transform:translateX(-50%); }
-.fp-fig svg, .fp-fig img{ position:absolute; left:0; top:0; width:100%; height:100%; pointer-events:none; }
-.fp-fig img{ opacity:0; transition:opacity .35s var(--ease); }
-.fp-fig img.on{ opacity:1; }
-.fp-fig img.fit{ height:auto; }
-.fp-fig .mq{ z-index:1; } .fp-fig .mq-head{ z-index:6; }
-.fp-fig .l-bottoms{ z-index:2; } .fp-fig .l-shoes{ z-index:3; }   /* обувь поверх штанин */ .fp-fig .l-tops{ z-index:4; } .fp-fig .l-outerwear{ z-index:5; } .fp-fig .l-accessory{ z-index:7; }
-:root{ --mq-l:#7d7972; --mq-e:#45444a; }
-:root[data-theme="light"]{ --mq-l:#ebe6dc; --mq-e:#b9b1a3; }
-.fp-hint{ position:absolute; left:0; right:0; bottom:8px; text-align:center; font-size:.62rem; color:var(--muted); z-index:7; transition:opacity .3s; }
-.fp-picks{ padding:14px 16px 4px; overflow-y:auto; flex:1; min-height:0; }
-.fp-picks-h{ display:flex; justify-content:space-between; font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
-.fp-pick-row{ display:flex; flex-direction:column; gap:10px; }
-.fp-pick{ display:flex; gap:11px; align-items:center; }
-.fp-pick img{ width:42px; height:54px; object-fit:contain; background:var(--card2); border:1px solid var(--line); border-radius:8px; flex-shrink:0; }
-.fp-pick-i{ flex:1; min-width:0; }
-.fp-pick-n{ font-size:.64rem; letter-spacing:.08em; text-transform:uppercase; margin-bottom:5px; }
-.fp-pick-i select{ background:var(--bg); color:var(--text); border:1px solid var(--line); font-family:inherit; font-size:.62rem; padding:4px 7px; -webkit-appearance:none; appearance:none; }
-.fp-pick-r{ display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
-.fp-pick-p{ font-size:.74rem; }
-.fp-pick-x{ color:var(--muted); font-size:1rem; line-height:1; } .fp-pick-x:hover{ color:var(--amber); }
-.fp-help{ font-size:.62rem; color:var(--muted); margin-top:12px; font-weight:300; }
-.fp-total{ display:flex; justify-content:space-between; align-items:baseline; margin:4px 18px 0; padding:14px 0 0; border-top:1px solid var(--line); }
-.fp-total .l{ font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
-.fp-total .v{ font-family:var(--serif); font-size:1.4rem; }
-.fp-foot{ padding:14px 16px; border-top:1px solid var(--line); }
-.fp-reset{ width:100%; margin-top:10px; display:inline-flex; align-items:center; justify-content:center; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; padding:11px; border:1px solid var(--line); color:var(--muted); transition:.25s; }
-.fp-reset:hover{ color:var(--text); border-color:var(--line2); }
-.fp-body{ display:flex; flex-direction:column; flex:1; min-height:0; }
-.fp-grab, .fp-big-t{ display:none; }
-
-.fp-hsum{ display:none; }
-.cut-box:empty{ display:none; }
-.cut-box{ margin-top:12px; display:grid; gap:10px; }
-.cut-prev{ position:relative; height:280px; border:1px solid var(--line); overflow:hidden; display:grid; place-items:center; padding:10px;
-  background:repeating-conic-gradient(rgba(128,128,128,.22) 0 25%, transparent 0 50%) 0 0/18px 18px; }
-.cut-prev canvas{ max-width:100%; max-height:258px; touch-action:none; cursor:crosshair; }
-.cut-brush .adm-mini.on{ background:var(--amber); border-color:var(--amber); color:var(--ink,#0A1222); }
-.cut-bl{ font-size:.78rem; color:var(--muted); }
-.cut-h{ font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
-.cut-prev img{ max-width:100%; max-height:258px; object-fit:contain; }
-.cut-card{ display:flex; gap:9px; align-items:center; font-size:.8rem; color:var(--muted); cursor:pointer; }
-.cut-card input{ accent-color:var(--amber); width:16px; height:16px; }
-.cut-msg{ font-size:.8rem; color:var(--muted); line-height:1.5; }
-.cut-row{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
-.cut-tol{ display:flex; gap:10px; align-items:center; font-size:.78rem; color:var(--muted); flex:1; min-width:200px; }
-.cut-tol input{ flex:1; accent-color:var(--amber); }
-@media(max-width:560px){
-  /* Телефон: компактная полоса снизу (около трети экрана): маленький манекен слева, вещи справа, кнопки внизу.
-     Полоска сверху или кнопка со стрелками разворачивает большой манекен; свайп вниз сворачивает и закрывает. */
-  #frPanel{ left:0; right:0; bottom:0; width:100%; max-width:100%; max-height:none; border-radius:16px 16px 0 0; border-bottom:none;
-    transform-origin:bottom center; transform:translateY(100%); padding-bottom:env(safe-area-inset-bottom,0px);
-    transition:opacity .35s var(--ease), transform .4s var(--ease); }
-  #frPanel.open{ transform:none; }
-  #frPanel.drag{ transition:none; }
-  .fp-grab{ display:grid; place-items:center; width:100%; height:18px; padding-top:5px; flex-shrink:0; cursor:grab; touch-action:none; }
-  .fp-grab i{ width:36px; height:4px; border-radius:4px; background:var(--line2); }
-  .fp-head{ padding:0 6px 6px 16px; border-bottom:none; align-items:center; gap:10px; touch-action:none; }
-  .fp-head > div{ min-width:0; }
-  .fp-t{ font-size:1rem; white-space:nowrap; }
-  .fp-sub{ display:none; }
-  .fp-hsum{ display:block; margin-left:auto; font-size:.7rem; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .fp-head .xbtn{ width:40px; height:40px; flex:none; }
-  .fp-body{ flex-direction:row; gap:10px; padding:0 12px; height:clamp(132px,20svh,176px); flex:none; }
-  .fp-stage{ margin:0; width:30%; max-width:130px; height:100%; flex-shrink:0; }
-  .fp-hint{ font-size:.54rem; padding:0 4px; bottom:4px; }
-  .fp-picks{ padding:0; height:100%; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; }
-  .fp-picks-h{ display:none; }
-  .fp-pick-row{ gap:8px; }
-  .fp-pick{ gap:8px; align-items:center; }
-  .fp-pick img{ width:34px; height:42px; }
-  .fp-pick-n{ font-size:.56rem; line-height:1.3; margin-bottom:4px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-  .fp-pick-i select{ font-size:.7rem; padding:4px 8px; min-height:30px; }
-  .fp-pick-r{ flex-direction:row; align-items:center; gap:2px; }
-  .fp-pick-p{ font-size:.66rem; white-space:nowrap; }
-  .fp-pick-x{ width:32px; height:32px; display:grid; place-items:center; font-size:1.15rem; }
-  .fp-help{ font-size:.58rem; margin-top:8px; }
-  .fp-total{ display:none!important; }
-  .fp-foot{ display:flex; gap:8px; padding:8px 12px 10px; border-top:none; }
-  .fp-foot .btn{ flex:1; min-height:44px; font-size:.64rem; padding:0 10px; white-space:nowrap; letter-spacing:.12em; }
-  .fp-foot .fp-reset{ width:auto; margin:0; padding:0 12px; min-height:44px; flex:none; }
-  .fp-big-t{ display:grid; place-items:center; width:44px; min-height:44px; flex:none; border:1px solid var(--line); border-radius:var(--r); color:var(--muted); }
-  .fp-big-t svg{ width:18px; height:18px; stroke:currentColor; stroke-width:1.5; fill:none; }
-  /* развёрнутый вид: большой манекен сверху, вещи под ним */
-  #frPanel.big .fp-body{ flex-direction:column; height:auto; flex:1; min-height:0; max-height:calc(90svh - 130px); }
-  #frPanel.big .fp-stage{ width:100%; max-width:none; height:min(52svh,440px); }
-  #frPanel.big .fp-picks{ height:auto; padding-top:12px; }
-  #frPanel.big .fp-picks-h{ display:flex; }
-  #frPanel.big .fp-big-t svg{ transform:rotate(180deg); }
-  #tryLaunch{ left:16px; bottom:calc(16px + env(safe-area-inset-bottom,0px)); }
-  /* место под панелью, чтобы низ страницы не прятался */
-  body.fr-open main, body.fr-open footer{ padding-bottom:clamp(250px,34svh,320px); }
-}
-
-@media(prefers-reduced-motion:reduce){
-  *{ animation:none!important; }
-  .rv{ opacity:1!important; transform:none!important; }
-  .hero .bg img{ transform:none!important; }
-}
-
 /* ===== CATALOG BAR ===== */
 .catbar{ display:flex; gap:10px; overflow-x:auto; padding:2px 0 16px; margin-bottom:6px; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
 .catbar::-webkit-scrollbar{ display:none; }
@@ -537,18 +415,6 @@ textarea.inp{ resize:vertical; min-height:92px; line-height:1.55; }
 .chk-hint b{ font-weight:500; color:var(--text); }
 .filepick{ display:inline-flex; align-items:center; gap:9px; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; padding:11px 16px; border:1px solid var(--line); cursor:pointer; transition:.2s; }
 .filepick:hover{ border-color:var(--amber); color:var(--amber); }
-/* примерка в карточке товара */
-.fe-wrap{ display:grid; grid-template-columns:minmax(170px,210px) 1fr; gap:18px; align-items:start; }
-.fe-stage{ margin:0; height:300px; }
-.fe-ctl{ display:flex; flex-direction:column; gap:12px; min-width:0; }
-.fe-r{ display:flex; flex-direction:column; gap:5px; font-size:.68rem; color:var(--muted); }
-.fe-r b{ font-weight:400; color:var(--text); }
-.fe-r input{ width:100%; accent-color:var(--amber); }
-.fe-r input:disabled{ opacity:.35; }
-.fe-ctl .adm-mini{ align-self:flex-start; }
-.fe-msg{ font-size:.7rem; color:var(--muted); line-height:1.55; }
-@media(max-width:560px){ .fe-wrap{ grid-template-columns:1fr; } .fe-stage{ height:min(70vw,320px); } }
-
 /* ===== ADMIN ===== */
 .admin{ position:fixed; inset:0; z-index:450; background:var(--bg); overflow-y:auto; opacity:0; pointer-events:none; transition:opacity .4s var(--ease); }
 .admin.open{ opacity:1; pointer-events:auto; }
@@ -609,7 +475,6 @@ body.lock #tryLaunch, body.lock .tg-float{ opacity:0; pointer-events:none; }
   .toast.show{ transform:translateX(-50%); }
   body.admin-on .toast{ top:calc(126px + env(safe-area-inset-top,0px)); }
   footer{ padding-bottom:110px; }   /* место под плавающие кнопки, чтобы не закрывали последнюю строку */
-  body.fr-open .tg-float{ opacity:0; pointer-events:none; }
 }
 @media(max-width:560px){
   .order-ch{ grid-template-columns:1fr 1fr 1fr; }
@@ -678,194 +543,17 @@ body.admin-on .pcard{ border-radius:var(--r-lg); }
 .rangewrap input[type=range]{ border-radius:999px; }
 @media(min-width:701px){ .drawer{ border-radius:18px 0 0 18px; } }
 
-/* ===== «Собери образ» ===== */
-.try-board .fp-fig{ display:none; }
-.ob{ position:absolute; inset:0; overflow:hidden; }
-.try-board .ob{ display:block; } html:not(.try-board) .ob{ display:none; }
-.ob-i{ position:absolute; margin:0; display:grid; place-items:center; animation:obIn .5s cubic-bezier(.16,1,.3,1) both; animation-delay:var(--d,0ms); }
-.ob-i img{ width:100%; height:100%; display:block; }
-.ob-i.cut img{ object-fit:contain; filter:drop-shadow(0 0 1.2px rgba(236,240,248,.6)) drop-shadow(0 10px 14px rgba(4,10,24,.4)); }
-/* светлая «подсветка» под вещами, чтобы тёмная одежда не терялась на тёмном фоне */
-.try-board .fp-stage, .try-board .lk-stage{ background:radial-gradient(75% 70% at 50% 45%, color-mix(in srgb, var(--card2) 55%, #8a93a6 45%), var(--card) 88%); }
-.ob-i.cut::before{ content:""; position:absolute; inset:-6%; z-index:-1; border-radius:50%; background:radial-gradient(closest-side, rgba(220,226,238,.16), transparent); }
-.ob-i.ph{ padding:4px; background:var(--card); border:1px solid var(--line); box-shadow:0 10px 24px rgba(4,10,24,.32); }
-.ob-i.ph img{ object-fit:cover; }
-@keyframes obIn{ from{ opacity:0; transform:translateY(10px) scale(.97); } to{ opacity:1; transform:none; } }
-@media (prefers-reduced-motion: reduce){ .ob-i{ animation:none; } }
-.fe.board .fe-stage, .fe.board .fe-r, .fe.board .adm-mini, .fe.board .fe-msg, .fe.board #f_pair{ display:none !important; }
-.fe.board .fe-wrap{ display:block; }
-
-/* ===== Примерочная компактнее и передвигается (компьютер) ===== */
-.fp-drag{ display:none; }
-@media (min-width:561px){
-  #frPanel{ width:300px; max-height:min(84vh,660px); }
-  #frPanel.moving{ transition:none; box-shadow:0 40px 90px -24px rgba(0,0,0,.95); }
-  #frPanel .fp-head{ padding:12px 12px 12px 16px; cursor:grab; user-select:none; -webkit-user-select:none; touch-action:none; align-items:center; gap:8px; }
-  #frPanel.moving .fp-head{ cursor:grabbing; }
-  #frPanel .fp-head > div:first-child{ flex:1; min-width:0; }
-  #frPanel .fp-t{ font-size:1.05rem; }
-  #frPanel .fp-drag{ display:block; width:10px; height:16px; flex:none; opacity:.55; background:radial-gradient(circle, var(--muted) 1.2px, transparent 1.6px) 0 0/5px 5px; }
-  #frPanel .fp-stage{ margin:10px 12px 0; height:clamp(220px,34vh,276px); }
-  #frPanel .fp-picks{ padding:10px 12px 2px; }
-  #frPanel .fp-pick-row{ gap:8px; }
-  #frPanel .fp-total{ margin:2px 14px 0; padding-top:10px; }
-  #frPanel .fp-foot{ padding:10px 12px 12px; }
-  #frPanel .fp-foot .btn{ padding-block:13px; }
-  #frPanel .fp-reset{ margin-top:8px; padding:9px; }
-}
-/* ===== Телефон ===== */
-@media (max-width:560px){
-  /* примерочная ниже, больше места странице */
-  #frPanel .fp-body{ height:clamp(108px,16svh,146px); }
-  #frPanel .fp-stage{ max-width:112px; }
-  #frPanel .fp-foot{ padding:6px 12px 8px; padding-bottom:max(8px, env(safe-area-inset-bottom, 0px)); }
-  #frPanel .fp-foot .btn, #frPanel .fp-foot .fp-reset{ min-height:42px; }
-  #frPanel .fp-foot .btn, #frPanel .fp-reset{ font-size:.68rem; }
-  .fp-hint{ font-size:.6rem; }
-  /* кнопки в шапке и ссылки: удобная площадь касания (не меньше 40 пикселей) */
-  .icn{ min-width:38px; min-height:40px; justify-content:center; }
-  .brand, .brand span{ white-space:nowrap; }
-  .nav-r{ gap:0 !important; }
-  .fcol a{ padding:7px 0; margin-bottom:2px; }
-  .finfo .fi a{ display:inline-block; padding:6px 0; }
-  .fbot .flinks a{ display:inline-block; padding:8px 0; }
-  .fbot .flinks{ gap:6px 20px; }
-  /* мелкие подписи чуть крупнее */
-  .fp-pick-n{ font-size:.6rem; }
-  .fp-pick-x{ width:36px; height:36px; }
-}
-@media (max-width:374px){ .icn{ min-width:34px; } .brand{ letter-spacing:.12em; gap:7px; } .brand img{ width:32px; height:32px; } }
-
-/* ===== «Невидимый манекен» ===== */
-.gh{ position:absolute; top:3%; height:94%; left:50%; aspect-ratio:2/3; transform:translateX(-50%); }
-.gh > svg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
-.gh .gh-b{ z-index:0; } .gh .gh-f{ z-index:5; }
-.gh .gh-i.ph{ padding:2px; }
-.gh .gh-full{ inset:0; width:100%; height:100%; } .gh .gh-full img{ object-fit:contain; filter:drop-shadow(0 6px 10px rgba(4,10,24,.35)); }
-.lk-stage .gh{ top:4%; height:92%; }
-
-/* ===== «Вешалка» ===== */
-.rl{ position:absolute; inset:0; overflow:hidden; --gold:var(--amber); }
-.rl-bar{ position:absolute; top:7%; left:3%; right:3%; height:6px; border-radius:3px; z-index:3;
-  background:linear-gradient(180deg, color-mix(in srgb, var(--gold) 55%, #fff) 0%, var(--gold) 45%, color-mix(in srgb, var(--gold) 55%, #000) 100%);
-  box-shadow:0 3px 6px rgba(0,0,0,.35); }
-.rl-bar::before, .rl-bar::after{ content:""; position:absolute; top:-3px; width:12px; height:12px; border-radius:50%; background:inherit; box-shadow:inherit; }
-.rl-bar::before{ left:-6px; } .rl-bar::after{ right:-6px; }
-.rl-shelf{ position:absolute; top:86%; left:8%; right:8%; height:5px; border-radius:2px; z-index:1;
-  background:linear-gradient(180deg, color-mix(in srgb, var(--gold) 45%, #fff), color-mix(in srgb, var(--gold) 60%, #000)); box-shadow:0 8px 14px rgba(0,0,0,.35); }
-.rl-i{ position:absolute; top:calc(7% - 4px); height:66%; margin:0; z-index:2; transform-origin:50% 0; }
-.rl-h{ position:absolute; top:0; left:50%; width:62%; transform:translateX(-50%); overflow:visible; z-index:1;
-  fill:none; stroke:var(--gold); stroke-width:3.2; stroke-linecap:round; stroke-linejoin:round; filter:drop-shadow(0 2px 2px rgba(0,0,0,.35)); }
-.rl-g{ position:absolute; left:0; right:0; top:11%; bottom:0; z-index:2; }
-.rl-g img{ width:100%; height:100%; object-fit:contain; object-position:50% 0; display:block; }
-.rl-g.cut img, .rl-s.cut img{ filter:drop-shadow(0 0 1.2px rgba(236,240,248,.55)) drop-shadow(0 10px 12px rgba(4,10,24,.4)); }
-.rl-g.ph img{ object-fit:cover; border:1px solid var(--line); }
-.rl-s{ position:absolute; bottom:14%; height:17%; margin:0; z-index:2; }
-.rl-s img{ width:100%; height:100%; object-fit:contain; object-position:50% 100%; display:block; }
-.rl-empty .rl-h{ width:100%; opacity:.55; }
-@media (prefers-reduced-motion: no-preference){
-  .rl-i.new{ animation:rlSwing 1.5s cubic-bezier(.3,.7,.4,1) both; animation-delay:var(--d,0ms); }
-  .rl-s.new{ animation:rlDrop .55s cubic-bezier(.16,1,.3,1) both; }
-  .rl-empty{ animation:rlIdle 4s ease-in-out infinite alternate; }
-  @media (hover:hover){ .rl-i:not(.rl-empty):hover{ animation:rlSway 1.2s ease-in-out; } }
-}
-@keyframes rlSwing{ 0%{ opacity:0; transform:translateY(-10px) rotate(9deg); } 18%{ opacity:1; } 38%{ transform:rotate(-6deg); } 60%{ transform:rotate(3deg); } 80%{ transform:rotate(-1.2deg); } 100%{ opacity:1; transform:none; } }
-@keyframes rlSway{ 0%,100%{ transform:none; } 30%{ transform:rotate(2.5deg); } 65%{ transform:rotate(-1.6deg); } }
-@keyframes rlDrop{ from{ opacity:0; transform:translateY(-14px); } to{ opacity:1; transform:none; } }
-@keyframes rlIdle{ from{ transform:rotate(-1.5deg); } to{ transform:rotate(1.5deg); } }
-
-/* ===== «Барабан образа» ===== */
-.rr{ position:absolute; inset:0; display:grid; grid-template-rows:1fr 1fr 1fr auto; gap:4px; padding:6px 0 8px; }
-.rr-row{ position:relative; display:grid; grid-template-columns:28px 1fr 28px; align-items:center; min-height:0; }
-.rr-track{ height:100%; display:flex; gap:6px; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; overscroll-behavior-x:contain;
-  position:relative; outline:none;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent); mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent); }
-.rr-track::-webkit-scrollbar{ display:none; }
-.rr-track::before, .rr-track::after{ content:""; flex:0 0 calc(29% - 6px); }   /* место по краям: первая и последняя вещь встают по центру */
-.rr-track:focus-visible{ outline:1px solid var(--amber); outline-offset:-1px; }
-.rr-c{ flex:0 0 42%; height:100%; scroll-snap-align:center; display:grid; place-items:center; opacity:.42; transform:scale(.84); cursor:pointer;
-  transition:opacity .3s, transform .45s cubic-bezier(.16,1,.3,1); }
-.rr-c.on{ opacity:1; transform:none; }
-.rr-c img{ width:100%; height:100%; object-fit:contain; display:block; pointer-events:none; }
-.rr-c.cut img{ filter:drop-shadow(0 0 1px rgba(236,240,248,.5)) drop-shadow(0 8px 10px rgba(4,10,24,.42)); }
-.rr-c.ph img{ object-fit:cover; border:1px solid var(--line); }
-.rr-c.none span{ font-size:.58rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); border:1px dashed var(--line2); padding:10px 8px; text-align:center; line-height:1.4; }
-.rr-a{ width:28px; height:100%; display:grid; place-items:center; color:var(--muted); z-index:1; }
-.rr-a svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.6; }
-.rr-a:hover{ color:var(--amber); }
-.rr-row.spin .rr-c img{ filter:blur(1.2px); }
-.rr-row:not(:last-of-type)::after{ content:""; position:absolute; left:36px; right:36px; bottom:-2px; height:1px; background:var(--line); opacity:.6; }
-.rr-acts{ display:flex; gap:6px; padding:0 8px; }
-.rr-b{ flex:1; display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:34px; font-size:.6rem; letter-spacing:.14em; text-transform:uppercase;
-  border:1px solid var(--line2); color:var(--text); transition:border-color .25s, color .25s, transform .15s; }
-.rr-b:hover{ border-color:var(--amber); color:var(--amber); } .rr-b:active{ transform:scale(.97); }
-.rr-b svg{ width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.5; }
-.try-board #frStage:has(.rr) .fp-hint{ display:none; }
-@media (min-width:561px){ #frPanel .fp-stage:has(.rr){ height:clamp(250px,36vh,316px); } #frPanel .fp-picks{ min-height:104px; } }
-@media (max-width:560px){
-  #frPanel:not(.big) .rr{ gap:2px; padding:2px 0; grid-template-rows:1fr 1fr 1fr; }
-  #frPanel:not(.big) .rr-acts, #frPanel:not(.big) .rr-a{ display:none; }
-  #frPanel:not(.big) .rr-row{ grid-template-columns:1fr; }
-  #frPanel:not(.big) .rr-track{ -webkit-mask-image:none; mask-image:none; }
-  #frPanel:not(.big) .rr-track::before, #frPanel:not(.big) .rr-track::after{ flex-basis:calc(14% - 6px); }
-  #frPanel:not(.big) .rr-c{ flex-basis:72%; }
-  #frPanel:not(.big) .rr-c.none span{ font-size:.46rem; padding:4px; }
-  #frPanel:not(.big) .rr-row::after{ display:none; }
-  #frPanel.big .fp-stage:has(.rr){ height:min(58svh,470px); }
-  .rr-b{ min-height:40px; }
-}
-@media (prefers-reduced-motion: reduce){ .rr-c{ transition:none; } }
-/* ===== «Образ в полный рост» ===== */
-.stk-w{ position:absolute; inset:0; display:grid; grid-template-rows:minmax(0,1fr) auto; gap:6px; padding-bottom:8px; }
-.stk{ position:relative; min-height:0; overflow:hidden; }
-.ob > .stk{ position:absolute; inset:0; }
-.stk-i{ position:absolute; margin:0; visibility:hidden; }
-.stk-i.on{ visibility:visible; }
-.stk-i.new.on{ animation:stkIn .6s cubic-bezier(.16,1,.3,1) both; animation-delay:var(--d,0ms); }
-@keyframes stkIn{ from{ opacity:0; transform:translateY(-18px); } to{ opacity:1; transform:none; } }
-.stk-i img{ position:absolute; display:block; max-width:none; }
-.stk-i.cut img{ filter:drop-shadow(0 0 1.2px rgba(236,240,248,.55)) drop-shadow(0 12px 14px rgba(4,10,24,.42)); }
-.stk-i.ph{ overflow:hidden; background:var(--card); border:1px solid var(--line); box-shadow:0 10px 24px rgba(4,10,24,.32); }
-.stk-i.ph img{ inset:0; width:100%; height:100%; object-fit:cover; }
-.stk-v{ position:absolute; display:grid; place-items:center; border:1px dashed var(--line2); border-radius:var(--r-xs,0); opacity:.75; pointer-events:none; }
-.stk-v[hidden]{ display:none; }
-.stk-v span{ font-size:.56rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
-.stk-a{ position:absolute; z-index:8; width:34px; height:44px; transform:translateY(-50%); display:grid; place-items:center; color:var(--muted); transition:color .2s; }
-.stk-a[hidden]{ display:none; }
-.stk-a.l{ left:2px; } .stk-a.r{ right:2px; }
-.stk-a svg{ width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:1.6; }
-.stk-a:hover{ color:var(--amber); } .stk-a:active{ transform:translateY(-50%) scale(.9); } .stk-a:disabled{ opacity:.25; cursor:default; }
-.try-board #frStage:has(.stk-w) .fp-hint{ display:none; }
-@media (min-width:561px){ #frPanel .fp-stage:has(.stk-w){ height:clamp(250px,36vh,316px); } }
-@media (max-width:560px){
-  #frPanel:not(.big) .stk-a, #frPanel:not(.big) .stk-w .rr-acts{ display:none; }
-  #frPanel:not(.big) .stk-w{ padding:0; grid-template-rows:minmax(0,1fr); }
-  #frPanel.big .fp-stage:has(.stk-w){ height:min(62svh,500px); }
-  .stk-a{ width:42px; height:48px; }
-}
-@media (prefers-reduced-motion: reduce){ .stk-i.new.on{ animation:none; } }
-/* окно обложки */
-#coverModal{ position:fixed; inset:0; z-index:420; display:grid; place-items:center; padding:16px; background:rgba(3,7,15,.78); opacity:0; transition:opacity .25s; }
-#coverModal[hidden]{ display:none; } #coverModal.open{ opacity:1; }
-.cv-box{ width:min(380px,100%); max-height:100%; display:flex; flex-direction:column; gap:12px; background:var(--card); border:1px solid var(--line2); padding:14px; }
-.cv-box img{ width:100%; max-height:min(62vh,560px); object-fit:contain; display:block; background:var(--bg); }
-.cv-t{ font-size:.8rem; color:var(--muted); line-height:1.5; margin:0; }
-.cv-acts{ display:flex; gap:8px; align-items:stretch; }
-.cv-acts .btn{ flex:1; justify-content:center; padding:13px 10px; white-space:nowrap; }
-.cv-x{ width:46px; flex:none; display:grid; place-items:center; border:1px solid var(--line2); color:var(--muted); }
-.cv-x svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.6; }
-
 /* MEMORY: шрифты, красный акцент, острые углы */
 :root{ --r-xs:0; --r:0; --r-lg:0; --red:#C8102E; }
 :root[data-theme="light"]{ --red:#B20D26; }
 body{ font-weight:400; }
 .brand,.serif,h1,h2,h3,.fbrand{ font-family:var(--serif); font-weight:800 !important; font-style:normal; text-transform:uppercase; }
-.btn.solid,.btn.solid:hover,.btn.amber:hover,.icn .count,.pcard .flag.sale,.pcard .tryon.on,.pcard .tryon:hover,.fopt.on .box{ background:var(--red); border-color:var(--red); color:#fff; }
-.pcard .tryon.on svg,.pcard .tryon:hover svg,.fopt.on .box svg{ stroke:#fff; }
+.btn.solid,.btn.solid:hover,.btn.amber:hover,.icn .count,.pcard .flag.sale,.fopt.on .box{ background:var(--red); border-color:var(--red); color:#fff; }
+.fopt.on .box svg{ stroke:#fff; }
 .btn.solid:hover{ filter:brightness(1.12); }
 .modal .box,.drawer,.chip-f,.fopt .box,.tg-float,#tryLaunch{ border-radius:0; }
-.catpill.on,.tg-float{ background:var(--red); border-color:var(--red); color:#fff; }
-.tg-float{ box-shadow:none; }
+.catpill.on{ background:var(--red); border-color:var(--red); color:#fff; }
+.tg-float{ background:#229ED9; box-shadow:none; }
 .cp,.s2,.price,.pv-price,.cv{ font-family:'IBM Plex Mono',monospace; }
 :focus-visible{ outline:2px solid var(--amber); outline-offset:3px; }
 ::selection{ background:var(--red); color:#fff; }
@@ -876,7 +564,7 @@ body{ font-weight:400; }
 /* АВТООБНОВЛЕНИЕ: браузер может показывать старую сохранённую копию сайта.
    Сверяем номер версии с сервером и, если вышла новая, сами открываем её.
    При каждой публикации менять ADMV_BUILD. */
-var ADMV_BUILD='2026-11-12.1';
+var ADMV_BUILD='2026-11-13.1';
 (function(){
   if(location.protocol.indexOf('http')!==0 || !window.fetch) return;
   fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.text():''; }).then(function(t){
@@ -937,7 +625,6 @@ var ADMV_BUILD='2026-11-12.1';
       <a href="#shop" onclick="toShop('all')">Магазин</a>
       <a href="#shop" onclick="toShop('new')">Новинки</a>
       <a href="#shop" onclick="toShop('sale')">Распродажа</a>
-      <a href="#fitting-room" onclick="openFitting();return false">Примерочная</a>
     </nav>
     <div class="nav-r">
       <button class="icn" onclick="openSearch()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span class="lab">Поиск</span></button>
@@ -951,7 +638,6 @@ var ADMV_BUILD='2026-11-12.1';
   <a href="#shop" onclick="toShop('all')">Магазин</a>
   <a href="#shop" onclick="toShop('new')">Новинки</a>
   <a href="#shop" onclick="toShop('sale')">Распродажа</a>
-  <a href="#fitting-room" onclick="closeMenu();openFitting();return false">Примерочная</a>
 </nav>
 
 <!-- HERO -->
@@ -1046,54 +732,6 @@ var ADMV_BUILD='2026-11-12.1';
       </div>
     </div>
     <div id="searchResults"></div>
-  </div>
-</div>
-
-<!-- ===== ПРИМЕРОЧНАЯ (плавающая панель) ===== -->
-<button id="tryLaunch" onclick="toggleFitting()" aria-label="Открыть примерочную">
-  <span class="tl-ic"><svg viewBox="0 0 24 24"><path d="M12 4.2a1.7 1.7 0 1 0 1.2 2.9l-1.2.9L4 13.6a1.3 1.3 0 0 0 .8 2.3h14.4a1.3 1.3 0 0 0 .8-2.3L12 8"/></svg></span>
-  Примерить
-  <span class="tl-c" id="tryLaunchCount" style="display:none">0</span>
-</button>
-
-<aside id="frPanel" aria-label="Примерочная">
-  <button class="fp-grab" type="button" onclick="frToggleBig()" aria-label="Развернуть примерочную"><i></i></button>
-  <div class="fp-head">
-    <div><div class="fp-t">Примерочная</div><div class="fp-sub">Нажмите на вешалку у товара, чтобы примерить.</div></div>
-    <span class="fp-hsum" id="frHSum"></span>
-    <span class="fp-drag" aria-hidden="true" title="Перетащите, чтобы передвинуть"></span>
-    <button class="xbtn" onclick="closeFitting()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  </div>
-  <div class="fp-body">
-  <div class="fp-stage" id="frStage">
-    <div class="fp-fig" id="frFig" role="img" aria-label="Манекен"></div>
-    <div class="ob" id="frBoard" role="img" aria-label="Ваш образ"></div>
-    <div class="fp-hint" id="frHint">Модель готова</div>
-  </div>
-  <div class="fp-picks">
-    <div class="fp-picks-h"><span>Ваш образ</span><span id="frCount">0 вещей</span></div>
-    <div class="fp-pick-row" id="frPicks"></div>
-    <div class="fp-help" id="frHelp" style="display:none">Добавляйте вещи - они надеваются слоями.</div>
-  </div>
-  </div>
-  <div class="fp-total" id="frTotalRow" style="display:none"><span class="l">Итого</span><span class="v" id="frTotal">0 ₽</span></div>
-  <div class="fp-foot">
-    <button class="btn solid block" onclick="frAddAll()">Образ в корзину</button>
-    <button class="fp-reset block" onclick="frClear()">Сбросить</button>
-    <button class="fp-big-t" type="button" onclick="frToggleBig()" aria-label="Развернуть примерочную"><svg viewBox="0 0 24 24"><path d="M8 4H4v4M16 4h4v4M8 20H4v-4M16 20h4v-4"/></svg></button>
-  </div>
-</aside>
-
-<!-- ОБЛОЖКА ОБРАЗА -->
-<div class="cv" id="coverModal" hidden role="dialog" aria-modal="true" aria-label="Обложка образа" onclick="if(event.target===this)coverClose()">
-  <div class="cv-box">
-    <img id="coverImg" alt="Обложка вашего образа">
-    <p class="cv-t">Сохраните картинку и выложите в сторис или отправьте другу.</p>
-    <div class="cv-acts">
-      <button class="btn solid" id="coverShare" type="button" onclick="coverShare()">Поделиться</button>
-      <button class="btn" type="button" onclick="coverSave()">Сохранить</button>
-      <button class="cv-x" type="button" onclick="coverClose()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-    </div>
   </div>
 </div>
 
@@ -1198,781 +836,6 @@ var ADMV_BUILD='2026-11-12.1';
 
 <div class="toast" id="toast"></div>
 
-<script>
-/* ===== ПРИМЕРОЧНАЯ: манекен, демо-вещи и подгонка своих фото по фигуре =====
-   Всё рисуется в одной системе координат 400×600 (рамка фигуры 2:3):
-   плечи ~y 128, талия ~y 266, щиколотки ~y 540, пол ~y 580. */
-const FIT = (function(){
-  const mir = pts => pts.map(([x,y])=>[400-x,y]);
-  const sym = r => r.concat(mir(r.slice(1,-1)).reverse());          // правая половина → весь контур
-  // плавный замкнутый контур через точки
-  function smooth(p){
-    const n=p.length, P=i=>p[(i+n)%n], f=v=>Math.round(v*10)/10;
-    let d=`M${f(p[0][0])} ${f(p[0][1])}`;
-    for(let i=0;i<n;i++){
-      const a=P(i-1), b=P(i), c=P(i+1), e=P(i+2);
-      d+=`C${f(b[0]+(c[0]-a[0])/6)} ${f(b[1]+(c[1]-a[1])/6)} ${f(c[0]-(e[0]-b[0])/6)} ${f(c[1]-(e[1]-b[1])/6)} ${f(c[0])} ${f(c[1])}`;
-    }
-    return d+'Z';
-  }
-  // «трубка» вокруг средней линии (рука, рукав)
-  function tube(c,w){
-    const L=[],R=[];
-    c.forEach((p,i)=>{
-      const a=c[Math.max(0,i-1)], b=c[Math.min(c.length-1,i+1)];
-      let dx=b[0]-a[0], dy=b[1]-a[1]; const l=Math.hypot(dx,dy)||1; dx/=l; dy/=l;
-      L.push([p[0]-dy*w[i], p[1]+dx*w[i]]); R.push([p[0]+dy*w[i], p[1]-dx*w[i]]);
-    });
-    const e=c[c.length-1], s=c[c.length-2], k=Math.hypot(e[0]-s[0],e[1]-s[1])||1, ww=w[w.length-1]*.45;
-    return smooth(L.concat([[e[0]+(e[0]-s[0])/k*ww, e[1]+(e[1]-s[1])/k*ww]], R.reverse()));
-  }
-  const both = d => [d, d.replace(/-?\d+(\.\d+)? -?\d+(\.\d+)?/g, m=>{ const [x,y]=m.split(' ').map(Number); return `${Math.round((400-x)*10)/10} ${y}`; })];
-
-  /* ---------- манекен ---------- */
-  const BODY = sym([[200,103],[211,104],[232,111],[254,119],[266,128],[271,143],[266,170],[262,200],[252,240],[246,266],[250,292],[254,318],[252,350],[246,400],[239,452],[238,492],[231,536],[231,550],[238,560],[247,569],[245,577],[211,577],[205,562],[207,536],[208,492],[206,452],[205,400],[203,364],[200,354]]);
-  const ARM_C = [[266,136],[274,196],[279,258],[282,300],[284,336]];
-  const ARM = both(tube(ARM_C,[15,13.5,12,10.5,9]));
-  const HAND = both(smooth([[279,334],[290,336],[294,356],[291,374],[284,384],[277,378],[275,356]]));
-  const NECK = smooth([[188,82],[212,82],[213,100],[216,110],[200,113],[184,110],[187,100]]);
-  const FEET = both(smooth([[209,530],[229,530],[231,550],[238,560],[247,569],[245,577],[211,577],[205,562],[206,544]]));
-  /* «невидимый манекен»: только голова, шея, кисти и стопы. back - под вещами, front - над ними (голова) */
-  function ghost(id,feet){
-    const g=`<defs><linearGradient id="${id}b" x1="0" x2="1"><stop offset="0" style="stop-color:var(--mq-e)"/><stop offset=".5" style="stop-color:var(--mq-l)"/><stop offset="1" style="stop-color:var(--mq-e)"/></linearGradient>
-      <radialGradient id="${id}h" cx=".42" cy=".36" r=".75"><stop offset="0" style="stop-color:var(--mq-l)"/><stop offset="1" style="stop-color:var(--mq-e)"/></radialGradient></defs>`;
-    const f=`fill="url(#${id}b)"`;
-    return { back:`<svg class="gh-b" viewBox="0 0 400 600" aria-hidden="true">${g}<ellipse cx="200" cy="582" rx="70" ry="7" fill="#000" opacity=".28"/>
-        <path d="${NECK}" ${f}/><path d="${HAND[0]}" ${f}/><path d="${HAND[1]}" ${f}/>${feet?`<path d="${FEET[0]}" ${f}/><path d="${FEET[1]}" ${f}/>`:''}</svg>`,
-      front:`<svg class="gh-f" viewBox="0 0 400 600" aria-hidden="true">${g.replace(/id="(\w+)"/g,'id="$1x"')}<ellipse cx="200" cy="61" rx="25" ry="31" fill="url(#${id}hx)"/></svg>` };
-  }
-  function mannequin(id){
-    const g=`<defs><linearGradient id="${id}b" x1="0" x2="1"><stop offset="0" style="stop-color:var(--mq-e)"/><stop offset=".5" style="stop-color:var(--mq-l)"/><stop offset="1" style="stop-color:var(--mq-e)"/></linearGradient>
-      <radialGradient id="${id}h" cx=".42" cy=".36" r=".75"><stop offset="0" style="stop-color:var(--mq-l)"/><stop offset="1" style="stop-color:var(--mq-e)"/></radialGradient></defs>`;
-    const f=`fill="url(#${id}b)"`;
-    return `<svg class="mq" viewBox="0 0 400 600" aria-hidden="true">${g}
-      <ellipse cx="200" cy="582" rx="78" ry="7" fill="#000" opacity=".28"/>
-      <path d="${smooth(BODY)}" ${f}/><path d="${NECK}" ${f}/>
-      <path d="${ARM[0]}" ${f}/><path d="${ARM[1]}" ${f}/><path d="${HAND[0]}" ${f}/><path d="${HAND[1]}" ${f}/>
-      <path d="M246 266Q200 274 154 266" fill="none" stroke="#000" stroke-opacity=".12"/>
-    </svg>
-    <svg class="mq-head" viewBox="0 0 400 600" aria-hidden="true">${g.replace(/id="(\w+)"/g,'id="$1x"')}
-      <ellipse cx="200" cy="61" rx="25" ry="31" fill="url(#${id}hx)"/></svg>`;
-  }
-
-  /* ---------- демо-вещи (рисунки точно по манекену) ---------- */
-  const SH = `<defs><linearGradient id="s" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".3"/><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></linearGradient></defs>`;
-  const shade = (d,col,extra='') => `<path d="${d}" fill="${col}"${extra}/><path d="${d}" fill="url(#s)"/>`;
-  const svgUrl = (inner,vb='0 0 400 600') => 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}">${SH}${inner}</svg>`);
-  const dk = 'fill="#000" fill-opacity=".22"';
-  function top(o){            // o: col, hem, long, out (верхняя одежда), kind
-    const e=o.out?6:0, h=o.hem;
-    const body=sym([[200,o.out?122:117],[213,106],[234,112-e/2],[256,120],[270+e,131],[276+e,146],[270+e,172],[267+e,205],[263+e,250],[264+e,h-6],[262+e,h],[200,h+2]]);
-    const sl = o.long ? both(tube(ARM_C.concat([[285,342]]),[21+e,19.5+e,18+e,16+e,15+e,15+e])) : both(tube([[267,134],[272,164],[274,186]],[20,18,17]));
-    let s='';
-    if(o.hood) s+=shade(smooth(sym([[200,112],[214,104],[226,92],[228,74],[220,58],[212,54],[214,74],[208,96],[200,100]])),o.col);
-    s+=shade(smooth(body),o.col)+shade(sl[0],o.col)+shade(sl[1],o.col);
-    if(o.band){ s+=`<path d="M${136-e} ${h-11}H${264+e}L${264+e} ${h}Q200 ${h+3} ${136-e} ${h}Z" ${dk}/>`;
-      if(o.long) both(tube([[284,326],[285,342]],[15+e,15+e])).forEach(d=>s+=`<path d="${d}" ${dk}/>`); }
-    if(o.kind==='shirt'){
-      s+=`<path d="M200 120L186 104L176 116L195 130Z M200 120L214 104L224 116L205 130Z" fill="${o.col}" stroke="#000" stroke-opacity=".18"/>`;
-      s+=`<path d="M200 124V${h}" stroke="#000" stroke-opacity=".18" stroke-width="1.5"/>`+[150,182,214,246,278,310].filter(y=>y<h-6).map(y=>`<circle cx="203" cy="${y}" r="2.2" fill="#fff" stroke="#000" stroke-opacity=".25"/>`).join('');
-    } else if(!o.out) s+=`<path d="M187 109Q200 124 213 109" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="3"/>`;
-    if(o.kind==='knit') s+=[160,176,192,208,224,240].map(x=>`<path d="M${x} 128V${h-12}M${400-x} 128V${h-12}" stroke="#fff" stroke-opacity=".06" stroke-width="3"/>`).join('');
-    if(o.zip) s+=`<path d="M200 122V${h+1}" stroke="#c9c6bf" stroke-width="2.5"/><path d="M160 ${h-62}Q200 ${h-74} 240 ${h-62}L246 ${h-16}H154Z" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="1.5"/>`;
-    s+=`<path d="M232 150Q236 210 230 ${h-20}M168 150Q164 210 170 ${h-20}" fill="none" stroke="#000" stroke-opacity=".1" stroke-width="2"/>`;
-    return s;
-  }
-  function pants(o){
-    const d=smooth(sym([[200,262],[247,262],[251,290],[255,318],[254,350],[249,400],[244,452],[243,500],[241,552],[205,552],[206,500],[206,452],[205,400],[203,366],[200,358]]));
-    let s=shade(d,o.col)+`<path d="M153 262H247L248 273H152Z" ${dk}/><path d="M200 262V300" stroke="#000" stroke-opacity=".2"/>`;
-    if(o.cargo) s+=both('M246 388L262 386L263 432L247 436Z').map(p=>`<path d="${p}" fill="${o.col}" stroke="#000" stroke-opacity=".3"/><path d="${p}" fill="#000" fill-opacity=".1"/>`).join('')+both('M245 386L263 383L263 396L246 399Z').map(p=>`<path d="${p}" ${dk}/>`).join('');
-    else s+=`<path d="M226 300L224 550M174 300L176 550" stroke="#000" stroke-opacity=".12" stroke-width="1.5"/>`;
-    return s;
-  }
-  function shoes(o){
-    const up=both(smooth([[204,553],[226,549],[240,556],[249,567],[251,575],[205,575],[202,566]]));
-    const so=both('M202 573L252 573Q253 582 246 583L206 583Q201 582 202 573Z');
-    let s=up.map(d=>shade(d,o.col)).join('')+so.map(d=>`<path d="${d}" fill="${o.sole}"/>`).join('');
-    if(o.acc) s+=both('M212 566Q228 558 244 566').map(d=>`<path d="${d}" fill="none" stroke="${o.acc}" stroke-width="3" stroke-linecap="round"/>`).join('');
-    return s;
-  }
-  const VB = { tops:'112 92 176 260', outerwear:'104 50 192 300', bottoms:'140 256 120 300', shoes:'146 544 108 44', accessory:'160 20 80 50' };
-  const DEMO_DEF = {
-    'tee-premium':  ['tops',      ()=>top({col:'#26272b',hem:318})],
-    'tee-heavy':    ['tops',      ()=>top({col:'#6c6d71',hem:322})],
-    'shirt-oxford': ['tops',      ()=>top({col:'#e8e3d6',hem:330,long:true,kind:'shirt'})],
-    'sweat-premium':['tops',      ()=>top({col:'#7a7566',hem:326,long:true,band:true})],
-    'sweat-wool':   ['tops',      ()=>top({col:'#2b3346',hem:324,long:true,band:true,kind:'knit'})],
-    'hoodie-zip':   ['outerwear', ()=>top({col:'#36363b',hem:334,long:true,band:true,out:true,hood:true,zip:true})],
-    'pants-linen':  ['bottoms',   ()=>pants({col:'#d2c7ae'})],
-    'pants-cargo':  ['bottoms',   ()=>pants({col:'#3e4936',cargo:true})],
-    'sneak-runner': ['shoes',     ()=>shoes({col:'#eeeae2',sole:'#d6cfc2',acc:'#b98a5a'})],
-    'sneak-court':  ['shoes',     ()=>shoes({col:'#e7dcc6',sole:'#f6f2ea'})]
-  };
-  const DEMO={};
-  function demo(id){
-    if(!DEMO_DEF[id]) return null;
-    if(!DEMO[id]){ const [layer,fn]=DEMO_DEF[id], s=fn(); DEMO[id]={layer, src:svgUrl(s), thumb:svgUrl(s,VB[layer])}; }
-    return DEMO[id];
-  }
-
-  /* ---------- своё фото вещи: разбор и посадка по фигуре манекена ----------
-     Фото вещи (без фона) разбирается по строкам: воротник, подмышки, рукава, корпус,
-     у брюк - пояс, шаг, штанины. Каждая часть растягивается по контуру манекена
-     (рукава на руки, корпус по груди, штанины по ногам), сверху ложится объёмная светотень. */
-  const AN=new Map(), OUT=new Map(), S=2;                   // S - во сколько раз выход чётче рамки 400×600
-  function analyze(url){
-    if(AN.has(url)) return AN.get(url);
-    const pr=new Promise(res=>{
-      const im=new Image();
-      im.onerror=()=>res({ok:false});
-      im.onload=()=>{
-        const k=Math.min(1,700/Math.max(im.naturalWidth,im.naturalHeight,1));
-        const w=Math.max(1,Math.round(im.naturalWidth*k)), h=Math.max(1,Math.round(im.naturalHeight*k)), N=w*h;
-        const c=document.createElement('canvas'); c.width=w; c.height=h;
-        const x=c.getContext('2d',{willReadFrequently:true}); x.drawImage(im,0,0,w,h);
-        let img; try{ img=x.getImageData(0,0,w,h); }
-        catch(e){ return res({ok:false}); }                                           // чужой сайт - разобрать нельзя
-        const d=img.data, A=new Uint8Array(N);
-        let clear=0; for(let i=0;i<N;i++){ if(d[i*4+3]>=40) A[i]=1; else clear++; }
-        if(clear<N*.04) return res({ok:false});                                       // у фото есть фон - на манекен не надеваем
-        const lab=new Int32Array(N), st=new Int32Array(N), size=[0]; let cur=0;
-        for(let i=0;i<N;i++){
-          if(!A[i]||lab[i]) continue;
-          cur++; let sp=0, cnt=0; st[sp++]=i; lab[i]=cur;
-          while(sp){ const j=st[--sp], jx=j%w; cnt++;
-            if(jx>0   && A[j-1] && !lab[j-1]){ lab[j-1]=cur; st[sp++]=j-1; }
-            if(jx<w-1 && A[j+1] && !lab[j+1]){ lab[j+1]=cur; st[sp++]=j+1; }
-            if(j>=w   && A[j-w] && !lab[j-w]){ lab[j-w]=cur; st[sp++]=j-w; }
-            if(j<N-w  && A[j+w] && !lab[j+w]){ lab[j+w]=cur; st[sp++]=j+w; } }
-          size.push(cnt);
-        }
-        let big=0; for(let i=1;i<size.length;i++) if(size[i]>big) big=size[i];
-        const parts=size.filter((s,i)=>i&&s>=big*.3).length;                           // сколько крупных кусков (пара обуви = 2)
-        const bb={};                                                                   // рамки крупных кусков
-        for(let i=0;i<N;i++){ const l=lab[i]; if(!l||size[l]<big*.3) continue; const px=i%w, py=(i-px)/w;
-          const q=bb[l]||(bb[l]={l,n:size[l],x0:px,y0:py,x1:px,y1:py}); if(px<q.x0)q.x0=px; if(px>q.x1)q.x1=px; if(py<q.y0)q.y0=py; if(py>q.y1)q.y1=py; }
-        const comps=Object.values(bb).sort((p,q)=>q.n-p.n).slice(0,2);
-        let x0=w,y0=h,x1=-1,y1=-1;
-        for(let i=0;i<N;i++){
-          if(!A[i]) continue;
-          if(size[lab[i]]<big*.2){ A[i]=0; d[i*4+3]=0; continue; }
-          const px=i%w, py=(i-px)/w;
-          if(px<x0)x0=px; if(px>x1)x1=px; if(py<y0)y0=py; if(py>y1)y1=py;
-        }
-        if(x1<0) return res({ok:false});
-        x.putImageData(img,0,0);
-        res({ok:true,c,d,w,h,x0,y0,x1,y1,A,parts,lab,comps});
-      };
-      im.src=url;
-    });
-    AN.set(url,pr); return pr;
-  }
-  const rowExt = (a,y,xa,xb) => { let l=-1,r=-1; const o=y*a.w; for(let x=xa;x<=xb;x++) if(a.A[o+x]){ if(l<0) l=x; r=x; } return [l,r]; };
-  // куски строки: [начало, конец]; щели уже gap пикселей не считаем разрывом
-  function runs(a,y,xa,xb,gap){
-    const o=y*a.w, out=[]; let s=-1, last=-1e9;
-    for(let x=xa;x<=xb;x++){ if(!a.A[o+x]) continue; if(s<0) s=x; else if(x-last>gap){ out.push([s,last]); s=x; } last=x; }
-    if(s>=0) out.push([s,last]);
-    return out.filter(r=>r[1]-r[0]>=2);
-  }
-  // У вещи на человеке сверху бывает лицо/шея: срезаем всё узкое над плечами
-  function autoTop(a){
-    const bh=a.y1-a.y0+1; let mx=0; const E=[];
-    for(let y=a.y0;y<=a.y1;y++){ const [l,r]=rowExt(a,y,a.x0,a.x1); const e=l<0?0:r-l+1; E.push(e); if(e>mx) mx=e; }
-    let ys=E.findIndex(e=>e>=mx*.72); if(ys<0) ys=0;
-    return ys>bh*.14 ? Math.min(.5, Math.max(0, ys/bh-.02)) : 0;
-  }
-
-  /* мерки манекена по строкам (снимаем с его же контура) */
-  let MP=null;
-  function mq(){
-    if(MP) return MP;
-    const W=400,H=600,c=document.createElement('canvas'); c.width=W; c.height=H;
-    const g=c.getContext('2d',{willReadFrequently:true});
-    const prof=ds=>{ g.clearRect(0,0,W,H); ds.forEach(d=>g.fill(new Path2D(d)));
-      const a=g.getImageData(0,0,W,H).data, rows=[];
-      for(let y=0;y<H;y++){ const r=[]; let s=-1; for(let x=0;x<=W;x++){ const on=x<W&&a[(y*W+x)*4+3]>127; if(on&&s<0) s=x; else if(!on&&s>=0){ r.push([s,x]); s=-1; } } rows.push(r); }
-      return rows; };
-    const body=prof([smooth(BODY)]), aR=prof([ARM[0],HAND[0]]), aL=prof([ARM[1],HAND[1]]);
-    const span=r=>r&&r.length?[r[0][0],r[r.length-1][1]]:null, cl=y=>Math.max(0,Math.min(H-1,Math.round(y)));
-    let crotch=H; for(let y=300;y<H;y++) if(body[y].length>=2){ crotch=y; break; }
-    MP={ crotch,
-      torso:y=>body[cl(y)].find(s=>s[0]<=200&&s[1]>=200)||null,
-      leg:(y,side)=>{ const rs=body[cl(y)].filter(s=>side<0?s[1]<=203:s[0]>=197); return rs.length?(side<0?rs[rs.length-1]:rs[0]):null; },
-      arm:(y,side)=>span((side<0?aL:aR)[cl(y)]) };
-    return MP;
-  }
-
-  /* рисование одной строки выхода: кусок исходной строки [sl,sr] ложится в [tl,tr] как на цилиндр */
-  const map = u => .55*u + .45*(1-Math.cos(Math.PI*u))/2;               // к краям ткань «уходит за бок»
-  const lit = u => .72 + .28*Math.pow(Math.sin(Math.PI*Math.min(1,Math.max(0,u))),.6) + .05*(.5-u);
-  function strip(o,a,sy,sl,sr,tl,tr,yo,dim){
-    const W=o.width, d=o.data, sd=a.d, sw=a.w, x0=Math.max(0,Math.floor(tl*S)), x1=Math.min(W-1,Math.ceil(tr*S)), yi=Math.min(a.h-1.001,Math.max(0,sy));
-    const y0=yi|0, fy=yi-y0, y1=Math.min(a.h-1,y0+1), span=(tr-tl)*S||1;
-    for(let px=x0;px<=x1;px++){
-      const u=(px+.5-tl*S)/span; if(u<0||u>1) continue;
-      const cov=Math.min(1,(px+1-tl*S),(tr*S-px));                   // мягкий край
-      let sx=sl+map(u)*(sr-sl); sx=Math.min(sw-1.001,Math.max(0,sx));
-      const xa=sx|0, fx=sx-xa, xb=Math.min(sw-1,xa+1);
-      let r=0,g=0,b=0,al=0;
-      const add=(i,wt)=>{ const aa=sd[i+3]*wt; r+=sd[i]*aa; g+=sd[i+1]*aa; b+=sd[i+2]*aa; al+=aa; };
-      add((y0*sw+xa)*4,(1-fx)*(1-fy)); add((y0*sw+xb)*4,fx*(1-fy)); add((y1*sw+xa)*4,(1-fx)*fy); add((y1*sw+xb)*4,fx*fy);
-      if(al<=0) continue;
-      const k=lit(u)*(dim||1), A=Math.min(255,al*Math.max(0,cov)), i=(yo*W+px)*4, ia=A/255, oa=d[i+3]/255;
-      // поверх уже нарисованного (рукав поверх корпуса)
-      const na=ia+oa*(1-ia); if(na<=0) continue;
-      d[i]  =(r/al*k*ia + d[i]*oa*(1-ia))/na;
-      d[i+1]=(g/al*k*ia + d[i+1]*oa*(1-ia))/na;
-      d[i+2]=(b/al*k*ia + d[i+2]*oa*(1-ia))/na;
-      d[i+3]=na*255;
-    }
-  }
-  // кусочно-линейная шкала по высоте: [исходные y] → [y манекена]
-  const pw = (P,Q,v) => { for(let i=1;i<P.length;i++) if(v<=P[i]||i===P.length-1){ const t=(v-P[i-1])/((P[i]-P[i-1])||1); return Q[i-1]+t*(Q[i]-Q[i-1]); } return Q[0]; };
-  const median = v => { if(!v.length) return 0; const s=[...v].sort((x,y)=>x-y); return s[s.length>>1]; };
-
-  // Верх и верхняя одежда
-  function drawTop(o,a,c,layer,fit){
-    const M=mq(), out=layer==='outerwear', sc=+fit.s||1;
-    const gap=Math.max(2,Math.round((c.x1-c.x0)*.012)), ch=c.y1-c.y0+1;
-    const R=[]; for(let y=c.y0;y<=c.y1;y++) R.push(runs(a,y,c.x0,c.x1,gap));
-    let sx=0,sn=0; for(let y=c.y0+(ch>>1);y<=c.y1;y++) for(const r of R[y-c.y0]){ sx+=(r[0]+r[1])/2*(r[1]-r[0]); sn+=r[1]-r[0]; }
-    const cx=sn?sx/sn:(c.x0+c.x1)/2;
-    const mid=rs=>{ let best=null,bd=1e9; for(const r of rs){ const dd=r[0]<=cx&&r[1]>=cx?0:Math.min(Math.abs(r[0]-cx),Math.abs(r[1]-cx)); if(dd<bd){bd=dd;best=r;} } return best; };
-    // ширина корпуса: по низу вещи (резинка, подол), туда не достают согнутые рукава
-    const wb=[], wm=[];
-    for(let y=c.y0+Math.round(ch*.86);y<=c.y0+Math.round(ch*.97);y++){ const m=mid(R[y-c.y0]); if(m) wb.push(m[1]-m[0]+1); }
-    for(let y=c.y0+Math.round(ch*.55);y<=c.y0+Math.round(ch*.92);y++){ const m=mid(R[y-c.y0]); if(m) wm.push(m[1]-m[0]+1); }
-    if(!wb.length) wb.push(...wm);
-    const Wb=median(wb)||(c.x1-c.x0+1);
-    // линия плеч: первая строка, где вещь уже широкая. Всё, что выше и заметно по высоте, это капюшон
-    const top45=c.y0+Math.round(ch*.45);
-    let ykt=1; for(let y=c.y0;y<=top45;y++){ const r=R[y-c.y0]; if(r.length) ykt=Math.max(ykt,r[r.length-1][1]-r[0][0]+1); }
-    let ys=c.y0; for(let y=c.y0;y<=top45;y++){ const r=R[y-c.y0]; if(r.length && r[r.length-1][1]-r[0][0]+1>=ykt*.55){ ys=y; break; } }
-    const hood = ys-c.y0 > ch*.13, yb = hood ? ys : c.y0, bh=c.y1-yb+1;
-    let ya=-1; for(let y=yb+Math.round(bh*.12);y<=c.y1;y++){ const m=mid(R[y-c.y0]); if(m && m[1]-m[0]+1<=Wb*1.12){ ya=y; break; } }
-    if(ya<0 || ya>yb+bh*.5) ya=yb+Math.round(bh*.33);              // рукава слились с корпусом до низа: подмышка на обычной высоте
-    const chest=(M.torso(205)[1]-M.torso(205)[0])*(out?1.13:1.05)*sc, k=chest/Wb;
-    const Yt=(out?100:106)+(+fit.y||0), dx=+fit.x||0;
-    const YA=Math.min(188,Math.max(150,Yt+(ya-yb)*k)), Yh=Math.min(out?420:372,YA+(c.y1-ya)*k);
-    const e0=out?7:3;
-    // длинные рукава идут ниже подмышки отдельными кусками; у коротких это лишь скос края - его не тянем на руку
-    let sideRows=0; for(let y=ya;y<=c.y1;y++){ const rs=R[y-c.y0], m=mid(rs); if(m && (rs.some(r=>r[1]<m[0]||r[0]>m[1]) || m[1]-m[0]+1>Wb*1.25)) sideRows++; }
-    const longSl = sideRows > ch*.14;
-    // Согнутые рукава (на фото локоть и манжета заходят на корпус): рукав строим по его прямой части от плеча до локтя
-    // и тянем по руке манекена до запястья, а корпус там, где лежали манжеты, закрываем тканью корпуса чуть выше.
-    const bL0=cx-Wb*.5, bR0=cx+Wb*.5, mn0=Math.max(3,Wb*.06);
-    const slv=(y,side)=>{ const rs=R[y-c.y0]; if(!rs||!rs.length) return null;
-      if(side<0){ const l=rs[0][0]; return bL0-l>mn0 ? [l,Math.round(bL0)] : null; }
-      const r=rs[rs.length-1][1]; return r-bR0>mn0 ? [Math.round(bR0),r] : null; };
-    const elbow=side=>{ let last=ya, miss=0; for(let y=ya;y<=c.y1;y++){ if(slv(y,side)){ last=y; miss=0; } else if(++miss>ch*.03) break; } return last; };
-    const eL=elbow(-1), eR=elbow(1);
-    const bent = longSl && Math.min(eL,eR) < c.y1-ch*.15 && Math.min(eL,eR)-ya > ch*.06;
-    const Ywr=326, eMin=Math.min(eL,eR);
-    const z0=eMin-Math.round(ch*.03), z1=Math.min(c.y1-Math.round(ch*.09), Math.max(eL,eR)+Math.round((Math.max(eL,eR)-ya)*1.05));
-    // ткань корпуса для зоны манжет: медиана каждого столбца по полосе между подмышкой и локтем
-    // (молния и швы - вертикальные - сохраняются, логотипы и складки уходят); кладём её отдельной строкой в копию фото
-    let a2=a, fillY=0;
-    if(bent){
-      const w=a.w, h=a.h, d2=new Uint8ClampedArray(w*(h+2)*4); d2.set(a.d);
-      const r0=Math.round(ya+(eMin-ya)*.15), r1=Math.max(r0+3,eMin-Math.round(ch*.03)), xs=Math.max(c.x0,Math.round(bL0-Wb*.1)), xe=Math.min(c.x1,Math.round(bR0+Wb*.1));
-      const med=v=>{ v.sort((p,q)=>p-q); return v[v.length>>1]; };
-      // общий цвет ткани и цвет каждого столбца; столбец берём своим, только если он ровный по всей высоте (молния, шов),
-      // а логотипы и надписи (меняются сверху вниз) заменяем общим цветом ткани
-      const gR=[],gG=[],gB=[];
-      for(let y=r0;y<=r1;y+=2) for(let x=xs;x<=xe;x+=2){ const i=(y*w+x)*4; if(a.d[i+3]>128){ gR.push(a.d[i]); gG.push(a.d[i+1]); gB.push(a.d[i+2]); } }
-      const gc=gR.length?[med(gR),med(gG),med(gB)]:[128,128,128];
-      for(let x=xs;x<=xe;x++){ const R_=[],G_=[],B_=[]; for(let y=r0;y<=r1;y++){ const i=(y*w+x)*4; if(a.d[i+3]>128){ R_.push(a.d[i]); G_.push(a.d[i+1]); B_.push(a.d[i+2]); } }
-        if(R_.length<3) continue; const n=R_.length; let col=[med(R_.slice()),med(G_.slice()),med(B_.slice())];
-        let near=0; for(let k3=0;k3<n;k3++) if(Math.abs(R_[k3]-col[0])+Math.abs(G_[k3]-col[1])+Math.abs(B_[k3]-col[2])<45) near++;
-        if(near<n*.85) col=gc;
-        for(const yy of [h,h+1]){ const j=(yy*w+x)*4; d2[j]=col[0]; d2[j+1]=col[1]; d2[j+2]=col[2]; d2[j+3]=255; } }
-      a2=Object.assign({},a,{d:d2,h:h+2}); fillY=h;
-    }
-    if(bent){
-      for(const [side,eS] of [[-1,eL],[1,eR]]){
-        for(let yo=Math.floor(YA*S);yo<=Math.ceil(Ywr*S);yo++){
-          const Y=(yo+.5)/S, ar=M.arm(Y,side); if(!ar) continue;
-          let y=Math.round(pw([YA,Ywr],[ya,eS],Y)), p=slv(y,side); for(let k2=1;!p&&k2<8;k2++) p=slv(y-k2,side);
-          if(p) strip(o,a,y,p[0],p[1],ar[0]-2+dx,ar[1]+2+dx,yo,.9);
-        }
-      }
-    }
-    let yk=1; for(let y=yb;y<ya;y++){ const r=R[y-c.y0]; if(r.length) yk=Math.max(yk,r[r.length-1][1]-r[0][0]+1); }   // самая широкая строка плеч с рукавами
-    // капюшон опущен: лежит вокруг шеи и за ней (голова манекена нарисована поверх вещей), рисуем его первым
-    if(hood){
-      const hws=[]; for(let y=c.y0;y<ys;y++){ const r=R[y-c.y0]; if(r.length) hws.push(r[r.length-1][1]-r[0][0]+1); }
-      hws.sort((p,q)=>p-q); const hw=hws[Math.floor(hws.length*.8)]||1;             // ширина капюшона без торчащих кончиков плеч и шнурков
-      const kh=Math.min(k,86/hw), Hb=Yt+12, Ht=Hb-Math.min(38,(ys-c.y0)*kh);
-      for(let yo=Math.floor(Ht*S);yo<=Math.ceil(Hb*S);yo++){
-        const Y=(yo+.5)/S, sy=pw([Ht,Hb],[c.y0,ys],Y), ri=Math.round(sy)-c.y0;
-        if(ri<0||ri>=R.length||!R[ri].length) continue;
-        const rs=R[ri], l=Math.max(rs[0][0],Math.round(cx-hw*.6)), r=Math.min(rs[rs.length-1][1],Math.round(cx+hw*.6)); if(r-l<2) continue;
-        strip(o,a,sy,l,r,200+(l-cx)*kh+dx,200+(r+1-cx)*kh+dx,yo,.84);
-      }
-    }
-    for(let yo=Math.floor(Yt*S);yo<=Math.ceil(Yh*S);yo++){
-      const Y=(yo+.5)/S, sy=pw([Yt,YA,Yh],[yb,ya,c.y1],Y), ri=Math.round(sy)-c.y0;
-      if(ri<0||ri>=R.length||!R[ri].length) continue;
-      const rs=R[ri], t=M.torso(Y-dx*0)||M.torso(205), aL=M.arm(Y,-1), aR=M.arm(Y,1), e=e0+Math.max(0,Y-205)*.05;
-      const ext = rs[rs.length-1][1]-rs[0][0]+1;
-      if(sy<ya && longSl && sy>yb+(ya-yb)*.4 && ext>Wb*1.25){       // длинный рукав прилегает к корпусу: делим строку на рукава и корпус
-        const tw=Math.max(t[1]-t[0],chest*.94)+2*e*(sc>1?sc:1), l=rs[0][0], r=rs[rs.length-1][1];
-        const bl=Math.max(l,Math.round(cx-Wb/2)), br=Math.min(r,Math.round(cx+Wb/2));
-        if(bl-l>2 && aL) strip(o,a,sy,l,bl,aL[0]-2+dx,aL[1]+2+dx,yo,.9);
-        if(r-br>2 && aR) strip(o,a,sy,br,r,aR[0]-2+dx,aR[1]+2+dx,yo,.9);
-        strip(o,a,sy,bl,br,200-tw/2+dx,200+tw/2+dx,yo);
-      } else if(sy<ya){                                            // плечи и рукава одним куском: от руки до руки
-        // ширину берём пропорционально самой широкой строке - так сохраняется наклон плеч и узкий воротник
-        const L=Math.min(t[0],aL?aL[0]:t[0])-e*.6, Rr=Math.max(t[1],aR?aR[1]:t[1])+e*.6, q=Math.max(200-L,Rr-200)/(yk/2);
-        const l=rs[0][0], r=rs[rs.length-1][1];
-        strip(o,a,sy,l,r,200+(l-cx)*q+dx,200+(r+1-cx)*q+dx,yo);
-      } else {
-        const tw=Math.max(t[1]-t[0],chest*.94/1)+2*e*(sc>1?sc:1);
-        // рукава ниже подмышки: куски строки за пределами корпуса идут на руки, остальное - корпус в пропорции
-        const bL=cx-Wb*.5, bR=cx+Wb*.5, bs=tw/Wb, mn=Math.max(3,Wb*.06), body=[], left=[], right=[];
-        const iy=Math.round(sy), zone=bent && iy>=z0 && iy<=z1;
-        for(const r of rs){
-          if(longSl && r[1]<bL) left.push(r);                               // целиком левее корпуса
-          else if(longSl && r[0]>bR) right.push(r);
-          else {
-            let a0=r[0], a1=r[1];
-            if(longSl && sy<c.y1-ch*.03){                                    // рукав прилегает к корпусу: край шире корпуса уходит на руку
-              if(bL-a0>mn){ left.push([a0,Math.round(bL)]); a0=Math.round(bL); }
-              if(a1-bR>mn){ right.push([Math.round(bR),a1]); a1=Math.round(bR); } }
-            body.push([Math.max(a0,Math.round(bL-Wb*.08)),Math.min(a1,Math.round(bR+Wb*.08))]);
-          }
-        }
-        if(!bent && left.length && aL) strip(o,a,sy,left[0][0],left[left.length-1][1],aL[0]-2+dx,aL[1]+2+dx,yo,.9);
-        if(!bent && right.length && aR) strip(o,a,sy,right[0][0],right[right.length-1][1],aR[0]-2+dx,aR[1]+2+dx,yo,.9);
-        for(const r of body) if(r[1]-r[0]>=1){
-          if(zone){ const l=Math.max(r[0],Math.round(bL0-Wb*.08)), rr=Math.min(r[1],Math.round(bR0+Wb*.08));   // зона манжет: ровная ткань корпуса
-            strip(o,a2,fillY,l,rr,200+(l-cx)*bs+dx,200+(rr+1-cx)*bs+dx,yo); }
-          else strip(o,a,sy,r[0],r[1],200+(r[0]-cx)*bs+dx,200+(r[1]+1-cx)*bs+dx,yo); }
-      }
-    }
-  }
-  // Брюки, джинсы, шорты
-  function drawBottom(o,a,c,fit){
-    const M=mq(), sc=+fit.s||1, ch=c.y1-c.y0+1, gap=Math.max(2,Math.round((c.x1-c.x0)*.01));
-    const R=[]; for(let y=c.y0;y<=c.y1;y++) R.push(runs(a,y,c.x0,c.x1,gap));
-    const ww=[]; for(let y=c.y0;y<=c.y0+Math.max(2,Math.round(ch*.04));y++){ const r=R[y-c.y0]; if(r.length) ww.push(r[r.length-1][1]-r[0][0]+1); }
-    const Ww=median(ww)||(c.x1-c.x0+1), minw=(c.x1-c.x0)*.06;
-    let yc=-1; for(let y=c.y0+Math.round(ch*.12);y<=c.y1;y++) if(R[y-c.y0].filter(r=>r[1]-r[0]>=minw).length>=2){ yc=y; break; }
-    const hip=M.torso(270), k=(hip[1]-hip[0])*1.04*sc/Ww;
-    const Yt=262+(+fit.y||0), dx=+fit.x||0;
-    let Yc = yc<0 ? Yt+ch*k : Math.min(M.crotch+6,Math.max(M.crotch-28,Yt+(yc-c.y0)*k));
-    // длинные брюки - до щиколотки; шорты остаются своей длины
-    let Yb = yc<0 ? Math.min(556,Yc) : ((c.y1-yc)/Ww>1.05 ? 552 : Math.min(556,Yc+(c.y1-yc)*k));
-    const P = yc<0 ? [Yt,Yb] : [Yt,Yc,Yb], Q = yc<0 ? [c.y0,c.y1] : [c.y0,yc,c.y1];
-    const ref=M.leg(M.crotch+30,1);
-    for(let yo=Math.floor(Yt*S);yo<=Math.ceil(Yb*S);yo++){
-      const Y=(yo+.5)/S, sy=pw(P,Q,Y), ri=Math.round(sy)-c.y0;
-      if(ri<0||ri>=R.length||!R[ri].length) continue;
-      const rs=R[ri].filter(r=>r[1]-r[0]>=2);
-      if(yc<0 || sy<yc || Y<M.crotch){                              // от пояса до шага - одним куском
-        const t=M.torso(Math.min(Y,M.crotch-1))||hip, e=3+(Y-262)*.03;
-        strip(o,a,sy,rs[0][0],rs[rs.length-1][1],t[0]-e+dx,t[1]+e+dx,yo);
-      } else {                                                     // штанины по ногам, слегка свободнее голени
-        const sides=[[-1,rs.filter(r=>(r[0]+r[1])/2<cxOf(rs))],[1,rs.filter(r=>(r[0]+r[1])/2>=cxOf(rs))]];
-        for(const [sd,list] of sides){ if(!list.length) continue;
-          const lg=M.leg(Y,sd); if(!lg) continue;
-          const c0=(lg[0]+lg[1])/2, w=Math.max(lg[1]-lg[0], (ref[1]-ref[0])*.8)+6+(Y-M.crotch)*.012;
-          strip(o,a,sy,list[0][0],list[list.length-1][1],c0-w/2+dx,c0+w/2+dx,yo); }
-      }
-    }
-  }
-  const cxOf = rs => (rs[0][0]+rs[rs.length-1][1])/2;
-  // Обувь. Пара на фото: левая туфля на левую ногу, правая на правую.
-  // Если туфли на фото слиплись, ищем между ними «перешеек»; не нашли (одна заходит за другую) - пара целиком под обеими ногами.
-  // Одна туфля: на обе ноги, вторая зеркально. Админ может выбрать вариант сам (fit.pair: 'pair' или 'one').
-  function piece(a,box,l){                          // кусок фото только с пикселями нужного куска
-    const w=box.x1-box.x0+1, h=box.y1-box.y0+1, cv=document.createElement('canvas'); cv.width=w; cv.height=h;
-    const g=cv.getContext('2d'), im=g.createImageData(w,h), o=im.data, d=a.d;
-    for(let y=0;y<h;y++) for(let x=0;x<w;x++){ const i=(box.y0+y)*a.w+box.x0+x, j=(y*w+x)*4;
-      if(l && a.lab[i]!==l) continue; o[j]=d[i*4]; o[j+1]=d[i*4+1]; o[j+2]=d[i*4+2]; o[j+3]=d[i*4+3]; }
-    g.putImageData(im,0,0);
-    // по краям убираем пустоту
-    let x0=w,y0=h,x1=-1,y1=-1; for(let i=3,k=0;i<o.length;i+=4,k++) if(o[i]>=40){ const x=k%w, y=(k-x)/w; if(x<x0)x0=x; if(x>x1)x1=x; if(y<y0)y0=y; if(y>y1)y1=y; }
-    return x1<0 ? null : {cv,x0,y0,w:x1-x0+1,h:y1-y0+1};
-  }
-  function shoeParts(a,c){
-    const cut=q=>({x0:Math.max(q.x0,c.x0),y0:Math.max(q.y0,c.y0),x1:Math.min(q.x1,c.x1),y1:Math.min(q.y1,c.y1)});
-    if(a.comps.length>=2){
-      const ps=[...a.comps].sort((p,q)=>(p.x0+p.x1)-(q.x0+q.x1)).map(q=>{ const b=cut(q); return b.x1>b.x0&&b.y1>b.y0 ? piece(a,b,q.l) : null; });
-      if(ps[0] && ps[1]) return ps; }
-    // один кусок: ищем узкий перешеек по столбцам в середине
-    const cw=c.x1-c.x0+1, col=new Float32Array(cw);
-    for(let x=0;x<cw;x++){ let n=0; for(let y=c.y0;y<=c.y1;y++) if(a.A[y*a.w+c.x0+x]) n++; col[x]=n; }
-    const sm=x=>{ let s=0,n=0; for(let k=-3;k<=3;k++){ const j=x+k; if(j>=0&&j<cw){ s+=col[j]; n++; } } return s/n; };
-    let xs=-1, mn=1e9; for(let x=Math.round(cw*.3);x<=Math.round(cw*.7);x++){ const v=sm(x); if(v<mn){ mn=v; xs=x; } }
-    let pl=0, pr=0; for(let x=0;x<xs;x++) pl=Math.max(pl,sm(x)); for(let x=xs;x<cw;x++) pr=Math.max(pr,sm(x));
-    if(xs<0 || mn>Math.min(pl,pr)*.3) return [];
-    const L=piece(a,{x0:c.x0,y0:c.y0,x1:c.x0+xs,y1:c.y1},0), R=piece(a,{x0:c.x0+xs+1,y0:c.y0,x1:c.x1,y1:c.y1},0);
-    return L&&R ? [L,R] : [];
-  }
-  // сколько «горбов» у верхнего края силуэта: у одной туфли один (задник), у пары, где туфли заходят друг за друга, два
-  function humps(a,c){
-    const cw=c.x1-c.x0+1, ch=c.y1-c.y0+1, top=new Float32Array(cw);
-    for(let x=0;x<cw;x++){ let t=ch; for(let y=c.y0;y<=c.y1;y++) if(a.A[y*a.w+c.x0+x]){ t=y-c.y0; break; } top[x]=1-t/ch; }
-    const k=Math.max(3,Math.round(cw/40)); let n=0, st=0, lo=1e9, hi=0;
-    for(let x=0;x<cw;x++){ let s=0,m=0; for(let j=Math.max(0,x-k);j<=Math.min(cw-1,x+k);j++){ s+=top[j]; m++; } const v=s/m;
-      if(st===0){ if(v<lo) lo=v; if(v>lo+.08){ st=1; hi=v; } } else { if(v>hi) hi=v; if(v<hi-.08){ n++; st=0; lo=v; } } }
-    return n+(st?1:0);
-  }
-  function drawShoes(g,a,c,fit){
-    const cw=c.x1-c.x0+1, ch=c.y1-c.y0+1, sc=+fit.s||1, dx=+fit.x||0, dy=+fit.y||0, mode=fit.pair||'';
-    const ps = mode==='one' ? [] : shoeParts(a,c);
-    if(ps.length===2){                                                   // пара: каждая на свою ногу
-      const k=Math.min(66/Math.max(ps[0].w,ps[1].w), 44/Math.max(ps[0].h,ps[1].h))*sc;
-      ps.forEach((p,i)=>{ const W=p.w*k, H=p.h*k; g.drawImage(p.cv,p.x0,p.y0,p.w,p.h,((i?229:171)-W/2+dx)*S,(584-H+dy)*S,W*S,H*S); });
-      return; }
-    const one = mode==='one' || (!mode && cw/ch>=1.3 && cw/ch<=3.2 && humps(a,c)<2);
-    if(!one){ const k=Math.min(118/cw,54/ch)*sc, W=cw*k, H=ch*k;      // пара, которую не разделить: целиком под обеими ногами
-      g.drawImage(a.c,c.x0,c.y0,cw,ch,(200-W/2+dx)*S,(584-H+dy)*S,W*S,H*S); return; }
-    const k=Math.min(64/cw,42/ch)*sc, W=cw*k, H=ch*k, y=(584-H+dy)*S;
-    g.drawImage(a.c,c.x0,c.y0,cw,ch,(229-W/2+dx)*S,y,W*S,H*S);       // правая нога
-    g.save(); g.translate((171+dx)*S,0); g.scale(-1,1);               // левая - зеркально
-    g.drawImage(a.c,c.x0,c.y0,cw,ch,-W/2*S,y,W*S,H*S); g.restore();
-  }
-  // Готовим картинку вещи, уже посаженной на манекен (кадр 400×600, как у рисунков-образцов)
-  async function prepare(url,layer,fit){
-    fit=fit||{};
-    const a=await analyze(url); if(!a.ok) return null;
-    const auto=0;   // верх не срезаем сами: на фото-раскладке это срезало капюшон и плечи; лишнее админ убирает ползунком
-    const t=fit.t!=null ? +fit.t : auto, b=+fit.b||0, bh=a.y1-a.y0+1;
-    const ry0=Math.round(a.y0+t*bh), ry1=Math.round(a.y1-b*bh);
-    if(ry1-ry0<4) return null;
-    const side=Math.min(.4,+fit.w||0), sx=Math.round((a.x1-a.x0+1)*side), cx0=a.x0+sx, cx1=a.x1-sx;
-    let rx0=a.w, rx1=-1; for(let y=ry0;y<=ry1;y++){ const [l,r]=rowExt(a,y,cx0,cx1); if(l>=0){ if(l<rx0)rx0=l; if(r>rx1)rx1=r; } }
-    if(rx1<0) return null;
-    const key=[url.length,url.slice(-64),url.slice(0,96),layer,JSON.stringify(fit),ry0,ry1,rx0,rx1].join('|');
-    let src=OUT.get(key);
-    if(!src){
-      const cv=document.createElement('canvas'); cv.width=400*S; cv.height=600*S;
-      const g=cv.getContext('2d',{willReadFrequently:true}), c={x0:rx0,x1:rx1,y0:ry0,y1:ry1};
-      if(layer==='shoes') drawShoes(g,a,c,fit);
-      else if(layer==='accessory'){ const cw=rx1-rx0+1, ch=ry1-ry0+1, k=Math.min(74/cw,58/ch)*(+fit.s||1), W=cw*k, H=ch*k;
-        g.drawImage(a.c,rx0,ry0,cw,ch,(200-W/2+(+fit.x||0))*S,(65-H+(+fit.y||0))*S,W*S,H*S); }
-      else {
-        const o=g.createImageData(cv.width,cv.height);
-        if(layer==='bottoms') drawBottom(o,a,c,fit); else drawTop(o,a,c,layer,fit);
-        g.putImageData(o,0,0);
-      }
-      src=await new Promise(r=>cv.toBlob(bl=>r(bl?URL.createObjectURL(bl):cv.toDataURL('image/png')),'image/png'));
-      OUT.set(key,src);
-    }
-    return { src, auto, x:0, y:0, w:400, h:600 };
-  }
-  // Надеть вещь на слой-картинку внутри .fp-fig
-  async function wear(el,url,layer,fit){
-    const tok=String(Math.random()); el.dataset.tok=tok;
-    const r=await prepare(url,layer,fit);
-    if(el.dataset.tok!==tok) return r;
-    if(!r){ off(el); return null; }
-    el.classList.remove('fit'); el.style.left=el.style.top=el.style.width='';
-    if(el.getAttribute('src')!==r.src) el.src=r.src;
-    el.classList.add('on');
-    return r;
-  }
-  function plain(el,src){
-    el.dataset.tok=''; el.classList.remove('fit'); el.style.left=el.style.top=el.style.width='';
-    if(el.getAttribute('src')!==src) el.src=src; el.classList.add('on');
-    return Promise.resolve({x:0,y:0,w:400,h:600,plain:true});
-  }
-  function off(el){ el.dataset.tok=''; el.classList.remove('on'); el.style.clipPath=''; }
-  // Вещь под верхней одеждой обрезаем по её ширине (иначе рукава футболки торчат из-под худи)
-  function under(el,box,outer){
-    if(!box || !outer){ el.style.clipPath=''; return; }
-    const l=Math.max(0,(outer.x-box.x)/box.w*100), r=Math.max(0,(box.x+box.w-outer.x-outer.w)/box.w*100);
-    el.style.clipPath = (l||r) ? `inset(0 ${r.toFixed(2)}% 0 ${l.toFixed(2)}%)` : '';
-  }
-  const figHTML = pre => mannequin(pre)+['shoes','bottoms','tops','outerwear','accessory'].map(l=>`<img class="l-${l}" id="${pre}-${l}" alt="">`).join('');
-  return { mannequin, ghost, figHTML, demo, analyze, prepare, wear, plain, off, under };
-})();
-</script>
-<script>
-/* ===== УДАЛЕНИЕ ФОНА С ФОТО ТОВАРА (в браузере, без интернета) =====
-   CUT.remove(источник, {tol:0..100, max:1200}) → {ok, canvas, ratio, reason}
-   Как работает: смотрим цвета по краю кадра (это фон), «заливаем» фон от краёв,
-   плавно следуя за тенями и виньеткой, но останавливаясь на резкой границе вещи.
-   Потом убираем мусор, сглаживаем край и чистим цветную кайму. */
-const CUT = (function(){
-  // sRGB → линейный (таблица) и Lab
-  const LIN = new Float32Array(256);
-  for(let i=0;i<256;i++){ const c=i/255; LIN[i]= c<=.04045 ? c/12.92 : Math.pow((c+.055)/1.055,2.4); }
-  const fl = t => t>.008856 ? Math.cbrt(t) : 7.787*t+16/116;
-  function toLab(d,N){
-    const L=new Float32Array(N), A=new Float32Array(N), B=new Float32Array(N);
-    for(let i=0,j=0;i<N;i++,j+=4){
-      const r=LIN[d[j]], g=LIN[d[j+1]], b=LIN[d[j+2]];
-      const x=fl((r*.4124+g*.3576+b*.1805)/.95047), y=fl(r*.2126+g*.7152+b*.0722), z=fl((r*.0193+g*.1192+b*.9505)/1.08883);
-      L[i]=116*y-16; A[i]=500*(x-y); B[i]=200*(y-z);
-    }
-    return [L,A,B];
-  }
-  // размытие канала (бегущее окно, по строкам и столбцам)
-  function blur(src,w,h,r){
-    if(r<1) return src.slice();
-    const tmp=new Float32Array(w*h), out=new Float32Array(w*h), k=1/(2*r+1);
-    for(let y=0;y<h;y++){ const o=y*w; let s=0;
-      for(let x=-r;x<=r;x++) s+=src[o+Math.min(w-1,Math.max(0,x))];
-      for(let x=0;x<w;x++){ tmp[o+x]=s*k; s+=src[o+Math.min(w-1,x+r+1)]-src[o+Math.max(0,x-r)]; } }
-    for(let x=0;x<w;x++){ let s=0;
-      for(let y=-r;y<=r;y++) s+=tmp[Math.min(h-1,Math.max(0,y))*w+x];
-      for(let y=0;y<h;y++){ out[y*w+x]=s*k; s+=tmp[Math.min(h-1,y+r+1)*w+x]-tmp[Math.max(0,y-r)*w+x]; } }
-    return out;
-  }
-  // k-средних по цветам края кадра
-  function kmeans(P,k){
-    const n=P.length/3, C=[], cnt=new Int32Array(k);
-    for(let c=0;c<k;c++){ const i=Math.floor((c+.5)*n/k)*3; C.push([P[i],P[i+1],P[i+2]]); }
-    const as=new Int32Array(n);
-    for(let it=0;it<10;it++){
-      const S=C.map(()=>[0,0,0]); cnt.fill(0);
-      for(let i=0;i<n;i++){ let bd=1e9,bc=0;
-        for(let c=0;c<k;c++){ const dl=P[i*3]-C[c][0], da=P[i*3+1]-C[c][1], db=P[i*3+2]-C[c][2], d=dl*dl+da*da+db*db; if(d<bd){bd=d;bc=c;} }
-        as[i]=bc; cnt[bc]++; S[bc][0]+=P[i*3]; S[bc][1]+=P[i*3+1]; S[bc][2]+=P[i*3+2]; }
-      for(let c=0;c<k;c++) if(cnt[c]) C[c]=[S[c][0]/cnt[c],S[c][1]/cnt[c],S[c][2]/cnt[c]];
-    }
-    // разброс внутри каждой группы
-    const sd=new Float32Array(k);
-    for(let i=0;i<n;i++){ const c=C[as[i]], dl=P[i*3]-c[0], da=P[i*3+1]-c[1], db=P[i*3+2]-c[2]; sd[as[i]]+=dl*dl+da*da+db*db; }
-    return C.map((c,i)=>({c, share:cnt[i]/n, sd:cnt[i]?Math.sqrt(sd[i]/cnt[i]):0}));
-  }
-  // связные области маски (4 соседа), возвращает метки и размеры
-  function label(M,w,h,val){
-    const N=w*h, lab=new Int32Array(N), st=new Int32Array(N), size=[0], touch=[0]; let cur=0;
-    for(let i=0;i<N;i++){
-      if(M[i]!==val||lab[i]) continue;
-      cur++; let sp=0,cnt=0,tb=0; st[sp++]=i; lab[i]=cur;
-      while(sp){ const j=st[--sp], x=j%w; cnt++;
-        if(x===0||x===w-1||j<w||j>=N-w) tb=1;
-        if(x>0   && M[j-1]===val && !lab[j-1]){ lab[j-1]=cur; st[sp++]=j-1; }
-        if(x<w-1 && M[j+1]===val && !lab[j+1]){ lab[j+1]=cur; st[sp++]=j+1; }
-        if(j>=w  && M[j-w]===val && !lab[j-w]){ lab[j-w]=cur; st[sp++]=j-w; }
-        if(j<N-w && M[j+w]===val && !lab[j+w]){ lab[j+w]=cur; st[sp++]=j+w; } }
-      size.push(cnt); touch.push(tb);
-    }
-    return {lab,size,touch};
-  }
-  // морфология через сумму в окне: эрозия/наращивание бинарной маски радиусом r
-  function morph(M,w,h,r,grow){
-    const f=new Float32Array(w*h); for(let i=0;i<f.length;i++) f[i]=M[i];
-    const b=blur(f,w,h,r), o=new Uint8Array(w*h);
-    for(let i=0;i<o.length;i++) o[i]= grow ? (b[i]>.001?1:0) : (b[i]>.999?1:0);
-    return o;
-  }
-  function toCanvas(src,max){
-    return new Promise((res,rej)=>{
-      const draw=im=>{ const iw=im.naturalWidth||im.width, ih=im.naturalHeight||im.height;
-        if(!iw||!ih) return rej(new Error('empty'));
-        const k=Math.min(1,max/Math.max(iw,ih)), c=document.createElement('canvas');
-        c.width=Math.max(1,Math.round(iw*k)); c.height=Math.max(1,Math.round(ih*k));
-        c.getContext('2d').drawImage(im,0,0,c.width,c.height); res(c); };
-      if(typeof src==='string'){ const im=new Image(); im.onload=()=>draw(im); im.onerror=()=>rej(new Error('load')); im.src=src; }
-      else if(src && (src.complete===false)){ src.onload=()=>draw(src); }
-      else draw(src);
-    });
-  }
-
-  async function remove(source,opts){
-    opts=opts||{}; const tol=Math.max(0,Math.min(100,opts.tol==null?50:+opts.tol))/100;
-    const c=await toCanvas(source,opts.max||1200), w=c.width, h=c.height, N=w*h, g=c.getContext('2d');
-    const img=g.getImageData(0,0,w,h), d=img.data;
-    const fail=reason=>({ok:false,canvas:c,ratio:1,reason});
-
-    // уже вырезано (прозрачный фон) - только убираем мелкий мусор
-    let clear=0; for(let i=3;i<d.length;i+=4) if(d[i]<20) clear++;
-    if(clear>N*.04){
-      const M=new Uint8Array(N); for(let i=0;i<N;i++) M[i]=d[i*4+3]>=20?1:0;
-      const {lab,size}=label(M,w,h,1); let big=0; for(let i=1;i<size.length;i++) big=Math.max(big,size[i]);
-      let kept=0; for(let i=0;i<N;i++){ if(!M[i]) continue; if(size[lab[i]]<big*.08) d[i*4+3]=0; else kept++; }
-      g.putImageData(img,0,0); return {ok:true,canvas:c,ratio:kept/N};
-    }
-
-    const [L0,A0,B0]=toLab(d,N);
-    const r=Math.max(1,Math.round(Math.min(w,h)/450));
-    const L=blur(L0,w,h,r), A=blur(A0,w,h,r), B=blur(B0,w,h,r);
-    // сила перепада цвета в каждой точке (по слегка размытому кадру, чтобы шум не мешал)
-    const L1=blur(L0,w,h,1), A1=blur(A0,w,h,1), B1=blur(B0,w,h,1), G=new Float32Array(N);
-    for(let y=1;y<h-1;y++) for(let x=1;x<w-1;x++){ const i=y*w+x;
-      const dl=L1[i+1]-L1[i-1], da=A1[i+1]-A1[i-1], db=B1[i+1]-B1[i-1], el=L1[i+w]-L1[i-w], ea=A1[i+w]-A1[i-w], eb=B1[i+w]-B1[i-w];
-      G[i]=Math.sqrt(dl*dl+da*da+db*db+el*el+ea*ea+eb*eb)/2; }
-    // цвета края кадра → модель фона
-    const bw=Math.max(2,Math.round(Math.min(w,h)*.02)), P=[], gs=[];
-    for(let y=0;y<h;y+=2) for(let x=0;x<w;x+=2){
-      if(x>=bw && x<w-bw && y>=bw && y<h-bw) continue;
-      const i=y*w+x; P.push(L[i],A[i],B[i]); gs.push(G[i]); }
-    const CL=kmeans(new Float32Array(P),4).filter(k=>k.share>.06);
-    gs.sort((a,b)=>a-b); const gMed=gs[gs.length>>1]||0;
-    const nearBg=i=>{ let m=1e9; for(const k of CL){ const v=Math.hypot(L[i]-k.c[0],A[i]-k.c[1],B[i]-k.c[2])-k.sd*.8; if(v<m) m=v; } return m; };
-
-    const Tc=4+10*tol, Tg=1.2+2.2*tol, busy=gMed>Tg*.75;
-    const BG=new Uint8Array(N), q=new Int32Array(N);
-    let qh=0, qt=0;
-    if(!busy){
-      // плавная заливка от краёв: эталон фона «едет» вслед за тенями и виньеткой
-      // граница вещи = резкий перепад; утолщаем её на 1px, чтобы заливка не просочилась в щели
-      const E=new Uint8Array(N); for(let i=0;i<N;i++) E[i]=G[i]>Tg?1:0;
-      const W=morph(E,w,h,1,true);
-      const rL=new Float32Array(N), rA=new Float32Array(N), rB=new Float32Array(N), a=.12;
-      const seed=i=>{ if(BG[i]||W[i]||nearBg(i)>Tc*2) return; BG[i]=1; rL[i]=L[i]; rA[i]=A[i]; rB[i]=B[i]; q[qt++]=i; };
-      for(let x=0;x<w;x++){ seed(x); seed(N-w+x); } for(let y=0;y<h;y++){ seed(y*w); seed(y*w+w-1); }
-      while(qh<qt){ const p=q[qh++], x=p%w;
-        const tryq=j=>{ if(BG[j]||W[j]) return;
-          const dl=L[j]-rL[p], da=A[j]-rA[p], db=B[j]-rB[p]; if(dl*dl+da*da+db*db>Tc*Tc) return;
-          BG[j]=1; rL[j]=rL[p]+(L[j]-rL[p])*a; rA[j]=rA[p]+(A[j]-rA[p])*a; rB[j]=rB[p]+(B[j]-rB[p])*a; q[qt++]=j; };
-        if(x>0) tryq(p-1); if(x<w-1) tryq(p+1); if(p>=w) tryq(p-w); if(p<N-w) tryq(p+w); }
-      // остатки фона у самой границы (шум, тонкие тени): добираем по близости к цветам края
-      qt=0; for(let i=0;i<N;i++) if(BG[i]) q[qt++]=i; qh=0;
-      const Tn=Tc*.6;
-      while(qh<qt){ const p=q[qh++], x=p%w;
-        const tryq=j=>{ if(BG[j]||G[j]>Tg*2||nearBg(j)>Tn) return; BG[j]=1; q[qt++]=j; };
-        if(x>0) tryq(p-1); if(x<w-1) tryq(p+1); if(p>=w) tryq(p-w); if(p<N-w) tryq(p+w); }
-    }else{
-      // пёстрый фон (пол, ткань): заливаем по сходству с цветами края, без учёта перепадов
-      const R2=Math.max(2,r*3), Ls=blur(L0,w,h,R2), As=blur(A0,w,h,R2), Bs=blur(B0,w,h,R2);
-      const CL2=(()=>{ const P2=[]; for(let y=0;y<h;y+=2) for(let x=0;x<w;x+=2){ if(x>=bw&&x<w-bw&&y>=bw&&y<h-bw) continue; const i=y*w+x; P2.push(Ls[i],As[i],Bs[i]); } return kmeans(new Float32Array(P2),4).filter(k=>k.share>.04); })();
-      const Tm=6+18*tol;
-      const near=i=>{ let m=1e9; for(const k of CL2){ const v=Math.hypot(Ls[i]-k.c[0],As[i]-k.c[1],Bs[i]-k.c[2])-k.sd; if(v<m) m=v; } return m; };
-      const seed=i=>{ if(BG[i]||near(i)>Tm) return; BG[i]=1; q[qt++]=i; };
-      for(let x=0;x<w;x++){ seed(x); seed(N-w+x); } for(let y=0;y<h;y++){ seed(y*w); seed(y*w+w-1); }
-      while(qh<qt){ const p=q[qh++], x=p%w;
-        const tryq=j=>{ if(BG[j]||near(j)>Tm) return; BG[j]=1; q[qt++]=j; };
-        if(x>0) tryq(p-1); if(x<w-1) tryq(p+1); if(p>=w) tryq(p-w); if(p<N-w) tryq(p+w); }
-    }
-
-    // вещь = всё, что не фон; сглаживаем и убираем мусор
-    let F=new Uint8Array(N); for(let i=0;i<N;i++) F[i]=BG[i]?0:1;
-    const mr=busy?Math.max(2,r*2):1;
-    F=morph(morph(F,w,h,mr,false),w,h,mr,true);       // открытие: убрать тонкие хвосты
-    F=morph(morph(F,w,h,mr,true),w,h,mr,false);        // закрытие: залатать щели
-    { const {lab,size}=label(F,w,h,1); let big=0; for(let i=1;i<size.length;i++) big=Math.max(big,size[i]);
-      for(let i=0;i<N;i++) if(F[i] && size[lab[i]]<big*.08) F[i]=0; }
-    // дырки внутри вещи: мелкие залатать, крупные цвета фона оставить дырками
-    { const {lab,size,touch}=label(F,w,h,0);
-      const sum=new Float32Array(size.length);
-      for(let i=0;i<N;i++) if(!F[i] && !touch[lab[i]] && size[lab[i]]>=N*.002) sum[lab[i]]+=nearBg(i);
-      for(let i=0;i<N;i++){ if(F[i]) continue; const l=lab[i]; if(touch[l]) continue;
-        if(size[l]<N*.002 || sum[l]/size[l]>Tc) F[i]=1; } }
-
-    let kept=0; for(let i=0;i<N;i++) kept+=F[i];
-    if(opts.debug){ let b1=0; for(let i=0;i<N;i++) b1+=BG[i]; console.log('DBG busy',busy,'gMed',gMed.toFixed(2),'bg',(b1/N).toFixed(3),'kept',(kept/N).toFixed(3),'CL',JSON.stringify(CL.map(k=>[k.c.map(v=>v.toFixed(1)),k.share.toFixed(2),k.sd.toFixed(1)]))); }
-    const ratio=kept/N;
-    if(ratio>.95) return fail(busy?'Фон слишком пёстрый: снимите вещь на однотонном фоне.':'Не получилось отделить вещь от фона. Попробуйте фото на однотонном фоне.');
-    if(ratio<.03) return fail('Вещь на фото не найдена. Попробуйте уменьшить силу обрезки.');
-
-    // мягкий край (1-2 px) и чистка каймы: цвет у края тянем к цвету изнутри вещи
-    const fa=new Float32Array(N); for(let i=0;i<N;i++) fa[i]=F[i];
-    const al=blur(fa,w,h,1);
-    const inner=morph(F,w,h,2,false), cnt=new Float32Array(N), sr=new Float32Array(N), sg=new Float32Array(N), sb=new Float32Array(N);
-    for(let i=0;i<N;i++){ if(!inner[i]) continue; cnt[i]=1; sr[i]=d[i*4]; sg[i]=d[i*4+1]; sb[i]=d[i*4+2]; }
-    const R=3, bc=blur(cnt,w,h,R), br=blur(sr,w,h,R), bgc=blur(sg,w,h,R), bb=blur(sb,w,h,R);
-    for(let i=0;i<N;i++){
-      const o=i*4, av=al[i];
-      d[o+3]=Math.round(av*255);
-      if(av>0 && !inner[i] && bc[i]>.02){
-        const k=.65; d[o]+= (br[i]/bc[i]-d[o])*k; d[o+1]+=(bgc[i]/bc[i]-d[o+1])*k; d[o+2]+=(bb[i]/bc[i]-d[o+2])*k; }
-    }
-    g.putImageData(img,0,0);
-    return {ok:true,canvas:c,ratio};
-  }
-  return { remove };
-})();
-/* ===== НЕЙРОСЕТЬ ДЛЯ УДАЛЕНИЯ ФОНА =====
-   U2-Net (u2netp, 4.5 МБ, лицензия Apache-2.0) запускается прямо в браузере (onnxruntime-web).
-   Сеть находит вещь, затем край маски уточняется по самому фото (guided filter), чтобы он шёл точно по ткани.
-   MLCUT.mask(canvas) → маска 0..1 (считается один раз), MLCUT.apply(canvas, mask, сила) → вырезанная вещь. */
-const MLCUT=(function(){
-  const ORT='https://cdn.jsdelivr.net/npm/onnxruntime-web@1.17.3/dist/';
-  let loading=null;
-  function loadScript(src){ return new Promise((res,rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=()=>rej(new Error('script')); document.head.appendChild(s); }); }
-  function init(){
-    if(!loading) loading=(async()=>{
-      if(!window.ort) await loadScript(ORT+'ort.min.js');
-      ort.env.wasm.wasmPaths=ORT; ort.env.wasm.numThreads=1;
-      return ort.InferenceSession.create('models/u2netp.onnx',{executionProviders:['wasm']});
-    })().catch(e=>{ loading=null; throw e; });
-    return loading;
-  }
-  function box(src,w,h,r){
-    const tmp=new Float32Array(w*h), out=new Float32Array(w*h);
-    for(let y=0;y<h;y++){ const o=y*w; let s=0,n=0; for(let x=0;x<=Math.min(r,w-1);x++){ s+=src[o+x]; n++; }
-      for(let x=0;x<w;x++){ tmp[o+x]=s/n; const a=x+r+1, b=x-r; if(a<w){ s+=src[o+a]; n++; } if(b>=0){ s-=src[o+b]; n--; } } }
-    for(let x=0;x<w;x++){ let s=0,n=0; for(let y=0;y<=Math.min(r,h-1);y++){ s+=tmp[y*w+x]; n++; }
-      for(let y=0;y<h;y++){ out[y*w+x]=s/n; const a=y+r+1, b=y-r; if(a<h){ s+=tmp[a*w+x]; n++; } if(b>=0){ s-=tmp[b*w+x]; n--; } } }
-    return out;
-  }
-  // уточнение края маски p по яркости фото I
-  function guided(I,p,w,h,r,eps){
-    const N=w*h, Ip=new Float32Array(N), II=new Float32Array(N);
-    for(let i=0;i<N;i++){ Ip[i]=I[i]*p[i]; II[i]=I[i]*I[i]; }
-    const mI=box(I,w,h,r), mp=box(p,w,h,r), mIp=box(Ip,w,h,r), mII=box(II,w,h,r), a=new Float32Array(N), b=new Float32Array(N);
-    for(let i=0;i<N;i++){ const v=mII[i]-mI[i]*mI[i], c=mIp[i]-mI[i]*mp[i]; a[i]=c/(v+eps); b[i]=mp[i]-a[i]*mI[i]; }
-    const ma=box(a,w,h,r), mb=box(b,w,h,r), q=new Float32Array(N);
-    for(let i=0;i<N;i++) q[i]=ma[i]*I[i]+mb[i];
-    return q;
-  }
-  async function mask(canvas){
-    const s=await init(), S=320, w=canvas.width, h=canvas.height, N=w*h;
-    const t=document.createElement('canvas'); t.width=S; t.height=S; const tg=t.getContext('2d'); tg.drawImage(canvas,0,0,S,S);
-    const px=tg.getImageData(0,0,S,S).data; let mx=1; for(let i=0;i<px.length;i+=4) mx=Math.max(mx,px[i],px[i+1],px[i+2]);
-    const M=[.485,.456,.406], D=[.229,.224,.225], inp=new Float32Array(3*S*S);
-    for(let i=0;i<S*S;i++) for(let c=0;c<3;c++) inp[c*S*S+i]=(px[i*4+c]/mx-M[c])/D[c];
-    const feeds={}; feeds[s.inputNames[0]]=new ort.Tensor('float32',inp,[1,3,S,S]);
-    const o=(await s.run(feeds))[s.outputNames[0]].data;
-    let lo=1e9,hi=-1e9; for(const v of o){ if(v<lo)lo=v; if(v>hi)hi=v; }
-    const m=document.createElement('canvas'); m.width=S; m.height=S; const mg=m.getContext('2d'), md=mg.createImageData(S,S);
-    for(let i=0;i<S*S;i++){ const v=Math.round((o[i]-lo)/((hi-lo)||1)*255); md.data[i*4]=md.data[i*4+1]=md.data[i*4+2]=v; md.data[i*4+3]=255; }
-    mg.putImageData(md,0,0);
-    const u=document.createElement('canvas'); u.width=w; u.height=h; const ug=u.getContext('2d'); ug.imageSmoothingQuality='high'; ug.drawImage(m,0,0,w,h);
-    const ud=ug.getImageData(0,0,w,h).data, d=canvas.getContext('2d').getImageData(0,0,w,h).data;
-    const P=new Float32Array(N), I=new Float32Array(N);
-    for(let i=0;i<N;i++){ P[i]=ud[i*4]/255; I[i]=(d[i*4]*.299+d[i*4+1]*.587+d[i*4+2]*.114)/255; }
-    return guided(I,P,w,h,Math.max(2,Math.round(Math.min(w,h)/220)),2e-3);
-  }
-  // сила 0..100: больше - режем смелее (порог маски выше)
-  function apply(canvas,q,tol){
-    const w=canvas.width, h=canvas.height, N=w*h, th=.5+(Math.max(0,Math.min(100,tol))-50)/100*.5;
-    const d=canvas.getContext('2d').getImageData(0,0,w,h).data, A=new Float32Array(N), F=new Uint8Array(N);
-    for(let i=0;i<N;i++){ A[i]=Math.max(0,Math.min(1,(q[i]-th)*2.4+.5)); F[i]=A[i]>.5?1:0; }
-    // убираем мелкие островки фона, оставляем крупные куски (пара обуви - два куска)
-    const lab=new Int32Array(N), st=new Int32Array(N), size=[0];
-    for(let i=0,cur=0;i<N;i++){ if(!F[i]||lab[i]) continue; cur++; let sp=0,c=0; st[sp++]=i; lab[i]=cur;
-      while(sp){ const j=st[--sp], x=j%w; c++;
-        if(x>0&&F[j-1]&&!lab[j-1]){lab[j-1]=cur;st[sp++]=j-1;} if(x<w-1&&F[j+1]&&!lab[j+1]){lab[j+1]=cur;st[sp++]=j+1;}
-        if(j>=w&&F[j-w]&&!lab[j-w]){lab[j-w]=cur;st[sp++]=j-w;} if(j<N-w&&F[j+w]&&!lab[j+w]){lab[j+w]=cur;st[sp++]=j+w;} }
-      size.push(c); }
-    let big=0; for(let i=1;i<size.length;i++) big=Math.max(big,size[i]);
-    // небольшие «дыры» внутри вещи (тёмное нутро обуви на тёмном фоне) заливаем обратно
-    { const G=new Uint8Array(N); for(let i=0;i<N;i++) G[i]=A[i]>=.9?1:0;      // «точно вещь»
-      const hl=new Int32Array(N), hs=[0], ht=[0];
-      for(let i=0,cur=0;i<N;i++){ if(G[i]||hl[i]) continue; cur++; let sp=0,c=0,t=0; st[sp++]=i; hl[i]=cur;
-        while(sp){ const j=st[--sp], x=j%w; c++; if(x===0||x===w-1||j<w||j>=N-w) t=1;
-          if(x>0&&!G[j-1]&&!hl[j-1]){hl[j-1]=cur;st[sp++]=j-1;} if(x<w-1&&!G[j+1]&&!hl[j+1]){hl[j+1]=cur;st[sp++]=j+1;}
-          if(j>=w&&!G[j-w]&&!hl[j-w]){hl[j-w]=cur;st[sp++]=j-w;} if(j<N-w&&!G[j+w]&&!hl[j+w]){hl[j+w]=cur;st[sp++]=j+w;} }
-        hs.push(c); ht.push(t); }
-      const lim=Math.min(N*.015, big*.12);
-      for(let i=0;i<N;i++){ const l=hl[i]; if(l && !ht[l] && hs[l]<lim){ A[i]=1; F[i]=2; } } }
-    const out=document.createElement('canvas'); out.width=w; out.height=h; const og=out.getContext('2d'), oi=og.createImageData(w,h), od=oi.data;
-    let kept=0;
-    for(let i=0;i<N;i++){
-      let a=A[i]; if(lab[i] && size[lab[i]]<big*.08) a=0;
-      if(F[i]===2) a=1;
-      else if(!lab[i] && a>.02){ // полупрозрачный край: оставляем только рядом с крупным куском
-        const x=i%w, nb=[i-1,i+1,i-w,i+w].some(j=>j>=0&&j<N&&lab[j]&&size[lab[j]]>=big*.08&&Math.abs((j%w)-x)<=1); if(!nb) a=0; }
-      od[i*4]=d[i*4]; od[i*4+1]=d[i*4+1]; od[i*4+2]=d[i*4+2]; od[i*4+3]=Math.round(a*255); if(a>.5) kept++;
-    }
-    og.putImageData(oi,0,0);
-    const ratio=kept/N;
-    if(ratio<.02) return {ok:false,canvas:out,ratio,reason:'Вещь на фото не найдена. Попробуйте уменьшить силу обрезки.'};
-    return {ok:true,canvas:out,ratio};
-  }
-  return {init,mask,apply};
-})();
-
-</script>
 <script>
 /* ====================================================================
    PRODUCT DATA - добавляй товары сюда. Поля по ТЗ.
@@ -2112,231 +975,9 @@ const DB = {
 })();
 
 const cutImg = u => typeof u==='string' && u.indexOf('data:')===0 && u.length===524288;   // след старой ошибки: поле обрезало фото ровно на этой длине
-/* Куда надевается вещь на манекене - определяем по категории и названию */
-function fitLayer(p){
-  const t=((p.category||'')+' '+(p.name||'')).toLowerCase();
-  if(/кроссов|кед|ботин|обув|туфл|лофер|сланц/.test(t)) return 'shoes';
-  if(/брюк|джинс|шорт|штан|карго|трико/.test(t)) return 'bottoms';
-  if(/худи|зип|куртк|пальто|бомбер|жилет|пухов|ветровк|кардиган|пиджак/.test(t)) return 'outerwear';
-  if(/футбол|рубаш|свитш|свитер|поло|лонг|майк|джемпер/.test(t)) return 'tops';
-  if(/кепк|шапк|панам|аксесс/.test(t)) return 'accessory';
-  return null;
-}
-/* Куда надевать: выбор админа в карточке товара или автоматически по категории */
-const tryLayerOf = p => p.tryLayer==='none' ? null : (p.tryLayer || fitLayer(p));
-/* Фото, у которых при проверке оказался фон, - на манекен не надеваем */
-const FIT_BAD = new Set();
-function fitVerify(){
-  PRODUCTS.filter(p=>p.tryFit).forEach(p=>{ const u=p.tryOn;
-    FIT.analyze(u).then(a=>{ if(a.ok || FIT_BAD.has(u)) return;
-      FIT_BAD.add(u); PRODUCTS=applyMeta(PRODUCTS);
-      LAYERS_ALL.forEach(l=>{ if(frLook[l] && frLook[l].id===p.id && (p.layer!==l || !p.tryOn)) frLook[l]=null; });
-      try{ renderShop(); renderPanel(); }catch(e){} }); });
-}
-const LAYERS_ALL=['shoes','bottoms','tops','outerwear','accessory'];
-/* Режим примерочной: 'board' - «Собери образ» (вещи раскладываются на одном экране, фото без искажений),
-   'reel' - «Барабан образа»: три ряда (верх, низ, обувь) листаются, «Мне повезёт», «Обложка» для сторис,
-   'rail' - «Вешалка»: вещи висят на плечиках на золотой перекладине, обувь стоит на полке,
-   'ghost' - «невидимый манекен»: голова, кисти и стопы, вещи стоят между ними как есть, без растягивания,
-   'mannequin' - прежний манекен (код сохранён, чтобы вернуть его, поменяйте значение) */
-const TRY_MODE='stack';
-document.documentElement.classList.toggle('try-board', TRY_MODE!=='mannequin');
-/* Фото годится для примерки, если это вырезанная вещь на прозрачном фоне (PNG / WebP) */
-const cutoutImg = u => typeof u==='string' && !cutImg(u) && (/^data:image\/(png|webp)/i.test(u) || /\.(png|webp)(\?|#|$)/i.test(u));
-
-/* ===== «Собери образ»: раскладка вещей на одном экране =====
-   Места зависят от того, что выбрано: верх слева сверху, второй верх рядом, низ под ним, обувь справа снизу. */
-function boardSlots(has){
-  const up=['outerwear','tops'].filter(l=>has[l]), lo=has.bottoms, sh=has.shoes, ac=has.accessory, S={};
-  const low=lo||sh;
-  if(up.length===2){ S.outerwear=low?[2,2,54,48]:[2,8,54,84]; S.tops=low?[46,6,50,42]:[46,12,52,76]; }
-  else if(up.length===1) S[up[0]]=low?[3,3,58,54]:[10,4,80,90];
-  // один верх: он слева сверху, брюки справа во весь рост, обувь слева снизу; два верха: ряд сверху, низ под ними
-  if(lo) S.bottoms = up.length===1 ? [54,14,42,82] : up.length ? [8,48,44,50] : [10,4,52,92];
-  if(sh) S.shoes = up.length===1 ? (lo?[6,66,44,28]:[24,62,52,32]) : up.length||lo ? [56,70,40,26] : [12,22,76,56];
-  if(ac) S.accessory = up.length||lo ? [70,46,26,20] : [24,20,52,56];
-  return S;
-}
-function boardHTML(items){
-  const has={}; items.forEach(p=>has[p.layer]=p); const S=boardSlots(has);
-  const z={tops:2,outerwear:3,bottoms:1,shoes:4,accessory:5};
-  return items.map((p,i)=>{ const r=S[p.layer]; if(!r) return '';
-    return `<figure class="ob-i ${p.boardCut?'cut':'ph'}" style="left:${r[0]}%;top:${r[1]}%;width:${r[2]}%;height:${r[3]}%;z-index:${z[p.layer]||1};--d:${i*60}ms">
-      <img src="${esc(p.tryOn)}" alt="${esc(p.name)}" decoding="async"></figure>`; }).join('');
-}
-/* «Невидимый манекен»: места вещей в координатах манекена 400×600 (x, y, ширина, высота, к какому краю прижать) */
-const GH_BOX={ accessory:[156,10,88,62,'bottom'], outerwear:[98,94,204,250,'top'], tops:[108,96,184,236,'top'],
-  bottoms:[116,262,168,278,'bottom'], shoes:[132,516,136,74,'bottom'] };
-let ghN=0;
-function ghostHTML(items){
-  const has={}; items.forEach(p=>{ if(GH_BOX[p.layer]) has[p.layer]=p; });
-  const z={bottoms:1,shoes:2,tops:3,outerwear:4,accessory:6}, parts=FIT.ghost('gh'+(++ghN), !has.shoes);
-  const tb = has.outerwear && has.tops ? [126,96,148,214,'top'] : null;          // под курткой футболка чуть уже, видна у ворота
-  const figs=Object.values(has).map((p,i)=>{
-    if(p.ghostSrc && p.layer==='tops' && has.outerwear && !has.outerwear.ghostSrc) return '';   // рисунок футболки шире настоящей куртки и торчал бы по бокам
-    if(p.ghostSrc) return `<figure class="ob-i gh-full" style="z-index:${z[p.layer]};--d:${i*60}ms"><img src="${esc(p.ghostSrc)}" alt="${esc(p.name)}"></figure>`;
-    const r=(p.layer==='tops'&&tb)||GH_BOX[p.layer];
-    return `<figure class="ob-i gh-i ${p.boardCut?'cut':'ph'}" style="left:${r[0]/4}%;top:${r[1]/6}%;width:${r[2]/4}%;height:${r[3]/6}%;z-index:${z[p.layer]};--d:${i*60}ms">
-      <img src="${esc(p.tryOn)}" alt="${esc(p.name)}" decoding="async" style="object-position:center ${r[4]}"></figure>`; }).join('');
-  return `<div class="gh">${parts.back}${figs}${parts.front}</div>`;
-}
-/* ===== «Вешалка» ===== */
-const RL_HANGER='<svg class="rl-h" viewBox="0 0 100 40" aria-hidden="true"><path d="M44 9a6 6 0 1 1 6 6v4L94 36H6L50 19"/></svg>';
-function railHTML(items, prev){
-  const by={}; items.forEach(p=>{ if(!by[p.layer]) by[p.layer]=p; });
-  const hang=['outerwear','tops','bottoms'].map(l=>by[l]).filter(Boolean), n=hang.length;
-  const W = n===1 ? 50 : n===2 ? 42 : 31, gap = n>1 ? (92-W*n)/(n-1) : 0, x0 = n===1 ? 25 : 4;
-  const isNew = p => !prev || !prev.has(p.id);
-  let h = '<div class="rl"><i class="rl-bar"></i><i class="rl-shelf"></i>';
-  if(!n) h += [22,41,60].map(x=>`<figure class="rl-i rl-empty" style="left:${x}%;width:18%">${RL_HANGER}</figure>`).join('');
-  hang.forEach((p,i)=>{ h += `<figure class="rl-i${isNew(p)?' new':''}" style="left:${x0+i*(W+gap)}%;width:${W}%;--d:${i*90}ms">${RL_HANGER}
-      <div class="rl-g ${p.boardCut?'cut':'ph'}"><img src="${esc(p.tryOn)}" alt="${esc(p.name)}" decoding="async"></div></figure>`; });
-  const low=['shoes','accessory'].map(l=>by[l]).filter(Boolean);
-  low.forEach((p,i)=>{ const w = low.length===1 ? 50 : 40, x = low.length===1 ? 25 : 8+i*46;
-    h += `<figure class="rl-s ${p.boardCut?'cut':'ph'}${isNew(p)?' new':''}" style="left:${x}%;width:${w}%"><img src="${esc(p.tryOn)}" alt="${esc(p.name)}" decoding="async"></figure>`; });
-  return h+'</div>';
-}
-/* прозрачные края на фото: вещь подтягиваем к плечикам, обувь ставим ровно на полку */
-const RL_EDGE=new Map();
-function railEdge(img){
-  const u=img.currentSrc||img.src; if(RL_EDGE.has(u)) return Promise.resolve(RL_EDGE.get(u));
-  return new Promise(res=>{ const done=()=>{ let e=[0,0];
-    try{ const k=Math.min(1,96/Math.max(img.naturalWidth,img.naturalHeight)), w=Math.max(1,Math.round(img.naturalWidth*k)), h=Math.max(1,Math.round(img.naturalHeight*k));
-      const c=document.createElement('canvas'); c.width=w; c.height=h; const g=c.getContext('2d'); g.drawImage(img,0,0,w,h); const d=g.getImageData(0,0,w,h).data;
-      const row=y=>{ for(let x=0;x<w;x++) if(d[(y*w+x)*4+3]>24) return true; return false; };
-      let t=0; while(t<h-1 && !row(t)) t++; let b=h-1; while(b>t && !row(b)) b--;
-      e=[t/h, (h-1-b)/h]; }catch(err){}
-    RL_EDGE.set(u,e); res(e); };
-    if(img.complete && img.naturalWidth) done(); else { img.addEventListener('load',done,{once:true}); img.addEventListener('error',()=>res([0,0]),{once:true}); } });
-}
-function railFix(root){
-  if(!root) return;
-  root.querySelectorAll('.rl-g.cut img, .rl-s.cut img').forEach(img=>railEdge(img).then(([t,b])=>{
-    const box=img.getBoundingClientRect(); if(!box.height || !img.naturalHeight) return;
-    const sc=Math.min(box.width/img.naturalWidth, box.height/img.naturalHeight), H=img.naturalHeight*sc;
-    const top=img.closest('.rl-s') ? 0 : 1;
-    img.style.transform = top ? `translateY(${-Math.round(t*H)}px)` : `translateY(${Math.round(b*H)}px)`; }));
-}
-/* ===== «Образ в полный рост» =====
-   Вещи стоят одной колонной, как на человеке: верх, под ним брюки, внизу обувь. Фото не растягиваются:
-   у каждой вещи свой примерный размер в жизни (в метрах), прозрачные края фото обрезаются. */
-const STK={ outerwear:{h:.76,w:1.0,z:3}, tops:{h:.70,w:.94,z:2}, bottoms:{h:1.02,w:.6,z:1}, shoes:{h:.15,w:.36,z:4}, accessory:{h:.26,w:.32,z:5} };
-const STK_GROUP={ outerwear:'up', tops:'up', bottoms:'lo', shoes:'sh' };
-const STK_BOX=new Map();
-function stkMeasure(img, full){                       // границы вещи на фото без прозрачных краёв, доли 0..1; a - пропорции вещи
-  const nw=img.naturalWidth||1, nh=img.naturalHeight||1, u=(img.currentSrc||img.src)+(full?'#f':'');
-  if(STK_BOX.has(u)) return STK_BOX.get(u);
-  let r={x0:0,y0:0,x1:1,y1:1,a:nw/nh};
-  if(!full) try{ const k=Math.min(1,160/Math.max(nw,nh)), w=Math.max(1,Math.round(nw*k)), h=Math.max(1,Math.round(nh*k));
-    const c=document.createElement('canvas'); c.width=w; c.height=h; const g=c.getContext('2d',{willReadFrequently:true}); g.drawImage(img,0,0,w,h); const d=g.getImageData(0,0,w,h).data;
-    let x0=w,y0=h,x1=-1,y1=-1; for(let y=0;y<h;y++) for(let x=0;x<w;x++) if(d[(y*w+x)*4+3]>24){ if(x<x0)x0=x; if(x>x1)x1=x; if(y<y0)y0=y; if(y>y1)y1=y; }
-    if(x1>x0 && y1>y0){ r={x0:x0/w,y0:y0/h,x1:(x1+1)/w,y1:(y1+1)/h}; r.a=(r.x1-r.x0)*nw/((r.y1-r.y0)*nh); } }catch(e){}
-  STK_BOX.set(u,r); return r;
-}
-function stkBox(img, full){
-  return new Promise(res=>{ const done=()=>res(stkMeasure(img,full));
-    if(img.complete && img.naturalWidth) done(); else { img.addEventListener('load',done,{once:true}); img.addEventListener('error',()=>res({x0:0,y0:0,x1:1,y1:1,a:.8}),{once:true}); } });
-}
-/* места вещей в метрах: x - центр, y - верх. Футболка под курткой чуть меньше и видна у ворота,
-   пояс брюк уходит под низ верха, обувь стоит поверх низа штанин. Фото с фоном ставятся без нахлёста. */
-function stkLayout(list){
-  const by={}; list.forEach(o=>{ if(STK[o.layer] && !by[o.layer]) by[o.layer]=o; });
-  const size=o=>{ const d=STK[o.layer]; let h=d.h, w=h*o.a;
-    if(o.layer==='shoes'){ w=d.w; h=w/o.a; if(h>d.h*1.6){ h=d.h*1.6; w=h*o.a; } }
-    if(w>d.w){ w=d.w; h=w/o.a; } return {w,h}; };
-  const P={}, up=by.outerwear||by.tops; let upEnd=0, end=0;
-  if(up){ const s=size(up); P[up.layer]={...s,x:0,y:0}; upEnd=end=s.h;
-    if(by.outerwear && by.tops){ const t=size(by.tops), k=Math.min(.92, P.outerwear.w*.8/t.w); P.tops={w:t.w*k,h:t.h*k,x:0,y:-.02}; } }
-  if(by.bottoms){ const s=size(by.bottoms), ov = !up ? 0 : (up.ph||by.bottoms.ph) ? -.03 : Math.min(.17, upEnd*.24);
-    P.bottoms={...s,x:0,y:upEnd-ov}; end=P.bottoms.y+s.h; }
-  if(by.shoes){ const s=size(by.shoes), o=by.shoes;
-    const y = by.bottoms ? ((o.ph||by.bottoms.ph) ? end+.03 : end-s.h*.55) : up ? end+.12 : 0;
-    P.shoes={...s,x:0,y}; }
-  if(by.accessory){ const s=size(by.accessory), ref=P.outerwear||P.tops; P.accessory={...s, x: ref ? ref.w/2+s.w/2+.04 : 0, y: ref ? .02 : 0}; }
-  return P;
-}
-function stkBounds(P){ let a=1e9,b=-1e9,c=1e9,d=-1e9; Object.values(P).forEach(r=>{ a=Math.min(a,r.x-r.w/2); b=Math.max(b,r.x+r.w/2); c=Math.min(c,r.y); d=Math.max(d,r.y+r.h); }); return {x0:a,x1:b,y0:c,y1:d}; }
-const STK_VIRT={ tops:.82, bottoms:.42, shoes:2.4 };   // пустые места на «полке»: пропорции условной вещи
-function stackHTML(items, prev, ctrl){
-  const by={}; items.forEach(p=>{ if(STK[p.layer] && !by[p.layer]) by[p.layer]=p; });
-  const isNew = p => !prev || !prev.has(p.id);
-  let h=`<div class="stk${ctrl?' ctrl':''}">`+Object.values(by).map((p,i)=>`<figure class="stk-i ${p.boardCut?'cut':'ph'}${isNew(p)?' new':''}" data-l="${p.layer}" style="z-index:${STK[p.layer].z};--d:${i*70}ms"><img src="${esc(p.tryOn)}" alt="${esc(p.name)}" decoding="async"></figure>`).join('');
-  if(ctrl){
-    const arrow=d=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d<0?'M15 5l-7 7 7 7':'M9 5l7 7-7 7'}"/></svg>`;
-    REEL_ROWS.forEach(([g,t,none,ls])=>{ const n=PRODUCTS.filter(p=>p.tryOn && ls.includes(p.layer) && !soldOut(p)).length, dis=n?'':' disabled';
-      h+=`<div class="stk-v" data-g="${g}" hidden><span>${t}</span></div>
-        <button class="stk-a l" type="button" data-g="${g}" aria-label="${t}: предыдущая вещь" onclick="stkStep('${g}',-1)"${dis}>${arrow(-1)}</button>
-        <button class="stk-a r" type="button" data-g="${g}" aria-label="${t}: следующая вещь" onclick="stkStep('${g}',1)"${dis}>${arrow(1)}</button>`; });
-  }
-  return h+'</div>';
-}
-function stackFix(root){
-  if(!root) return;
-  const list = root.classList && root.classList.contains('stk') ? [root] : [...root.querySelectorAll('.stk')];
-  list.forEach(st=>{ const figs=[...st.querySelectorAll('.stk-i')];
-    Promise.all(figs.map(f=>stkBox(f.querySelector('img'), f.classList.contains('ph')))).then(bx=>{ if(!st.isConnected) return; st._bx=bx; stkPlace(st); });
-    if(!st._ro && window.ResizeObserver){ st._ro=new ResizeObserver(()=>{ if(st._bx) stkPlace(st); }); st._ro.observe(st); } });
-}
-function stkPlace(st){
-  const W=st.clientWidth, H=st.clientHeight; if(!W || !H || !st._bx) return;
-  const figs=[...st.querySelectorAll('.stk-i')], arrows=st.querySelector('.stk-a'), ctrl=!!(arrows && getComputedStyle(arrows).display!=='none');
-  const list=figs.map((f,i)=>({layer:f.dataset.l, a:st._bx[i].a, ph:f.classList.contains('ph'), f, b:st._bx[i]}));
-  const have=new Set(list.map(o=>STK_GROUP[o.layer]).filter(Boolean));
-  if(ctrl){ if(!have.has('up')) list.push({layer:'tops',a:STK_VIRT.tops,v:'up'}); if(!have.has('lo')) list.push({layer:'bottoms',a:STK_VIRT.bottoms,v:'lo'}); if(!have.has('sh')) list.push({layer:'shoes',a:STK_VIRT.shoes,v:'sh'}); }
-  if(!list.length) return;
-  const P=stkLayout(list), B=stkBounds(P), padX=ctrl?44:10, padY=Math.max(6,H*.04);
-  const k=Math.min((W-padX*2)/(B.x1-B.x0), (H-padY*2)/(B.y1-B.y0)), ox=W/2-k*(B.x0+B.x1)/2, oy=H/2-k*(B.y0+B.y1)/2;
-  const px=r=>({l:ox+(r.x-r.w/2)*k, t:oy+r.y*k, w:r.w*k, h:r.h*k});
-  list.forEach(o=>{ const r=P[o.layer]; if(!r) return; const q=px(r);
-    if(o.v){ const v=st.querySelector(`.stk-v[data-g="${o.v}"]`); if(v){ v.hidden=false; Object.assign(v.style,{left:q.l+'px',top:q.t+'px',width:q.w+'px',height:q.h+'px'}); } return; }
-    Object.assign(o.f.style,{left:q.l+'px',top:q.t+'px',width:q.w+'px',height:q.h+'px'});
-    const im=o.f.querySelector('img');
-    if(!o.ph){ const iw=q.w/(o.b.x1-o.b.x0), ih=q.h/(o.b.y1-o.b.y0); Object.assign(im.style,{width:iw+'px',height:ih+'px',left:(-o.b.x0*iw)+'px',top:(-o.b.y0*ih)+'px'}); }
-    o.f.classList.add('on'); });
-  st.querySelectorAll('.stk-v').forEach(v=>{ if(!list.some(o=>o.v===v.dataset.g)) v.hidden=true; });
-  // стрелки - на уровне своей вещи (или пустого места)
-  const mid={ up:P.outerwear||P.tops, lo:P.bottoms, sh:P.shoes };
-  st.querySelectorAll('.stk-a').forEach(a=>{ const r=mid[a.dataset.g]; a.hidden=!r; if(r) a.style.top=(oy+(r.y+r.h/2)*k)+'px'; });
-}
-function stkStep(g,d){
-  const ls=reelRow(g)[3], ids=['',...PRODUCTS.filter(p=>p.tryOn && ls.includes(p.layer) && !soldOut(p)).map(p=>p.id)];
-  const i=Math.max(0,ids.indexOf(reelSel(g))), id=ids[(i+d+ids.length)%ids.length];
-  ls.forEach(l=>frLook[l]=null);
-  if(id){ const p=frFind(id); frLook[p.layer]={id, size:firstSize(p)}; }
-  renderPanel(); renderShop();
-}
-function stkLucky(){
-  REEL_ROWS.forEach(([g,,,ls])=>{ const all=PRODUCTS.filter(p=>p.tryOn && ls.includes(p.layer) && !soldOut(p)); if(!all.length) return;
-    const cur=reelSel(g); let p; do{ p=all[Math.floor(Math.random()*all.length)]; }while(all.length>1 && p.id===cur);
-    ls.forEach(l=>frLook[l]=null); frLook[p.layer]={id:p.id, size:firstSize(p)}; });
-  renderPanel(); renderShop();
-}
-/* то же для обложки: рисуем колонну на холсте */
-function stkDraw(g,items,ims,X,Y,AW,AH){
-  const list=items.map((p,i)=>{ const im=ims[i]; if(!im || !STK[p.layer]) return null; const b=stkMeasure(im,!p.boardCut); return {layer:p.layer,a:b.a,ph:!p.boardCut,im,b}; }).filter(Boolean);
-  if(!list.length) return;
-  const P=stkLayout(list), B=stkBounds(P), k=Math.min(AW/(B.x1-B.x0), AH/(B.y1-B.y0)), ox=X+AW/2-k*(B.x0+B.x1)/2, oy=Y+AH/2-k*(B.y0+B.y1)/2;
-  const sp=g.createRadialGradient(X+AW/2,Y+AH*.48,20,X+AW/2,Y+AH*.48,AW*.62); sp.addColorStop(0,'rgba(150,160,180,.30)'); sp.addColorStop(1,'rgba(150,160,180,0)'); g.fillStyle=sp; g.fillRect(X-60,Y-40,AW+120,AH+80);   // светлое пятно за вещами, как в примерочной
-  list.sort((a,b)=>STK[a.layer].z-STK[b.layer].z).forEach(o=>{ const r=P[o.layer]; if(!r) return; const nw=o.im.naturalWidth, nh=o.im.naturalHeight;
-    const src=[o.b.x0*nw, o.b.y0*nh, (o.b.x1-o.b.x0)*nw, (o.b.y1-o.b.y0)*nh], dst=[ox+(r.x-r.w/2)*k, oy+r.y*k, r.w*k, r.h*k];
-    // вещь сначала на отдельный холст: рисунок-SVG с тенью и обрезкой краёв браузер иначе не рисует
-    const t=document.createElement('canvas'); t.width=Math.max(1,Math.round(dst[2])); t.height=Math.max(1,Math.round(dst[3])); const fw=t.width/(o.b.x1-o.b.x0), fh=t.height/(o.b.y1-o.b.y0); t.getContext('2d').drawImage(o.im,-o.b.x0*fw,-o.b.y0*fh,fw,fh);
-    g.save(); g.shadowColor='rgba(0,0,0,.5)'; g.shadowBlur=36; g.shadowOffsetY=18; g.drawImage(t,dst[0],dst[1],dst[2],dst[3]); g.restore();
-    if(!o.ph){ g.save(); g.shadowColor='rgba(226,232,242,.55)'; g.shadowBlur=5; g.drawImage(t,dst[0],dst[1],dst[2],dst[3]); g.restore(); } });   // светлый контур: тёмная вещь не сливается с фоном
-}
-const outfitHTML = (items,prev) => TRY_MODE==='stack' ? stackHTML(items,prev,false) : (TRY_MODE==='rail'||TRY_MODE==='reel') ? railHTML(items,prev) : TRY_MODE==='ghost' ? ghostHTML(items) : boardHTML(items);
 /* Накладываем слои примерки и характеристики на загруженные товары */
 function applyMeta(list){
   list.forEach(p=>{
-    p.layer=null; p.tryOn=null; p.tryThumb=null; p.tryFit=false;
-    const own=(p.tryImg && cutoutImg(p.tryImg)) ? p.tryImg : (p.images||[])[0], fl=tryLayerOf(p), dm=p.tryLayer==='none'?null:FIT.demo(p.id);
-    if(TRY_MODE!=='mannequin'){                                                      // «Собери образ»: подходит любое фото товара
-      const img=(p.images||[])[0], ph=img && img!==PLACEHOLDER && !EXT_DEMO.test(img), lay=fl||(dm&&dm.layer)||null;
-      const src = cutoutImg(own) ? own : ph ? img : dm ? dm.thumb : null;
-      if(lay && src){ p.layer=lay; p.tryOn=src; p.tryThumb=src; p.boardCut=!!(cutoutImg(own)||(!ph&&dm)); p.ghostSrc=(!cutoutImg(own)&&!ph&&dm)?dm.src:null; }   // ghostSrc: рисунок-образец уже нарисован по фигуре
-    }
-    else if(fl && cutoutImg(own) && !FIT_BAD.has(own)){ p.layer=fl; p.tryOn=own; p.tryThumb=own; p.tryFit=true; }      // своё фото вещи на прозрачном фоне
-    else if(dm){ p.layer=dm.layer; p.tryOn=dm.src; p.tryThumb=dm.thumb; p.tryFit=false; }                       // встроенный рисунок-демо
     if(!p.specs) p.specs = DEFAULT_SPECS[p.id] ? clone(DEFAULT_SPECS[p.id]) : [];
     if(!Array.isArray(p.images)) p.images=[];
     p.images=p.images.map(u=>(!u||EXT_DEMO.test(u))?'':u);
@@ -2358,7 +999,6 @@ function loadData(){
   PRICE_MAX = Math.ceil(mx/20)*20;
   // фильтр цены стоял на максимуме - двигаем его вместе с новым максимумом, иначе более дорогой товар скрывался
   try{ if(filters.price>=was || filters.price>PRICE_MAX) filters.price=PRICE_MAX; }catch(e){}
-  setTimeout(fitVerify,600);      // проверяем свои фото для примерки (нет ли у них фона)
   try{ syncSaved(); }catch(e){}
 }
 loadData();
@@ -2381,7 +1021,6 @@ function syncSaved(){
 let gridCols = 4;
 let filters = { cats:new Set(), sizes:new Set(), colors:new Set(), price:PRICE_MAX };
 let viewMode = 'all'; // all | new | sale
-let frLook = { tops:null, outerwear:null, bottoms:null, shoes:null, accessory:null }; // примерочная
 const $ = s=>document.querySelector(s);
 const eur = n=>{ const c=STORE.currency||'₽', v=Number(n||0).toLocaleString('ru-RU'); return c==='₽' ? v+' ₽' : c+v; };
 const plu = (n,a,b,c)=>{ const m=Math.abs(n)%100, d=m%10; if(m>10&&m<20) return c; if(d>1&&d<5) return b; if(d===1) return a; return c; };
@@ -2421,7 +1060,6 @@ function cardHTML(p){
         ${isAdmin()?`<button class="adm" onclick="event.stopPropagation();editProduct('${p.id}')" aria-label="Редактировать" title="Редактировать"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M13 7l4 4"/></svg></button>
         <button class="adm" onclick="event.stopPropagation();askDeleteProduct('${p.id}')" aria-label="Удалить" title="Удалить"><svg viewBox="0 0 24 24"><path d="M5 7h14M10 7V5h4v2M7 7l1 13h8l1-13"/></svg></button>`:''}
         <button class="wish${onw}" onclick="event.stopPropagation();toggleWish('${p.id}')" aria-label="В избранное"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg></button>
-        ${p.tryOn?`<button class="tryon${(frLook&&frLook[p.layer]&&frLook[p.layer].id===p.id)?' on':''}" onclick="event.stopPropagation();frWear('${p.id}')" aria-label="Примерить"><svg viewBox="0 0 24 24"><path d="M12 4.2a1.7 1.7 0 1 0 1.2 2.9l-1.2.9L4 13.6a1.3 1.3 0 0 0 .8 2.3h14.4a1.3 1.3 0 0 0 .8-2.3L12 8"/></svg></button>`:''}
       </div>
       <img class="img1" src="${p.images[0]}" alt="${esc(p.name)}" loading="lazy">
       <img class="img2" src="${p.images[1]}" alt="" loading="lazy">
@@ -2618,8 +1256,7 @@ function renderProduct(){
       <div class="pv-block"><div class="l">Цвет: ${colorOn(p,pvState.color)?pvState.color:'нет в наличии'}</div><div class="pv-colors">${colors}</div></div>
       <div class="pv-block"><div class="l">Размер <span class="sizeguide" onclick="openInfo('sizes')">Таблица размеров</span></div><div class="pv-sizes">${sizes}</div></div>
       <div class="pv-cta">
-        ${soldOut(p)?`<button class="btn block" disabled style="opacity:.5;cursor:not-allowed">Нет в наличии</button>`:`<button class="btn solid block" onclick="pvAdd(false)">В корзину</button>
-        <button class="btn amber block" onclick="pvAdd(true)">Купить сейчас</button>`}
+        ${soldOut(p)?`<button class="btn block" disabled style="opacity:.5;cursor:not-allowed">Нет в наличии</button>`:`<button class="btn solid block" onclick="pvAdd()">В корзину</button>`}
       </div>
       ${specsHTML}
       <div class="assure">
@@ -2633,7 +1270,7 @@ function renderProduct(){
 function pvSetImg(i){ pvState.imgIndex=i; const im=$('#gmainImg'); im.style.opacity=0; setTimeout(()=>{ im.src=PRODUCTS.find(x=>x.id===pvState.id).images[i]; im.style.opacity=1; },180); document.querySelectorAll('.thumbs img').forEach((t,ti)=>t.classList.toggle('on',ti===i)); }
 function pvSetColor(c){ const p=PRODUCTS.find(x=>x.id===pvState.id); if(p&&!colorOn(p,c)) return; pvState.color=c; renderProduct(); }
 function pvSetSize(s){ const p=PRODUCTS.find(x=>x.id===pvState.id); if(p&&!sizeOn(p,s)) return; pvState.size=s; renderProduct(); }
-function pvAdd(buy){ if(!pvState.size){ toast('Выберите размер'); return; } addToCart(pvState.id,pvState.size,pvState.color,1); if(buy){ closeProduct(); openCart(); } }
+function pvAdd(){ if(!pvState.size){ toast('Выберите размер'); return; } addToCart(pvState.id,pvState.size,pvState.color,1); }
 
 /* ===== SEARCH ===== */
 function openSearch(){ $('#searchOv').classList.add('open'); document.body.classList.add('lock'); setTimeout(()=>$('#searchInput').focus(),120); }
@@ -2861,9 +1498,9 @@ function editProduct(id){
   const szChk = ALLSIZES.map(s=>{ const on=(p.sizes||[]).includes(s), out=on&&p.stock&&(s in p.stock)&&p.stock[s]<=0; return `<span class="chk${out?' out':on?' on':''}" data-sz="${s}" onclick="chk3(this)">${s}</span>`; }).join('');
   const specsText = (p.specs||[]).map(s=>`${s.k}: ${s.v}`).join('\n');
   $('#formBody').innerHTML = `
-    <div class="fld"><label>Название</label><input class="inp" id="f_name" value="${esc(p.name)}" onchange="fitEdRefresh()"></div>
+    <div class="fld"><label>Название</label><input class="inp" id="f_name" value="${esc(p.name)}"></div>
     <div class="fld-row">
-      <div class="fld"><label>Категория</label><select class="inp" id="f_cat" onchange="fitEdRefresh()">${catOpts}</select></div>
+      <div class="fld"><label>Категория</label><select class="inp" id="f_cat">${catOpts}</select></div>
       <div class="fld"><label>Цена (${esc(STORE.currency)})</label><input class="inp" id="f_price" type="number" min="0" value="${p.price||0}"></div>
     </div>
     <div class="fld-row">
@@ -2878,74 +1515,16 @@ function editProduct(id){
     <div class="fld"><label>Характеристики (каждая с новой строки: «Название: значение»)</label><textarea class="inp" id="f_specs" placeholder="Материал: 100% хлопок\nКрой: свободный">${esc(specsText)}</textarea></div>
     <div class="fld"><label>Цвета</label><div class="chkwrap" id="f_colors">${colChk}</div><span class="chk-hint">Нажатие: <b>есть</b> (выделено), ещё раз: <b>закончился</b> (серый, покупатель видит, но выбрать не может), ещё раз: убрать из карточки.</span></div>
     <div class="fld"><label>Размеры</label><div class="chkwrap" id="f_sizes">${szChk}</div><span class="chk-hint">Нажатие: <b>есть</b> (выделено), ещё раз: <b>закончился</b> (серый, покупатель видит, но выбрать не может), ещё раз: убрать из карточки.</span></div>
-    <div class="fld"><label>Фото 1 (главное) - ссылка</label><input class="inp" id="f_img1" value="${esc(imgField('f_img1',p.images[0]===PLACEHOLDER?'':p.images[0]))}" placeholder="https://..." onchange="fitEdRefresh()">
+    <div class="fld"><label>Фото 1 (главное) - ссылка</label><input class="inp" id="f_img1" value="${esc(imgField('f_img1',p.images[0]===PLACEHOLDER?'':p.images[0]))}" placeholder="https://...">
       <label class="filepick" style="margin-top:9px"><input type="file" accept="image/*" hidden onchange="pickImg(this,'f_img1')">Загрузить фото</label>
       <div class="cut-box" id="cut_f_img1"></div></div>
-    <div class="fld"><label>Фото 2 (показывается при наведении) - ссылка</label><input class="inp" id="f_img2" value="${esc(imgField('f_img2',p.images[1]))}" placeholder="https://..." onchange="cutIdle2()">
+    <div class="fld"><label>Фото 2 (показывается при наведении) - ссылка</label><input class="inp" id="f_img2" value="${esc(imgField('f_img2',p.images[1]))}" placeholder="https://...">
       <label class="filepick" style="margin-top:9px"><input type="file" accept="image/*" hidden onchange="pickImg(this,'f_img2')">Загрузить фото</label>
       <div class="cut-box" id="cut_f_img2"></div></div>
-    ${fitEdHTML(p)}`;
-  TRY_IMG = p.tryImg || ''; delete CUT_SRC.f_img1;
-  delete CUT_SRC.f_img2; fitEdRefresh(); cutIdle(); cutIdle2();
+    `;
   $('#formSave').textContent='Сохранить';
   $('#formSave').onclick=saveProductForm;
   $('#formModal').classList.add('open'); document.body.classList.add('lock');
-}
-/* ===== Примерка в карточке товара: куда надевать + ручная подгонка на манекене ===== */
-const FE_SL = [ ['s','Размер',50,170,100,'%'], ['y','Выше / ниже',-90,90,0,''], ['x','Левее / правее',-70,70,0,''], ['t','Обрезать сверху',0,60,0,'%'], ['b','Обрезать снизу',0,60,0,'%'], ['w','Обрезать по бокам',0,35,0,'%'] ];
-function fitEdHTML(p){
-  const f=p.fit||{}, L=[['','Автоматически (по категории)'],['tops','Верх - футболка, рубашка, свитшот'],['outerwear','Верхняя одежда - худи, куртка, пальто'],['bottoms','Низ - брюки, джинсы, шорты'],['shoes','Обувь'],['accessory','Головной убор'],['none','Не показывать в примерочной']];
-  const val=k=> k==='s' ? Math.round((+f.s||1)*100) : 'tbw'.includes(k) ? Math.round((+f[k]||0)*100) : Math.round(+f[k]||0);
-  return `<div class="fld fe${TRY_MODE!=='mannequin'?' board':''}" id="fitEd"><label>${TRY_MODE!=='mannequin'?'Примерочная: куда положить вещь в образе':'Примерочная: как вещь сидит на манекене'}</label>
-    <div class="fe-wrap">
-      <div class="fp-stage fe-stage"><div class="fp-fig" id="feFig">${FIT.figHTML('fe')}</div></div>
-      <div class="fe-ctl">
-        <select class="inp" id="f_layer" onchange="fitEdRefresh()">${L.map(([v,t])=>`<option value="${v}"${(p.tryLayer||'')===v?' selected':''}>${t}</option>`).join('')}</select>
-        <select class="inp" id="f_pair" onchange="fitEdRefresh()" style="display:none">${[['','Обувь на фото: определить самому'],['pair','На фото пара: левая и правая'],['one','На фото одна: показать на обеих ногах']].map(([v,t])=>`<option value="${v}"${(f.pair||'')===v?' selected':''}>${t}</option>`).join('')}</select>
-        ${FE_SL.map(([k,t,mn,mx,d,u])=>`<label class="fe-r"><span>${t}<b id="fe_${k}_v"></b></span><input type="range" id="fe_${k}" min="${mn}" max="${mx}" value="${val(k)}" data-u="${u}"${k==='t'&&f.t==null?' data-auto="1"':''} oninput="${k==='t'?'this.dataset.auto=\'\';':''}fitEdRefresh()"></label>`).join('')}
-        <button type="button" class="adm-mini" onclick="fitEdReset()">Подогнать автоматически</button>
-        <div class="fe-msg" id="feMsg"></div>
-      </div>
-    </div></div>`;
-}
-function fitEdValues(){
-  if(!$('#fe_s')) return null;
-  const g=k=>+$('#fe_'+k).value, f={};
-  if(g('s')!==100) f.s=g('s')/100;
-  if(g('x')) f.x=g('x'); if(g('y')) f.y=g('y'); if(g('b')) f.b=g('b')/100; if(g('w')) f.w=g('w')/100;
-  if(!$('#fe_t').dataset.auto) f.t=g('t')/100;
-  const pr=$('#f_pair'); if(pr && pr.value && pr.style.display!=='none') f.pair=pr.value;
-  return Object.keys(f).length ? f : null;
-}
-function fitEdReset(){
-  FE_SL.forEach(([k,,,,d])=>{ $('#fe_'+k).value=d; }); $('#fe_t').dataset.auto='1'; fitEdRefresh();
-}
-function fitEdRefresh(){
-  if(!$('#fitEd')) return;
-  FE_SL.forEach(([k])=>{ const el=$('#fe_'+k); $('#fe_'+k+'_v').textContent=' '+el.value+el.dataset.u; });
-  const sel=$('#f_layer').value, img=TRY_IMG||imgVal('f_img1');
-  const layer = sel==='none' ? null : (sel || fitLayer({category:$('#f_cat').value, name:$('#f_name').value}));
-  const dm = sel==='none' ? null : FIT.demo(editingId);
-  const pr=$('#f_pair'); if(pr) pr.style.display = layer==='shoes' ? '' : 'none';
-  const msg=t=>{ $('#feMsg').innerHTML=t; };
-  const lock=on=>FE_SL.forEach(([k])=>$('#fe_'+k).disabled=on);
-  LAYERS_ALL.forEach(l=>FIT.off($('#fe-'+l)));
-  if(sel==='none'){ lock(true); msg('Вещь не будет надеваться на манекен.'); return; }
-  if(!layer){ lock(true); msg('По категории не понять, куда надевать вещь. Выберите вариант в списке выше.'); return; }
-  if(!img || !cutoutImg(img)){
-    lock(true);
-    if(dm){ FIT.plain($('#fe-'+dm.layer),dm.src); msg('Сейчас в примерочной рисунок-образец. Загрузите главное фото вещи или нажмите «Подготовить фото для примерочной» выше: сайт сделает копию без фона и наденет её.'); }
-    else msg('Загрузите главное фото вещи или нажмите «Подготовить фото для примерочной» выше: сайт сам сделает копию без фона.');
-    return;
-  }
-  lock(false); msg('Подгоняем…');
-  const fit=fitEdValues()||{};
-  FIT.wear($('#fe-'+layer),img,layer,fit).then(r=>{
-    if(!$('#fitEd')) return;
-    if(!r){ lock(true); msg('Фон с этого фото не убрался. Поправьте копию для примерочной выше (сила обрезки или кисть) или загрузите другое фото.'); return; }
-    if($('#fe_t').dataset.auto){ $('#fe_t').value=Math.round(r.auto*100); $('#fe_t_v').textContent=' '+$('#fe_t').value+'%'; }
-    msg('Двигайте ползунки, пока вещь не сядет ровно. Если на фото видно лицо, ноги или соседних людей - срежьте их ползунками «Обрезать».');
-  });
 }
 /* Загруженное фото лежит в IMG_BUF, а не в текстовом поле: поле обрезает длинный текст,
    и большое фото сохранялось наполовину. В поле показываем только пометку. */
@@ -2976,115 +1555,12 @@ function pickImg(input,targetId){
       if(alpha && out.indexOf('data:image/webp')!==0) out=c.toDataURL('image/png');
       if(out.length>r.result.length && r.result.length<1500000) out=r.result;   // маленький файл оставляем как есть
       IMG_BUF[targetId]=out; $('#'+targetId).value=IMG_MARK;
-      if(targetId==='f_img1'){ CUT_SRC.f_img1={canvas:c, orig:out, tol:50, off:false, card:false}; cutApply('f_img1'); return; }
-      if(targetId==='f_img2'){ CUT_SRC.f_img2={canvas:c, orig:out, tol:50, off:false}; cutApply('f_img2'); return; }
       toast('Фото загружено');
     };
     im.src=r.result;
   };
   r.readAsDataURL(file); input.value='';
 }
-/* ===== Фото для примерочной: копия главного фото без фона =====
-   В карточке товара остаётся загруженное фото как есть. Для примерочной нейросеть сама делает копию без фона
-   (без интернета работает запасной способ), и её примерочная сажает по фигуре манекена.
-   Админ видит копию на «шахматке», может поменять силу обрезки, подправить кистью или не использовать её. */
-const CUT_SRC={};
-let TRY_IMG='';                                          // копия без фона для примерочной (поле товара tryImg)
-function setImg(id,v){ if(String(v).indexOf('data:')===0){ IMG_BUF[id]=v; $('#'+id).value=IMG_MARK; } else { delete IMG_BUF[id]; $('#'+id).value=v||''; } }
-const setImg1=v=>setImg('f_img1',v);
-/* фото 2: фон убирается прямо в карточке (как у фото 1 по галочке) */
-function cutIdle2(){
-  const box=$('#cut_f_img2'), v=imgVal('f_img2'); if(!box) return;
-  box.innerHTML = v && !cutoutImg(v) ? `<div class="cut-row"><button type="button" class="adm-mini" onclick="cutFromCurrent('f_img2')">Убрать фон с фото 2</button></div>` : '';
-}
-/* без новой загрузки: показываем, что есть, и даём сделать копию из текущего главного фото */
-function cutIdle(){
-  const box=$('#cut_f_img1'); if(!box) return;
-  box.innerHTML = TRY_IMG
-    ? `<div class="cut-h">Для примерочной</div><div class="cut-prev"><img src="${esc(TRY_IMG)}" alt="Копия без фона"></div>
-       <div class="cut-msg">Копия без фона для примерочной. В карточке показывается главное фото.</div>
-       <div class="cut-row"><button type="button" class="adm-mini" onclick="cutFromCurrent()">Сделать заново из фото 1</button>
-       <button type="button" class="adm-mini" onclick="TRY_IMG='';cutIdle();fitEdRefresh()">Не использовать</button></div>`
-    : (imgVal('f_img1') && !cutoutImg(imgVal('f_img1')) ? `<div class="cut-row"><button type="button" class="adm-mini" onclick="cutFromCurrent()">Подготовить фото для примерочной</button></div>` : '');
-}
-function cutFromCurrent(id='f_img1'){
-  const src=imgVal(id); if(!src){ toast('Сначала добавьте фото'); return; }
-  const im=new Image();
-  im.onload=()=>{ const k=Math.min(1,1200/Math.max(im.naturalWidth,im.naturalHeight)), c=document.createElement('canvas');
-    c.width=Math.round(im.naturalWidth*k); c.height=Math.round(im.naturalHeight*k); c.getContext('2d').drawImage(im,0,0,c.width,c.height);
-    try{ c.getContext('2d').getImageData(0,0,1,1); }catch(e){ toast('Это фото с другого сайта, его не обработать. Загрузите его файлом.'); return; }
-    CUT_SRC[id]={canvas:c, orig:src, tol:50, off:false, card:false}; cutApply(id); };
-  im.onerror=()=>toast('Не получилось открыть фото. Загрузите его файлом.');
-  if(src.indexOf('data:')!==0) im.crossOrigin='anonymous';
-  im.src=src;
-}
-async function cutApply(id){
-  const st=CUT_SRC[id], box=$('#cut_'+id); if(!st || !box) return;
-  if(!st.off && !st.q && !st.noML){
-    box.innerHTML='<div class="cut-msg">Нейросеть ищет вещь на фото… В первый раз это занимает несколько секунд.</div>';
-    await new Promise(r=>setTimeout(r,40));
-    try{ st.q=await MLCUT.mask(st.canvas); }catch(e){ st.noML=true; }
-    if(!$('#'+id) || CUT_SRC[id]!==st) return;          // форму закрыли или загрузили другое фото
-  }
-  let r={ok:false,reason:''};
-  if(!st.off){ try{ r = st.q ? MLCUT.apply(st.canvas,st.q,st.tol) : await CUT.remove(st.canvas,{tol:st.tol,max:1200}); }
-    catch(e){ r={ok:false,reason:'Не удалось обработать фото.'}; } }
-  if(!$('#'+id) || CUT_SRC[id]!==st) return;
-  st.cut = r.ok && !st.off;
-  st.work=document.createElement('canvas'); st.work.width=st.canvas.width; st.work.height=st.canvas.height;
-  st.work.getContext('2d').drawImage(st.cut ? r.canvas : st.canvas,0,0);
-  const two = id==='f_img2';
-  const msg = two ? (st.off ? 'Оставлено исходное фото, с фоном.' : st.cut ? 'Фон убран. Если осталось лишнее или задело вещь, поменяйте силу обрезки или поправьте кистью прямо на фото.' : (r.reason+' Оставлено исходное фото.'))
-    : st.off ? 'Примерочная не использует это фото.'
-    : st.cut ? 'Для примерочной сделана копия без фона, а в карточке остаётся ваше фото. Если осталось лишнее или задело вещь, поменяйте силу обрезки или поправьте кистью прямо на фото.'
-    : (r.reason+' В примерочной будет показан рисунок вещи.');
-  box.innerHTML=`${two?'':'<div class="cut-h">Для примерочной</div>'}<div class="cut-prev"><canvas id="cutc_${id}" aria-label="Результат"></canvas></div>
-    <div class="cut-msg">${esc(msg)}</div>
-    <div class="cut-row">${st.off?'':`<label class="cut-tol">Сила обрезки <input type="range" min="0" max="100" step="5" value="${st.tol}" onchange="CUT_SRC['${id}'].tol=+this.value;cutApply('${id}')"></label>`}
-      <button type="button" class="adm-mini" onclick="CUT_SRC['${id}'].off=!CUT_SRC['${id}'].off;cutApply('${id}')">${two?(st.off?'Убрать фон':'Вернуть как было'):(st.off?'Сделать копию без фона':'Не использовать')}</button></div>
-    ${st.cut&&!two?`<label class="cut-card"><input type="checkbox"${st.card?' checked':''} onchange="CUT_SRC['${id}'].card=this.checked;cutSave('${id}')"> В карточке товара тоже показывать без фона</label>`:''}
-    ${st.cut?`<div class="cut-row cut-brush"><span class="cut-bl">Кисть</span>
-      <button type="button" class="adm-mini${st.mode!=='keep'?' on':''}" onclick="cutMode('${id}','erase',this)">Стереть фон</button>
-      <button type="button" class="adm-mini${st.mode==='keep'?' on':''}" onclick="cutMode('${id}','keep',this)">Вернуть вещь</button>
-      <label class="cut-tol">Размер <input type="range" min="4" max="90" value="${st.bs||28}" oninput="CUT_SRC['${id}'].bs=+this.value"></label></div>`:''}`;
-  cutDraw(id); cutBind(id); cutSave(id,true);
-}
-function cutMode(id,m,btn){ CUT_SRC[id].mode=m; btn.parentNode.querySelectorAll('.adm-mini').forEach(b=>b.classList.toggle('on',b===btn)); }
-function cutDraw(id){
-  const st=CUT_SRC[id], c=$('#cutc_'+id); if(!st||!c) return;
-  if(c.width!==st.work.width){ c.width=st.work.width; c.height=st.work.height; }
-  const g=c.getContext('2d'); g.clearRect(0,0,c.width,c.height); g.drawImage(st.work,0,0);
-}
-function cutSave(id,first){
-  const st=CUT_SRC[id]; if(!st) return;
-  let cut='';
-  if(st.cut){ cut=st.work.toDataURL('image/webp',.9); if(cut.indexOf('data:image/webp')!==0) cut=st.work.toDataURL('image/png'); }
-  if(id==='f_img2'){ setImg('f_img2', cut||st.orig); if(first) toast(st.cut ? 'Фото 2 загружено, фон убран' : 'Фото загружено'); return; }
-  TRY_IMG=cut;                                                     // копия для примерочной
-  setImg1(st.card && cut ? cut : st.orig);                         // в карточке: своё фото (или без фона, если отмечено)
-  if(first) toast(st.cut ? 'Фото загружено, копия без фона для примерочной готова' : 'Фото загружено');
-  fitEdRefresh();
-}
-/* кисть: «Стереть фон» делает пиксели прозрачными, «Вернуть вещь» возвращает их с исходного фото */
-function cutBind(id){
-  const c=$('#cutc_'+id), st=CUT_SRC[id]; if(!c || !st || !st.cut) return;
-  let last=null, t=null;
-  const pt=e=>{ const r=c.getBoundingClientRect(), k=c.width/r.width; return [(e.clientX-r.left)*k,(e.clientY-r.top)*k,k]; };
-  const dab=(x0,y0,x1,y1,k)=>{
-    const g=st.work.getContext('2d'), R=(st.bs||28)/2*k, n=Math.max(1,Math.ceil(Math.hypot(x1-x0,y1-y0)/(R*.4)));
-    g.save(); g.beginPath();
-    for(let i=0;i<=n;i++){ const x=x0+(x1-x0)*i/n, y=y0+(y1-y0)*i/n; g.moveTo(x+R,y); g.arc(x,y,R,0,Math.PI*2); }
-    if(st.mode==='keep'){ g.clip(); g.drawImage(st.canvas,0,0); }
-    else { g.globalCompositeOperation='destination-out'; g.fill(); }
-    g.restore(); cutDraw(id);
-  };
-  c.addEventListener('pointerdown',e=>{ e.preventDefault(); c.setPointerCapture(e.pointerId); const [x,y,k]=pt(e); last=[x,y]; dab(x,y,x,y,k); });
-  c.addEventListener('pointermove',e=>{ if(!last) return; const [x,y,k]=pt(e); dab(last[0],last[1],x,y,k); last=[x,y]; });
-  const end=()=>{ if(!last) return; last=null; clearTimeout(t); t=setTimeout(()=>cutSave(id),150); };
-  c.addEventListener('pointerup',end); c.addEventListener('pointercancel',end);
-}
-/* кнопка цвета/размера в админке: нет → есть → закончился → нет */
-function chk3(el){ if(el.classList.contains('out')) el.classList.remove('out'); else if(el.classList.contains('on')){ el.classList.remove('on'); el.classList.add('out'); } else el.classList.add('on'); }
 function saveProductForm(){
   const name=$('#f_name').value.trim();
   if(!name){ toast('Укажите название'); return; }
@@ -3112,9 +1588,6 @@ function saveProductForm(){
     sale: old?true:$('#f_sale').classList.contains('on'),
     featured:$('#f_feat').classList.contains('on')
   };
-  const tl=$('#f_layer').value; if(tl) obj.tryLayer=tl;
-  if(TRY_IMG) obj.tryImg=TRY_IMG;
-  const fit=fitEdValues(); if(fit) obj.fit=fit;
   confirmAction(editingId?`Сохранить изменения в карточке «${name}»?`:`Добавить товар «${name}»?`, ()=>{
     const list=DB.products();
     if(editingId){ const i=list.findIndex(x=>x.id===editingId); if(i>-1) list[i]=obj; else list.push(obj); }
@@ -3404,266 +1877,14 @@ if(isAdmin()) enableAdminMode();
 
 <!-- ============ NEW FEATURE SCRIPT: Fitting Room + Intro lifecycle ============ -->
 <script>
-/* Примерочная использует живые данные PRODUCTS (слои добавляет applyMeta в основном скрипте). */
-const frFind = id => PRODUCTS.find(p=>p.id===id);
-const firstSize = p => (p.sizes||[]).find(s=>!p.stock || p.stock[s]>0) || (p.sizes||[])[0];
-const LAYERS = ['shoes','bottoms','tops','outerwear','accessory'];
-$('#frFig').innerHTML = FIT.figHTML('fr');
-
-function currentLook(){ return LAYERS.map(l=>frLook[l]).filter(sel=>sel && frFind(sel.id)); }
-
-/* Tap the hanger on a product -> wear it (replace only its layer). Same item -> remove it. */
-/* одинаковые вещи друг на друга не надеваем: одна вещь из категории, одна куртка/худи/зипка */
-const OUTER_RE=/худи|зип|куртк|пальто|бомбер|жилет|пухов|ветровк|кардиган|пиджак|олимпийк|косух/i;
-const sameKind=(p,q)=> p.category===q.category || p.layer===q.layer || (OUTER_RE.test(p.category+' '+p.name) && OUTER_RE.test(q.category+' '+q.name));
-function frWear(id){
-  const p=frFind(id); if(!p||!p.tryOn) return;
-  const layer=p.layer;
-  if(frLook[layer] && frLook[layer].id===id){ frLook[layer]=null; toast('Убрано из образа'); }
-  else {
-    const off=[];
-    Object.keys(frLook).forEach(l=>{ const sel=frLook[l], q=sel&&frFind(sel.id); if(q && q.id!==id && sameKind(p,q)){ off.push(q.name); frLook[l]=null; } });
-    frLook[layer]={ id, size:firstSize(p) };
-    toast(off.length ? 'Заменено: '+off.join(', ') : 'Добавлено в образ'); openFitting(); }
-  renderPanel(); renderShop();
-}
-function frSetSize(layer,size){ if(frLook[layer]) frLook[layer].size=size; renderPanel(); }
-function frRemove(layer){ frLook[layer]=null; renderPanel(); renderShop(); }
-function frClear(){ frLook={tops:null,outerwear:null,bottoms:null,shoes:null,accessory:null}; renderPanel(); renderShop(); }
-function frAddAll(){
-  const look=currentLook();
-  if(!look.length){ toast('Сначала добавьте вещь'); return; }
-  look.forEach(sel=>{ const p=frFind(sel.id); addToCart(p.id, sel.size, firstColor(p), 1); });
-  toast('Образ в корзине · '+look.length+' '+plu(look.length,'вещь','вещи','вещей'));
-}
-
-let frGen=0;
-function renderPanel(){
-  if(TRY_MODE!=='mannequin') return renderBoard();
-  // model layers
-  const put={}, gen=++frGen;
-  LAYERS.forEach(layer=>{
-    const el=document.getElementById('fr-'+layer), sel=frLook[layer];
-    const p=sel?frFind(sel.id):null;
-    if(sel && (!p || !p.tryOn || p.layer!==layer)) frLook[layer]=null;
-    if(!frLook[layer]){ FIT.off(el); put[layer]=Promise.resolve(null); }
-    else if(p.tryFit) put[layer]=FIT.wear(el,p.tryOn,layer,p.fit).then(r=>{
-      if(r || !frLook[layer] || frLook[layer].id!==p.id) return r;
-      frLook[layer]=null; toast('У фото этой вещи есть фон - на манекене её не показать'); renderPanel(); renderShop(); return null; });
-    else put[layer]=FIT.plain(el,p.tryOn).then(r=>Object.assign(r, frLook.outerwear===sel ? {x:92,w:216} : {}));   // рисунок-демо: ширина верхней одежды
-  });
-  Promise.all([put.tops,put.outerwear]).then(([t,o])=>{ if(gen===frGen) FIT.under($('#fr-tops'),t,o); });
-  renderPicks(currentLook());
-}
-function renderPicks(look){
-  $('#frHint').style.opacity = look.length ? '0' : '1';
-  $('#frCount').textContent = look.length + ' ' + plu(look.length,'вещь','вещи','вещей');
-  // your picks (chips with size + remove)
-  $('#frPicks').innerHTML = look.length ? look.map(sel=>{
-    const p=frFind(sel.id);
-    const opts=p.sizes.map(s=>`<option ${s===sel.size?'selected':''} ${(p.stock&&p.stock[s]<=0)?'disabled':''}>${s}</option>`).join('');
-    return `<div class="fp-pick">
-      <img src="${p.tryThumb}" alt="">
-      <div class="fp-pick-i"><div class="fp-pick-n">${esc(p.name)}</div>
-        <select onchange="frSetSize('${p.layer}',this.value)">${opts}</select></div>
-      <div class="fp-pick-r"><span class="fp-pick-p">${eur(p.price)}</span>
-        <button class="fp-pick-x" onclick="frRemove('${p.layer}')" aria-label="Убрать">×</button></div>
-    </div>`;
-  }).join('') : '';
-  $('#frHelp').style.display = look.length ? 'block' : 'none';
-  const total=look.reduce((s,sel)=>s+frFind(sel.id).price,0);
-  $('#frTotal').textContent = eur(total);
-  $('#frTotalRow').style.display = look.length ? 'flex' : 'none';
-  const hs=$('#frHSum'); if(hs) hs.textContent = look.length ? look.length+' '+plu(look.length,'вещь','вещи','вещей')+' · '+eur(total) : 'Выберите вещи';
-  const lc=$('#tryLaunchCount'); lc.textContent=look.length; lc.style.display=look.length?'grid':'none';
-}
-
-function renderBoard(){
-  LAYERS.forEach(l=>{ const sel=frLook[l], p=sel&&frFind(sel.id); if(sel && (!p || !p.tryOn || p.layer!==l)) frLook[l]=null; });
-  const look=currentLook(), items=look.map(sel=>frFind(sel.id)), b=$('#frBoard');
-  if(TRY_MODE==='reel'){ reelBuild(b); reelSync(b); renderPicks(look); return; }
-  if(TRY_MODE==='stack'){
-    const key=items.map(p=>p.id).join(',')+'|'+REEL_ROWS.map(r=>PRODUCTS.filter(p=>p.tryOn && r[3].includes(p.layer) && !soldOut(p)).length).join();
-    if(b.dataset.k!==key){ const prev=new Set((b.dataset.k||'').split('|')[0].split(',').filter(Boolean)); b.dataset.k=key;
-      b.innerHTML=`<div class="stk-w">${stackHTML(items,prev,true)}<div class="rr-acts">
-        <button class="rr-b" type="button" onclick="stkLucky()"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.2"/><circle cx="15" cy="15" r="1.2"/><circle cx="15" cy="9" r="1.2"/><circle cx="9" cy="15" r="1.2"/></svg>Мне повезёт</button>
-        <button class="rr-b" type="button" onclick="lookCover()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 13v6h14v-6"/></svg>Обложка</button></div></div>`;
-      stackFix(b); b.setAttribute('aria-label', items.length ? 'Ваш образ: '+items.map(p=>p.name).join(', ') : 'Ваш образ пока пуст'); }
-    renderPicks(look); return;
-  }
-  const key=items.map(p=>p.id).join(',');
-  if(b.dataset.k!==key){ const prev=new Set((b.dataset.k||'').split(',').filter(Boolean)); b.dataset.k=key; b.innerHTML=outfitHTML(items,prev); if(TRY_MODE==='rail') requestAnimationFrame(()=>railFix(b)); b.setAttribute('aria-label', items.length ? 'Ваш образ: '+items.map(p=>p.name).join(', ') : 'Образ пуст'); }
-  $('#frHint').textContent='Нажмите на вешалку у товара, чтобы добавить его в образ';
-  $('#frHelp').textContent='Вещь того же вида заменяет выбранную.';
-  renderPicks(look);                                                // список вещей и итог - общие с манекеном
-}
-/* ===== «Барабан образа» =====
-   Три ряда: верх, низ, обувь. Ряд листается пальцем, колесом мыши или стрелками; вещь по центру надета.
-   «Мне повезёт» крутит ряды и останавливает на случайном сочетании. «Обложка» делает картинку образа для сторис. */
-const REEL_ROWS=[['up','Верх','Без верха',['outerwear','tops']],['lo','Низ','Без низа',['bottoms']],['sh','Обувь','Без обуви',['shoes']]];
-const reelRow = g => REEL_ROWS.find(r=>r[0]===g);
-function reelSel(g){ const ls=reelRow(g)[3]; for(const l of ls){ const x=frLook[l]; if(x && frFind(x.id)) return x.id; } return ''; }
-function reelBuild(b){
-  const all=PRODUCTS.filter(p=>p.tryOn), key=all.map(p=>p.id+':'+p.layer+':'+p.tryOn.length).join();
-  if(b.dataset.rk===key) return; b.dataset.rk=key;
-  const arrow=d=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d<0?'M15 5l-7 7 7 7':'M9 5l7 7-7 7'}"/></svg>`;
-  b.innerHTML=`<div class="rr">${REEL_ROWS.map(([g,t,none,ls])=>`<div class="rr-row" data-g="${g}">
-      <button class="rr-a" type="button" aria-label="${t}: предыдущая вещь" onclick="reelStep('${g}',-1)">${arrow(-1)}</button>
-      <div class="rr-track" role="listbox" aria-label="${t}" tabindex="0">
-        <div class="rr-c none" data-id=""><span>${none}</span></div>
-        ${all.filter(p=>ls.includes(p.layer)).map(p=>`<div class="rr-c ${p.boardCut?'cut':'ph'}" data-id="${p.id}" role="option" title="${esc(p.name)}"><img src="${esc(p.tryOn)}" alt="${esc(p.name)}" decoding="async"></div>`).join('')}
-      </div>
-      <button class="rr-a" type="button" aria-label="${t}: следующая вещь" onclick="reelStep('${g}',1)">${arrow(1)}</button></div>`).join('')}
-    <div class="rr-acts">
-      <button class="rr-b" type="button" onclick="reelLucky()"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.2"/><circle cx="15" cy="15" r="1.2"/><circle cx="15" cy="9" r="1.2"/><circle cx="9" cy="15" r="1.2"/></svg>Мне повезёт</button>
-      <button class="rr-b" type="button" onclick="lookCover()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 13v6h14v-6"/></svg>Обложка</button>
-    </div></div>`;
-  b.querySelectorAll('.rr-track').forEach(tr=>{
-    let t=null;
-    const user=()=>{ tr._lock=null; };
-    ['pointerdown','touchstart','wheel','keydown'].forEach(ev=>tr.addEventListener(ev,user,{passive:true}));
-    tr.addEventListener('scroll',()=>{ reelMark(tr); clearTimeout(t); t=setTimeout(()=>reelSettle(tr),150); },{passive:true});
-    tr.addEventListener('keydown',e=>{ if(e.key==='ArrowLeft'||e.key==='ArrowRight'){ e.preventDefault(); reelStep(tr.parentNode.dataset.g, e.key==='ArrowLeft'?-1:1); } });
-    tr.addEventListener('click',e=>{ const c=e.target.closest('.rr-c'); if(c){ tr._lock=null; reelGo(tr,c,true); } });
-  });
-}
-function reelCenter(tr){ const mid=tr.scrollLeft+tr.clientWidth/2; let best=null,bd=1e9; tr.querySelectorAll('.rr-c').forEach(c=>{ const d=Math.abs(c.offsetLeft+c.offsetWidth/2-mid); if(d<bd){ bd=d; best=c; } }); return best; }
-function reelMark(tr){ const c=reelCenter(tr); tr.querySelectorAll('.rr-c').forEach(x=>{ const on=x===c; x.classList.toggle('on',on); x.setAttribute('aria-selected',on); }); }
-function reelGo(tr,c,smooth){ if(!c) return; const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches; tr.scrollTo({left:c.offsetLeft+c.offsetWidth/2-tr.clientWidth/2, behavior:smooth&&!reduce?'smooth':'auto'}); }
-/* выбор из каталога или кнопок - прокручиваем ряды к надетым вещам (пока ряд не трогают руками) */
-function reelSync(b){
-  b.querySelectorAll('.rr-row').forEach(r=>{ const tr=r.querySelector('.rr-track'), id=reelSel(r.dataset.g);
-    const c=tr.querySelector(`.rr-c[data-id="${id}"]`)||tr.querySelector('.rr-c');
-    tr._lock=id||'-'; if(reelCenter(tr)!==c) reelGo(tr,c,!!tr.dataset.seen); tr.dataset.seen=1; reelMark(tr); });
-}
-function reelSettle(tr){
-  if(!tr.clientWidth) return;                                  // панель закрыта - ничего не меняем
-  const c=reelCenter(tr); if(!c) return; reelMark(tr);
-  const g=tr.parentNode.dataset.g, id=c.dataset.id;
-  if(tr._lock){ if((id||'-')===tr._lock) tr._lock=null; return; }   // это наша же прокрутка к выбранной вещи
-  if(reelSel(g)===id) return;
-  reelRow(g)[3].forEach(l=>frLook[l]=null);
-  if(id){ const p=frFind(id); if(p) frLook[p.layer]={id, size:firstSize(p)}; }
-  renderPicks(currentLook()); renderShop();
-}
-function reelStep(g,d){
-  const tr=document.querySelector(`#frBoard .rr-row[data-g="${g}"] .rr-track`); if(!tr) return;
-  const cs=[...tr.querySelectorAll('.rr-c')], i=cs.indexOf(reelCenter(tr));
-  tr._lock=null; reelGo(tr, cs[(i+d+cs.length)%cs.length], true);
-}
-function reelLucky(){
-  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  document.querySelectorAll('#frBoard .rr-row').forEach((r,k)=>{
-    const tr=r.querySelector('.rr-track'), cs=[...tr.querySelectorAll('.rr-c:not(.none)')]; if(!cs.length) return;
-    const cur=reelCenter(tr); let c; do{ c=cs[Math.floor(Math.random()*cs.length)]; }while(cs.length>1 && c===cur);
-    tr._lock=null;
-    if(reduce){ reelGo(tr,c,false); return; }
-    r.classList.add('spin');
-    const far = c.offsetLeft > tr.scrollLeft+tr.clientWidth/2 ? 0 : tr.scrollWidth;      // сначала прокрутка в обратную сторону - «раскрутка» барабана
-    setTimeout(()=>tr.scrollTo({left:far,behavior:'smooth'}), k*160);
-    setTimeout(()=>{ reelGo(tr,c,true); }, 420+k*160);
-    setTimeout(()=>r.classList.remove('spin'), 1100+k*160);
-  });
-}
-/* ===== «Обложка образа»: картинка 1080×1920 для сторис ===== */
-function lookCover(){
-  const items=currentLook().map(s=>frFind(s.id)).filter(Boolean);
-  if(!items.length){ toast('Сначала соберите образ'); return; }
-  const css=getComputedStyle(document.documentElement), v=n=>css.getPropertyValue(n).trim();
-  const C={bg:v('--bg')||'#0b1220', card:v('--card')||'#111a2e', text:v('--text')||'#eee', muted:v('--muted')||'#999', acc:v('--amber')||'#c8aa72'};
-  const font=getComputedStyle(document.querySelector('.fp-t')||document.body).fontFamily, body=getComputedStyle(document.body).fontFamily;
-  const load=src=>new Promise(res=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=()=>res(null); im.decoding='async'; im.src=src; });
-  toast('Готовим обложку…');
-  Promise.all([document.fonts?document.fonts.ready:0, ...items.map(p=>load(p.tryOn))]).then(([,...ims])=>{
-    const W=1080,H=1920,c=document.createElement('canvas'); c.width=W; c.height=H; const g=c.getContext('2d');
-    const bgG=g.createLinearGradient(0,0,0,H); bgG.addColorStop(0,C.card); bgG.addColorStop(1,C.bg); g.fillStyle=bgG; g.fillRect(0,0,W,H);
-    const rg=g.createRadialGradient(W/2,820,40,W/2,820,760); rg.addColorStop(0,'rgba(255,255,255,.10)'); rg.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=rg; g.fillRect(0,0,W,H);
-    g.strokeStyle=C.acc; g.globalAlpha=.55; g.lineWidth=3; g.strokeRect(44,44,W-88,H-88); g.globalAlpha=1;
-    const sp=(t,px)=>{ if('letterSpacing' in g) g.letterSpacing=px+'px'; return t; };
-    g.textAlign='center'; g.fillStyle=C.acc; g.font=`600 64px ${font}`; g.fillText(sp((STORE.name||'').toUpperCase(),14),W/2,160);
-    g.fillStyle=C.text; g.font=`500 40px ${font}`; g.fillText(sp('МОЙ ОБРАЗ',10),W/2,226); sp('',0);
-    if(TRY_MODE==='stack') stkDraw(g,items,ims,90,280,900,1030);
-    else {
-    // вещи: верх слева, второй верх справа, низ, обувь (как в раскладке), без растягивания
-    const has={}; items.forEach((p,i)=>{ has[p.layer]={p,im:ims[i]}; });
-    const S=boardSlots(Object.fromEntries(Object.entries(has).map(([l,x])=>[l,x.p]))), X=90,Y=290,AW=900,AH=1010;
-    Object.entries(has).forEach(([l,{im}])=>{ const r=S[l]; if(!r||!im) return;
-      const bx=X+r[0]/100*AW, by=Y+r[1]/100*AH, bw=r[2]/100*AW, bh=r[3]/100*AH, k=Math.min(bw/im.naturalWidth,bh/im.naturalHeight), w=im.naturalWidth*k, h=im.naturalHeight*k;
-      g.save(); g.shadowColor='rgba(0,0,0,.45)'; g.shadowBlur=36; g.shadowOffsetY=18; g.drawImage(im,bx+(bw-w)/2,by+(bh-h)/2,w,h); g.restore(); });
-    }
-    // список вещей и итог
-    let y=1390; g.textAlign='left'; const total=items.reduce((t,p)=>t+(+p.price||0),0);
-    g.fillStyle=C.acc; g.fillRect(90,y-44,900,2);
-    items.slice(0,5).forEach(p=>{ y+=62; g.fillStyle=C.text; g.font=`400 38px ${body}`; let n=p.name; while(g.measureText(n).width>650 && n.length>4) n=n.slice(0,-2); if(n!==p.name) n=n.trim()+'…';
-      g.fillText(n,90,y); g.textAlign='right'; g.fillStyle=C.muted; g.fillText(eur(p.price),990,y); g.textAlign='left'; });
-    y+=96; g.fillStyle=C.muted; g.font=`500 34px ${font}`; g.fillText(sp('ИТОГО',8),90,y); sp('',0);
-    g.textAlign='right'; g.fillStyle=C.acc; g.font=`600 76px ${font}`; g.fillText(eur(total),990,y+8);
-    const city = typeof curBranch==='function' && curBranch() && curBranch().city ? 'Магазин: '+curBranch().city : '';
-    g.textAlign='center'; g.fillStyle=C.muted; g.font=`400 32px ${body}`;
-    if(city) g.fillText(city,W/2,H-150);
-    g.fillText(location.host+location.pathname.replace(/index\.html$/,''),W/2,H-100);
-    c.toBlob(blob=>{ if(!blob){ toast('Не получилось сделать обложку'); return; } coverShow(blob); },'image/png');
-  });
-}
-let COVER=null;
-function coverShow(blob){
-  if(COVER && COVER.url) URL.revokeObjectURL(COVER.url);
-  const file=new File([blob],'obraz-'+(STORE.name||'look').toLowerCase().replace(/\s+/g,'-')+'.png',{type:'image/png'});
-  COVER={blob,file,url:URL.createObjectURL(blob)};
-  const m=$('#coverModal'); $('#coverImg').src=COVER.url;
-  $('#coverShare').hidden = !(navigator.canShare && navigator.canShare({files:[file]}));
-  m.hidden=false; requestAnimationFrame(()=>m.classList.add('open'));
-}
-function coverClose(){ const m=$('#coverModal'); m.classList.remove('open'); setTimeout(()=>{ m.hidden=true; },250); }
-function coverShare(){ if(!COVER) return; navigator.share({files:[COVER.file], title:'Мой образ', text:'Мой образ из '+(STORE.name||'')}).catch(()=>{}); }
-function coverSave(){ if(!COVER) return; const a=document.createElement('a'); a.href=COVER.url; a.download=COVER.file.name; document.body.appendChild(a); a.click(); a.remove(); toast('Картинка сохранена'); }
-/* open / close / toggle the floating fitting panel */
-
-function openFitting(){ document.body.classList.add('fr-open'); renderPanel(); $('#frPanel').classList.add('open'); $('#tryLaunch').classList.add('hidden'); if(location.hash!=='#fitting-room') history.replaceState(null,'',location.pathname+location.search+'#fitting-room'); }
-function closeFitting(){ document.body.classList.remove('fr-open'); $('#frPanel').classList.remove('open','big'); $('#tryLaunch').classList.remove('hidden'); if(location.hash==='#fitting-room') history.replaceState(null,'',location.pathname+location.search); }
-function frToggleBig(force){
-  const pn=$('#frPanel'), big = force===undefined ? !pn.classList.contains('big') : force;
-  pn.classList.toggle('big',big);
-  if(TRY_MODE==='rail') setTimeout(()=>railFix($('#frBoard')),380);
-  document.querySelectorAll('#frPanel .fp-grab, #frPanel .fp-big-t').forEach(b=>b.setAttribute('aria-label', big?'Свернуть примерочную':'Развернуть примерочную'));
-}
-(function(){ /* свайп по верхней части панели на телефоне: вверх развернуть, вниз свернуть/закрыть */
-  const pn=document.getElementById('frPanel'); if(!pn) return;
-  let y0=null, dy=0;
-  pn.addEventListener('touchstart',e=>{ if(innerWidth>560 || !e.target.closest('.fp-grab, .fp-head')) return; y0=e.touches[0].clientY; dy=0; pn.classList.add('drag'); },{passive:true});
-  pn.addEventListener('touchmove',e=>{ if(y0===null) return; dy=e.touches[0].clientY-y0; if(dy>0) pn.style.transform='translateY('+dy+'px)'; },{passive:true});
-  pn.addEventListener('touchend',()=>{ if(y0===null) return; pn.classList.remove('drag'); pn.style.transform=''; y0=null;
-    if(dy>70){ if(pn.classList.contains('big')) frToggleBig(false); else closeFitting(); }
-    else if(dy<-50) frToggleBig(true); });
-})();
-(function(){ /* перетаскивание примерочной за шапку (на компьютере); место запоминается, двойной щелчок возвращает на место */
-  const pn=document.getElementById('frPanel'), hd=pn&&pn.querySelector('.fp-head'); if(!hd) return;
-  const KEY='fr_pos', desk=()=>innerWidth>560; let st=null;
-  const place=(x,y)=>{ const r=pn.getBoundingClientRect();
-    x=Math.max(8,Math.min(innerWidth-r.width-8,x)); y=Math.max(8,Math.min(innerHeight-r.height-8,y));
-    pn.style.left=x+'px'; pn.style.top=y+'px'; pn.style.bottom='auto'; };
-  const reset=()=>{ pn.style.left=pn.style.top=pn.style.bottom=''; };
-  const restore=()=>{ if(!desk()){ reset(); return; } let p=null; try{ p=JSON.parse(localStorage.getItem(KEY)); }catch(e){} if(p) place(p[0],p[1]); };
-  hd.addEventListener('pointerdown',e=>{ if(!desk() || e.button || e.target.closest('button,a,select,input')) return;
-    const r=pn.getBoundingClientRect(); st={dx:e.clientX-r.left, dy:e.clientY-r.top}; hd.setPointerCapture(e.pointerId); pn.classList.add('moving'); e.preventDefault(); });
-  hd.addEventListener('pointermove',e=>{ if(st) place(e.clientX-st.dx, e.clientY-st.dy); });
-  const end=()=>{ if(!st) return; st=null; pn.classList.remove('moving'); const r=pn.getBoundingClientRect(); try{ localStorage.setItem(KEY,JSON.stringify([Math.round(r.left),Math.round(r.top)])); }catch(e){} };
-  hd.addEventListener('pointerup',end); hd.addEventListener('pointercancel',end);
-  hd.addEventListener('dblclick',e=>{ if(e.target.closest('button')) return; reset(); try{ localStorage.removeItem(KEY); }catch(e){} });
-  addEventListener('resize',()=>{ clearTimeout(restore.t); restore.t=setTimeout(restore,150); });
-  if(window.ResizeObserver) new ResizeObserver(()=>{ if(desk() && pn.style.top && !st){ const r=pn.getBoundingClientRect(); place(r.left,r.top); } }).observe(pn);   // панель выросла: не даём уйти за край
-  restore();
-})();
-function toggleFitting(){ $('#frPanel').classList.contains('open') ? closeFitting() : openFitting(); }
-
 /* ===== INTRO - сборка букв ADMV; играет при КАЖДОМ обновлении/входе; не на внутренних оверлеях ===== */
 (function(){
   const intro=document.getElementById('intro3d');
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   const h=location.hash;
-  const deep=(h==='#fitting-room'||h==='#admin');   // прямой заход во внутренний раздел - без заставки
+  const deep=(h==='#admin');   // прямой заход во внутренний раздел - без заставки
   if(!intro) return;
-  if(deep){ intro.remove(); window.__introActive=false; if(h==='#fitting-room') openFitting(); else if(h==='#admin') openAdminGate(); return; }
+  if(deep){ intro.remove(); window.__introActive=false; if(h==='#admin') openAdminGate(); return; }
 
   const box=document.getElementById('introAdmv');
   const letters="ADMV".split("");
@@ -3673,7 +1894,7 @@ function toggleFitting(){ $('#frPanel').classList.contains('open') ? closeFittin
     const z=(-(Math.random()*480+280)).toFixed(0);
     const rx=((Math.random()*2-1)*110).toFixed(0);
     const ry=((Math.random()*2-1)*110).toFixed(0);
-    const cls=(i===3)?'ch accent':'ch';
+    const cls='ch';
     return '<span class="'+cls+'" style="--x:'+x+'px;--y:'+y+'px;--z:'+z+'px;--rx:'+rx+'deg;--ry:'+ry+'deg;transition-delay:'+(i*0.11).toFixed(2)+'s">'+c+'</span>';
   }).join('');
 
@@ -3692,10 +1913,9 @@ function toggleFitting(){ $('#frPanel').classList.contains('open') ? closeFittin
   setTimeout(()=>intro.classList.add('ready'), assemble);
   setTimeout(finish, assemble + 1500);
 })();
-/* адрес поменяли в уже открытой вкладке (#admin, #fitting-room) - открываем нужный раздел */
+/* Прямой переход в панель владельца */
 window.addEventListener('hashchange',()=>{
   if(location.hash==='#admin') openAdminGate();
-  else if(location.hash==='#fitting-room') openFitting();
 });
 window.playIntro=function(){ location.hash=''; location.reload(); };
 </script>
