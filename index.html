@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ADMV - Премиальная одежда</title>
 <meta name="description" content="ADMV. Премиальная одежда для тех, кто движется вперёд. Сдержанная роскошь и премиальные материалы для каждого дня.">
-<link rel="stylesheet" href="fonts/fonts.css?v=2026-11-13.1">
+<link rel="stylesheet" href="fonts/fonts.css?v=2026-11-13.2">
 <meta name="theme-color" content="#0B0B0C">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101114'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' text-anchor='middle' fill='%23F2EFE8'%3EA%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="website">
@@ -551,7 +551,7 @@ body{ font-weight:400; }
 .btn.solid,.btn.solid:hover,.btn.amber:hover,.icn .count,.pcard .flag.sale,.fopt.on .box{ background:var(--red); border-color:var(--red); color:#fff; }
 .fopt.on .box svg{ stroke:#fff; }
 .btn.solid:hover{ filter:brightness(1.12); }
-.modal .box,.drawer,.chip-f,.fopt .box,.tg-float,#tryLaunch{ border-radius:0; }
+.modal .box,.drawer,.chip-f,.fopt .box,#tryLaunch{ border-radius:0; }
 .catpill.on{ background:var(--red); border-color:var(--red); color:#fff; }
 .tg-float{ background:#229ED9; box-shadow:none; }
 .cp,.s2,.price,.pv-price,.cv{ font-family:'IBM Plex Mono',monospace; }
@@ -564,7 +564,7 @@ body{ font-weight:400; }
 /* АВТООБНОВЛЕНИЕ: браузер может показывать старую сохранённую копию сайта.
    Сверяем номер версии с сервером и, если вышла новая, сами открываем её.
    При каждой публикации менять ADMV_BUILD. */
-var ADMV_BUILD='2026-11-13.1';
+var ADMV_BUILD='2026-11-13.2';
 (function(){
   if(location.protocol.indexOf('http')!==0 || !window.fetch) return;
   fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.text():''; }).then(function(t){
@@ -1256,7 +1256,8 @@ function renderProduct(){
       <div class="pv-block"><div class="l">Цвет: ${colorOn(p,pvState.color)?pvState.color:'нет в наличии'}</div><div class="pv-colors">${colors}</div></div>
       <div class="pv-block"><div class="l">Размер <span class="sizeguide" onclick="openInfo('sizes')">Таблица размеров</span></div><div class="pv-sizes">${sizes}</div></div>
       <div class="pv-cta">
-        ${soldOut(p)?`<button class="btn block" disabled style="opacity:.5;cursor:not-allowed">Нет в наличии</button>`:`<button class="btn solid block" onclick="pvAdd()">В корзину</button>`}
+        ${soldOut(p)?`<button class="btn block" disabled style="opacity:.5;cursor:not-allowed">Нет в наличии</button>`:`<button class="btn solid block" onclick="pvAdd()">В корзину</button>
+        <button class="btn amber block" onclick="pvAdd(true)">Заказать</button>`}
       </div>
       ${specsHTML}
       <div class="assure">
@@ -1270,7 +1271,7 @@ function renderProduct(){
 function pvSetImg(i){ pvState.imgIndex=i; const im=$('#gmainImg'); im.style.opacity=0; setTimeout(()=>{ im.src=PRODUCTS.find(x=>x.id===pvState.id).images[i]; im.style.opacity=1; },180); document.querySelectorAll('.thumbs img').forEach((t,ti)=>t.classList.toggle('on',ti===i)); }
 function pvSetColor(c){ const p=PRODUCTS.find(x=>x.id===pvState.id); if(p&&!colorOn(p,c)) return; pvState.color=c; renderProduct(); }
 function pvSetSize(s){ const p=PRODUCTS.find(x=>x.id===pvState.id); if(p&&!sizeOn(p,s)) return; pvState.size=s; renderProduct(); }
-function pvAdd(){ if(!pvState.size){ toast('Выберите размер'); return; } addToCart(pvState.id,pvState.size,pvState.color,1); }
+function pvAdd(order=false){ if(!pvState.size){ toast('Выберите размер'); return; } addToCart(pvState.id,pvState.size,pvState.color,1); if(order){ closeProduct(); openOrder(); } }
 
 /* ===== SEARCH ===== */
 function openSearch(){ $('#searchOv').classList.add('open'); document.body.classList.add('lock'); setTimeout(()=>$('#searchInput').focus(),120); }
