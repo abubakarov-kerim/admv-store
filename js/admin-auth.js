@@ -1,3 +1,10 @@
+let ghAdminVerified=false,ghAdminToken='',loginGeneration=0,loginBusy=false;
+async function tryLogin(){
+ if(loginBusy)return;const generation=++loginGeneration,button=document.getElementById('loginSubmit');loginBusy=true;button.disabled=true;button.textContent='Проверяю доступ...';document.getElementById('loginErr').style.display='none';
+ try{const saved=GH.get(),g=cleanGH({...saved,repo:'abubakarov-kerim/admv-store',token:document.getElementById('loginPass').value.trim()||saved.token});validGH(g);const user=await ghApi(g,'$user');if(!user.login)throw new Error('GitHub не подтвердил аккаунт.');const repo=await ghApi(g,'');if(repo.full_name?.toLowerCase()!=='abubakarov-kerim/admv-store'||repo.permissions?.push!==true)throw new Error('У этого аккаунта нет доступа на запись в ADMV. Владелец должен пригласить его в Settings → Collaborators.');await ghApi(g,'/git/ref/heads/'+encodeURIComponent(g.branch));if(generation!==loginGeneration)return;if(!GH.set(g))throw new Error('Браузер не разрешил сохранить ключ для этой вкладки.');ghAdminToken=g.token;ghAdminVerified=true;closeLogin();enableAdminMode();openAdmin();toast('GitHub подтвердил доступ. Вы вошли в ADMV.');}
+ catch(e){if(generation===loginGeneration){ghAdminVerified=false;ghAdminToken='';const el=document.getElementById('loginErr');el.textContent=e.message;el.style.display='block';}}
+ finally{loginBusy=false;button.disabled=false;button.textContent='Проверить ключ и войти';}
+}
 /* Видимость паролей и диагностика публикации. Значения ключей не выводятся в сообщения. */
 const EYE_OPEN='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>';
 const EYE_CLOSED='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 18 18M10.5 5.1A13 13 0 0 1 12 5c6.5 0 10 7 10 7a18 18 0 0 1-3 3.8M6.2 6.2A19 19 0 0 0 2 12s3.5 7 10 7a12 12 0 0 0 5.8-1.5M10 10a3 3 0 0 0 4 4"/></svg>';
