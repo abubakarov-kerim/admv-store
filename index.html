@@ -565,7 +565,7 @@ body{ font-weight:400; }
 /* АВТООБНОВЛЕНИЕ: браузер может показывать старую сохранённую копию сайта.
    Сверяем номер версии с сервером и, если вышла новая, сами открываем её.
    При каждой публикации менять ADMV_BUILD. */
-var ADMV_BUILD='2026-11-18.1';
+var ADMV_BUILD='2026-11-18.2';
 (function(){
   if(location.protocol.indexOf('http')!==0 || !window.fetch) return;
   fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.text():''; }).then(function(t){
@@ -771,13 +771,13 @@ var ADMV_BUILD='2026-11-18.1';
     <div class="mbox-head"><h3>Вход в админку</h3><button class="xbtn" onclick="closeLogin()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="mbox-body">
       <div class="login-ic"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
-      <div id="githubLoginInfo"><p class="adm-hint">Вход по ключу GitHub с доступом к ADMV. Один и тот же способ работает на компьютере и телефоне.</p><details class="adm-hint"><summary>Как получить доступ</summary><p>Владелец: Fine-grained token, только admv-store, Contents: Read and write.</p><p>Друг: принять приглашение в GitHub → admv-store → Settings → Collaborators, затем создать свой ключ Classic с разрешением public_repo. Он даёт доступ к доступным аккаунту публичным репозиториям, поэтому храните его как пароль.</p><a href="https://github.com/settings/tokens" target="_blank" rel="noopener">Открыть ключи GitHub</a></details></div>
-      <p class="adm-hint" id="serverLoginInfo" hidden>Введите логин и пароль владельца. Товары и настройки публикуются для всех устройств.</p>
-      <div class="fld" id="loginUserField" hidden><label for="loginUser">Логин</label><input class="inp" id="loginUser" autocomplete="username" autocapitalize="off" spellcheck="false" maxlength="100" onkeydown="if(event.key==='Enter')document.getElementById('loginPass').focus()"></div>
-      <div class="fld"><label for="loginPass" id="loginPassLabel">Ключ доступа GitHub</label><input class="inp" id="loginPass" type="password" autocomplete="off" spellcheck="false" autocapitalize="off" onkeydown="if(event.key==='Enter')tryLogin()"></div>
-      <div id="loginErr" style="color:#e05a4a;font-size:.76rem;display:none;margin-bottom:6px">Не удалось войти. Проверьте ключ GitHub.</div>
+      <div id="githubLoginInfo" hidden><p class="adm-hint">Вход по ключу GitHub с доступом к ADMV. Один и тот же способ работает на компьютере и телефоне.</p><details class="adm-hint"><summary>Как получить доступ</summary><p>Владелец: Fine-grained token, только admv-store, Contents: Read and write.</p><p>Друг: принять приглашение в GitHub → admv-store → Settings → Collaborators, затем создать свой ключ Classic с разрешением public_repo. Он даёт доступ к доступным аккаунту публичным репозиториям, поэтому храните его как пароль.</p><a href="https://github.com/settings/tokens" target="_blank" rel="noopener">Открыть ключи GitHub</a></details></div>
+      <p class="adm-hint" id="serverLoginInfo">Введите логин и пароль владельца. Товары и настройки публикуются для всех устройств.</p>
+      <div class="fld" id="loginUserField"><label for="loginUser">Логин</label><input class="inp" id="loginUser" autocomplete="username" autocapitalize="off" spellcheck="false" maxlength="100" onkeydown="if(event.key==='Enter')document.getElementById('loginPass').focus()"></div>
+      <div class="fld"><label for="loginPass" id="loginPassLabel">Пароль</label><input class="inp" id="loginPass" type="password" autocomplete="current-password" spellcheck="false" autocapitalize="off" onkeydown="if(event.key==='Enter')tryLogin()"></div>
+      <div id="loginErr" style="color:#e05a4a;font-size:.76rem;display:none;margin-bottom:6px">Не удалось войти. Проверьте логин и пароль.</div>
     </div>
-    <div class="mbox-foot"><button class="btn solid block" id="loginSubmit" style="flex:1" onclick="tryLogin()">Проверить ключ и войти</button></div>
+    <div class="mbox-foot"><button class="btn solid block" id="loginSubmit" style="flex:1" onclick="tryLogin()">Войти</button></div>
   </div>
 </div>
 
@@ -844,8 +844,8 @@ var ADMV_BUILD='2026-11-18.1';
 <script src="js/cutout.js?v=2026-11-15.1"></script>
 <script src="js/admin-media.js?v=2026-11-15.1"></script>
 <script src="js/site-admin.js?v=2026-11-15.1"></script>
-<script src="js/admin-server.js?v=2026-11-18.1"></script>
-<script src="js/admin-auth-server.js?v=2026-11-18.1"></script>
+<script src="js/admin-server.js?v=2026-11-18.2"></script>
+<script src="js/admin-auth-server.js?v=2026-11-18.2"></script>
 <script>
 /* ====================================================================
    PRODUCT DATA - добавляй товары сюда. Поля по ТЗ.
@@ -1449,7 +1449,7 @@ function renderHero(){
 }
 
 /* ===== РЕЖИМ АДМИНА НА САЙТЕ ===== */
-function isAdmin(){ return AdminServer.enabled() ? !!AdminServer.active() : ghAdminVerified && GH.get().token===ghAdminToken; }
+function isAdmin(){ return !!AdminServer.active(); }
 function enableAdminMode(){ document.body.classList.add('admin-on'); const v=$('#abVer'); if(v) v.textContent='версия '+ADMV_BUILD; renderShop(); renderFooter(); }
 function disableAdminMode(){ document.body.classList.remove('admin-on'); renderShop(); renderFooter(); }
 function openAdminAt(tab){ adminTab=tab; openAdmin(); }
@@ -1687,7 +1687,7 @@ function admData(){
       <button class="btn solid" onclick="exportDB()">Экспорт базы</button>
       <label class="btn" style="cursor:pointer">Импорт базы<input type="file" accept="application/json" hidden onchange="importDB(this)"></label>
     </div>`;
-  if(AdminServer.enabled()){const start=document.getElementById('gh_token')?.closest('.fld'); const headings=[...document.querySelectorAll('#admBody .adm-sec-h')]; if(start&&headings[1]&&headings[2]){let node=headings[1];while(node&&node!==headings[2]){const next=node.nextElementSibling;node.remove();node=next;} const note=document.createElement('p');note.className='adm-hint';note.textContent='Публикация подключена через защищённый сервер. Ключ GitHub вводить не нужно.';headings[2].before(note);}}
+  {const start=document.getElementById('gh_token')?.closest('.fld'); const headings=[...document.querySelectorAll('#admBody .adm-sec-h')]; if(start&&headings[1]&&headings[2]){let node=headings[1];while(node&&node!==headings[2]){const next=node.nextElementSibling;node.remove();node=next;} const note=document.createElement('p');note.className='adm-hint';note.textContent='Публикация подключена через защищённый сервер. Ключ GitHub вводить не нужно.';headings[2].before(note);}}
   updateDraftUI();
 }
 /* ===== ПУБЛИКАЦИЯ: одна кнопка отправляет товары, фото и настройки в файлы сайта (GitHub) =====
@@ -1720,7 +1720,7 @@ let publishing=false;
 async function publishDB(){
   if(!isAdmin()){openAdminGate();return;}
   const g=GH.get();
-  if(!AdminServer.enabled()&&!g.token){ toast('Сначала добавьте ключ публикации - вкладка «База».'); openAdminAt('data'); return; }
+  if(!AdminServer.enabled()){ toast('Сервер публикации недоступен. Черновик сохранён.'); return; }
   if(publishing) return; document.getElementById('publishError')?.remove(); publishing=true; updateDraftUI('Публикую…');
   try{
     if(g.repo!=='abubakarov-kerim/admv-store')throw new Error('Для ADMV разрешена публикация только в abubakarov-kerim/admv-store.');
