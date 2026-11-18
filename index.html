@@ -565,7 +565,7 @@ body{ font-weight:400; }
 /* АВТООБНОВЛЕНИЕ: браузер может показывать старую сохранённую копию сайта.
    Сверяем номер версии с сервером и, если вышла новая, сами открываем её.
    При каждой публикации менять ADMV_BUILD. */
-var ADMV_BUILD='2026-11-15.1';
+var ADMV_BUILD='2026-11-18.1';
 (function(){
   if(location.protocol.indexOf('http')!==0 || !window.fetch) return;
   fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.text():''; }).then(function(t){
@@ -771,8 +771,10 @@ var ADMV_BUILD='2026-11-15.1';
     <div class="mbox-head"><h3>Вход в админку</h3><button class="xbtn" onclick="closeLogin()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="mbox-body">
       <div class="login-ic"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
-      <p class="adm-hint">Вход по ключу GitHub с доступом к ADMV. Один и тот же способ работает на компьютере и телефоне.</p><details class="adm-hint"><summary>Как получить доступ</summary><p>Владелец: Fine-grained token, только admv-store, Contents: Read and write.</p><p>Друг: принять приглашение в GitHub → admv-store → Settings → Collaborators, затем создать свой ключ Classic с разрешением public_repo. Он даёт доступ к доступным аккаунту публичным репозиториям, поэтому храните его как пароль.</p><a href="https://github.com/settings/tokens" target="_blank" rel="noopener">Открыть ключи GitHub</a></details>
-      <div class="fld"><label for="loginPass">Ключ доступа GitHub</label><input class="inp" id="loginPass" type="password" autocomplete="off" spellcheck="false" autocapitalize="off" onkeydown="if(event.key==='Enter')tryLogin()"></div>
+      <div id="githubLoginInfo"><p class="adm-hint">Вход по ключу GitHub с доступом к ADMV. Один и тот же способ работает на компьютере и телефоне.</p><details class="adm-hint"><summary>Как получить доступ</summary><p>Владелец: Fine-grained token, только admv-store, Contents: Read and write.</p><p>Друг: принять приглашение в GitHub → admv-store → Settings → Collaborators, затем создать свой ключ Classic с разрешением public_repo. Он даёт доступ к доступным аккаунту публичным репозиториям, поэтому храните его как пароль.</p><a href="https://github.com/settings/tokens" target="_blank" rel="noopener">Открыть ключи GitHub</a></details></div>
+      <p class="adm-hint" id="serverLoginInfo" hidden>Введите логин и пароль владельца. Товары и настройки публикуются для всех устройств.</p>
+      <div class="fld" id="loginUserField" hidden><label for="loginUser">Логин</label><input class="inp" id="loginUser" autocomplete="username" autocapitalize="off" spellcheck="false" maxlength="100" onkeydown="if(event.key==='Enter')document.getElementById('loginPass').focus()"></div>
+      <div class="fld"><label for="loginPass" id="loginPassLabel">Ключ доступа GitHub</label><input class="inp" id="loginPass" type="password" autocomplete="off" spellcheck="false" autocapitalize="off" onkeydown="if(event.key==='Enter')tryLogin()"></div>
       <div id="loginErr" style="color:#e05a4a;font-size:.76rem;display:none;margin-bottom:6px">Не удалось войти. Проверьте ключ GitHub.</div>
     </div>
     <div class="mbox-foot"><button class="btn solid block" id="loginSubmit" style="flex:1" onclick="tryLogin()">Проверить ключ и войти</button></div>
@@ -842,7 +844,8 @@ var ADMV_BUILD='2026-11-15.1';
 <script src="js/cutout.js?v=2026-11-15.1"></script>
 <script src="js/admin-media.js?v=2026-11-15.1"></script>
 <script src="js/site-admin.js?v=2026-11-15.1"></script>
-<script src="js/admin-auth.js?v=2026-11-15.1"></script>
+<script src="js/admin-server.js?v=2026-11-18.1"></script>
+<script src="js/admin-auth-server.js?v=2026-11-18.1"></script>
 <script>
 /* ====================================================================
    PRODUCT DATA - добавляй товары сюда. Поля по ТЗ.
@@ -1446,7 +1449,7 @@ function renderHero(){
 }
 
 /* ===== РЕЖИМ АДМИНА НА САЙТЕ ===== */
-function isAdmin(){ return ghAdminVerified && GH.get().token===ghAdminToken; }
+function isAdmin(){ return AdminServer.enabled() ? !!AdminServer.active() : ghAdminVerified && GH.get().token===ghAdminToken; }
 function enableAdminMode(){ document.body.classList.add('admin-on'); const v=$('#abVer'); if(v) v.textContent='версия '+ADMV_BUILD; renderShop(); renderFooter(); }
 function disableAdminMode(){ document.body.classList.remove('admin-on'); renderShop(); renderFooter(); }
 function openAdminAt(tab){ adminTab=tab; openAdmin(); }
@@ -1455,12 +1458,12 @@ function openAdminAt(tab){ adminTab=tab; openAdmin(); }
 let adminTab='products';
 function openAdminGate(){
   if(isAdmin()){ openAdmin(); return; }
-  hideSecrets(); $('#loginPass').value=''; $('#loginPass').placeholder=GH.get().token?'Ключ уже сохранён для этой вкладки. Нажмите «Войти»':'Вставьте ключ GitHub'; $('#loginErr').style.display='none';
+  hideSecrets(); configureAdminLogin(); $('#loginPass').value=''; $('#loginErr').style.display='none';
   $('#loginModal').classList.add('open'); document.body.classList.add('lock');
-  setTimeout(()=>$('#loginPass').focus(),120);
+  setTimeout(()=>$(AdminServer.enabled()?'#loginUser':'#loginPass').focus(),120);
 }
 function closeLogin(){ loginGeneration++; hideSecrets(); $('#loginPass').value=''; $('#loginModal').classList.remove('open'); syncLock(); }
-function logoutAdmin(){ loginGeneration++; ghAdminVerified=false; ghAdminToken=''; GH.set({...GH.get(),token:''}); sessionStorage.removeItem('admv_authed'); disableAdminMode(); closeLogin(); closeAdmin(); toast('Вы вышли. Ключ удалён из этой вкладки, черновик сохранён.'); }
+function logoutAdmin(){ AdminServer.logout(); loginGeneration++; ghAdminVerified=false; ghAdminToken=''; GH.set({...GH.get(),token:''}); sessionStorage.removeItem('admv_authed'); disableAdminMode(); closeLogin(); closeAdmin(); toast('Вы вышли. Черновик сохранён на этом устройстве.'); }
 function openAdmin(){ if(!isAdmin()){openAdminGate();return;}if(!document.body.classList.contains('admin-on'))enableAdminMode();$('#adminPanel').classList.add('open');document.body.classList.add('lock');admTab(adminTab); }
 function closeAdmin(){ hideSecrets(); $('#adminPanel').classList.remove('open'); if(location.hash==='#admin') history.replaceState(null,'',location.pathname+location.search); syncLock(); }
 function admTab(t){
@@ -1653,6 +1656,7 @@ function saveStore(){
 
 /* ===== АДМИН: ДОСТУП ===== */
 function admAccess(){
+  if(AdminServer.enabled()){ $('#admBody').innerHTML='<div class="adm-sec-h"><h2>Доступ владельца</h2></div><p class="adm-hint">Вход по личному логину и паролю. Пароль проверяется сервером и не хранится в файлах сайта. После закрытия страницы нужно войти заново.</p><p class="adm-hint">Логин и пароль меняются в защищённых настройках серверной функции. База данных не используется. Черновики хранятся на устройстве до публикации. После публикации товары видны всем.</p><button class="btn" onclick="logoutAdmin()">Выйти на этом устройстве</button>'; return; }
   $('#admBody').innerHTML=`<div class="adm-sec-h"><h2>Доступ через GitHub</h2></div><p class="adm-hint">Локальные логин и пароль больше не используются. На каждом устройстве войдите по своему ключу GitHub с доступом к репозиторию магазина.</p><p class="adm-hint">Для друга: владелец открывает GitHub → admv-store → Settings → Collaborators и приглашает его аккаунт. Друг принимает приглашение и создаёт свой ключ Classic с разрешением public_repo. Fine-grained ключ друга не подходит для репозитория чужого личного аккаунта. Не пересылайте свой ключ друг другу.</p><p class="adm-hint">Владельцу: Fine-grained, только admv-store, Contents: Read and write. Другу: Classic, public_repo. Проверка входа не создаёт коммитов. Окончательную проверку права записи GitHub выполняет при публикации.</p><a class="btn" href="https://github.com/settings/tokens" target="_blank" rel="noopener">Ключи GitHub</a><button class="btn" onclick="logoutAdmin()">Выйти на этом устройстве</button>`;
 }
 
@@ -1683,6 +1687,7 @@ function admData(){
       <button class="btn solid" onclick="exportDB()">Экспорт базы</button>
       <label class="btn" style="cursor:pointer">Импорт базы<input type="file" accept="application/json" hidden onchange="importDB(this)"></label>
     </div>`;
+  if(AdminServer.enabled()){const start=document.getElementById('gh_token')?.closest('.fld'); const headings=[...document.querySelectorAll('#admBody .adm-sec-h')]; if(start&&headings[1]&&headings[2]){let node=headings[1];while(node&&node!==headings[2]){const next=node.nextElementSibling;node.remove();node=next;} const note=document.createElement('p');note.className='adm-hint';note.textContent='Публикация подключена через защищённый сервер. Ключ GitHub вводить не нужно.';headings[2].before(note);}}
   updateDraftUI();
 }
 /* ===== ПУБЛИКАЦИЯ: одна кнопка отправляет товары, фото и настройки в файлы сайта (GitHub) =====
@@ -1715,7 +1720,7 @@ let publishing=false;
 async function publishDB(){
   if(!isAdmin()){openAdminGate();return;}
   const g=GH.get();
-  if(!g.token){ toast('Сначала добавьте ключ публикации - вкладка «База».'); openAdminAt('data'); return; }
+  if(!AdminServer.enabled()&&!g.token){ toast('Сначала добавьте ключ публикации - вкладка «База».'); openAdminAt('data'); return; }
   if(publishing) return; document.getElementById('publishError')?.remove(); publishing=true; updateDraftUI('Публикую…');
   try{
     if(g.repo!=='abubakarov-kerim/admv-store')throw new Error('Для ADMV разрешена публикация только в abubakarov-kerim/admv-store.');
@@ -1732,6 +1737,7 @@ async function publishDB(){
       if(p.tryImg) p.tryImg=toFile(p.tryImg,sid+'-try'); });
     ['hero','heroDark','editorialImg'].forEach(k=>store[k]=toFile(store[k],k));
     const db={_v:2,_rev:Date.now(),_date:new Date().toISOString(),products,categories,store};
+    if(AdminServer.enabled()){const result=await AdminServer.request('publish',{db,blobs});Object.assign(db,result.db);}else{
     const br=encodeURIComponent(g.branch||'main');
     const ref=await ghApi(g,'/git/ref/heads/'+br);
     const base=await ghApi(g,'/git/commits/'+ref.object.sha);
@@ -1741,6 +1747,7 @@ async function publishDB(){
     const nt=await ghApi(g,'/git/trees','POST',{base_tree:base.tree.sha,tree});
     const nc=await ghApi(g,'/git/commits','POST',{message:'Публикация из админки: '+products.length+' товаров',tree:nt.sha,parents:[ref.object.sha]});
     await ghApi(g,'/git/refs/heads/'+br,'PATCH',{sha:nc.sha});
+    }
     // опубликовано: черновик больше не нужен, этот браузер показывает новую версию сразу
     PUB=db; BIG.put('pub',db); BIG.mem=null; BIG.del(LS.prod);
     try{ [LS.prod,LS.cats,LS.store].forEach(k=>localStorage.removeItem(k)); }catch(e){}
@@ -1777,10 +1784,10 @@ function openInfo(kind){
     $('#infoModal').classList.add('open'); document.body.classList.add('lock'); return;
   }
   const T = kind==='privacy' ? ['Конфиденциальность',`
-    <h4>Что собирает сайт</h4><p>Ничего. На сайте нет регистрации, форм, счётчиков посещений, рекламных трекеров и cookie. Шрифты и картинки загружаются с самого сайта.</p>
+    <h4>Каталог магазина</h4><p>В каталоге нет регистрации покупателей и полей для имени, телефона или адреса доставки. Список товаров для заказа формируется в браузере. Сайт не добавляет рекламные трекеры и счётчики посещений. Хостинг может обрабатывать технические сведения о соединении по своим правилам.</p>
     <h4>Корзина и избранное</h4><p>Хранятся только в памяти вашего браузера и никуда не отправляются. Их можно удалить, очистив данные сайта в браузере.</p>
-    <h4>Когда вы пишете менеджеру</h4><p>Кнопки заказа открывают переписку в мессенджере (${contacts||'контакты в подвале сайта'}). Имя, телефон и адрес, которые вы там сообщаете, используются только чтобы согласовать примерку и доставку, и не передаются третьим лицам. Мессенджеры обрабатывают данные по своим правилам.</p>
-    <h4>Удаление данных</h4><p>Напишите менеджеру, и переписка с вашими данными будет удалена.</p>
+    <h4>Когда вы пишете менеджеру</h4><p>Кнопки заказа открывают переписку в мессенджере (${contacts||'контакты в подвале сайта'}). Подготовленный текст содержит выбранные товары. Вы можете изменить его перед отправкой. Имя, телефон и адрес для доставки менеджер согласует в переписке. Мессенджеры обрабатывают сообщения и технические сведения по своим правилам.</p>
+    <h4>Вопросы о данных</h4><p>По вопросам обработки и удаления данных обратитесь к продавцу по контактам магазина. Данные у сторонних сервисов обрабатываются по их правилам и применимому законодательству.</p>
     <h4>Кто отвечает</h4><p>${sellerLine()}.</p>`]
   : ['Условия покупки',`
     <h4>Как заказать</h4><p>Добавьте вещи в корзину, нажмите «Оформить заказ» и выберите мессенджер. Менеджер уточнит размер, адрес и удобное время.</p>
