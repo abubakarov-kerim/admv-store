@@ -1,9 +1,15 @@
 let ghAdminVerified=false,ghAdminToken='',loginGeneration=0,loginBusy=false;
 async function tryLogin(){
- if(loginBusy)return;const generation=++loginGeneration,button=document.getElementById('loginSubmit');loginBusy=true;button.disabled=true;button.textContent=AdminServer.enabled()?'Вхожу. Первый запуск может занять минуту...':'Проверяю доступ...';document.getElementById('loginErr').style.display='none';
- try{if(AdminServer.enabled()){await AdminServer.login(document.getElementById('loginUser').value,document.getElementById('loginPass').value);if(generation!==loginGeneration){await AdminServer.logout();return;}closeLogin();enableAdminMode();openAdmin();toast('Вы вошли в ADMV.');return;}const saved=GH.get(),g=cleanGH({...saved,repo:'abubakarov-kerim/admv-store',token:document.getElementById('loginPass').value.trim()||saved.token});validGH(g);const user=await ghApi(g,'$user');if(!user.login)throw new Error('GitHub не подтвердил аккаунт.');const repo=await ghApi(g,'');if(repo.full_name?.toLowerCase()!=='abubakarov-kerim/admv-store'||repo.permissions?.push!==true)throw new Error('У этого аккаунта нет доступа на запись в ADMV. Владелец должен пригласить его в Settings → Collaborators.');await ghApi(g,'/git/ref/heads/'+encodeURIComponent(g.branch));if(generation!==loginGeneration)return;if(!GH.set(g))throw new Error('Браузер не разрешил сохранить ключ для этой вкладки.');ghAdminToken=g.token;ghAdminVerified=true;closeLogin();enableAdminMode();openAdmin();toast('GitHub подтвердил доступ. Вы вошли в ADMV.');}
- catch(e){if(generation===loginGeneration){ghAdminVerified=false;ghAdminToken='';const el=document.getElementById('loginErr');el.textContent=e.message;el.style.display='block';}}
- finally{loginBusy=false;button.disabled=false;button.textContent=AdminServer.enabled()?'Войти':'Проверить ключ и войти';}
+ if(loginBusy)return;
+ const generation=++loginGeneration,button=document.getElementById('loginSubmit');
+ loginBusy=true;button.disabled=true;button.textContent='Вхожу. Первый запуск может занять минуту...';document.getElementById('loginErr').style.display='none';
+ try{
+  if(!AdminServer.enabled())throw new Error('Сервер входа ещё не подключён. Обновите страницу и повторите позже.');
+  await AdminServer.login(document.getElementById('loginUser').value,document.getElementById('loginPass').value);
+  if(generation!==loginGeneration){await AdminServer.logout();return;}
+  closeLogin();enableAdminMode();openAdmin();toast('Вы вошли в ADMV.');
+ }catch(e){if(generation===loginGeneration){const el=document.getElementById('loginErr');el.textContent=e.message;el.style.display='block';}}
+ finally{loginBusy=false;button.disabled=false;button.textContent='Войти';}
 }
 /* Видимость паролей и диагностика публикации. Значения ключей не выводятся в сообщения. */
 const EYE_OPEN='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>';
@@ -23,12 +29,10 @@ function removeGH(){const g=GH.get();g.token='';if(!GH.set(g)){ghStatus('Бра�
 function publishError(message){let box=document.getElementById('publishError');if(!box){box=document.createElement('div');box.id='publishError';box.className='publish-error';box.setAttribute('role','alert');const text=document.createElement('p');box.append(text);const button=document.createElement('button');button.type='button';button.className='adm-mini';button.textContent='Открыть настройки ключа';button.onclick=()=>openAdminAt('data');box.append(button);document.getElementById('admTabs').after(box);}box.querySelector('p').textContent=message;ghStatus(message,true);}
 
 function configureAdminLogin(){
- const server=AdminServer.enabled();
- document.getElementById('githubLoginInfo').hidden=server;
- document.getElementById('serverLoginInfo').hidden=!server;
- document.getElementById('loginUserField').hidden=!server;
- document.getElementById('loginPassLabel').textContent=server?'Пароль':'Ключ доступа GitHub';
- const input=document.getElementById('loginPass'); input.autocomplete=server?'current-password':'off';
- input.placeholder=server?'Введите пароль':GH.get().token?'Ключ сохранён для этой вкладки':'Вставьте ключ GitHub';
- document.getElementById('loginSubmit').textContent=server?'Войти':'Проверить ключ и войти';
+ document.getElementById('githubLoginInfo').hidden=true;
+ document.getElementById('serverLoginInfo').hidden=false;
+ document.getElementById('loginUserField').hidden=false;
+ document.getElementById('loginPassLabel').textContent='Пароль';
+ const input=document.getElementById('loginPass');input.autocomplete='current-password';input.placeholder='Введите пароль';
+ document.getElementById('loginSubmit').textContent='Войти';
 }
