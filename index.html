@@ -400,6 +400,8 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 
 /* forms */
 .fld{ margin-bottom:16px; }
+.cut-box{margin-top:10px}.cut-box img{width:100%;height:240px;object-fit:contain;background:var(--card);border:1px solid var(--line)}
+.option-add{display:flex;gap:8px;margin-top:10px;align-items:stretch}.option-add .inp{flex:1;min-width:0}.option-add .adm-mini{flex-shrink:0}.chk-hint{display:block;margin-top:8px}
 .fld > label{ display:block; font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
 .inp{ width:100%; background:var(--bg); color:var(--text); border:1px solid var(--line); border-radius:8px;
   padding:12px 14px; font-family:var(--sans); font-size:.9rem; outline:none; transition:border-color .25s; -webkit-appearance:none; appearance:none; }
@@ -565,7 +567,7 @@ body{ font-weight:400; }
 /* АВТООБНОВЛЕНИЕ: браузер может показывать старую сохранённую копию сайта.
    Сверяем номер версии с сервером и, если вышла новая, сами открываем её.
    При каждой публикации менять ADMV_BUILD. */
-var ADMV_BUILD='2026-11-18.2';
+var ADMV_BUILD='2026-11-19.1';
 (function(){
   if(location.protocol.indexOf('http')!==0 || !window.fetch) return;
   fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.text():''; }).then(function(t){
@@ -841,9 +843,9 @@ var ADMV_BUILD='2026-11-18.2';
 
 <div class="toast" id="toast"></div>
 
-<script src="js/cutout.js?v=2026-11-15.1"></script>
-<script src="js/admin-media.js?v=2026-11-15.1"></script>
-<script src="js/site-admin.js?v=2026-11-15.1"></script>
+<script src="js/product-options.js?v=2026-11-19.1"></script>
+<script src="js/admin-media-basic.js?v=2026-11-19.1"></script>
+<script src="js/site-admin.js?v=2026-11-19.1"></script>
 <script src="js/admin-server.js?v=2026-11-18.2"></script>
 <script src="js/admin-auth-server.js?v=2026-11-18.2"></script>
 <script>
@@ -993,7 +995,8 @@ function applyMeta(list){
     p.images=p.images.map(u=>(!u||EXT_DEMO.test(u))?'':u);
     if(!p.images[0]) p.images[0]=PLACEHOLDER;
     if(!p.images[1]) p.images[1]=p.images[0];
-    if(!p.stock) p.stock={};
+    if(!p.stock||typeof p.stock!=='object'||Array.isArray(p.stock)) p.stock={};
+    for(const key of ['sizes','colors','colorsOut'])p[key]=Array.isArray(p[key])?p[key].filter(v=>typeof v==='string'||typeof v==='number').map(String):[];
   });
   return list;
 }
@@ -1057,7 +1060,7 @@ const sizeOn  = (p,s) => !p.stock || !(s in p.stock) || p.stock[s]>0;
 const firstColor = p => (p.colors||[]).find(c=>colorOn(p,c)) || (p.colors||[])[0];
 const soldOut = p => !(p.colors||[]).some(c=>colorOn(p,c)) || !(p.sizes||[]).some(s=>sizeOn(p,s));
 function cardHTML(p){
-  const sw = p.colors.slice(0,5).map(c=>`<span class="sw${colorOn(p,c)?'':' off'}" style="background:${COLORS[c]}" title="${esc(c)}${colorOn(p,c)?'':': нет в наличии'}"></span>`).join('');
+  const sw = p.colors.slice(0,5).map(c=>`<span class="sw${colorOn(p,c)?'':' off'}" style="background:${colorSwatch(c)}" title="${esc(c)}${colorOn(p,c)?'':': нет в наличии'}"></span>`).join('');
   const flag = soldOut(p)?'<span class="flag">Нет в наличии</span>':p.sale?'<span class="flag sale">Скидка</span>':(p.newArrival?'<span class="flag">Новое</span>':'');
   const price = p.oldPrice
     ? `<s>${eur(p.oldPrice)}</s><span class="now sale">${eur(p.price)}</span>`
@@ -1139,8 +1142,8 @@ function goHome(){ window.scrollTo({top:0,behavior:'smooth'}); closeMenu(); retu
 /* ===== FILTER DRAWER ===== */
 function buildFilter(){
   const cat = CATEGORIES.map(c=>`<div class="fopt${filters.cats.has(c)?' on':''}" onclick="togF('cats',${jsq(c)})"><span class="box"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></span>${c}</div>`).join('');
-  const sz = ALLSIZES.map(s=>`<div class="sizepill${filters.sizes.has(s)?' on':''}" onclick="togF('sizes','${s}')">${s}</div>`).join('');
-  const col = ALLCOLORS.map(c=>`<div class="colordot${filters.colors.has(c)?' on':''}" onclick="togF('colors','${c}')"><span class="d" style="background:${COLORS[c]}"></span><span>${c}</span></div>`).join('');
+  const sz = productOptions('sizes').map(s=>`<div class="sizepill${filters.sizes.has(s)?' on':''}" onclick="togF('sizes',${jsq(s)})">${esc(s)}</div>`).join('');
+  const col = productOptions('colors').map(c=>`<div class="colordot${filters.colors.has(c)?' on':''}" onclick="togF('colors',${jsq(c)})"><span class="d" style="background:${colorSwatch(c)}"></span><span>${esc(c)}</span></div>`).join('');
   $('#filterBody').innerHTML = `
     <div class="fgroup"><div class="ft">Категория</div>${cat}</div>
     <div class="fgroup"><div class="ft">Размер</div><div class="sizes-f">${sz}</div></div>
@@ -1179,12 +1182,15 @@ function renderWish(){
 }
 
 /* ===== CART ===== */
-function quickAdd(id){ const p=PRODUCTS.find(x=>x.id===id); if(soldOut(p)){ toast('Этого товара сейчас нет в наличии'); return; } const size=p.sizes.find(s=>sizeOn(p,s))||p.sizes[0]; addToCart(id,size,firstColor(p),1); openCart(); }
+function quickAdd(id){ const p=PRODUCTS.find(x=>x.id===id); if(!p||soldOut(p)){ toast('Этого товара сейчас нет в наличии'); return; } const size=p.sizes.find(s=>sizeOn(p,s))||p.sizes[0]; addToCart(id,size,firstColor(p),1); openCart(); }
 function addToCart(id,size,color,qty){
-  const key=id+'|'+size+'|'+color;
-  const ex=cart.find(c=>c.key===key);
+  const p=PRODUCTS.find(x=>x.id===id);
+  if(!p||!p.sizes.includes(size)||!p.colors.includes(color)||!sizeOn(p,size)||!colorOn(p,color)){toast('Этот размер или цвет недоступен. Выберите другой вариант.');return false;}
+  if(!Number.isFinite(qty)||qty<1||!Number.isInteger(qty))return false;
+  const key=JSON.stringify([id,size,color]);
+  const ex=cart.find(c=>c.id===id&&c.size===size&&c.color===color);
   if(ex) ex.qty+=qty; else { const p=PRODUCTS.find(x=>x.id===id); cart.push({key,id,size,color,qty,price:p.price,name:p.name,img:p.images[0]}); }
-  updateCounts(); renderCart(); toast('Добавлено в корзину');
+  updateCounts(); renderCart(); toast('Добавлено в корзину');return true;
 }
 function changeQty(key,d){ const it=cart.find(c=>c.key===key); if(!it) return; it.qty+=d; if(it.qty<=0) cart=cart.filter(c=>c.key!==key); updateCounts(); renderCart(); }
 function removeItem(key){ cart=cart.filter(c=>c.key!==key); updateCounts(); renderCart(); }
@@ -1194,8 +1200,8 @@ function renderCart(){
   b.innerHTML = cart.map(it=>`<div class="citem">
     <img src="${it.img}" alt="">
     <div><div class="cn">${esc(it.name)}</div><div class="cv">${esc(it.color)} · Размер ${esc(it.size)}</div>
-      <div class="qty"><button onclick="changeQty('${it.key}',-1)">−</button><span>${it.qty}</span><button onclick="changeQty('${it.key}',1)">+</button></div></div>
-    <div class="cr"><div class="cp">${eur(it.price*it.qty)}</div><button class="rm" onclick="removeItem('${it.key}')">Удалить</button></div>
+      <div class="qty"><button onclick="changeQty(${jsq(it.key)},-1)">−</button><span>${it.qty}</span><button onclick="changeQty(${jsq(it.key)},1)">+</button></div></div>
+    <div class="cr"><div class="cp">${eur(it.price*it.qty)}</div><button class="rm" onclick="removeItem(${jsq(it.key)})">Удалить</button></div>
   </div>`).join('');
   const sub=cart.reduce((s,it)=>s+it.price*it.qty,0);
   f.innerHTML=`<div class="subtotal"><span class="up" style="font-size:.66rem;color:var(--muted)">Итого</span><span class="s2 serif">${eur(sub)}</span></div>
@@ -1212,6 +1218,7 @@ function buildOrderText(){
 }
 function openOrder(){
   if(!cart.length){ toast('Корзина пуста'); return; }
+  if(cart.some(it=>{const p=PRODUCTS.find(x=>x.id===it.id);return !p||!p.sizes.includes(it.size)||!p.colors.includes(it.color)||!sizeOn(p,it.size)||!colorOn(p,it.color);})){toast('В корзине есть недоступный размер или цвет. Удалите его и выберите актуальный вариант.');openCart();return;}
   closeAll();
   $('#orderText').value = buildOrderText();
   $('#orderModal').classList.add('open'); document.body.classList.add('lock');
@@ -1250,8 +1257,8 @@ function closeProduct(){ $('#pview').classList.remove('open'); if(!anyDrawer()) 
 function renderProduct(){
   const p=PRODUCTS.find(x=>x.id===pvState.id);
   const thumbs=p.images.map((im,i)=>`<img src="${im}" class="${i===pvState.imgIndex?'on':''}" onclick="pvSetImg(${i})" alt="">`).join('');
-  const colors=p.colors.map(c=>{ const off=!colorOn(p,c); return `<div class="pv-color${c===pvState.color&&!off?' on':''}${off?' off':''}" style="background:${COLORS[c]}" ${off?'aria-disabled="true"':`onclick="pvSetColor('${c}')"`} title="${c}${off?': нет в наличии':''}"></div>`; }).join('');
-  const sizes=p.sizes.map(s=>{ const off=!sizeOn(p,s); return `<div class="pv-size${pvState.size===s?' on':''}${off?' off':''}" ${off?'aria-disabled="true" title="Нет в наличии"':`onclick="pvSetSize('${s}')"`}>${s}</div>`;}).join('');
+  const colors=p.colors.map(c=>{ const off=!colorOn(p,c); return `<div class="pv-color${c===pvState.color&&!off?' on':''}${off?' off':''}" style="background:${colorSwatch(c)}" ${off?'aria-disabled="true"':`onclick="pvSetColor(${jsq(c)})"`} title="${esc(c)}${off?': нет в наличии':''}" aria-label="${esc(c)}"></div>`; }).join('');
+  const sizes=p.sizes.map(s=>{ const off=!sizeOn(p,s); return `<div class="pv-size${pvState.size===s?' on':''}${off?' off':''}" ${off?'aria-disabled="true" title="Нет в наличии"':`onclick="pvSetSize(${jsq(s)})"`}>${esc(s)}</div>`;}).join('');
   const price=p.oldPrice?`<s>${eur(p.oldPrice)}</s><span class="now sale">${eur(p.price)}</span>`:`<span class="now">${eur(p.price)}</span>`;
   const specsHTML=(p.specs&&p.specs.length)?`<div class="pv-specs"><div class="l">Характеристики</div>${p.specs.map(s=>`<div class="srow"><span class="sk">${esc(s.k)}</span><span>${esc(s.v)}</span></div>`).join('')}</div>`:'';
   $('#pvGrid').innerHTML=`
@@ -1264,7 +1271,7 @@ function renderProduct(){
       <h1>${esc(p.name)}</h1>
       <div class="pvprice">${price}</div>
       <p class="desc">${esc(p.description)}</p>
-      <div class="pv-block"><div class="l">${esc(siteText('Цвет'))}: ${colorOn(p,pvState.color)?pvState.color:'нет в наличии'}</div><div class="pv-colors">${colors}</div></div>
+      <div class="pv-block"><div class="l">${esc(siteText('Цвет'))}: ${colorOn(p,pvState.color)?esc(pvState.color):'нет в наличии'}</div><div class="pv-colors">${colors}</div></div>
       <div class="pv-block"><div class="l">${esc(siteText('Размер'))} <span class="sizeguide" onclick="openInfo('sizes')">${esc(siteText('Таблица размеров'))}</span></div><div class="pv-sizes">${sizes}</div></div>
       <div class="pv-cta">
         ${soldOut(p)?`<button class="btn block" disabled style="opacity:.5;cursor:not-allowed">Нет в наличии</button>`:`<button class="btn solid block" onclick="pvAdd()">В корзину</button>
@@ -1282,7 +1289,7 @@ function renderProduct(){
 function pvSetImg(i){ pvState.imgIndex=i; const im=$('#gmainImg'); im.style.opacity=0; setTimeout(()=>{ im.src=PRODUCTS.find(x=>x.id===pvState.id).images[i]; im.style.opacity=1; },180); document.querySelectorAll('.thumbs img').forEach((t,ti)=>t.classList.toggle('on',ti===i)); }
 function pvSetColor(c){ const p=PRODUCTS.find(x=>x.id===pvState.id); if(p&&!colorOn(p,c)) return; pvState.color=c; renderProduct(); applySite(); }
 function pvSetSize(s){ const p=PRODUCTS.find(x=>x.id===pvState.id); if(p&&!sizeOn(p,s)) return; pvState.size=s; renderProduct(); applySite(); }
-function pvAdd(order=false){ if(!pvState.size){ toast('Выберите размер'); return; } addToCart(pvState.id,pvState.size,pvState.color,1); if(order){ closeProduct(); openOrder(); } }
+function pvAdd(order=false){ if(!pvState.size){ toast('Выберите размер'); return; } if(!addToCart(pvState.id,pvState.size,pvState.color,1))return; if(order){ closeProduct(); openOrder(); } }
 
 /* ===== SEARCH ===== */
 function openSearch(){ $('#searchOv').classList.add('open'); document.body.classList.add('lock'); setTimeout(()=>$('#searchInput').focus(),120); }
@@ -1495,8 +1502,8 @@ function editProduct(id){
   const p = id ? clone(PRODUCTS.find(x=>x.id===id)) : { id:'', name:'', category:CATEGORIES[0]||'', description:'', price:0, oldPrice:null, images:['',''], colors:[], sizes:[], stock:{}, specs:[], newArrival:false, sale:false, featured:false };
   $('#formTitle').textContent = id?'Редактирование товара':'Новый товар';
   const catOpts = CATEGORIES.map(c=>`<option ${c===p.category?'selected':''}>${esc(c)}</option>`).join('');
-  const colChk = ALLCOLORS.map(c=>{ const on=(p.colors||[]).includes(c), out=on&&(p.colorsOut||[]).includes(c); return `<span class="chk${out?' out':on?' on':''}" data-col="${esc(c)}" onclick="chk3(this)">${esc(c)}</span>`; }).join('');
-  const szChk = ALLSIZES.map(s=>{ const on=(p.sizes||[]).includes(s), out=on&&p.stock&&(s in p.stock)&&p.stock[s]<=0; return `<span class="chk${out?' out':on?' on':''}" data-sz="${s}" onclick="chk3(this)">${s}</span>`; }).join('');
+  const colChk = productOptions('colors',p).map(c=>{ const on=(p.colors||[]).includes(c),out=on&&(p.colorsOut||[]).includes(c);return `<button type="button" class="chk${out?' out':on?' on':''}" data-col="${esc(c)}" aria-pressed="${out?'mixed':on?'true':'false'}" onclick="chk3(this)">${esc(c)}</button>`;}).join('');
+  const szChk = productOptions('sizes',p).map(v=>{const on=(p.sizes||[]).includes(v),out=on&&p.stock&&Object.prototype.hasOwnProperty.call(p.stock,v)&&p.stock[v]<=0;return `<button type="button" class="chk${out?' out':on?' on':''}" data-sz="${esc(v)}" aria-pressed="${out?'mixed':on?'true':'false'}" onclick="chk3(this)">${esc(v)}</button>`;}).join('');
   const specsText = (p.specs||[]).map(s=>`${s.k}: ${s.v}`).join('\n');
   $('#formBody').innerHTML = `
     <div class="fld"><label>Название</label><input class="inp" id="f_name" value="${esc(p.name)}"></div>
@@ -1514,9 +1521,8 @@ function editProduct(id){
     </div>
     <div class="fld"><label>Описание</label><textarea class="inp" id="f_desc">${esc(p.description)}</textarea></div>
     <div class="fld"><label>Характеристики (каждая с новой строки: «Название: значение»)</label><textarea class="inp" id="f_specs" placeholder="Материал: 100% хлопок\nКрой: свободный">${esc(specsText)}</textarea></div>
-    <div class="fld"><label>Цвета</label><div class="chkwrap" id="f_colors">${colChk}</div><span class="chk-hint">Нажатие: <b>есть</b> (выделено), ещё раз: <b>закончился</b> (серый, покупатель видит, но выбрать не может), ещё раз: убрать из карточки.</span></div>
-    <div class="fld"><label>Размеры</label><div class="chkwrap" id="f_sizes">${szChk}</div><span class="chk-hint">Нажатие: <b>есть</b> (выделено), ещё раз: <b>закончился</b> (серый, покупатель видит, но выбрать не может), ещё раз: убрать из карточки.</span></div>
-    <label class="site-toggle"><input type="checkbox" id="autoCutPhotos" ${PHOTO_AUTO?'checked':''} onchange="PHOTO_AUTO=this.checked">Автоматически убирать фон и выравнивать фото, как в BAKHUR</label>
+    <div class="fld"><label>Цвета</label><div class="chkwrap" id="f_colors">${colChk}</div><div class="option-add"><input class="inp" id="f_new_color" aria-label="Свой цвет" placeholder="Свой цвет, например Бордовый" maxlength="40" onkeydown="if(event.key==='Enter'){event.preventDefault();addProductOption('colors')}"><button type="button" class="adm-mini" onclick="addProductOption('colors')">Добавить цвет</button></div><span class="chk-hint">Нажатие: <b>есть</b> (выделено), ещё раз: <b>закончился</b> (серый, покупатель видит, но выбрать не может), ещё раз: убрать из карточки.</span></div>
+    <div class="fld"><label>Размеры</label><div class="chkwrap" id="f_sizes">${szChk}</div><div class="option-add"><input class="inp" id="f_new_size" aria-label="Свой размер" placeholder="Свой размер, например 42 или 4XL" maxlength="24" onkeydown="if(event.key==='Enter'){event.preventDefault();addProductOption('sizes')}"><button type="button" class="adm-mini" onclick="addProductOption('sizes')">Добавить размер</button></div><span class="chk-hint">Нажатие: <b>есть</b> (выделено), ещё раз: <b>закончился</b> (серый, покупатель видит, но выбрать не может), ещё раз: убрать из карточки.</span></div>
     <div class="fld"><label>Фото 1 (главное) - ссылка</label><input class="inp" id="f_img1" onchange="PHOTO_JOBS.f_img1=(PHOTO_JOBS.f_img1||0)+1;PHOTO_ORIGINAL.f_img1=imgVal('f_img1');mediaPreview('f_img1')" value="${esc(imgField('f_img1',p.images[0]===PLACEHOLDER?'':p.images[0]))}" placeholder="https://...">
       <label class="filepick" style="margin-top:9px"><input type="file" accept="image/*" hidden onchange="pickImg(this,'f_img1')">Загрузить фото</label>
       <div class="cut-box" id="cut_f_img1"></div></div>
@@ -1542,9 +1548,10 @@ function saveProductForm(){
   const colorsOut=[...$('#f_colors').querySelectorAll('.chk.out')].map(x=>x.dataset.col);
   const sizes =[...$('#f_sizes').querySelectorAll('.chk.on,.chk.out')].map(x=>x.dataset.sz);
   const sizesOut=[...$('#f_sizes').querySelectorAll('.chk.out')].map(x=>x.dataset.sz);
+  if(!colors.length||!sizes.length){toast('Выберите хотя бы один цвет и один размер');return;}
   const specs =$('#f_specs').value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{ const i=l.indexOf(':'); return i>-1?{k:l.slice(0,i).trim(),v:l.slice(i+1).trim()}:{k:l,v:''}; });
   const prevStock=(editingId&&(PRODUCTS.find(x=>x.id===editingId)||{}).stock)||{};
-  const stock={}; sizes.forEach(s=>stock[s]=sizesOut.includes(s)?0:(prevStock[s]>0?prevStock[s]:1));
+  const stock=Object.create(null); sizes.forEach(s=>stock[s]=sizesOut.includes(s)?0:(prevStock[s]>0?prevStock[s]:1));
   const img1=imgVal('f_img1'), img2=imgVal('f_img2');
   const old=parseFloat($('#f_old').value)||null;
   const obj={
@@ -1555,9 +1562,9 @@ function saveProductForm(){
     oldPrice: old,
     images:[img1||PLACEHOLDER, img2||img1||PLACEHOLDER],
     originalImages:[PHOTO_ORIGINAL.f_img1||img1||'',PHOTO_ORIGINAL.f_img2||img2||''],
-    colors: colors.length?colors:['Чёрный'],
+    colors,
     colorsOut,
-    sizes: sizes.length?sizes:['M'],
+    sizes,
     stock, specs,
     newArrival:$('#f_new').classList.contains('on'),
     sale: old?true:$('#f_sale').classList.contains('on'),
@@ -1809,8 +1816,10 @@ function exportDB(){
 }
 function importDB(input){
   const f=input.files[0]; if(!f) return;
+  if(f.size>20*1024*1024){toast('Файл слишком большой. Используйте резервную копию до 20 МБ.');input.value='';return;}
   const r=new FileReader();
   r.onload=()=>{ let d; try{ d=JSON.parse(r.result); }catch(e){ toast('Файл повреждён'); return; }
+    if(!d||!Array.isArray(d.products)||!Array.isArray(d.categories)||!d.store||typeof d.store!=='object'||Array.isArray(d.store)||!d.categories.every(c=>typeof c==='string')||!d.products.every(p=>p&&typeof p.id==='string'&&/^[a-zA-Z0-9_-]{1,100}$/.test(p.id)&&typeof p.name==='string'&&Array.isArray(p.images)&&p.images.every(v=>typeof v==='string')&&Array.isArray(p.sizes)&&Array.isArray(p.colors))){toast('В файле нет корректного каталога ADMV. Текущие данные сохранены.');input.value='';return;}
     confirmAction('Импортировать базу? Текущие данные будут заменены.', ()=>{
       if(d.products) DB.save(LS.prod,d.products);
       if(d.categories) DB.save(LS.cats,d.categories);
