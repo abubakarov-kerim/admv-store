@@ -10,6 +10,7 @@ function chk3(button){
  else if(button.classList.contains('on')){button.classList.remove('on');button.classList.add('out');}
  else button.classList.add('on');
  optionState(button);
+ if(button.dataset.col&&typeof refreshVariantColors==='function')refreshVariantColors(button.dataset.col);
 }
 function productOptions(kind,product){
  const defaults=kind==='sizes'?ALLSIZES:ALLCOLORS;
@@ -23,7 +24,7 @@ function addProductOption(kind){
  const box=document.getElementById(size?'f_sizes':'f_colors'),key=size?'sz':'col';
  let button=[...box.querySelectorAll('.chk')].find(x=>x.dataset[key].toLocaleLowerCase('ru')===value.toLocaleLowerCase('ru'));
  if(!button){button=document.createElement('button');button.type='button';button.className='chk';button.dataset[key]=value;button.textContent=value;button.onclick=()=>chk3(button);box.append(button);}
- button.classList.remove('out');button.classList.add('on');optionState(button);input.value='';input.focus();
+ button.classList.remove('out');button.classList.add('on');optionState(button);input.value='';input.focus();if(kind==='colors'&&typeof refreshVariantColors==='function')refreshVariantColors(value);
 }
 function colorSwatch(name){
  const palette={...COLORS,'Бордовый':'#742739','Красный':'#b52c36','Синий':'#345c9c','Голубой':'#78b3d3','Бежевый':'#c9b698','Розовый':'#d99caf','Фиолетовый':'#76558e','Оранжевый':'#d88a36','Жёлтый':'#d6b64c'};
