@@ -16,6 +16,7 @@
 :root{
   --bg:#0B0B0C; --card:#151518; --card2:#1B1B1F; --text:#EDEDEE; --muted:#9A9AA3;
   --line:#26262B; --line2:#36363C; --amber:#F0475B; --amber-soft:rgba(200,16,46,.12);
+  --photo-bg:#17181C; --photo-line:#2B2D34;
   --glass:rgba(11,11,12,0.72); --glass-strong:rgba(11,11,12,0.97);
   --ease:cubic-bezier(.22,.8,.2,1);
   --serif:'Fira Sans Extra Condensed','Arial Narrow',Impact,sans-serif;
@@ -25,6 +26,7 @@
 :root[data-theme="light"]{
   --bg:#F3F3F2; --card:#FFFFFF; --card2:#EBEBEA; --text:#111114; --muted:#5C5C64;
   --line:#DCDCD9; --line2:#C7C7C3; --amber:#B20D26; --amber-soft:rgba(178,13,38,.12);
+  --photo-bg:#ECEEF1; --photo-line:#D9DDE3;
   --glass:rgba(243,243,242,0.78); --glass-strong:rgba(243,243,242,0.97);
 }
 *{ box-sizing:border-box; margin:0; padding:0; }
@@ -125,8 +127,8 @@ select.tool{ background:var(--bg); color:var(--text); -webkit-appearance:none; a
 
 /* ===== PRODUCT CARD ===== */
 .pcard{ cursor:pointer; }
-.pcard .imgwrap{ position:relative; aspect-ratio:4/5; overflow:hidden; background:var(--card2); }
-.pcard .imgwrap img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:opacity .6s var(--ease), transform 1s var(--ease); filter:grayscale(.15); }
+.pcard .imgwrap{ position:relative; aspect-ratio:4/5; overflow:hidden; background:var(--photo-bg); border:1px solid var(--photo-line); }
+.pcard .imgwrap img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; padding:3%; transition:opacity .6s var(--ease), transform 1s var(--ease); }
 .pcard .imgwrap .img2{ opacity:0; }
 /* загруженные через админку фото показываем целиком, без обрезки под рамку */
 .pcard .imgwrap img[src^="data:"], .gmain img[src^="data:"]{ object-fit:contain; }
@@ -199,7 +201,7 @@ select.tool{ background:var(--bg); color:var(--text); -webkit-appearance:none; a
 
 /* cart / wishlist items */
 .citem{ display:grid; grid-template-columns:70px 1fr auto; gap:14px; padding:16px 0; border-bottom:1px solid var(--line); }
-.citem img{ width:70px; height:88px; object-fit:cover; background:var(--card2); }
+.citem img{ width:70px; height:88px; object-fit:contain; background:var(--photo-bg); border:1px solid var(--photo-line); }
 .citem .cn{ font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; }
 .citem .cv{ color:var(--muted); font-size:.76rem; margin-top:5px; }
 .qty{ display:inline-flex; align-items:center; border:1px solid var(--line); margin-top:10px; }
@@ -235,11 +237,11 @@ select.tool{ background:var(--bg); color:var(--text); -webkit-appearance:none; a
 .pv-grid{ display:grid; grid-template-columns:1.4fr 1fr; gap:clamp(24px,4vw,64px); padding:90px clamp(18px,4vw,56px) 80px; max-width:1500px; margin:0 auto; }
 .gallery{ display:grid; grid-template-columns:84px 1fr; gap:16px; align-items:start; }
 .thumbs{ display:flex; flex-direction:column; gap:12px; }
-.thumbs img{ width:84px; height:104px; object-fit:cover; background:var(--card2); border:1px solid transparent; cursor:pointer; opacity:.6; transition:.25s; }
+.thumbs img{ width:84px; height:104px; object-fit:contain; background:var(--photo-bg); border:1px solid transparent; cursor:pointer; opacity:.6; transition:.25s; }
 .thumbs img.on{ opacity:1; border-color:var(--amber); }
-.gmain{ position:relative; aspect-ratio:4/5; overflow:hidden; background:var(--card2); }
-.gmain img{ width:100%; height:100%; object-fit:cover; transition:opacity .4s var(--ease), transform 1.2s var(--ease); }
-.gmain:hover img{ transform:scale(1.08); }
+.gmain{ position:relative; aspect-ratio:4/5; overflow:hidden; background:var(--photo-bg); border:1px solid var(--photo-line); }
+.gmain img{ width:100%; height:100%; object-fit:contain; padding:clamp(10px,2vw,24px); transition:opacity .4s var(--ease), transform 1.2s var(--ease); }
+.gmain:hover img{ transform:scale(1.02); }
 .pv-info{ position:sticky; top:90px; align-self:start; }
 .pv-info .cat{ font-size:.66rem; letter-spacing:.24em; text-transform:uppercase; color:var(--amber); }
 .pv-info h1{ font-family:var(--serif); font-weight:500; font-size:clamp(2rem,4vw,3.2rem); line-height:1.02; margin:12px 0 14px; }
@@ -249,7 +251,7 @@ select.tool{ background:var(--bg); color:var(--text); -webkit-appearance:none; a
 .pv-colors{ display:flex; gap:12px; } .pv-color{ width:30px; height:30px; border-radius:50%; border:1px solid var(--line); cursor:pointer; transition:.2s; }
 .pv-color.on{ box-shadow:0 0 0 2px var(--bg),0 0 0 3px var(--amber); }
 .pv-color{ position:relative; }
-.pv-color.off{ cursor:not-allowed; opacity:.5; filter:grayscale(.6); border-color:var(--line2); }
+.pv-color.off{ cursor:pointer; opacity:.5; filter:grayscale(.6); border-color:var(--line2); }
 .pv-color.off::after{ content:''; position:absolute; left:50%; top:-3px; bottom:-3px; width:1.5px; background:var(--text); transform:translateX(-50%) rotate(45deg); }
 .pv-out{ color:var(--muted); font-size:.82rem; margin-top:10px; }
 .sw.off{ opacity:.3; }
@@ -400,7 +402,8 @@ footer{ border-top:1px solid var(--line); padding:clamp(56px,8vw,90px) 0 40px; m
 
 /* forms */
 .fld{ margin-bottom:16px; }
-.cut-box{margin-top:10px}.cut-box img{width:100%;height:240px;object-fit:contain;background:var(--card);border:1px solid var(--line)}
+.cut-box{margin-top:10px}.cut-box img{width:100%;height:240px;object-fit:contain;background:var(--photo-bg);border:1px solid var(--photo-line)}
+.variant-editor{border-top:1px solid var(--line);margin:20px 0;padding-top:20px}.variant-editor h3{font-size:1.3rem;margin-bottom:10px}.variant-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.variant-editor h4{margin:18px 0;font-size:1rem}.variant-photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}.variant-photo{min-width:0;border:1px solid var(--line);padding:10px}.variant-photo img{width:100%;height:170px;object-fit:contain;background:var(--photo-bg)}.variant-photo-actions{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.variant-photo-actions .adm-mini,.variant-photo-actions .filepick{white-space:normal;font-size:.56rem;padding:8px}.variant-photo .inp{min-width:0;width:100%;font-size:.7rem}.variant-common{border-top:1px solid var(--line);padding-top:16px;margin-top:16px}.variant-common summary{cursor:pointer;margin-bottom:14px}.variant-editor .adm-hint{margin:8px 0}@media(max-width:480px){.variant-photos{grid-template-columns:1fr}}
 .option-add{display:flex;gap:8px;margin-top:10px;align-items:stretch}.option-add .inp{flex:1;min-width:0}.option-add .adm-mini{flex-shrink:0}.chk-hint{display:block;margin-top:8px}
 .fld > label{ display:block; font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
 .inp{ width:100%; background:var(--bg); color:var(--text); border:1px solid var(--line); border-radius:8px;
@@ -432,7 +435,7 @@ textarea.inp{ resize:vertical; min-height:92px; line-height:1.55; }
 .adm-sec-h{ display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:18px; }
 .adm-sec-h h2{ font-family:var(--serif); font-size:1.7rem; font-weight:500; }
 .adm-row{ display:flex; align-items:center; gap:14px; padding:12px 14px; border:1px solid var(--line); border-radius:10px; margin-bottom:10px; background:var(--card); }
-.adm-row img{ width:46px; height:58px; object-fit:cover; background:var(--card2); border-radius:6px; flex-shrink:0; }
+.adm-row img{ width:46px; height:58px; object-fit:contain; background:var(--photo-bg); border-radius:6px; flex-shrink:0; }
 .adm-row .ar-i{ flex:1; min-width:0; }
 .adm-row .ar-n{ font-size:.82rem; letter-spacing:.05em; }
 .adm-row .ar-m{ font-size:.72rem; color:var(--muted); margin-top:3px; }
@@ -567,7 +570,7 @@ body{ font-weight:400; }
 /* АВТООБНОВЛЕНИЕ: браузер может показывать старую сохранённую копию сайта.
    Сверяем номер версии с сервером и, если вышла новая, сами открываем её.
    При каждой публикации менять ADMV_BUILD. */
-var ADMV_BUILD='2026-11-19.1';
+var ADMV_BUILD='2026-11-19.2';
 (function(){
   if(location.protocol.indexOf('http')!==0 || !window.fetch) return;
   fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.text():''; }).then(function(t){
@@ -843,7 +846,8 @@ var ADMV_BUILD='2026-11-19.1';
 
 <div class="toast" id="toast"></div>
 
-<script src="js/product-options.js?v=2026-11-19.1"></script>
+<script src="js/product-variants.js?v=2026-11-19.2"></script>
+<script src="js/product-options.js?v=2026-11-19.2"></script>
 <script src="js/admin-media-basic.js?v=2026-11-19.1"></script>
 <script src="js/site-admin.js?v=2026-11-19.1"></script>
 <script src="js/admin-server.js?v=2026-11-18.2"></script>
@@ -1028,7 +1032,7 @@ let cart = loadSaved(SAVE_KEY.cart).filter(c=>c&&c.key&&c.id&&c.qty>0), wishlist
 function saveCartWish(){ try{ localStorage.setItem(SAVE_KEY.cart,JSON.stringify(cart)); localStorage.setItem(SAVE_KEY.wish,JSON.stringify(wishlist)); }catch(e){} }
 /* после загрузки товаров: свежие цены, названия и фото в сохранённой корзине */
 function syncSaved(){
-  cart.forEach(c=>{ const p=PRODUCTS.find(x=>x.id===c.id); if(p){ c.price=p.price; c.name=p.name; c.img=(p.images&&p.images[0])||PLACEHOLDER; delete c.illus; } });
+  cart.forEach(c=>{ const p=PRODUCTS.find(x=>x.id===c.id); if(p){ c.price=p.price; c.name=p.name; c.img=variantImages(p,c.color)[0]||PLACEHOLDER; delete c.illus; } });
   if(document.getElementById('cartCount')) updateCounts();
 }
 let gridCols = 4;
@@ -1043,8 +1047,7 @@ function matches(p){
   if(viewMode==='new' && !p.newArrival) return false;
   if(viewMode==='sale' && !p.sale) return false;
   if(filters.cats.size && !filters.cats.has(p.category)) return false;
-  if(filters.sizes.size && !p.sizes.some(s=>filters.sizes.has(s) && sizeOn(p,s))) return false;
-  if(filters.colors.size && !p.colors.some(c=>filters.colors.has(c) && colorOn(p,c))) return false;
+  if(filters.sizes.size||filters.colors.size){const colors=filters.colors.size?[...filters.colors]:p.colors;if(!colors.some(color=>colorOn(p,color)&&(filters.sizes.size?[...filters.sizes]:colorSizes(p,color)).some(size=>sizeOn(p,size,color))))return false;}
   if(p.price > filters.price) return false;
   return true;
 }
@@ -1055,10 +1058,10 @@ function sortList(list){
   return [...list].sort((a,b)=>(b.newArrival-a.newArrival)||(b.featured-a.featured));
 }
 /* что есть в наличии: размер с остатком 0 и цвет из colorsOut серые, их нельзя выбрать */
-const colorOn = (p,c) => !(p.colorsOut||[]).includes(c);
-const sizeOn  = (p,s) => !p.stock || !(s in p.stock) || p.stock[s]>0;
+const colorOn = (p,c) => variantColorAvailable(p,c);
+const sizeOn = (p,s,c) => c?variantSizeAvailable(p,s,c):(p.colors||[]).some(color=>variantSizeAvailable(p,s,color));
 const firstColor = p => (p.colors||[]).find(c=>colorOn(p,c)) || (p.colors||[])[0];
-const soldOut = p => !(p.colors||[]).some(c=>colorOn(p,c)) || !(p.sizes||[]).some(s=>sizeOn(p,s));
+const soldOut = p => !(p.colors||[]).some(c=>colorOn(p,c));
 function cardHTML(p){
   const sw = p.colors.slice(0,5).map(c=>`<span class="sw${colorOn(p,c)?'':' off'}" style="background:${colorSwatch(c)}" title="${esc(c)}${colorOn(p,c)?'':': нет в наличии'}"></span>`).join('');
   const flag = soldOut(p)?'<span class="flag">Нет в наличии</span>':p.sale?'<span class="flag sale">Скидка</span>':(p.newArrival?'<span class="flag">Новое</span>':'');
@@ -1074,8 +1077,8 @@ function cardHTML(p){
         <button class="adm" onclick="event.stopPropagation();askDeleteProduct('${p.id}')" aria-label="Удалить" title="Удалить"><svg viewBox="0 0 24 24"><path d="M5 7h14M10 7V5h4v2M7 7l1 13h8l1-13"/></svg></button>`:''}
         <button class="wish${onw}" onclick="event.stopPropagation();toggleWish('${p.id}')" aria-label="В избранное"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg></button>
       </div>
-      <img class="img1" src="${p.images[0]}" alt="${esc(p.name)}" loading="lazy">
-      <img class="img2" src="${p.images[1]}" alt="" loading="lazy">
+      <img class="img1" src="${esc(productCover(p))}" alt="${esc(p.name)}" loading="lazy">
+      <img class="img2" src="${esc(productCover(p,1))}" alt="" loading="lazy">
       <button class="qadd" onclick="event.stopPropagation();quickAdd('${p.id}')">Быстро в корзину</button>
     </div>
     <div class="pmeta">
@@ -1174,7 +1177,7 @@ function renderWish(){
   if(!ids.length){ b.innerHTML='<div class="emptyd">В избранном пусто.</div>'; return; }
   b.innerHTML = ids.map(id=>{ const p=PRODUCTS.find(x=>x.id===id);
     return `<div class="citem">
-      <img src="${p.images[0]}" alt="" onclick="closeAll();openProduct('${p.id}')" style="cursor:pointer">
+      <img src="${esc(productCover(p))}" alt="" onclick="closeAll();openProduct('${p.id}')" style="cursor:pointer">
       <div><div class="cn">${esc(p.name)}</div><div class="cv">${eur(p.price)}</div>
         <button class="btn" style="padding:9px 16px;margin-top:10px;font-size:.6rem" onclick="quickAdd('${p.id}')">В корзину</button></div>
       <div class="cr"><button class="rm" onclick="toggleWish('${p.id}')">Удалить</button></div>
@@ -1182,14 +1185,14 @@ function renderWish(){
 }
 
 /* ===== CART ===== */
-function quickAdd(id){ const p=PRODUCTS.find(x=>x.id===id); if(!p||soldOut(p)){ toast('Этого товара сейчас нет в наличии'); return; } const size=p.sizes.find(s=>sizeOn(p,s))||p.sizes[0]; addToCart(id,size,firstColor(p),1); openCart(); }
+function quickAdd(id){ const p=PRODUCTS.find(x=>x.id===id); if(!p||soldOut(p)){ toast('Этого товара сейчас нет в наличии'); return; } const color=firstColor(p),size=colorSizes(p,color).find(s=>sizeOn(p,s,color)); addToCart(id,size,color,1); openCart(); }
 function addToCart(id,size,color,qty){
   const p=PRODUCTS.find(x=>x.id===id);
-  if(!p||!p.sizes.includes(size)||!p.colors.includes(color)||!sizeOn(p,size)||!colorOn(p,color)){toast('Этот размер или цвет недоступен. Выберите другой вариант.');return false;}
+  if(!p||!p.sizes.includes(size)||!p.colors.includes(color)||!sizeOn(p,size,color)||!colorOn(p,color)){toast('Этот размер или цвет недоступен. Выберите другой вариант.');return false;}
   if(!Number.isFinite(qty)||qty<1||!Number.isInteger(qty))return false;
   const key=JSON.stringify([id,size,color]);
   const ex=cart.find(c=>c.id===id&&c.size===size&&c.color===color);
-  if(ex) ex.qty+=qty; else { const p=PRODUCTS.find(x=>x.id===id); cart.push({key,id,size,color,qty,price:p.price,name:p.name,img:p.images[0]}); }
+  if(ex) ex.qty+=qty; else { const p=PRODUCTS.find(x=>x.id===id); cart.push({key,id,size,color,qty,price:p.price,name:p.name,img:variantImages(p,color)[0]}); }
   updateCounts(); renderCart(); toast('Добавлено в корзину');return true;
 }
 function changeQty(key,d){ const it=cart.find(c=>c.key===key); if(!it) return; it.qty+=d; if(it.qty<=0) cart=cart.filter(c=>c.key!==key); updateCounts(); renderCart(); }
@@ -1218,7 +1221,7 @@ function buildOrderText(){
 }
 function openOrder(){
   if(!cart.length){ toast('Корзина пуста'); return; }
-  if(cart.some(it=>{const p=PRODUCTS.find(x=>x.id===it.id);return !p||!p.sizes.includes(it.size)||!p.colors.includes(it.color)||!sizeOn(p,it.size)||!colorOn(p,it.color);})){toast('В корзине есть недоступный размер или цвет. Удалите его и выберите актуальный вариант.');openCart();return;}
+  if(cart.some(it=>{const p=PRODUCTS.find(x=>x.id===it.id);return !p||!p.sizes.includes(it.size)||!p.colors.includes(it.color)||!sizeOn(p,it.size,it.color)||!colorOn(p,it.color);})){toast('В корзине есть недоступный размер или цвет. Удалите его и выберите актуальный вариант.');openCart();return;}
   closeAll();
   $('#orderText').value = buildOrderText();
   $('#orderModal').classList.add('open'); document.body.classList.add('lock');
@@ -1256,25 +1259,26 @@ function openProduct(id){
 function closeProduct(){ $('#pview').classList.remove('open'); if(!anyDrawer()) document.body.classList.remove('lock'); }
 function renderProduct(){
   const p=PRODUCTS.find(x=>x.id===pvState.id);
-  const thumbs=p.images.map((im,i)=>`<img src="${im}" class="${i===pvState.imgIndex?'on':''}" onclick="pvSetImg(${i})" alt="">`).join('');
-  const colors=p.colors.map(c=>{ const off=!colorOn(p,c); return `<div class="pv-color${c===pvState.color&&!off?' on':''}${off?' off':''}" style="background:${colorSwatch(c)}" ${off?'aria-disabled="true"':`onclick="pvSetColor(${jsq(c)})"`} title="${esc(c)}${off?': нет в наличии':''}" aria-label="${esc(c)}"></div>`; }).join('');
-  const sizes=p.sizes.map(s=>{ const off=!sizeOn(p,s); return `<div class="pv-size${pvState.size===s?' on':''}${off?' off':''}" ${off?'aria-disabled="true" title="Нет в наличии"':`onclick="pvSetSize(${jsq(s)})"`}>${esc(s)}</div>`;}).join('');
+  const images=variantImages(p,pvState.color);if(pvState.imgIndex>=images.length)pvState.imgIndex=0;
+  const thumbs=images.map((im,i)=>`<img src="${esc(im)}" class="${i===pvState.imgIndex?'on':''}" onclick="pvSetImg(${i})" role="button" tabindex="0" aria-label="Фото ${i+1}, ${esc(pvState.color)}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();pvSetImg(${i})}" alt="">`).join('');
+  const colors=p.colors.map(c=>{const off=!colorOn(p,c);return `<button type="button" class="pv-color${c===pvState.color?' on':''}${off?' off':''}" style="background:${colorSwatch(c)}" onclick="pvSetColor(${jsq(c)})" title="${esc(c)}${off?': нет в наличии':''}" aria-label="${esc(c)}${off?', нет в наличии':''}" aria-pressed="${c===pvState.color}"></button>`;}).join('');
+  const sizes=colorSizes(p,pvState.color).map(s=>{const off=!sizeOn(p,s,pvState.color);return `<button type="button" class="pv-size${pvState.size===s?' on':''}${off?' off':''}" ${off?'disabled aria-disabled="true" title="Нет в наличии"':`onclick="pvSetSize(${jsq(s)})"`}>${esc(s)}</button>`;}).join('')||'<span class="adm-hint">Размеров этого цвета пока нет в наличии.</span>';
   const price=p.oldPrice?`<s>${eur(p.oldPrice)}</s><span class="now sale">${eur(p.price)}</span>`:`<span class="now">${eur(p.price)}</span>`;
   const specsHTML=(p.specs&&p.specs.length)?`<div class="pv-specs"><div class="l">Характеристики</div>${p.specs.map(s=>`<div class="srow"><span class="sk">${esc(s.k)}</span><span>${esc(s.v)}</span></div>`).join('')}</div>`:'';
   $('#pvGrid').innerHTML=`
     <div class="gallery">
       <div class="thumbs">${thumbs}</div>
-      <div class="gmain"><img id="gmainImg" src="${p.images[pvState.imgIndex]}" alt="${esc(p.name)}"></div>
+      <div class="gmain"><img id="gmainImg" src="${esc(images[pvState.imgIndex])}" alt="${esc(p.name)}"></div>
     </div>
     <div class="pv-info">
       <div class="cat">${esc(p.category)}</div>
       <h1>${esc(p.name)}</h1>
       <div class="pvprice">${price}</div>
       <p class="desc">${esc(p.description)}</p>
-      <div class="pv-block"><div class="l">${esc(siteText('Цвет'))}: ${colorOn(p,pvState.color)?esc(pvState.color):'нет в наличии'}</div><div class="pv-colors">${colors}</div></div>
+      <div class="pv-block"><div class="l">${esc(siteText('Цвет'))}: ${esc(pvState.color||'не выбран')}${colorOn(p,pvState.color)?'':', нет в наличии'}</div><div class="pv-colors">${colors}</div></div>
       <div class="pv-block"><div class="l">${esc(siteText('Размер'))} <span class="sizeguide" onclick="openInfo('sizes')">${esc(siteText('Таблица размеров'))}</span></div><div class="pv-sizes">${sizes}</div></div>
       <div class="pv-cta">
-        ${soldOut(p)?`<button class="btn block" disabled style="opacity:.5;cursor:not-allowed">Нет в наличии</button>`:`<button class="btn solid block" onclick="pvAdd()">В корзину</button>
+        ${!colorOn(p,pvState.color)?`<button class="btn block" disabled style="opacity:.5;cursor:not-allowed">Нет в наличии</button>`:`<button class="btn solid block" onclick="pvAdd()">В корзину</button>
         <button class="btn amber block" onclick="pvAdd(true)">Заказать</button>`}
       </div>
       ${specsHTML}
@@ -1286,9 +1290,9 @@ function renderProduct(){
       </div>
     </div>`;
 }
-function pvSetImg(i){ pvState.imgIndex=i; const im=$('#gmainImg'); im.style.opacity=0; setTimeout(()=>{ im.src=PRODUCTS.find(x=>x.id===pvState.id).images[i]; im.style.opacity=1; },180); document.querySelectorAll('.thumbs img').forEach((t,ti)=>t.classList.toggle('on',ti===i)); }
-function pvSetColor(c){ const p=PRODUCTS.find(x=>x.id===pvState.id); if(p&&!colorOn(p,c)) return; pvState.color=c; renderProduct(); applySite(); }
-function pvSetSize(s){ const p=PRODUCTS.find(x=>x.id===pvState.id); if(p&&!sizeOn(p,s)) return; pvState.size=s; renderProduct(); applySite(); }
+function pvSetImg(i){const p=PRODUCTS.find(p=>p.id===pvState.id),images=p&&variantImages(p,pvState.color);if(!images||!images[i])return;pvState.imgIndex=i;const im=$('#gmainImg'),color=pvState.color,id=pvState.id;im.style.opacity=0;setTimeout(()=>{if(pvState.id!==id||pvState.color!==color||pvState.imgIndex!==i||$('#gmainImg')!==im)return;im.src=images[i];im.style.opacity=1;},180);document.querySelectorAll('.thumbs img').forEach((t,ti)=>t.classList.toggle('on',ti===i));}
+function pvSetColor(c){const p=PRODUCTS.find(p=>p.id===pvState.id);if(!p||!p.colors.includes(c))return;pvState.color=c;pvState.imgIndex=0;if(!sizeOn(p,pvState.size,c))pvState.size=null;renderProduct();applySite();}
+function pvSetSize(s){const p=PRODUCTS.find(p=>p.id===pvState.id);if(!p||!sizeOn(p,s,pvState.color))return;pvState.size=s;renderProduct();applySite();}
 function pvAdd(order=false){ if(!pvState.size){ toast('Выберите размер'); return; } if(!addToCart(pvState.id,pvState.size,pvState.color,1))return; if(order){ closeProduct(); openOrder(); } }
 
 /* ===== SEARCH ===== */
@@ -1484,7 +1488,7 @@ function admTab(t){
 function admProducts(){
   const rows = PRODUCTS.map(p=>`
     <div class="adm-row">
-      <img src="${esc((p.images&&p.images[0])||PLACEHOLDER)}" alt="">
+      <img src="${esc(productCover(p))}" alt="">
       <div class="ar-i"><div class="ar-n">${esc(p.name)}</div><div class="ar-m">${esc(p.category)} · ${eur(p.price)}${(p.images||[]).some(cutImg)?' · <b style="color:#e05a4a">фото сохранено наполовину - загрузите заново</b>':''}${p.newArrival?' · Новинка':''}${p.sale?' · Скидка':''}</div></div>
       <div class="ar-acts">
         <button class="adm-mini" onclick="editProduct('${p.id}')">Изменить</button>
@@ -1523,14 +1527,17 @@ function editProduct(id){
     <div class="fld"><label>Характеристики (каждая с новой строки: «Название: значение»)</label><textarea class="inp" id="f_specs" placeholder="Материал: 100% хлопок\nКрой: свободный">${esc(specsText)}</textarea></div>
     <div class="fld"><label>Цвета</label><div class="chkwrap" id="f_colors">${colChk}</div><div class="option-add"><input class="inp" id="f_new_color" aria-label="Свой цвет" placeholder="Свой цвет, например Бордовый" maxlength="40" onkeydown="if(event.key==='Enter'){event.preventDefault();addProductOption('colors')}"><button type="button" class="adm-mini" onclick="addProductOption('colors')">Добавить цвет</button></div><span class="chk-hint">Нажатие: <b>есть</b> (выделено), ещё раз: <b>закончился</b> (серый, покупатель видит, но выбрать не может), ещё раз: убрать из карточки.</span></div>
     <div class="fld"><label>Размеры</label><div class="chkwrap" id="f_sizes">${szChk}</div><div class="option-add"><input class="inp" id="f_new_size" aria-label="Свой размер" placeholder="Свой размер, например 42 или 4XL" maxlength="24" onkeydown="if(event.key==='Enter'){event.preventDefault();addProductOption('sizes')}"><button type="button" class="adm-mini" onclick="addProductOption('sizes')">Добавить размер</button></div><span class="chk-hint">Нажатие: <b>есть</b> (выделено), ещё раз: <b>закончился</b> (серый, покупатель видит, но выбрать не может), ещё раз: убрать из карточки.</span></div>
+    <section id="variantEditor" class="variant-editor"></section>
+    <details class="variant-common"><summary>Общие фото для каталога</summary><p class="adm-hint">Обложка товара и запасные фото для цветов без отдельных снимков.</p>
     <div class="fld"><label>Фото 1 (главное) - ссылка</label><input class="inp" id="f_img1" onchange="PHOTO_JOBS.f_img1=(PHOTO_JOBS.f_img1||0)+1;PHOTO_ORIGINAL.f_img1=imgVal('f_img1');mediaPreview('f_img1')" value="${esc(imgField('f_img1',p.images[0]===PLACEHOLDER?'':p.images[0]))}" placeholder="https://...">
       <label class="filepick" style="margin-top:9px"><input type="file" accept="image/*" hidden onchange="pickImg(this,'f_img1')">Загрузить фото</label>
       <div class="cut-box" id="cut_f_img1"></div></div>
     <div class="fld"><label>Фото 2 (показывается при наведении) - ссылка</label><input class="inp" id="f_img2" onchange="PHOTO_JOBS.f_img2=(PHOTO_JOBS.f_img2||0)+1;PHOTO_ORIGINAL.f_img2=imgVal('f_img2');mediaPreview('f_img2')" value="${esc(imgField('f_img2',p.images[1]))}" placeholder="https://...">
       <label class="filepick" style="margin-top:9px"><input type="file" accept="image/*" hidden onchange="pickImg(this,'f_img2')">Загрузить фото</label>
-      <div class="cut-box" id="cut_f_img2"></div></div>
+      <div class="cut-box" id="cut_f_img2"></div></div></details>
     `;
   mediaProductStart(p);
+  if(typeof variantEditorStart==='function')variantEditorStart(p);
   $('#formSave').textContent='Сохранить';
   $('#formSave').onclick=saveProductForm;
   $('#formModal').classList.add('open'); document.body.classList.add('lock');
@@ -1546,12 +1553,13 @@ function saveProductForm(){
   if(!name){ toast('Укажите название'); return; }
   const colors=[...$('#f_colors').querySelectorAll('.chk.on,.chk.out')].map(x=>x.dataset.col);
   const colorsOut=[...$('#f_colors').querySelectorAll('.chk.out')].map(x=>x.dataset.col);
-  const sizes =[...$('#f_sizes').querySelectorAll('.chk.on,.chk.out')].map(x=>x.dataset.sz);
+  let sizes =[...$('#f_sizes').querySelectorAll('.chk.on,.chk.out')].map(x=>x.dataset.sz);
   const sizesOut=[...$('#f_sizes').querySelectorAll('.chk.out')].map(x=>x.dataset.sz);
+  const variantData=typeof serializeColorVariants==='function'?serializeColorVariants():null;if(variantData)sizes=variantData.sizes;
   if(!colors.length||!sizes.length){toast('Выберите хотя бы один цвет и один размер');return;}
   const specs =$('#f_specs').value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{ const i=l.indexOf(':'); return i>-1?{k:l.slice(0,i).trim(),v:l.slice(i+1).trim()}:{k:l,v:''}; });
   const prevStock=(editingId&&(PRODUCTS.find(x=>x.id===editingId)||{}).stock)||{};
-  const stock=Object.create(null); sizes.forEach(s=>stock[s]=sizesOut.includes(s)?0:(prevStock[s]>0?prevStock[s]:1));
+  const stock=variantData?variantData.stock:Object.create(null);if(!variantData)sizes.forEach(s=>stock[s]=sizesOut.includes(s)?0:(prevStock[s]>0?prevStock[s]:1));
   const img1=imgVal('f_img1'), img2=imgVal('f_img2');
   const old=parseFloat($('#f_old').value)||null;
   const obj={
@@ -1560,12 +1568,13 @@ function saveProductForm(){
     description:$('#f_desc').value.trim(),
     price: Math.max(0, parseFloat($('#f_price').value)||0),
     oldPrice: old,
-    images:[img1||PLACEHOLDER, img2||img1||PLACEHOLDER],
-    originalImages:[PHOTO_ORIGINAL.f_img1||img1||'',PHOTO_ORIGINAL.f_img2||img2||''],
+    images:[img1||PLACEHOLDER, img2||img1||PLACEHOLDER,...((editingId&&PRODUCTS.find(p=>p.id===editingId)?.images)||[]).slice(2)],
+    originalImages:[PHOTO_ORIGINAL.f_img1||img1||'',PHOTO_ORIGINAL.f_img2||img2||'',...((editingId&&PRODUCTS.find(p=>p.id===editingId)?.originalImages)||[]).slice(2)],
     colors,
     colorsOut,
     sizes,
     stock, specs,
+    ...(variantData?{variants:variantData.variants}:editingId&&PRODUCTS.find(p=>p.id===editingId)?.variants?{variants:clone(PRODUCTS.find(p=>p.id===editingId).variants)}:{}),
     newArrival:$('#f_new').classList.contains('on'),
     sale: old?true:$('#f_sale').classList.contains('on'),
     featured:$('#f_feat').classList.contains('on')
@@ -1740,6 +1749,7 @@ async function publishDB(){
     };
     products.forEach(p=>{ const sid=String(p.id).replace(/[^a-z0-9_-]/gi,'');
       p.images=(p.images||[]).map((u,i)=>(!u||u===PLACEHOLDER||EXT_DEMO.test(u))?'':toFile(u,sid+'-'+(i+1)));
+      if(Array.isArray(p.variants))p.variants.forEach((variant,vi)=>{variant.images=(variant.images||[]).map((u,i)=>(!u||u===PLACEHOLDER||EXT_DEMO.test(u))?'':toFile(u,sid+'-color-'+vi+'-'+i));variant.originalImages=(variant.originalImages||[]).map((u,i)=>toFile(u,sid+'-color-'+vi+'-original-'+i));});
       if(p.originalImages) p.originalImages=p.originalImages.map((u,i)=>toFile(u,sid+'-original-'+i));
       if(p.tryImg) p.tryImg=toFile(p.tryImg,sid+'-try'); });
     ['hero','heroDark','editorialImg'].forEach(k=>store[k]=toFile(store[k],k));
@@ -1819,7 +1829,9 @@ function importDB(input){
   if(f.size>20*1024*1024){toast('Файл слишком большой. Используйте резервную копию до 20 МБ.');input.value='';return;}
   const r=new FileReader();
   r.onload=()=>{ let d; try{ d=JSON.parse(r.result); }catch(e){ toast('Файл повреждён'); return; }
-    if(!d||!Array.isArray(d.products)||!Array.isArray(d.categories)||!d.store||typeof d.store!=='object'||Array.isArray(d.store)||!d.categories.every(c=>typeof c==='string')||!d.products.every(p=>p&&typeof p.id==='string'&&/^[a-zA-Z0-9_-]{1,100}$/.test(p.id)&&typeof p.name==='string'&&Array.isArray(p.images)&&p.images.every(v=>typeof v==='string')&&Array.isArray(p.sizes)&&Array.isArray(p.colors))){toast('В файле нет корректного каталога ADMV. Текущие данные сохранены.');input.value='';return;}
+    const validVariants=p=>!p.variants||(Array.isArray(p.variants)&&p.variants.every(v=>v&&typeof v.color==='string'&&Array.isArray(v.sizes)&&(!v.images||(Array.isArray(v.images)&&v.images.every(src=>typeof src==='string')))&&(!v.stock||(typeof v.stock==='object'&&!Array.isArray(v.stock)))));
+    const validProduct=p=>p&&typeof p.id==='string'&&/^[a-zA-Z0-9_-]{1,100}$/.test(p.id)&&typeof p.name==='string'&&Array.isArray(p.images)&&p.images.every(v=>typeof v==='string')&&Array.isArray(p.sizes)&&Array.isArray(p.colors)&&validVariants(p);
+    if(!d||!Array.isArray(d.products)||!Array.isArray(d.categories)||!d.store||typeof d.store!=='object'||Array.isArray(d.store)||!d.categories.every(c=>typeof c==='string')||!d.products.every(validProduct)){toast('В файле нет корректного каталога ADMV. Текущие данные сохранены.');input.value='';return;}
     confirmAction('Импортировать базу? Текущие данные будут заменены.', ()=>{
       if(d.products) DB.save(LS.prod,d.products);
       if(d.categories) DB.save(LS.cats,d.categories);
