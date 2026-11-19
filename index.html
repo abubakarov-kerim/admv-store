@@ -16,7 +16,7 @@
 :root{
   --bg:#0B0B0C; --card:#151518; --card2:#1B1B1F; --text:#EDEDEE; --muted:#9A9AA3;
   --line:#26262B; --line2:#36363C; --amber:#F0475B; --amber-soft:rgba(200,16,46,.12);
-  --photo-bg:#17181C; --photo-line:#2B2D34;
+  --photo-bg:var(--card); --photo-line:transparent;
   --glass:rgba(11,11,12,0.72); --glass-strong:rgba(11,11,12,0.97);
   --ease:cubic-bezier(.22,.8,.2,1);
   --serif:'Fira Sans Extra Condensed','Arial Narrow',Impact,sans-serif;
@@ -26,7 +26,7 @@
 :root[data-theme="light"]{
   --bg:#F3F3F2; --card:#FFFFFF; --card2:#EBEBEA; --text:#111114; --muted:#5C5C64;
   --line:#DCDCD9; --line2:#C7C7C3; --amber:#B20D26; --amber-soft:rgba(178,13,38,.12);
-  --photo-bg:#ECEEF1; --photo-line:#D9DDE3;
+  --photo-bg:var(--card); --photo-line:transparent;
   --glass:rgba(243,243,242,0.78); --glass-strong:rgba(243,243,242,0.97);
 }
 *{ box-sizing:border-box; margin:0; padding:0; }
@@ -127,8 +127,8 @@ select.tool{ background:var(--bg); color:var(--text); -webkit-appearance:none; a
 
 /* ===== PRODUCT CARD ===== */
 .pcard{ cursor:pointer; }
-.pcard .imgwrap{ position:relative; aspect-ratio:4/5; overflow:hidden; background:var(--photo-bg); border:1px solid var(--photo-line); }
-.pcard .imgwrap img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; padding:3%; transition:opacity .6s var(--ease), transform 1s var(--ease); }
+.pcard .imgwrap{ position:relative; aspect-ratio:4/5; overflow:hidden; background:var(--photo-bg); border:0; }
+.pcard .imgwrap img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; padding:0; transition:opacity .6s var(--ease), transform 1s var(--ease); }
 .pcard .imgwrap .img2{ opacity:0; }
 /* загруженные через админку фото показываем целиком, без обрезки под рамку */
 .pcard .imgwrap img[src^="data:"], .gmain img[src^="data:"]{ object-fit:contain; }
@@ -201,7 +201,7 @@ select.tool{ background:var(--bg); color:var(--text); -webkit-appearance:none; a
 
 /* cart / wishlist items */
 .citem{ display:grid; grid-template-columns:70px 1fr auto; gap:14px; padding:16px 0; border-bottom:1px solid var(--line); }
-.citem img{ width:70px; height:88px; object-fit:contain; background:var(--photo-bg); border:1px solid var(--photo-line); }
+.citem img{ width:70px; height:88px; object-fit:contain; background:var(--photo-bg); border:0; }
 .citem .cn{ font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; }
 .citem .cv{ color:var(--muted); font-size:.76rem; margin-top:5px; }
 .qty{ display:inline-flex; align-items:center; border:1px solid var(--line); margin-top:10px; }
@@ -239,8 +239,8 @@ select.tool{ background:var(--bg); color:var(--text); -webkit-appearance:none; a
 .thumbs{ display:flex; flex-direction:column; gap:12px; }
 .thumbs img{ width:84px; height:104px; object-fit:contain; background:var(--photo-bg); border:1px solid transparent; cursor:pointer; opacity:.6; transition:.25s; }
 .thumbs img.on{ opacity:1; border-color:var(--amber); }
-.gmain{ position:relative; aspect-ratio:4/5; overflow:hidden; background:var(--photo-bg); border:1px solid var(--photo-line); }
-.gmain img{ width:100%; height:100%; object-fit:contain; padding:clamp(10px,2vw,24px); transition:opacity .4s var(--ease), transform 1.2s var(--ease); }
+.gmain{ position:relative; aspect-ratio:4/5; overflow:hidden; background:var(--photo-bg); border:0; }
+.gmain img{ width:100%; height:100%; object-fit:contain; padding:0; transition:opacity .4s var(--ease), transform 1.2s var(--ease); }
 .gmain:hover img{ transform:scale(1.02); }
 .pv-info{ position:sticky; top:90px; align-self:start; }
 .pv-info .cat{ font-size:.66rem; letter-spacing:.24em; text-transform:uppercase; color:var(--amber); }
@@ -570,7 +570,7 @@ body{ font-weight:400; }
 /* АВТООБНОВЛЕНИЕ: браузер может показывать старую сохранённую копию сайта.
    Сверяем номер версии с сервером и, если вышла новая, сами открываем её.
    При каждой публикации менять ADMV_BUILD. */
-var ADMV_BUILD='2026-11-19.2';
+var ADMV_BUILD='2026-11-19.3';
 (function(){
   if(location.protocol.indexOf('http')!==0 || !window.fetch) return;
   fetch(location.pathname+'?_='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.text():''; }).then(function(t){
