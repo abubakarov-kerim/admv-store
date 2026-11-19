@@ -1,4 +1,4 @@
-/* Редактор сайта: группы как в BAKHUR, данные в общей базе ADMV. */
+/* Редактор страниц и настроек магазина ADMV. */
 const SITE_GROUPS=[['look','Название и оформление'],['intro','Вступление и шапка'],['catalog','Каталог и поиск'],['product','Карточка товара'],['editorial','Блок о коллекции'],['order','Корзина и оформление'],['footer','Подвал'],['info','Условия и размеры']];
 const SITE_TEXTS=new Map(), SITE_ORIGINAL=new WeakMap();
 const siteKey=s=>'t'+Array.from(s).reduce((h,c)=>Math.imul(h^c.charCodeAt(0),16777619)>>>0,2166136261).toString(36);

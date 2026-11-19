@@ -1,4 +1,4 @@
-/* Автоматическое удаление фона и кадр 4:5 из BAKHUR, адаптировано к одежде. */
+/* Предыдущая версия обработки фотографий. Витрина использует admin-media-basic.js. */
 let PHOTO_GEN=0, PHOTO_BUSY=0, PHOTO_AUTO=true;
 const PHOTO_ORIGINAL={},PHOTO_JOBS={};
 function mediaProductStart(p){PHOTO_GEN++;PHOTO_BUSY=0;document.getElementById('formSave').disabled=false;for(let i=1;i<=2;i++){const id='f_img'+i;delete PHOTO_JOBS[id];PHOTO_ORIGINAL[id]=(p.originalImages||[])[i-1]||(p.images||[])[i-1]||'';if(PHOTO_ORIGINAL[id]===PLACEHOLDER)PHOTO_ORIGINAL[id]='';mediaPreview(id);}}
