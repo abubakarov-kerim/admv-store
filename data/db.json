@@ -1,16 +1,20 @@
 {
  "_v": 2,
- "_rev": 1795034322175,
- "_date": "2026-11-18T20:38:42.175Z",
+ "_rev": 1795073340287,
+ "_date": "2026-11-19T07:29:00.287Z",
  "products": [
   {
    "id": "tee-premium",
    "name": "Зипка Moncler",
    "category": "Худи",
    "description": "Moncler Zip Hoodie \nСтильная зипка в глубоком бордовом цвете. Премиальный внешний вид, приятный материал, аккуратные детали и узнаваемый дизайн. Идеально сочетается с повседневными образами.",
-   "price": 4000,
-   "oldPrice": null,
+   "price": 3990,
+   "oldPrice": 5200,
    "images": [
+    "images/p/tee-premium-1-mwfh467i.png",
+    "images/p/tee-premium-2-mwfh467i.png"
+   ],
+   "originalImages": [
     "images/p/tee-premium-1-mwfh467i.png",
     "images/p/tee-premium-2-mwfh467i.png"
    ],
@@ -20,6 +24,7 @@
     "Серый",
     "Кремовый"
    ],
+   "colorsOut": [],
    "sizes": [
     "XS",
     "S",
@@ -57,335 +62,36 @@
     }
    ],
    "newArrival": true,
-   "sale": false,
+   "sale": true,
    "featured": true
   },
   {
-   "id": "tee-heavy",
-   "name": "ADMV Футболка Heavy",
-   "category": "Футболки",
-   "description": "Плотный хлопок 240 г/м², держит форму.",
-   "price": 7900,
+   "id": "p1795073316060",
+   "name": "Свитшот LV",
+   "category": "Свитшоты",
+   "description": "",
+   "price": 3990,
    "oldPrice": null,
    "images": [
-    "",
+    "images/p/p1795073316060-1-mwn8becy.jpg",
+    "images/p/p1795073316060-1-mwn8becy.jpg"
+   ],
+   "originalImages": [
+    "images/p/p1795073316060-1-mwn8becy.jpg",
     ""
    ],
    "colors": [
-    "Чёрный",
-    "Серый",
-    "Зелёный"
+    "Чёрный"
    ],
+   "colorsOut": [],
    "sizes": [
-    "S",
-    "M",
-    "L",
-    "XL",
-    "XXL"
+    "M"
    ],
-   "stock": {
-    "S": 1,
-    "M": 1,
-    "L": 1,
-    "XL": 1,
-    "XXL": 1
-   },
-   "specs": [
-    {
-     "k": "Материал",
-     "v": "100% хлопок"
-    },
-    {
-     "k": "Плотность",
-     "v": "240 г/м²"
-    },
-    {
-     "k": "Крой",
-     "v": "Прямой, держит форму"
-    }
-   ],
+   "stock": {},
+   "specs": [],
    "newArrival": false,
    "sale": false,
    "featured": false
-  },
-  {
-   "id": "shirt-oxford",
-   "name": "ADMV Рубашка Oxford",
-   "category": "Рубашки",
-   "description": "Рубашка из оксфордского хлопка, перламутровые пуговицы.",
-   "price": 12900,
-   "oldPrice": null,
-   "images": [
-    "",
-    ""
-   ],
-   "colors": [
-    "Белый",
-    "Тёмно-синий",
-    "Кремовый"
-   ],
-   "sizes": [
-    "S",
-    "M",
-    "L",
-    "XL"
-   ],
-   "stock": {
-    "S": 1,
-    "M": 1,
-    "L": 1,
-    "XL": 1
-   },
-   "specs": [
-    {
-     "k": "Материал",
-     "v": "Оксфордский хлопок"
-    },
-    {
-     "k": "Пуговицы",
-     "v": "Перламутр"
-    },
-    {
-     "k": "Крой",
-     "v": "Классический"
-    }
-   ],
-   "newArrival": true,
-   "sale": false,
-   "featured": false
-  },
-  {
-   "id": "sweat-premium",
-   "name": "ADMV Свитшот Premium",
-   "category": "Свитшоты",
-   "description": "Плотный свитшот с начёсом, круглый ворот.",
-   "price": 14900,
-   "oldPrice": null,
-   "images": [
-    "",
-    ""
-   ],
-   "colors": [
-    "Серый",
-    "Чёрный",
-    "Кремовый",
-    "Коричневый"
-   ],
-   "sizes": [
-    "S",
-    "M",
-    "L",
-    "XL",
-    "XXL"
-   ],
-   "stock": {
-    "S": 1,
-    "M": 1,
-    "L": 1,
-    "XL": 1,
-    "XXL": 1
-   },
-   "featured": true,
-   "newArrival": false,
-   "sale": false
-  },
-  {
-   "id": "sweat-wool",
-   "name": "ADMV Свитшот Wool",
-   "category": "Свитшоты",
-   "description": "Свитшот с мериносом, мягкий и благородный.",
-   "price": 17900,
-   "oldPrice": null,
-   "images": [
-    "",
-    ""
-   ],
-   "colors": [
-    "Тёмно-синий",
-    "Серый",
-    "Зелёный"
-   ],
-   "sizes": [
-    "S",
-    "M",
-    "L",
-    "XL"
-   ],
-   "stock": {
-    "S": 1,
-    "M": 1,
-    "L": 1,
-    "XL": 1
-   },
-   "featured": false,
-   "newArrival": true,
-   "sale": false
-  },
-  {
-   "id": "hoodie-zip",
-   "name": "ADMV Худи на молнии",
-   "category": "Худи",
-   "description": "Худи на молнии из плотного хлопка с начёсом.",
-   "price": 16900,
-   "oldPrice": 19900,
-   "images": [
-    "",
-    ""
-   ],
-   "colors": [
-    "Чёрный",
-    "Серый",
-    "Зелёный"
-   ],
-   "sizes": [
-    "S",
-    "M",
-    "L",
-    "XL",
-    "XXL"
-   ],
-   "stock": {
-    "S": 1,
-    "M": 1,
-    "L": 1,
-    "XL": 1,
-    "XXL": 1
-   },
-   "featured": false,
-   "newArrival": false,
-   "sale": true
-  },
-  {
-   "id": "pants-linen",
-   "name": "ADMV Льняные брюки",
-   "category": "Брюки",
-   "description": "Свободные льняные брюки с лёгким зауженным кроем.",
-   "price": 13900,
-   "oldPrice": null,
-   "images": [
-    "",
-    ""
-   ],
-   "colors": [
-    "Кремовый",
-    "Чёрный",
-    "Коричневый"
-   ],
-   "sizes": [
-    "S",
-    "M",
-    "L",
-    "XL"
-   ],
-   "stock": {
-    "S": 1,
-    "M": 1,
-    "L": 1,
-    "XL": 1
-   },
-   "featured": false,
-   "newArrival": true,
-   "sale": false
-  },
-  {
-   "id": "pants-cargo",
-   "name": "ADMV Брюки Cargo",
-   "category": "Брюки",
-   "description": "Брюки карго из хлопкового рипстопа.",
-   "price": 15900,
-   "oldPrice": null,
-   "images": [
-    "",
-    ""
-   ],
-   "colors": [
-    "Зелёный",
-    "Чёрный",
-    "Серый"
-   ],
-   "sizes": [
-    "S",
-    "M",
-    "L",
-    "XL",
-    "XXL"
-   ],
-   "stock": {
-    "S": 1,
-    "M": 1,
-    "L": 1,
-    "XL": 1,
-    "XXL": 1
-   },
-   "featured": false,
-   "newArrival": false,
-   "sale": false
-  },
-  {
-   "id": "sneak-runner",
-   "name": "ADMV Кроссовки Runner",
-   "category": "Кроссовки",
-   "description": "Минималистичные кроссовки на скульптурной подошве.",
-   "price": 21900,
-   "oldPrice": null,
-   "images": [
-    "",
-    ""
-   ],
-   "colors": [
-    "Белый",
-    "Чёрный",
-    "Серый"
-   ],
-   "sizes": [
-    "S",
-    "M",
-    "L",
-    "XL"
-   ],
-   "stock": {
-    "S": 1,
-    "M": 1,
-    "L": 1,
-    "XL": 1
-   },
-   "featured": true,
-   "newArrival": true,
-   "sale": false
-  },
-  {
-   "id": "sneak-court",
-   "name": "ADMV Кроссовки Court",
-   "category": "Кроссовки",
-   "description": "Низкие кеды-корт из премиальной кожи.",
-   "price": 19900,
-   "oldPrice": 23900,
-   "images": [
-    "",
-    ""
-   ],
-   "colors": [
-    "Белый",
-    "Кремовый",
-    "Тёмно-синий"
-   ],
-   "sizes": [
-    "S",
-    "M",
-    "L",
-    "XL",
-    "XXL"
-   ],
-   "stock": {
-    "S": 1,
-    "M": 1,
-    "L": 1,
-    "XL": 0,
-    "XXL": 1
-   },
-   "featured": false,
-   "newArrival": false,
-   "sale": true
   }
  ],
  "categories": [
@@ -394,7 +100,8 @@
   "Свитшоты",
   "Худи",
   "Брюки",
-  "Кроссовки"
+  "Кроссовки",
+  "Кардиганы"
  ],
  "store": {
   "name": "ADMV",
