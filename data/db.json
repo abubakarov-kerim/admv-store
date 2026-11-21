@@ -1,7 +1,7 @@
 {
  "_v": 2,
- "_rev": 1795250058036,
- "_date": "2026-11-21T08:34:18.036Z",
+ "_rev": 1795250569962,
+ "_date": "2026-11-21T08:42:49.962Z",
  "products": [
   {
    "id": "tee-premium",
@@ -268,7 +268,7 @@
    ],
    "originalImages": [
     "images/p/p1795248642620-1-mwq5i33r.jpg",
-    ""
+    "images/p/p1795248642620-1-mwq5i33r.jpg"
    ],
    "colors": [
     "Белый"
@@ -294,8 +294,12 @@
       "XL": 1,
       "XXL": 1
      },
-     "images": [],
-     "originalImages": [],
+     "images": [
+      "images/p/p1795248642620-color-0-0-mwq5sdq8.jpg"
+     ],
+     "originalImages": [
+      "images/p/p1795248642620-color-0-0-mwq5sdq8.jpg"
+     ],
      "useProductImages": false
     }
    ],
@@ -316,7 +320,7 @@
    ],
    "originalImages": [
     "images/p/p1795248749518-1-mwq5i33r.jpg",
-    ""
+    "images/p/p1795248749518-1-mwq5i33r.jpg"
    ],
    "colors": [
     "Чёрный",
@@ -341,8 +345,12 @@
      "stock": {
       "3XL": 1
      },
-     "images": [],
-     "originalImages": [],
+     "images": [
+      "images/p/p1795248749518-color-0-0-mwq5sdq8.jpg"
+     ],
+     "originalImages": [
+      "images/p/p1795248749518-color-0-0-mwq5sdq8.jpg"
+     ],
      "useProductImages": false
     },
     {
@@ -375,7 +383,7 @@
    ],
    "originalImages": [
     "images/p/p1795248806590-1-mwq5i33r.jpg",
-    ""
+    "images/p/p1795248806590-1-mwq5i33r.jpg"
    ],
    "colors": [
     "Белый"
@@ -413,8 +421,12 @@
       "3XL": 1,
       "M": 0
      },
-     "images": [],
-     "originalImages": [],
+     "images": [
+      "images/p/p1795248806590-color-0-0-mwq5sdq8.jpg"
+     ],
+     "originalImages": [
+      "images/p/p1795248806590-color-0-0-mwq5sdq8.jpg"
+     ],
      "useProductImages": false
     }
    ],
@@ -435,7 +447,7 @@
    ],
    "originalImages": [
     "images/p/p1795248851504-1-mwq5i33r.jpg",
-    ""
+    "images/p/p1795248851504-1-mwq5i33r.jpg"
    ],
    "colors": [
     "Белый"
@@ -457,8 +469,12 @@
      "stock": {
       "L": 1
      },
-     "images": [],
-     "originalImages": [],
+     "images": [
+      "images/p/p1795248851504-color-0-0-mwq5sdq8.jpg"
+     ],
+     "originalImages": [
+      "images/p/p1795248851504-color-0-0-mwq5sdq8.jpg"
+     ],
      "useProductImages": false
     }
    ],
@@ -479,7 +495,7 @@
    ],
    "originalImages": [
     "images/p/p1795248994006-1-mwq5i33r.jpg",
-    ""
+    "images/p/p1795248994006-1-mwq5i33r.jpg"
    ],
    "colors": [
     "Белый"
@@ -509,8 +525,12 @@
       "XXL": 1,
       "3XL": 1
      },
-     "images": [],
-     "originalImages": [],
+     "images": [
+      "images/p/p1795248994006-color-0-0-mwq5sdq8.jpg"
+     ],
+     "originalImages": [
+      "images/p/p1795248994006-color-0-0-mwq5sdq8.jpg"
+     ],
      "useProductImages": false
     }
    ],
@@ -531,7 +551,7 @@
    ],
    "originalImages": [
     "",
-    ""
+    "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%201000%22%3E%3Cg%20fill%3D%22%23F0475B%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%3E%3Ctext%20x%3D%22408%22%20y%3D%22500%22%20font-size%3D%2292%22%20letter-spacing%3D%2214%22%20opacity%3D%22.55%22%3EADMV%3C%2Ftext%3E%3Ctext%20x%3D%22404%22%20y%3D%22556%22%20font-size%3D%2220%22%20letter-spacing%3D%228%22%20opacity%3D%22.5%22%20font-family%3D%22Arial%2Csans-serif%22%3E%D0%A4%D0%9E%D0%A2%D0%9E%20%D0%A1%D0%9A%D0%9E%D0%A0%D0%9E%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fsvg%3E"
    ],
    "colors": [
     "Белый",
@@ -606,7 +626,7 @@
    ],
    "originalImages": [
     "images/p/p1795249247049-1-mwq5i33r.jpg",
-    ""
+    "images/p/p1795249247049-1-mwq5i33r.jpg"
    ],
    "colors": [
     "Белый"
@@ -644,8 +664,12 @@
       "XL": 1,
       "M": 1
      },
-     "images": [],
-     "originalImages": [],
+     "images": [
+      "images/p/p1795249247049-color-0-0-mwq5sdq8.jpg"
+     ],
+     "originalImages": [
+      "images/p/p1795249247049-color-0-0-mwq5sdq8.jpg"
+     ],
      "useProductImages": false
     }
    ],
@@ -666,7 +690,7 @@
    ],
    "originalImages": [
     "images/p/p1795249405303-1-mwq5i33r.jpg",
-    ""
+    "images/p/p1795249405303-1-mwq5i33r.jpg"
    ],
    "colors": [
     "Бордовый"
@@ -705,8 +729,12 @@
       "XXL": 1,
       "3XL": 1
      },
-     "images": [],
-     "originalImages": [],
+     "images": [
+      "images/p/p1795249405303-color-0-0-mwq5sdq8.jpg"
+     ],
+     "originalImages": [
+      "images/p/p1795249405303-color-0-0-mwq5sdq8.jpg"
+     ],
      "useProductImages": false
     }
    ],
@@ -727,7 +755,7 @@
    ],
    "originalImages": [
     "images/p/p1795249636948-1-mwq5i33r.jpg",
-    ""
+    "images/p/p1795249636948-1-mwq5i33r.jpg"
    ],
    "colors": [
     "Тёмно-синий"
@@ -774,8 +802,12 @@
       "L": 1,
       "M": 1
      },
-     "images": [],
-     "originalImages": [],
+     "images": [
+      "images/p/p1795249636948-color-0-0-mwq5sdq8.jpg"
+     ],
+     "originalImages": [
+      "images/p/p1795249636948-color-0-0-mwq5sdq8.jpg"
+     ],
      "useProductImages": false
     }
    ],
@@ -796,7 +828,7 @@
    ],
    "originalImages": [
     "images/p/p1795249747954-1-mwq5i33r.jpg",
-    ""
+    "images/p/p1795249747954-1-mwq5i33r.jpg"
    ],
    "colors": [
     "Белый"
@@ -822,8 +854,12 @@
       "XXL": 1,
       "3XL": 1
      },
-     "images": [],
-     "originalImages": [],
+     "images": [
+      "images/p/p1795249747954-color-0-0-mwq5sdq8.jpg"
+     ],
+     "originalImages": [
+      "images/p/p1795249747954-color-0-0-mwq5sdq8.jpg"
+     ],
      "useProductImages": false
     }
    ],
@@ -844,7 +880,7 @@
    ],
    "originalImages": [
     "images/p/p1795249795738-1-mwq5i33r.jpg",
-    ""
+    "images/p/p1795249795738-1-mwq5i33r.jpg"
    ],
    "colors": [
     "Белый"
@@ -870,8 +906,12 @@
       "XXL": 1,
       "3XL": 1
      },
-     "images": [],
-     "originalImages": [],
+     "images": [
+      "images/p/p1795249795738-color-0-0-mwq5sdq8.jpg"
+     ],
+     "originalImages": [
+      "images/p/p1795249795738-color-0-0-mwq5sdq8.jpg"
+     ],
      "useProductImages": false
     }
    ],
@@ -884,7 +924,7 @@
    "name": "STОNЕ ISLАND",
    "category": "Футболки",
    "description": "",
-   "price": 0,
+   "price": 2990,
    "oldPrice": null,
    "images": [
     "images/p/p1795249861909-1-mwq5i33r.jpg",
@@ -892,7 +932,7 @@
    ],
    "originalImages": [
     "images/p/p1795249861909-1-mwq5i33r.jpg",
-    ""
+    "images/p/p1795249861909-1-mwq5i33r.jpg"
    ],
    "colors": [
     "Белый"
@@ -922,8 +962,12 @@
       "3XL": 0,
       "XL": 1
      },
-     "images": [],
-     "originalImages": [],
+     "images": [
+      "images/p/p1795249861909-color-0-0-mwq5sdq8.jpg"
+     ],
+     "originalImages": [
+      "images/p/p1795249861909-color-0-0-mwq5sdq8.jpg"
+     ],
      "useProductImages": false
     }
    ],
