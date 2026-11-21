@@ -1,7 +1,7 @@
 {
  "_v": 2,
- "_rev": 1795250010420,
- "_date": "2026-11-21T08:33:30.420Z",
+ "_rev": 1795250058036,
+ "_date": "2026-11-21T08:34:18.036Z",
  "products": [
   {
    "id": "tee-premium",
@@ -150,10 +150,10 @@
       "S": 0
      },
      "images": [
-      "images/p/p1795248304664-color-0-0-mwq5gx43.jpg"
+      "images/p/p1795248304664-color-0-0-mwq5i33r.jpg"
      ],
      "originalImages": [
-      "images/p/p1795248304664-color-0-0-mwq5gx43.jpg"
+      "images/p/p1795248304664-color-0-0-mwq5i33r.jpg"
      ],
      "useProductImages": false
     },
@@ -174,10 +174,10 @@
       "M": 0
      },
      "images": [
-      "images/p/p1795248304664-color-1-0-mwq5gx43.jpg"
+      "images/p/p1795248304664-color-1-0-mwq5i33r.jpg"
      ],
      "originalImages": [
-      "images/p/p1795248304664-color-1-0-mwq5gx43.jpg"
+      "images/p/p1795248304664-color-1-0-mwq5i33r.jpg"
      ],
      "useProductImages": false
     }
@@ -225,10 +225,10 @@
       "XXL": 1
      },
      "images": [
-      "images/p/p1795248514613-color-0-0-mwq5gx43.jpg"
+      "images/p/p1795248514613-color-0-0-mwq5i33r.jpg"
      ],
      "originalImages": [
-      "images/p/p1795248514613-color-0-0-mwq5gx43.jpg"
+      "images/p/p1795248514613-color-0-0-mwq5i33r.jpg"
      ],
      "useProductImages": false
     },
@@ -243,10 +243,10 @@
       "XL": 1
      },
      "images": [
-      "images/p/p1795248514613-color-1-0-mwq5gx43.jpg"
+      "images/p/p1795248514613-color-1-0-mwq5i33r.jpg"
      ],
      "originalImages": [
-      "images/p/p1795248514613-color-1-0-mwq5gx43.jpg"
+      "images/p/p1795248514613-color-1-0-mwq5i33r.jpg"
      ],
      "useProductImages": false
     }
@@ -263,11 +263,11 @@
    "price": 2990,
    "oldPrice": null,
    "images": [
-    "images/p/p1795248642620-1-mwq5gx43.jpg",
-    "images/p/p1795248642620-1-mwq5gx43.jpg"
+    "images/p/p1795248642620-1-mwq5i33r.jpg",
+    "images/p/p1795248642620-1-mwq5i33r.jpg"
    ],
    "originalImages": [
-    "images/p/p1795248642620-1-mwq5gx43.jpg",
+    "images/p/p1795248642620-1-mwq5i33r.jpg",
     ""
    ],
    "colors": [
@@ -311,11 +311,11 @@
    "price": 2990,
    "oldPrice": null,
    "images": [
-    "images/p/p1795248749518-1-mwq5gx43.jpg",
-    "images/p/p1795248749518-1-mwq5gx43.jpg"
+    "images/p/p1795248749518-1-mwq5i33r.jpg",
+    "images/p/p1795248749518-1-mwq5i33r.jpg"
    ],
    "originalImages": [
-    "images/p/p1795248749518-1-mwq5gx43.jpg",
+    "images/p/p1795248749518-1-mwq5i33r.jpg",
     ""
    ],
    "colors": [
@@ -370,11 +370,11 @@
    "price": 2990,
    "oldPrice": null,
    "images": [
-    "images/p/p1795248806590-1-mwq5gx43.jpg",
-    "images/p/p1795248806590-1-mwq5gx43.jpg"
+    "images/p/p1795248806590-1-mwq5i33r.jpg",
+    "images/p/p1795248806590-1-mwq5i33r.jpg"
    ],
    "originalImages": [
-    "images/p/p1795248806590-1-mwq5gx43.jpg",
+    "images/p/p1795248806590-1-mwq5i33r.jpg",
     ""
    ],
    "colors": [
@@ -430,11 +430,11 @@
    "price": 2990,
    "oldPrice": null,
    "images": [
-    "images/p/p1795248851504-1-mwq5gx43.jpg",
-    "images/p/p1795248851504-1-mwq5gx43.jpg"
+    "images/p/p1795248851504-1-mwq5i33r.jpg",
+    "images/p/p1795248851504-1-mwq5i33r.jpg"
    ],
    "originalImages": [
-    "images/p/p1795248851504-1-mwq5gx43.jpg",
+    "images/p/p1795248851504-1-mwq5i33r.jpg",
     ""
    ],
    "colors": [
@@ -474,11 +474,11 @@
    "price": 2990,
    "oldPrice": null,
    "images": [
-    "images/p/p1795248994006-1-mwq5gx43.jpg",
-    "images/p/p1795248994006-1-mwq5gx43.jpg"
+    "images/p/p1795248994006-1-mwq5i33r.jpg",
+    "images/p/p1795248994006-1-mwq5i33r.jpg"
    ],
    "originalImages": [
-    "images/p/p1795248994006-1-mwq5gx43.jpg",
+    "images/p/p1795248994006-1-mwq5i33r.jpg",
     ""
    ],
    "colors": [
@@ -563,10 +563,10 @@
       "3XL": 1
      },
      "images": [
-      "images/p/p1795249099591-color-0-0-mwq5gx43.jpg"
+      "images/p/p1795249099591-color-0-0-mwq5i33r.jpg"
      ],
      "originalImages": [
-      "images/p/p1795249099591-color-0-0-mwq5gx43.jpg"
+      "images/p/p1795249099591-color-0-0-mwq5i33r.jpg"
      ],
      "useProductImages": false
     },
@@ -581,10 +581,10 @@
       "XL": 1
      },
      "images": [
-      "images/p/p1795249099591-color-1-0-mwq5gx43.jpg"
+      "images/p/p1795249099591-color-1-0-mwq5i33r.jpg"
      ],
      "originalImages": [
-      "images/p/p1795249099591-color-1-0-mwq5gx43.jpg"
+      "images/p/p1795249099591-color-1-0-mwq5i33r.jpg"
      ],
      "useProductImages": false
     }
@@ -601,11 +601,11 @@
    "price": 2990,
    "oldPrice": null,
    "images": [
-    "images/p/p1795249247049-1-mwq5gx43.jpg",
-    "images/p/p1795249247049-1-mwq5gx43.jpg"
+    "images/p/p1795249247049-1-mwq5i33r.jpg",
+    "images/p/p1795249247049-1-mwq5i33r.jpg"
    ],
    "originalImages": [
-    "images/p/p1795249247049-1-mwq5gx43.jpg",
+    "images/p/p1795249247049-1-mwq5i33r.jpg",
     ""
    ],
    "colors": [
@@ -661,11 +661,11 @@
    "price": 2290,
    "oldPrice": 2990,
    "images": [
-    "images/p/p1795249405303-1-mwq5gx43.jpg",
-    "images/p/p1795249405303-1-mwq5gx43.jpg"
+    "images/p/p1795249405303-1-mwq5i33r.jpg",
+    "images/p/p1795249405303-1-mwq5i33r.jpg"
    ],
    "originalImages": [
-    "images/p/p1795249405303-1-mwq5gx43.jpg",
+    "images/p/p1795249405303-1-mwq5i33r.jpg",
     ""
    ],
    "colors": [
@@ -722,11 +722,11 @@
    "price": 2290,
    "oldPrice": 2800,
    "images": [
-    "images/p/p1795249636948-1-mwq5gx43.jpg",
-    "images/p/p1795249636948-1-mwq5gx43.jpg"
+    "images/p/p1795249636948-1-mwq5i33r.jpg",
+    "images/p/p1795249636948-1-mwq5i33r.jpg"
    ],
    "originalImages": [
-    "images/p/p1795249636948-1-mwq5gx43.jpg",
+    "images/p/p1795249636948-1-mwq5i33r.jpg",
     ""
    ],
    "colors": [
@@ -791,11 +791,11 @@
    "price": 2990,
    "oldPrice": null,
    "images": [
-    "images/p/p1795249747954-1-mwq5gx43.jpg",
-    "images/p/p1795249747954-1-mwq5gx43.jpg"
+    "images/p/p1795249747954-1-mwq5i33r.jpg",
+    "images/p/p1795249747954-1-mwq5i33r.jpg"
    ],
    "originalImages": [
-    "images/p/p1795249747954-1-mwq5gx43.jpg",
+    "images/p/p1795249747954-1-mwq5i33r.jpg",
     ""
    ],
    "colors": [
@@ -839,11 +839,11 @@
    "price": 2990,
    "oldPrice": null,
    "images": [
-    "images/p/p1795249795738-1-mwq5gx43.jpg",
-    "images/p/p1795249795738-1-mwq5gx43.jpg"
+    "images/p/p1795249795738-1-mwq5i33r.jpg",
+    "images/p/p1795249795738-1-mwq5i33r.jpg"
    ],
    "originalImages": [
-    "images/p/p1795249795738-1-mwq5gx43.jpg",
+    "images/p/p1795249795738-1-mwq5i33r.jpg",
     ""
    ],
    "colors": [
@@ -887,11 +887,11 @@
    "price": 0,
    "oldPrice": null,
    "images": [
-    "images/p/p1795249861909-1-mwq5gx43.jpg",
-    "images/p/p1795249861909-1-mwq5gx43.jpg"
+    "images/p/p1795249861909-1-mwq5i33r.jpg",
+    "images/p/p1795249861909-1-mwq5i33r.jpg"
    ],
    "originalImages": [
-    "images/p/p1795249861909-1-mwq5gx43.jpg",
+    "images/p/p1795249861909-1-mwq5i33r.jpg",
     ""
    ],
    "colors": [
